@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Continuum — Ad Creative (comparison)</title>
+
+  <!-- Continuum base styles (includes fonts + header styles) -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Comparison blocks -->
+  <link rel="stylesheet" href="css/compare-nativeads.css" />
+  <link rel="stylesheet" href="css/compare-continuum-skin.css" />
+  <link rel="stylesheet" href="css/compare-continuum-typography.css" />
+</head>
+
+<body class="ch-body">
+
+  <!-- Continuum header (reused from main landing) -->
+  <header class="ch-header">
+    <div class="ch-header-inner">
+    <div class="logo-wrapper">
+    <img src="assets/Logo_Continuum (1).png" alt="Continuum logo" class="logo-continuum" />
+  </div>
+<nav class="nav-pills">
+  <a class="nav-pill" href="#product">Product</a>
+  <a class="nav-pill" href="ad-creative.html">Ad Creative</a>
+
+
+  <!-- Solutions como botón "coming soon" -->
+  <button class="nav-pill nav-pill--disabled" type="button" aria-disabled="true">
+    Solutions <span class="pill-badge">Soon</span>
+  </button>
+
+  <a class="nav-pill" href="#impact">Impact</a>
+  <a class="nav-pill" href="#team">Team</a>
+  <a class="nav-pill" href="#faq">FAQ</a>
+</nav>
+
+
+      <div class="ch-header-actions">
+        <a href="#demo" class="ch-header-link js-scroll">Sign in</a>
+        <a href="#demo" class="ch-btn ch-btn-ghost js-scroll">Talk to sales</a>
+        <button class="ch-header-menu-toggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NEW HERO (Continuum fonts + Continuum header, but different concept/layout) -->
+  <section class="na-hero2" id="na-hero">
+    <div class="na-container">
+      <div class="na-hero2-grid">
+        <div>
+          <p class="na-kicker">AI ADS • TEMPLATES • VARIANTS</p>
+          <h1 class="na-hero2-title">
+            Launch <span class="na-accent">ad creative</span><br/>
+            like a factory—<br/>
+            not a bottleneck.
+          </h1>
+          <p class="na-hero2-sub na-p">
+            Connect a feed, choose a template library, and generate hundreds of on-brand ads
+            across formats in minutes—then iterate with performance signals.
+          </p>
+
+          <div class="na-hero2-metrics">
+            <div class="na-metric"><strong>1 feed</strong><span>becomes many creatives</span></div>
+            <div class="na-metric"><strong>Multi-format</strong><span>1:1 • 4:5 • 9:16</span></div>
+            <div class="na-metric"><strong>Always on-brand</strong><span>tokens + guardrails</span></div>
+          </div>
+
+          <div class="na-hero2-actions">
+            <a class="na-btn na-btn-primary" href="#na-demo">Talk to sales</a>
+            <a class="na-btn na-btn-ghost" href="#na-templates">See templates</a>
+          </div>
+
+          <div class="na-bullets">
+            <div class="na-bullet"><span class="na-bullet-dot"></span><span>Offers & pricing variants</span></div>
+            <div class="na-bullet"><span class="na-bullet-dot"></span><span>Localized copy packs</span></div>
+            <div class="na-bullet"><span class="na-bullet-dot"></span><span>Image + motion output</span></div>
+          </div>
+        </div>
+          <div class="na-hero-showcase" aria-label="Ad creative previews">
+              <div class="na-showcase-track" id="naShowcaseTrack">
+                <!-- 6 previews (placeholders generados por JS) -->
+              </div>
+            </div>
+          </div>
+    </div>
+  </section>
+
+<!-- 2) Logo trust strip (NativeAds-like: immediate social proof) -->
+  <section class="na-trust" id="na-trust">
+    <div class="na-container">
+      <div class="na-trust-bar">
+        <span class="na-trust-label">Brands that trust us</span>
+        <div class="na-marquee" aria-label="Brand logos">
+          <div class="na-track">
+            <!-- Replace these with YOUR real logos (duplicate list for infinite scroll) -->
+            <span class="na-logo">Mercado Libre</span>
+            <span class="na-logo">LaLiga</span>
+            <span class="na-logo">FEVA</span>
+            <span class="na-logo">Coderhouse</span>
+            <span class="na-logo">PropTech LATAM</span>
+            <span class="na-logo">WSTI</span>
+
+            <span class="na-logo">Mercado Libre</span>
+            <span class="na-logo">LaLiga</span>
+            <span class="na-logo">FEVA</span>
+            <span class="na-logo">Coderhouse</span>
+            <span class="na-logo">PropTech LATAM</span>
+            <span class="na-logo">WSTI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- =========================
+  DATA → ADS (nuevo módulo)
+========================= -->
+<section class="na-data" id="na-data">
+  <div class="na-container">
+    <header class="na-section-head">
+      <h2 class="na-h2">From data to ads, automatically.</h2>
+      <p class="na-p">
+        Plug in a feed, offers and brand rules. The AI turns structured inputs into
+        on-brand ad creatives—ready for paid placements.
+      </p>
+    </header>
+
+    <div class="na-data-grid">
+      <!-- Left: steps -->
+      <div class="na-data-steps">
+        <article class="na-step">
+          <div class="na-step-ico">01</div>
+          <div class="na-step-body">
+            <h3 class="na-h3">Collect structured inputs</h3>
+            <p class="na-p">Product feed, pricing, promos, inventory, audience, placement, language.</p>
+            <div class="na-chip-row">
+              <span class="na-chip">CSV / Sheets</span>
+              <span class="na-chip">Shopify feed</span>
+              <span class="na-chip">Offers</span>
+              <span class="na-chip">Inventory</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="na-step">
+          <div class="na-step-ico">02</div>
+          <div class="na-step-body">
+            <h3 class="na-h3">Map data into layouts</h3>
+            <p class="na-p">Templates choose composition, hierarchy and hooks per placement & segment.</p>
+            <div class="na-chip-row">
+              <span class="na-chip">Template rules</span>
+              <span class="na-chip">Brand tokens</span>
+              <span class="na-chip">Copy packs</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="na-step">
+          <div class="na-step-ico">03</div>
+          <div class="na-step-body">
+            <h3 class="na-h3">Generate creative variants</h3>
+            <p class="na-p">Dozens of options in seconds—multi-format, multi-language, always on-brand.</p>
+            <div class="na-chip-row">
+              <span class="na-chip">1:1</span>
+              <span class="na-chip">4:5</span>
+              <span class="na-chip">9:16</span>
+              <span class="na-chip">PNG + MP4</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Middle: pipeline visual -->
+      <div class="na-pipeline" aria-hidden="true">
+        <div class="na-pipe-card na-pipe-left">
+          <div class="na-pipe-title">Data</div>
+          <div class="na-pipe-kvs">
+            <div class="na-kv"><span>Product</span><strong>Soda Zero</strong></div>
+            <div class="na-kv"><span>Promo</span><strong>2x1 Weekend</strong></div>
+            <div class="na-kv"><span>Placement</span><strong>Reels</strong></div>
+            <div class="na-kv"><span>Language</span><strong>ES + EN</strong></div>
+          </div>
+        </div>
+
+        <div class="na-pipe-center">
+          <div class="na-orb"></div>
+          <div class="na-orb"></div>
+          <div class="na-orb"></div>
+          <div class="na-pipe-label">AI creative engine</div>
+        </div>
+
+        <div class="na-pipe-card na-pipe-right">
+          <div class="na-pipe-title">Output</div>
+          <div class="na-pipe-kvs">
+            <div class="na-kv"><span>Template</span><strong>Native Promo</strong></div>
+            <div class="na-kv"><span>Variants</span><strong>24</strong></div>
+            <div class="na-kv"><span>Formats</span><strong>1:1 / 4:5 / 9:16</strong></div>
+            <div class="na-kv"><span>Export</span><strong>PNG + MP4</strong></div>
+          </div>
+        </div>
+
+        <span class="na-line na-line-1"></span>
+        <span class="na-line na-line-2"></span>
+        <span class="na-line na-line-3"></span>
+      </div>
+
+      <!-- Right: generated previews -->
+      <div class="na-gen">
+        <div class="na-gen-head">
+          <div>
+            <p class="na-small-kicker">Generated previews</p>
+            <h3 class="na-h3">A feed creates a wall of options.</h3>
+          </div>
+          <button class="na-btn na-btn-ghost na-btn-sm" type="button" id="naGenShuffle">
+            Generate new set
+          </button>
+        </div>
+
+        <div class="na-gen-grid" id="naGenGrid" aria-label="Generated creatives grid"></div>
+        <p class="na-caption">These are placeholders—swap them with your real generated assets when ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+  TEMPLATES (tipo Coca-Cola)
+========================= -->
+<section class="na-templates" id="na-templates">
+  <div class="na-container">
+    <header class="na-section-head">
+      <h2 class="na-h2">One brand. Many templates.</h2>
+      <p class="na-p">Different layouts for different moments—same system, same brand rules.</p>
+    </header>
+
+    <div class="na-template-tabs" role="tablist" aria-label="Template categories">
+      <button class="na-tab is-active" type="button" data-tab="cpg" role="tab" aria-selected="true">CPG</button>
+      <button class="na-tab" type="button" data-tab="retail" role="tab" aria-selected="false">Retail</button>
+      <button class="na-tab" type="button" data-tab="apps" role="tab" aria-selected="false">Apps</button>
+      <button class="na-tab" type="button" data-tab="sports" role="tab" aria-selected="false">Sports</button>
+    </div>
+
+    <div class="na-template-grid" id="naTemplateGrid" aria-label="Template examples"></div>
+
+    <div class="na-template-note">
+      <div class="na-template-note-card">
+        <h3 class="na-h3">What a template is</h3>
+        <p class="na-p">
+          A layout system wired to your data. It outputs the right sizes and variations without redesigning each ad.
+        </p>
+      </div>
+      <div class="na-template-note-card">
+        <h3 class="na-h3">What it unlocks</h3>
+        <ul class="na-list">
+          <li>Libraries per brand</li>
+          <li>Variants per segment & placement</li>
+          <li>Exports: PNG, MP4, layered</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+  BIG VISUAL MOSAIC (muchas imágenes)
+========================= -->
+<section class="na-gallery" id="na-gallery">
+  <div class="na-container">
+    <header class="na-section-head">
+      <h2 class="na-h2">More examples, less explanation.</h2>
+      <p class="na-p">Make the page feel like a creative engine: many visuals, fast scanning.</p>
+    </header>
+
+    <div class="na-mosaic" id="naMosaic" aria-label="Creative example mosaic"></div>
+  </div>
+</section>
+
+
+  <!-- 3) Before / After comparison (NativeAds-like "See the difference") -->
+  <section class="na-before-after" id="na-before-after">
+    <div class="na-container">
+      <header class="na-section-head">
+        <h2 class="na-h2">See the difference.</h2>
+        <p class="na-p">Show the jump from “generic” to “native-style, on-brand”.</p>
+      </header>
+
+      <div class="na-compare">
+        <div class="na-compare-stage" data-compare-stage>
+          <!-- Replace with your assets -->
+          <img class="na-compare-img" src="assets/Fotos_productos/Screenshot 2025-11-26 145025.png" alt="Before creative example" />
+          <div class="na-compare-overlay" style="width:55%" data-compare-overlay>
+            <img class="na-compare-img" src="assets/Fotos_productos/Screenshot 2025-11-26 145025.png" alt="After creative example" />
+          </div>
+          <div class="na-compare-handle" style="left:55%" data-compare-handle aria-hidden="true"></div>
+        </div>
+
+        <div class="na-compare-controls">
+          <div class="na-pill-row">
+            <span class="na-pill">Before</span>
+            <span class="na-pill na-pill-accent">After</span>
+          </div>
+
+          <label class="na-label" for="naCompareRange">Drag</label>
+          <input class="na-range" id="naCompareRange" type="range" min="0" max="100" value="55" />
+          <p class="na-caption">
+            Tip: swap the images for a “raw export” vs “native-style” version of the same concept.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) Feature cards (NativeAds-like benefits) -->
+  <section class="na-features" id="na-features">
+    <div class="na-container">
+      <header class="na-section-head">
+        <h2 class="na-h2">Why teams switch.</h2>
+        <p class="na-p">Three crisp benefits with proof-style detail.</p>
+      </header>
+
+      <div class="na-cards">
+        <article class="na-card">
+          <h3 class="na-h3">Automated at scale</h3>
+          <p class="na-p">
+            One template system produces hundreds of variants without manual production loops.
+          </p>
+          <ul class="na-list">
+            <li>Variants by copy, layout, language</li>
+            <li>Exports for paid + organic</li>
+            <li>Consistent brand tokens</li>
+          </ul>
+        </article>
+
+        <article class="na-card">
+          <h3 class="na-h3">Always on-brand</h3>
+          <p class="na-p">
+            Guardrails that keep style consistent across formats, channels and teams.
+          </p>
+          <ul class="na-list">
+            <li>Fonts, spacing, color rules</li>
+            <li>Approval & version logic</li>
+            <li>Central library</li>
+          </ul>
+        </article>
+
+        <article class="na-card">
+          <h3 class="na-h3">Built for performance</h3>
+          <p class="na-p">
+            Creative and media learn together—so the best hooks win faster.
+          </p>
+          <ul class="na-list">
+            <li>Testing matrix</li>
+            <li>Signal-driven creatives</li>
+            <li>ROAS-focused iteration</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5) CTA (NativeAds-like conversion block) -->
+  <section class="na-cta" id="na-demo">
+    <div class="na-container">
+      <div class="na-cta-card">
+        <div class="na-cta-copy">
+          <h2 class="na-h2">Ready to see Continuum run?</h2>
+          <p class="na-p">
+            Get a live walkthrough: templates, signals, outputs, and how you ship more tests.
+          </p>
+        </div>
+
+        <form class="na-cta-form" id="naDemoForm">
+          <label class="na-label" for="naEmail">Work email</label>
+          <div class="na-form-row">
+            <input class="na-input" id="naEmail" type="email" placeholder="you@company.com" required />
+            <button class="na-btn na-btn-primary" type="submit">Book a demo</button>
+          </div>
+          <p class="na-note" id="naDemoNote" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script src="main.js"></script>
+  <script src="compare-nativeads.v2.js"></script>
+</body>
+</html>
+
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/compare-nativeads.v2.js"></script>
+</body>
+</html>
