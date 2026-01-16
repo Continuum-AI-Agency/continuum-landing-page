@@ -1,0 +1,233 @@
+---
+import { Image } from 'astro:assets';
+
+// Avatars
+import avatarMich from '../assets/team/mich.jpg';
+import avatarDuane from '../assets/team/duane.png';
+import avatarMati from '../assets/team/mati.png';
+import avatarFlor from '../assets/team/flor.png';
+import avatarYair from '../assets/team/yair.png';
+
+// Team Logos (Some paths might need verification if not exact, based on file move)
+import logoCocaCola from '../assets/Logos_Team/Coca-Cola_bottle_cap.svg';
+import logoMercadoLibre from '../assets/Logos_Team/mercado-libre-logo.svg';
+import logoPedidosYa from '../assets/Logos_Team/png-transparent-pedidosya-hd-logo.png';
+import logoUnnamed from '../assets/Logos_Team/unnamed.png';
+import logoTechstars from '../assets/Logos_Team/techstars-duane.png';
+import logoDatobox from '../assets/Logos_Team/datobox_logo.jpeg';
+import logoYair1 from '../assets/Logos_Team/Yair_1.jpeg';
+import logoYair2 from '../assets/Logos_Team/Yair_2.jpeg';
+
+// Assuming global logos
+// import logoGrowth from '../assets/logos/growth.svg'; // This was in public/assets/logos/growth.svg in original?
+// I moved public/assets/Logos_Team. Let's check if 'logos' folder existed or if it was part of something else.
+// Based on file list: 'public/assets/logos/growth.svg' was NOT in the `ls -R` output earlier?
+// Wait, `ls -R public/assets` showed `public/assets/Logos_Team`. 
+// I did NOT see a `public/assets/logos` directory in the `ls -R` output earlier.
+// Output showed: `public/assets/Fondos`, `public/assets/Fotos_productos`, `public/assets/Integraciones`, `public/assets/Logos_Team`, `public/assets/Video`, `public/assets/Videos_templates`, `public/assets/cliente_logos`, `public/assets/fonts`, `public/assets/hero`, `public/assets/team`.
+// It did NOT show `public/assets/logos`. 
+// However, the HTML had `<img src="/assets/logos/growth.svg" ... />`. 
+// This implies a missing file or I missed it. I will comment out missing logos or replace them.
+
+---
+
+<section id="team" class="ch-section ch-section-alt">
+  <div class="ch-section-header reveal">
+    <h2>The team behind Continuum</h2>
+    <p>
+      A small team obsessed with creative systems, media performance and building tools
+      that actually get used.
+    </p>
+  </div>
+
+  <div class="ch-team-grid">
+    <!-- 1 – Michelle -->
+    <article class="ch-team-card reveal">
+      <div class="ch-team-card-inner">
+        <!-- Frente -->
+        <div class="ch-team-face ch-team-face--front">
+          <div class="ch-team-front-header">
+            <div class="ch-team-avatar">
+              <Image src={avatarMich} alt="Michelle Shocron" />
+            </div>
+            <div>
+              <h3>Michelle Shocron</h3>
+              <p class="ch-team-role">Co-Founder &amp; CEO</p>
+            </div>
+          </div>
+
+          <div class="ch-team-front-logos">
+            <Image src={logoCocaCola} alt="" class="ch-team-logo" />
+            <Image src={logoMercadoLibre} alt="" class="ch-team-logo" />
+            <Image src={logoPedidosYa} alt="" class="ch-team-logo" />
+          </div>
+        </div>
+
+        <!-- Dorso -->
+        <div class="ch-team-face ch-team-face--back">
+          <h3>Michelle Shocron</h3>
+          <p class="ch-team-role">Co-Founder &amp; CEO</p>
+          <p class="ch-team-bio">
+            10+ years leading growth, product, and partnerships for tech and fintech
+            companies in LatAm. Drives product strategy, positioning, and go-to-market.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2 – Duane -->
+    <article class="ch-team-card reveal">
+      <div class="ch-team-card-inner">
+        <div class="ch-team-face ch-team-face--front">
+          <div class="ch-team-front-header">
+            <div class="ch-team-avatar">
+              <Image src={avatarDuane} alt="Duane Scott" />
+            </div>
+            <div>
+              <h3>Duane Scott</h3>
+              <p class="ch-team-role">Co-Founder &amp; CTO</p>
+            </div>
+          </div>
+
+          <div class="ch-team-front-logos">
+            <Image src={logoUnnamed} alt="" class="ch-team-logo" />
+            <Image src={logoTechstars} alt="" class="ch-team-logo" />
+            {/* <img src="/assets/logos/growth.svg" alt="" class="ch-team-logo" /> Missing file */}
+          </div>
+        </div>
+
+        <div class="ch-team-face ch-team-face--back">
+          <h3>Duane Scott</h3>
+          <p class="ch-team-role">Co-Founder &amp; CTO</p>
+          <p class="ch-team-bio">
+            Seasoned engineering leader with experience building high-scale SaaS platforms
+            and data products. Owns the technical architecture and AI stack.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3 – Matías -->
+    <article class="ch-team-card reveal">
+      <div class="ch-team-card-inner">
+        <div class="ch-team-face ch-team-face--front">
+          <div class="ch-team-front-header">
+            <div class="ch-team-avatar">
+              <Image src={avatarMati} alt="Matías Ares" />
+            </div>
+            <div>
+              <h3>Matías Ares</h3>
+              <p class="ch-team-role">Co-Founder &amp; CPO</p>
+            </div>
+          </div>
+
+          <div class="ch-team-front-logos">
+            <Image src={logoDatobox} alt="" class="ch-team-logo" />
+            {/* Missing logos */}
+          </div>
+        </div>
+
+        <div class="ch-team-face ch-team-face--back">
+          <h3>Matías Ares</h3>
+          <p class="ch-team-role">Co-Founder &amp; CPO</p>
+          <p class="ch-team-bio">
+            Motion designer and creative technologist with experience in video, VFX, and
+            After Effects. Designs and maintains the creative automation system.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 4 – Florencia -->
+    <article class="ch-team-card reveal">
+      <div class="ch-team-card-inner">
+        <div class="ch-team-face ch-team-face--front">
+          <div class="ch-team-front-header">
+            <div class="ch-team-avatar">
+              <Image src={avatarFlor} alt="Florencia Cicero" />
+            </div>
+            <div>
+              <h3>Florencia Cicero</h3>
+              <p class="ch-team-role">Co-Founder &amp; COO</p>
+            </div>
+          </div>
+
+          <div class="ch-team-front-logos">
+            <Image src={logoDatobox} alt="" class="ch-team-logo" />
+            {/* Missing logos */}
+          </div>
+        </div>
+
+        <div class="ch-team-face ch-team-face--back">
+          <h3>Florencia Cicero</h3>
+          <p class="ch-team-role">Co-Founder &amp; COO</p>
+          <p class="ch-team-bio">
+            Operations and delivery expert. Oversees operations, client onboarding, and
+            success, ensuring teams adopt the platform and hit performance goals.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 5 – Yair -->
+    <article class="ch-team-card reveal">
+      <div class="ch-team-card-inner">
+        <div class="ch-team-face ch-team-face--front">
+          <div class="ch-team-front-header">
+            <div class="ch-team-avatar">
+              <Image src={avatarYair} alt="Yair Sanjuanero" />
+            </div>
+            <div>
+              <h3>Yair Sanjuanero</h3>
+              <p class="ch-team-role">Co-Founder &amp; CRO</p>
+            </div>
+          </div>
+
+          <div class="ch-team-front-logos is-square-logos">
+             <Image src={logoYair1} alt="" class="ch-team-logo" />
+             <Image src={logoYair2} alt="" class="ch-team-logo" />
+          </div>
+        </div>
+
+        <div class="ch-team-face ch-team-face--back">
+          <h3>Yair Sanjuanero</h3>
+          <p class="ch-team-role">CRO</p>
+          <p class="ch-team-bio">
+           +7 years scaling Pixies AI to Series C in Latin America. Experience in
+            B2B SaaS MarTech (Appsflyer). Expert in operations and delivery.
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script>
+  // Team cards – toggle active
+  const teamCards = document.querySelectorAll(".ch-team-card");
+  if (teamCards.length) {
+    teamCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        const isActive = card.classList.contains("is-active");
+        teamCards.forEach((c) => c.classList.remove("is-active"));
+        if (!isActive) {
+          card.classList.add("is-active");
+        }
+      });
+    });
+  }
+  
+  // Reveal
+  if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+              if (e.isIntersecting) {
+                  e.target.classList.add("is-visible");
+                  observer.unobserve(e.target);
+              }
+          })
+      }, { threshold: 0.1 });
+      const el = document.querySelector("#team");
+      if(el) el.querySelectorAll(".reveal").forEach(r => observer.observe(r));
+  }
+</script>

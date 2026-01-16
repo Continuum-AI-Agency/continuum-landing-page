@@ -1,0 +1,114 @@
+---
+---
+
+<section id="pricing" class="ch-section ch-section-alt">
+  <div class="ch-section-header reveal">
+    <h2>Pricing that matches how you actually work</h2>
+    <p>
+      Ranges in USD based on typical engagements. Final pricing depends on scope,
+      volume and modules you activate.
+    </p>
+  </div>
+
+  <div class="ch-pricing-grid">
+    <!-- SOCIAL+ -->
+    <article class="ch-price-card reveal">
+      <div class="ch-price-label">SOCIAL+</div>
+      <p class="ch-price-tagline">Always-on social engine for your brand.</p>
+
+      <div class="ch-price-value">
+        <span class="ch-price-currency">$</span>
+        <span class="ch-price-amount">300–1,000</span>
+        <span class="ch-price-term">/ month</span>
+      </div>
+
+      <p class="ch-price-meta">
+        Based on the number of brands, markets, and active channels.
+      </p>
+
+      <ul class="ch-price-list">
+        <li>Planning and continuous production of social content.</li>
+        <li>Calendars, messages and formats aligned with your performance data.</li>
+        <li>Feedback loop between brand, social and performance teams.</li>
+      </ul>
+
+    <a href="https://calendly.com/michelle-shocron" class="ch-price-cta ch-price-cta--social">
+      Hablemos de SOCIAL+
+    </a>
+    </article>
+
+    <!-- STUDIO+ (DESTACADO) -->
+    <article class="ch-price-card">
+      <div class="ch-price-label">
+        STUDIO+
+        <span class="ch-price-pill">Per template</span>
+      </div>
+      <p class="ch-price-tagline">Template system for on-brand, multi-channel assets.</p>
+
+      <div class="ch-price-value">
+        <span class="ch-price-currency">$</span>
+        <span class="ch-price-amount">400–700</span>
+        <span class="ch-price-term">/ template</span>
+      </div>
+
+      <p class="ch-price-meta">
+        Based on design, motion and number of variants.
+      </p>
+
+      <ul class="ch-price-list">
+        <li>Design and assembly of templates ready to scale production.</li>
+        <li>Versions by format, language and audience within the same system.</li>
+        <li>Updates and improvements on existing templates.</li>
+      </ul>
+
+      <a href="https://calendly.com/michelle-shocron" class="ch-price-cta ch-price-cta--studio">
+        Consultar STUDIO+
+      </a>
+    </article>
+
+    <!-- PERFORMANCE+ -->
+    <article class="ch-price-card reveal ch-price-card--highlight reveal">
+      <div class="ch-price-label">PERFORMANCE+</div>
+      <p class="ch-price-tagline">Creative engine plugged into your media spend.</p>
+      <div class="ch-price-value">
+        <span class="ch-price-currency"></span>
+        <span class="ch-price-amount">Custom</span>
+        <span class="ch-price-term">% ad-spend fee</span>
+      </div>
+
+      <p class="ch-price-meta">
+        Fee variable según inversión mensual, canales y tipo de soporte.
+      </p>
+
+      <ul class="ch-price-list">
+        <li>Creative loops connected to your paid media accounts.</li>
+        <li>Priority to high ROAS concepts and continuous learning.</li>
+        <li>Actionable reports and playbooks for your performance team.</li>
+      </ul>
+
+      <a href="https://calendly.com/michelle-shocron" class="ch-price-cta ch-price-cta--performance">
+        Optimicemos tu PERFORMANCE+
+      </a>
+    </article>
+  </div>
+
+  <p class="ch-price-footnote">
+    Ranges expresados en USD como referencia. Cotizamos cada caso según alcance,
+    volúmenes y setup inicial.
+  </p>
+</section>
+
+<script>
+  if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+              if (e.isIntersecting) {
+                  e.target.classList.add("is-visible");
+                  observer.unobserve(e.target);
+              }
+          })
+      }, { threshold: 0.1 });
+      const el = document.querySelector("#pricing");
+      if(el) el.querySelectorAll(".reveal").forEach(r => observer.observe(r));
+  }
+</script>

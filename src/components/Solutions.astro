@@ -1,0 +1,151 @@
+---
+---
+
+<section id="solutions" class="ch-section ch-section-alt">
+  <div class="ch-section-header reveal">
+    <h2>Who is this product for?</h2>
+    <p>Choose your team type and see how Continuum fits your workflow.</p>
+  </div>
+
+  <div class="ch-solutions-grid">
+    <!-- IN-HOUSE + CREATIVE TEAMS -->
+    <button
+      class="ch-solution-card is-active reveal"
+      type="button"
+      data-persona="studio"
+      data-label="In-house & creative teams"
+      data-strip="Build one creative system for all your channels and stakeholders."
+    >
+      <div class="ch-solution-tag ch-solution-tag--studio">
+        <span class="ch-solution-emoji">🎨</span>
+        In-house &amp; creative teams
+      </div>
+
+      <h3>
+        Turn requests into a
+        <span class="ch-inline-highlight">scalable creative system</span>.
+      </h3>
+
+      <p class="ch-solution-intro">
+        Built for <span class="ch-inline-highlight">in-house studios</span> and
+        <span class="ch-inline-highlight-alt">brand creative teams</span> that need control without slowing anyone down.
+      </p>
+
+      <ul class="ch-solution-list">
+        <li>
+          <span class="ch-inline-highlight">Central creative library</span> synced with
+          brand guidelines, versions and approvals.
+        </li>
+        <li>
+          <span class="ch-inline-highlight">Template-driven production</span> for social,
+          CRM, paid and offline channels.
+        </li>
+        <li>
+          One shared surface for <span class="ch-inline-highlight">briefs, feedback</span>
+          and final asset delivery.
+        </li>
+      </ul>
+    </button>
+
+    <!-- PROGRAMMATIC + PERFORMANCE AGENCIES -->
+    <button
+      class="ch-solution-card reveal"
+      type="button"
+      data-persona="performance"
+      data-label="Programmatic & performance agencies"
+      data-strip="Keep creative testing in lockstep with your media optimization."
+    >
+      <div class="ch-solution-tag ch-solution-tag--perf">
+        <span class="ch-solution-emoji">⚡</span>
+        Programmatic &amp; performance agencies
+      </div>
+
+      <h3>
+        Ship more tests with
+        <span class="ch-inline-highlight">less chaos</span>.
+      </h3>
+
+      <p class="ch-solution-intro">
+        For <span class="ch-inline-highlight">media teams</span> that optimize daily and
+        need creative to move at the <span class="ch-inline-highlight-alt">same speed</span>.
+      </p>
+
+      <ul class="ch-solution-list">
+        <li>
+          Connect <span class="ch-inline-highlight">performance data</span> to hooks,
+          formats and creative briefs.
+        </li>
+        <li>
+          Prioritize <span class="ch-inline-highlight">high-ROAS concepts</span> with
+          automated learning loops.
+        </li>
+        <li>
+          <span class="ch-inline-highlight">Shared live surface</span> with clients and
+          in-house marketing teams.
+        </li>
+      </ul>
+    </button>
+  </div>
+
+  <!-- Franja de insight dinámica -->
+  <div class="ch-solutions-strip reveal">
+    <span id="solutions-strip-label" class="ch-solutions-strip-label">
+      In-house &amp; creative teams
+    </span>
+    <p id="solutions-strip-text" class="ch-solutions-strip-text">
+      Build one creative system for all your channels and stakeholders.
+    </p>
+  </div>
+</section>
+
+<script>
+  // Solutions personas
+  const solutionCards = document.querySelectorAll(".ch-solution-card");
+  const solutionsStripLabel = document.getElementById("solutions-strip-label");
+  const solutionsStripText = document.getElementById("solutions-strip-text");
+  const solutionsStrip = document.querySelector(".ch-solutions-strip");
+
+  if (solutionCards.length && solutionsStripLabel && solutionsStripText && solutionsStrip instanceof HTMLElement) {
+    // Start with emphasis
+    solutionsStrip.classList.add("is-emphasis");
+    const activeCard = document.querySelector(".ch-solution-card.is-active");
+    if (activeCard && activeCard instanceof HTMLElement && activeCard.dataset.persona) {
+      solutionsStrip.dataset.persona = activeCard.dataset.persona;
+    }
+
+    solutionCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        if (!(card instanceof HTMLElement)) return;
+        
+        solutionCards.forEach((c) => c.classList.remove("is-active"));
+        card.classList.add("is-active");
+
+        const label = card.dataset.label || "";
+        const strip = card.dataset.strip || "";
+        const persona = card.dataset.persona || "";
+
+        solutionsStripLabel.textContent = label;
+        solutionsStripText.textContent = strip;
+
+        solutionsStrip.classList.add("is-emphasis");
+        if (persona) {
+          solutionsStrip.dataset.persona = persona;
+        }
+      });
+    });
+  }
+
+  // Reveal
+  if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+              if (e.isIntersecting) {
+                  e.target.classList.add("is-visible");
+                  observer.unobserve(e.target);
+              }
+          })
+      }, { threshold: 0.1 });
+      const el = document.querySelector("#solutions");
+      if(el) el.querySelectorAll(".reveal").forEach(r => observer.observe(r));
+  }
+</script>

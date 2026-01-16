@@ -1,0 +1,273 @@
+---
+import { Image } from 'astro:assets';
+
+// Integration Logos
+import logoMonday from '../assets/Integraciones/mondaycom.svg';
+import logoFacebook from '../assets/Integraciones/facebook.svg';
+import logoMetaStacked from '../assets/Integraciones/Meta_stacked.webp';
+import logoGoogleAnalytics from '../assets/Integraciones/Logo_Google_Analytics.svg.png';
+import logoSheets from '../assets/Integraciones/google-sheets.svg';
+import logoAirtable from '../assets/Integraciones/airtable.svg';
+import logoClickup from '../assets/Integraciones/clickup.svg';
+import logoTiktok from '../assets/Integraciones/tiktok.svg';
+import logoHubspot from '../assets/Integraciones/hubspot.svg';
+import logoTeams from '../assets/Integraciones/microsoft-teams.svg';
+import logoMysql from '../assets/Integraciones/mysql.svg';
+import logoShopify from '../assets/Integraciones/shopify-logo.svg';
+import logoOdoo from '../assets/Integraciones/odoo.svg';
+
+// Template Images
+import imgRes1 from '../assets/Videos_templates/Resultado_1.jpg';
+import imgRes2 from '../assets/Videos_templates/Resultado_2.jpg';
+import imgRes3 from '../assets/Videos_templates/Resultado_3.jpg';
+
+const logos = [
+  { src: logoMonday, alt: "Monday.com" },
+  { src: logoFacebook, alt: "Facebook" },
+  { src: logoMetaStacked, alt: "Meta" },
+  { src: logoGoogleAnalytics, alt: "GA4" },
+  { src: logoSheets, alt: "Google Sheets" },
+  { src: logoAirtable, alt: "Airtable" },
+  { src: logoClickup, alt: "ClickUp" },
+  { src: logoTiktok, alt: "TikTok" },
+  { src: logoHubspot, alt: "HubSpot" },
+  { src: logoTeams, alt: "Microsoft Teams" },
+  { src: logoMysql, alt: "MySQL" },
+  { src: logoShopify, alt: "Shopify" },
+  { src: logoOdoo, alt: "Odoo" },
+  // Duplicate for loop (simplified subset)
+  { src: logoFacebook, alt: "Facebook" },
+];
+
+---
+
+<section id="how" class="ch-section ch-section-alt">
+  <div class="ch-section-header reveal">
+   <h2>Automate your creative operating system</h2>
+    <p>
+      Continuum connects your data, your brand system, and your media stack
+      to deliver a continuous loop:
+    </p>
+    <p>Listen → Analyze → Create → Launch → Learn.</p>
+  </div>
+
+  <div class="ch-how-grid">
+    <!-- 01 · LISTEN -->
+    <article class="ch-how-card ch-how-card--listen reveal">
+      <span class="ch-step-tag">01 · Listen</span>
+      <h3>Unify creative &amp; media signals</h3>
+      <p>
+        Plug in platforms like Meta, TikTok, Google, YouTube and analytics.
+        Continuum ingests performance, audience and creative data automatically.
+      </p>
+      <br>
+      <div class="ch-integrations-marquee">
+        <div class="ch-integrations-track">
+          {logos.map(logo => (
+            <div class="ch-integrations-logo">
+              <Image src={logo.src} alt={logo.alt} />
+            </div>
+          ))}
+          {/* Loop duplication */}
+          {logos.map(logo => (
+            <div class="ch-integrations-logo">
+              <Image src={logo.src} alt={logo.alt} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 · ANALYZE -->
+    <article id="how-analyze-card" class="ch-how-card ch-how-card--analyze reveal">
+      <span class="ch-step-tag">02 · Analyze</span>
+      <h3>Find the story behind the numbers</h3>
+      <p>
+        Our AI analyzes thousands of combinations to understand what truly
+        moves your KPIs and where you are leaving money on the table.
+      </p>
+
+      <div class="ch-analyze-metrics">
+        <div class="ch-analyze-metric">
+          <span class="ch-metric-label">Hooks analyzed / month</span>
+          <span class="ch-metric-value"
+                data-counter
+                data-from="0"
+                data-to="1420">0</span>
+        </div>
+        <div class="ch-analyze-metric">
+          <span class="ch-metric-label">Trends detected</span>
+          <br><br>
+          <span class="ch-metric-value"
+                data-counter
+                data-from="0"
+                data-to="78">0</span>
+        </div>
+        <div class="ch-analyze-metric">
+          <span class="ch-metric-label">Hours saved</span>
+          <br><br>
+          <span class="ch-metric-value"
+                data-counter
+                data-from="0"
+                data-to="42">0</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 · CREATE -->
+   <article class="ch-how-card ch-how-card--create reveal">
+    <div class="ch-how-text">
+      <span class="ch-step-tag">03 · Create</span>
+      <h3>Generate on-brand assets at scale</h3>
+      <p>
+        Build a branded system of templates, components and AI prompts that
+        Continuum uses to generate hundreds of on-brand assets.
+      </p>
+    </div>
+    
+    <div class="ch-create-stack js-create-stack">
+      <div class="ch-template-tile ch-template-tile--bottom">
+        <Image src={imgRes1} class="ch-template-video" alt="Result 1" />
+      </div>
+
+      <div class="ch-template-tile ch-template-tile--middle">
+        <Image src={imgRes2} class="ch-template-video" alt="Result 2" />
+      </div>
+
+      <div class="ch-template-tile ch-template-tile--top">
+        <Image src={imgRes3} class="ch-template-video" alt="Result 3" />
+      </div>
+    </div>
+</article>
+
+
+    <!-- 04 · LAUNCH -->
+    <article class="ch-how-card ch-how-card--launch reveal">
+      <span class="ch-step-tag">04 · Launch &amp; optimize</span>
+      <h3>Launch and reallocate budget in real time</h3>
+      <p>
+        Push campaigns live across channels and let Continuum reallocate spend
+        towards top performers based on live results.
+      </p>
+
+      <div class="ch-launch-bars">
+        <div class="ch-launch-row">
+          <div class="ch-launch-label">
+            <span>Before Continuum</span>
+            <span class="ch-launch-label-value">Fragmented</span>
+          </div>
+          <div class="ch-launch-bar">
+            <div class="ch-launch-fill ch-launch-fill--before" style="--launch-scale:0.45"></div>
+          </div>
+        </div>
+
+        <div class="ch-launch-row">
+          <div class="ch-launch-label">
+            <span>With Continuum</span>
+            <span class="ch-launch-label-value">Auto-optimized</span>
+          </div>
+          <div class="ch-launch-bar">
+            <div class="ch-launch-fill ch-launch-fill--after" style="--launch-scale:0.9"></div>
+          </div>
+        </div>
+
+        <div class="ch-launch-chips">
+          <span class="ch-launch-chip">Meta</span>
+          <span class="ch-launch-chip">TikTok</span>
+          <span class="ch-launch-chip">Google</span>
+          <span class="ch-launch-chip">YouTube</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script>
+  // Analyze Counters
+  const analyzeCard = document.getElementById("how-analyze-card");
+  let analyzeAnimated = false;
+
+  function animateCountersWithin(panel: Element) {
+    const counters = panel.querySelectorAll("[data-counter]");
+    counters.forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const from = parseFloat(el.dataset.from ?? "0");
+      const to = parseFloat(el.dataset.to ?? "0");
+      const prefix = el.dataset.prefix ?? "";
+      const suffix = el.dataset.suffix ?? "";
+      const useGrouping = el.dataset.useGrouping === "true";
+      const duration = 900;
+      const startTime = performance.now();
+
+      function step(now: number) {
+        const t = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const value = from + (to - from) * eased;
+        const rounded = Math.round(value);
+        const numberText = useGrouping
+          ? rounded.toLocaleString(undefined, { maximumFractionDigits: 0 })
+          : String(rounded);
+
+        el.textContent = prefix + numberText + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Create Stack Rotation
+  const createStack = document.querySelector(".js-create-stack");
+  if (createStack) {
+    const tiles = Array.from(createStack.querySelectorAll(".ch-template-tile"));
+    const positions = [
+      "ch-template-tile--bottom",
+      "ch-template-tile--middle",
+      "ch-template-tile--top",
+    ];
+    let step = 0;
+
+    const applyCreateStackState = () => {
+      tiles.forEach((tile, index) => {
+        positions.forEach((pos) => tile.classList.remove(pos));
+        const roleIndex = (index - step + tiles.length) % tiles.length;
+        tile.classList.add(positions[roleIndex]);
+      });
+    };
+
+    setInterval(() => {
+      step = (step + 1) % tiles.length;
+      applyCreateStackState();
+    }, 3000);
+  }
+
+  // Intersection Observer for Animations
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("is-visible");
+
+          if (analyzeCard && entry.target === analyzeCard && !analyzeAnimated) {
+            analyzeAnimated = true;
+            animateCountersWithin(analyzeCard);
+          }
+          
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.18 }
+    );
+    
+    // Observer Local Reveals
+    const section = document.querySelector("#how");
+    if(section) section.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    
+    // Stagger reveal adjustment
+    const cards = document.querySelectorAll("#how .ch-how-card.reveal");
+    cards.forEach((c, i) => {
+        if(c instanceof HTMLElement) c.style.transitionDelay = `${i * 80}ms`;
+    });
+  }
+</script>

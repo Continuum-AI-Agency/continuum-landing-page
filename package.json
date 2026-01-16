@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "clean": "rm -rf dist",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/poppins": "^5.2.7",
+    "@fontsource/raleway": "^5.2.8",
+    "@mui/material": "^7.3.7",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.9",
+    "framer": "^2.4.1",
+    "motion": "^12.26.2",
+    "tailwindcss": "^4.1.18"
+  }
+}

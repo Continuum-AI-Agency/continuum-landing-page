@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import imgTiene1 from '../assets/Tiene_1.jpeg';
+
+// Videos are in public/assets, so we reference them as strings
+const videos = [
+  { src: "/assets/Turismo.mp4", class: "is-1x1" },
+  { src: "/assets/Tiene_3.mp4", class: "is-9x16" },
+  { src: "/assets/claro_catalogo.mp4", class: "is-9x16" },
+  { src: "/assets/consorcio_9-16.mp4", class: "is-9x16" },
+  { src: "/assets/dic-2-tomas-del-castillo-story_027ad7d.mp4", class: "is-9x16" },
+  { src: "/assets/VENTA_PRODUCTO_1-1.mp4", class: "is-4x5" },
+  { src: "/assets/Real Estate.mp4", class: "is-9x16" },
+  { src: "/assets/SPEAKER_9-16.mp4", class: "is-9x16" },
+  { src: "/assets/Kamay_Render_Vertical.mp4", class: "is-9x16" },
+  { src: "/assets/Catalogo_Heineken.mp4", class: "is-9x16" },
+  { src: "/assets/Mercado_Libre.mp4", class: "is-1x1" },
+  { src: "/assets/Tiene_4.mp4", class: "is-9x16" },
+  { src: "/assets/Tiene_2.mp4", class: "is-1x1" },
+  { src: "/assets/Deportes_resultados.mp4", class: "is-1x1" },
+  { src: "/assets/BODEGA_GOL_PROMO_9-16.mp4", class: "is-9x16" },
+];
+---
+
+<section id="gallery" class="ch-section ch-section-alt">
+  <div class="ch-section-header reveal">
+    <h2>Continuum in action.</h2>
+    <p>
+      Tus demos reales, en un carrusel que se mueve solo. Siempre hay tres videos al frente
+      y el resto se insinúa en los costados.
+    </p>
+  </div>
+
+  <!-- UNA sola fila/carrusel -->
+  <div class="ch-media-masonry reveal auto-scroll" data-gallery-row>
+    <!-- Item 1: Image -->
+    <article class="ch-media-tile is-9x16">
+      <Image src={imgTiene1} alt="Gallery image" />
+    </article>
+
+    <!-- Videos -->
+    {videos.map((vid) => (
+      <article class={`ch-media-tile ${vid.class}`} data-video-card>
+        <video 
+          data-src={vid.src} 
+          muted 
+          playsinline 
+          loop 
+          preload="none" 
+          class="lazy-video"
+        ></video>
+      </article>
+    ))}
+    
+    <!-- Duplicate first few items for potential infinity loop illusion if logic requires it, 
+         but the CSS auto-scroll logic usually handles it via scrolling. 
+         The original JS cloned the filler item. -->
+  </div>
+</section>
+
+<script>
+  // Lazy Loading Videos
+  if ("IntersectionObserver" in window) {
+    const videoObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const video = entry.target as HTMLVideoElement;
+          if (video.dataset.src) {
+            video.src = video.dataset.src;
+            video.load();
+            video.play().catch(() => {});
+            video.removeAttribute('data-src');
+            observer.unobserve(video);
+          }
+        }
+      });
+    }, { rootMargin: "200px" });
+
+    document.querySelectorAll("video.lazy-video").forEach(v => videoObserver.observe(v));
+  }
+
+  // Auto Scroll Logic
+  const row = document.querySelector("[data-gallery-row]") as HTMLElement;
+  if (row) {
+    let scrollAmount = 0;
+    const step = 1; 
+    let direction = 1;
+    let intervalId: number;
+
+    const tick = () => {
+        if (!document.body.contains(row)) return;
+        const maxScroll = row.scrollWidth - row.clientWidth;
+        if (maxScroll <= 0) return;
+
+        scrollAmount += step * direction;
+        if (scrollAmount >= maxScroll || scrollAmount <= 0) {
+            direction *= -1;
+        }
+        row.scrollLeft = scrollAmount;
+    };
+
+    intervalId = setInterval(tick, 30) as unknown as number;
+
+    row.addEventListener("mouseenter", () => clearInterval(intervalId));
+    row.addEventListener("mouseleave", () => {
+        scrollAmount = row.scrollLeft;
+        intervalId = setInterval(tick, 30) as unknown as number;
+    });
+  }
+
+  // Reveal Animation
+  if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  entry.target.classList.add("is-visible");
+                  revealObserver.unobserve(entry.target);
+              }
+          });
+      }, { threshold: 0.1 });
+      
+      const gallery = document.querySelector("#gallery");
+      if(gallery) gallery.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+  }
+</script>

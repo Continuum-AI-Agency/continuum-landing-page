@@ -1,0 +1,53 @@
+---
+---
+
+<section id="demo" class="ch-section ch-section-cta">
+  <div class="ch-cta-inner reveal">
+    <h2>Ready to build your Continuum?</h2>
+    <p>
+      Talk to our team and see how Continuum can become the creative engine
+      behind your next stage of growth.
+    </p>
+    <form class="ch-cta-form" id="footer-demo-form">
+      <input
+        type="email"
+        placeholder="Work email"
+        aria-label="Work email"
+        required
+      />
+      <button class="ch-btn ch-btn-primary" type="submit">
+        Book a live demo
+      </button>
+    </form>
+    <p class="ch-cta-note" id="demo-success"></p>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("footer-demo-form") as HTMLFormElement;
+  const note = document.getElementById("demo-success");
+  
+  if (form && note) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const input = form.querySelector("input[type='email']") as HTMLInputElement;
+      const email = input?.value || "";
+      note.textContent = `Thanks${email ? `, ${email}` : ""}! We will contact you about your Continuum demo.`;
+      form.reset();
+    });
+  }
+  
+  // Reveal
+  if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+              if (e.isIntersecting) {
+                  e.target.classList.add("is-visible");
+                  observer.unobserve(e.target);
+              }
+          })
+      }, { threshold: 0.1 });
+      const el = document.querySelector("#demo");
+      if(el) el.querySelectorAll(".reveal").forEach(r => observer.observe(r));
+  }
+</script>

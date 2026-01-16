@@ -1,0 +1,140 @@
+---
+---
+
+<section id="impact" class="ch-section ch-section-metrics">
+  <div class="ch-metrics-inner">
+
+    <div class="ch-section-header reveal">
+      <h2>Performance that counts</h2>
+      <p>
+        Real results from teams using Continuum to produce and test creatives at scale.
+    </div>
+
+    <div class="ch-metrics-grid reveal" id="impact-metrics">
+      <!-- 25.000 -->
+      <article class="ch-metric-card">
+        <div
+          class="ch-metric-value"
+          data-counter
+          data-from="0"
+          data-to="25000"
+          data-suffix="+"
+          data-use-grouping="true"
+        >
+          0
+        </div>
+        <div class="ch-metric-label">Generated pieces</div>
+        <p class="ch-metric-caption">
+          On-brand pieces produced for brands in different markets and channels.
+        </p>
+      </article>
+
+      <!-- 2x ROAS -->
+      <article class="ch-metric-card">
+        <div
+          class="ch-metric-value"
+          data-counter
+          data-from="0"
+          data-to="2"
+          data-suffix="×"
+        >
+          0
+        </div>
+        <div class="ch-metric-label">ROAS</div>
+        <p class="ch-metric-caption">
+          Average uplift in campaigns optimized with creative and media loops.
+        </p>
+      </article>
+
+      <!-- 75% Cost reduction -->
+      <article class="ch-metric-card">
+        <div
+          class="ch-metric-value"
+          data-counter
+          data-from="0"
+          data-to="75"
+          data-suffix="%"
+        >
+          0
+        </div>
+        <div class="ch-metric-label">Cost reduction</div>
+        <p class="ch-metric-caption">
+          Lower production costs compared to traditional studio and agency workflows.
+        </p>
+      </article>
+
+      <!-- 5x Creative testing -->
+      <article class="ch-metric-card">
+        <div
+          class="ch-metric-value"
+          data-counter
+          data-from="0"
+          data-to="35"
+          data-prefix="+"
+          data-suffix="%"
+        >
+          0
+        </div>
+        <div class="ch-metric-label">Conversion lift</div>
+        <p class="ch-metric-caption">
+        Increase in conversion rate driven by real-time creative optimization.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Metrics Counters
+  const impactGrid = document.getElementById("impact-metrics");
+  let impactAnimated = false;
+
+  function animateCountersWithin(panel: Element) {
+    const counters = panel.querySelectorAll("[data-counter]");
+    counters.forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const from = parseFloat(el.dataset.from ?? "0");
+      const to = parseFloat(el.dataset.to ?? "0");
+      const prefix = el.dataset.prefix ?? "";
+      const suffix = el.dataset.suffix ?? "";
+      const useGrouping = el.dataset.useGrouping === "true";
+      const duration = 900;
+      const startTime = performance.now();
+
+      function step(now: number) {
+        const t = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const value = from + (to - from) * eased;
+        const rounded = Math.round(value);
+        const numberText = useGrouping
+          ? rounded.toLocaleString(undefined, { maximumFractionDigits: 0 })
+          : String(rounded);
+
+        el.textContent = prefix + numberText + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Reveal & Trigger Animation
+  if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  entry.target.classList.add("is-visible");
+                  
+                  if (impactGrid && entry.target === impactGrid && !impactAnimated) {
+                      impactAnimated = true;
+                      animateCountersWithin(impactGrid);
+                  }
+                  
+                  observer.unobserve(entry.target);
+              }
+          });
+      }, { threshold: 0.18 });
+      
+      const el = document.querySelector("#impact");
+      if(el) el.querySelectorAll(".reveal").forEach(r => observer.observe(r));
+  }
+</script>

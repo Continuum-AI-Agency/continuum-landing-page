@@ -1,0 +1,139 @@
+---
+---
+
+<section id="faq" class="ch-section">
+  <div class="ch-section-header reveal">
+    <h2>FAQ</h2>
+    <p>
+      Quick answers to the most common questions about how Continuum works,
+      how to integrate and how to subscribe.
+    </p>
+  </div>
+
+  <div class="ch-faq-grid">
+    <!-- 1 -->
+    <article class="ch-faq-item reveal">
+      <button class="ch-faq-trigger" type="button">
+        <span class="ch-faq-question">What exactly is Continuum?</span>
+        <span class="ch-faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="ch-faq-body">
+        <p>
+          Continuum is a <strong>creative OS</strong> that connects brief, data,
+          templates and distribution in a single surface. It's not just a design
+          tool or a dashboard: it's the place where <strong>brand, performance
+          and agencies work on the same system</strong>.
+        </p>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="ch-faq-item reveal">
+      <button class="ch-faq-trigger" type="button">
+        <span class="ch-faq-question">
+         Does it replace my agency or in-house team?
+        </span>
+        <span class="ch-faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="ch-faq-body">
+        <p>
+          No. Continuum is designed to
+          <strong>organize the creative system</strong> and make agencies,
+          internal studios and performance teams work on the same foundation of
+          <strong>templates, data and versions</strong>. This reduces friction and
+          frees up time for ideas, not exports.
+        </p>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="ch-faq-item reveal">
+      <button class="ch-faq-trigger" type="button">
+        <span class="ch-faq-question">
+          How does it integrate with the tools we already use?
+        </span>
+        <span class="ch-faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="ch-faq-body">
+        <p>
+          Continuum connects with <strong>ads platforms</strong>, suites of
+          <strong>analytics</strong> and tools of
+          <strong>collaboration</strong> (Sheets, Asana, ClickUp, HubSpot, etc.).
+          Performance data enters the system and returns as
+          <strong>briefs, templates and prioritized tests</strong>.
+        </p>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="ch-faq-item reveal">
+      <button class="ch-faq-trigger" type="button">
+        <span class="ch-faq-question">How do the flights work and what are the prices?</span>
+        <span class="ch-faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="ch-faq-body">
+        <p>
+          The actual plans are defined by <strong>team size</strong>,
+          <strong>production volume</strong> and <strong>modules</strong> you
+          activate (Studio+, Social+, Performance+). The pricing table on the page
+          is an example; in practice we work with
+          <strong>custom plans based on usage</strong>.
+        </p>
+      </div>
+    </article>
+
+    <!-- 5 -->
+    <article class="ch-faq-item reveal">
+      <button class="ch-faq-trigger" type="button">
+        <span class="ch-faq-question">
+         What about security, data and compliance?
+        </span>
+        <span class="ch-faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="ch-faq-body">
+        <p>
+          We work with <strong>default security best practices</strong>:
+          role-based permissions, isolated environments and activity logs. Performance
+          and creative data is used for your own account; it's not shared between
+          clients or used to train public models with your information.
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script>
+  // FAQ accordion
+  const faqItems = document.querySelectorAll(".ch-faq-item");
+
+  if (faqItems.length) {
+    faqItems.forEach((item) => {
+      const trigger = item.querySelector(".ch-faq-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = item.classList.contains("is-open");
+        // cerramos todas
+        faqItems.forEach((it) => it.classList.remove("is-open"));
+        // si la que clickeamos no estaba abierta, la abrimos
+        if (!isOpen) {
+          item.classList.add("is-open");
+        }
+      });
+    });
+  }
+
+  // Reveal
+  if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+              if (e.isIntersecting) {
+                  e.target.classList.add("is-visible");
+                  observer.unobserve(e.target);
+              }
+          })
+      }, { threshold: 0.1 });
+      const el = document.querySelector("#faq");
+      if(el) el.querySelectorAll(".reveal").forEach(r => observer.observe(r));
+  }
+</script>

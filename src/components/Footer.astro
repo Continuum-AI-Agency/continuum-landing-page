@@ -1,0 +1,51 @@
+---
+---
+
+<button class="ch-scroll-top" aria-label="Scroll to top">
+  ↑
+</button>
+
+<footer class="ch-footer">
+  <div class="ch-footer-inner">
+    <span>© <span id="ch-year"></span> Continuum. Inspired by how devs ship software together.</span>
+    <div class="ch-footer-links">
+      <a href="#how" class="js-scroll">Product</a>
+      <a href="#modules" class="js-scroll">Modules</a>
+      <a href="#team" class="js-scroll">Team</a>
+      <a href="#demo" class="js-scroll">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Year
+  const yearEl = document.getElementById("ch-year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
+
+  // Scroll Top
+  const scrollTopBtn = document.querySelector(".ch-scroll-top");
+  window.addEventListener("scroll", () => {
+    const y = window.scrollY || window.pageYOffset;
+    if (scrollTopBtn) scrollTopBtn.classList.toggle("is-visible", y > 320);
+  });
+  
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // Smooth scroll for footer links
+  document.querySelectorAll(".ch-footer-links a.js-scroll").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      const rect = target.getBoundingClientRect();
+      const offset = rect.top + window.scrollY - 64;
+      window.scrollTo({ top: offset, behavior: "smooth" });
+    });
+  });
+</script>

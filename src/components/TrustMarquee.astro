@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+
+// Import all logos explicitly
+import logoMercadoLibre from '../assets/cliente_logos/mercado-libre-logo.png';
+import logo2 from '../assets/cliente_logos/image_2025-05-15_15-30-15.png';
+import logo3 from '../assets/cliente_logos/image_2025-05-15_15-31-59.png';
+import logo4 from '../assets/cliente_logos/image_2025-05-15_15-32-57.png';
+import logoCoderHouse from '../assets/cliente_logos/Coder_house.png';
+import logoLaLiga from '../assets/cliente_logos/La_liga_basquet.png';
+import logoFeva from '../assets/cliente_logos/Feva3.0.png';
+// Proptech is a GIF, might need special handling or just standard import. Astro handles GIFs in Image now or standard img tag.
+// import logoProptech from '../assets/cliente_logos/ProptechLatam2.0.gif'; 
+// Use standard path for GIF if import fails or just use Image (it works for static optimization, animated gif might be skipped).
+// For animated GIFs, standard <img> is often safer to preserve animation if optimization strips it.
+// But let's try importing it.
+import logoWsti from '../assets/cliente_logos/wsti.png';
+
+// Loop 2 additional/different logos
+import logo5 from '../assets/cliente_logos/image.png';
+import logoLaLiga2 from '../assets/cliente_logos/logoLaLiga.png';
+import logoLaLiga3 from '../assets/cliente_logos/logoLaLiga1.png';
+import logoPhoto1 from '../assets/cliente_logos/photo_2025-05-12_23-24-40.jpg';
+import logoPhoto2 from '../assets/cliente_logos/photo_2025-05-12_23-27-13.jpg';
+import logoPhoto3 from '../assets/cliente_logos/photo_2025-05-15_15-30-54.jpg';
+
+const proptechSrc = "/assets/cliente_logos/ProptechLatam2.0.gif"; // Keep GIF in public or reference directly if possible. 
+// Actually, I moved it to src/assets. I should import it.
+import logoProptech from '../assets/cliente_logos/ProptechLatam2.0.gif';
+
+---
+
+<div class="ch-trust-strip reveal">
+  <span class="ch-trust-label">Trusted by performance &amp; brand teams</span>
+
+  <div class="ch-trust-marquee">
+    <div class="ch-trust-track">
+      <!-- VUELTA 1 -->
+      <div class="ch-trust-logo"><Image src={logoMercadoLibre} alt="Mercado Libre" /></div>
+      <div class="ch-trust-logo"><Image src={logo2} alt="Cliente 2" /></div>
+      <div class="ch-trust-logo"><Image src={logo3} alt="Cliente 3" /></div>
+      <div class="ch-trust-logo"><Image src={logo4} alt="Cliente 4" /></div>
+      <div class="ch-trust-logo"><Image src={logoCoderHouse} alt="Coder House" /></div>
+      <div class="ch-trust-logo"><Image src={logoLaLiga} alt="Cliente 7" /></div>
+      <div class="ch-trust-logo"><Image src={logoFeva} alt="FEVA" /></div>
+      <div class="ch-trust-logo"><Image src={logoProptech} alt="Prop Tech LATAM" /></div>
+      <div class="ch-trust-logo"><Image src={logoWsti} alt="Wsti" /></div>
+
+      <!-- VUELTA 2 -->
+      <div class="ch-trust-logo"><Image src={logoMercadoLibre} alt="Cliente 1" /></div>
+      <div class="ch-trust-logo"><Image src={logo2} alt="Cliente 2" /></div>
+      <div class="ch-trust-logo"><Image src={logo3} alt="Cliente 3" /></div>
+      <div class="ch-trust-logo"><Image src={logo4} alt="Cliente 4" /></div>
+      <div class="ch-trust-logo"><Image src={logo5} alt="Cliente 5" /></div>
+      <div class="ch-trust-logo"><Image src={logoLaLiga2} alt="Cliente 6" /></div>
+      <div class="ch-trust-logo"><Image src={logoLaLiga3} alt="Cliente 7" /></div>
+      <div class="ch-trust-logo"><Image src={logoPhoto1} alt="Cliente 8" /></div>
+      <div class="ch-trust-logo"><Image src={logoPhoto2} alt="Cliente 9" /></div>
+      <div class="ch-trust-logo"><Image src={logoPhoto3} alt="Cliente 10" /></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    const el = document.querySelector(".ch-trust-strip");
+    if(el) observer.observe(el);
+  }
+</script>

@@ -1,0 +1,96 @@
+---
+// Hero.astro
+---
+
+<section class="ch-hero">
+  <div class="ch-hero-inner">
+    <!-- COPY -->
+    <div class="ch-hero-copy">
+
+      <h1 class="ch-hero-title reveal">
+        Build continuity.<br />
+        <span class="ch-hero-gradient-text">Scale personalization.</span>
+      </h1>
+
+      <p class="ch-hero-subtitle reveal">
+        Continuum is the AI-powered platform that automates your full creative
+        and media workflow — from listening to data to generating assets,
+        launching campaigns and optimizing in real time.
+      </p>
+
+      <form class="ch-hero-form reveal" id="hero-demo-form">
+        <label class="ch-hero-field">
+          <input
+            type="email"
+            placeholder="Work email"
+            aria-label="Work email"
+            required
+          />
+        </label>
+        <button type="submit" class="ch-btn ch-btn-primary">
+          Book a Continuum demo
+        </button>
+      </form>
+    </div>
+
+    <!-- VISUAL -->
+    <div class="ch-hero-phone">
+      <div class="ch-phone">
+        <div class="ch-phone-notch">
+          <span class="ch-phone-speaker"></span>
+          <span class="ch-phone-cam"></span>
+        </div>
+
+        <div class="ch-phone-screen">
+          <video
+            src="/assets/hero/instagram-demo.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
+        </div>
+      </div>
+    </div>
+
+  </div>  
+</section>
+
+<script>
+  // Hero Demo Form Logic
+  const form = document.getElementById("hero-demo-form") as HTMLFormElement;
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const input = form.querySelector("input[type='email']") as HTMLInputElement;
+      const email = input?.value || "";
+      // Simple alert/feedback as placeholder, replacing the complex wiring from main.js 
+      // or we can reuse the "demo-success" element if it was global.
+      // The original main.js wired this to a #demo-success element which is in the Footer/CTA section.
+      // Since components are isolated, we might want to just show a native alert or change button text.
+      
+      alert(`Thanks${email ? `, ${email}` : ""}! We will contact you about your Continuum demo.`);
+      form.reset();
+    });
+  }
+
+  // Observer for 'reveal' animation classes within this component
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18 }
+    );
+    // Observe local elements
+    const section = document.querySelector(".ch-hero");
+    if (section) {
+        section.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    }
+  }
+</script>

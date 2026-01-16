@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import logoImage from '../assets/Logo_Continuum.png';
+---
+
+<header class="ch-header">
+  <div class="ch-header-inner">
+    <div class="logo-wrapper">
+      <Image src={logoImage} alt="Continuum logo" class="logo-continuum" loading="eager" />
+    </div>
+    <nav class="nav-pills">
+      <a class="nav-pill" href="#gallery">Gallery</a>
+      <a class="nav-pill" href="#how">How It Works</a>
+      <a class="nav-pill" href="#modules">Modules</a>
+      <a class="nav-pill" href="#impact">Impact</a>
+      <a class="nav-pill" href="#team">Team</a>
+      <a class="nav-pill" href="#faq">FAQ</a>
+    </nav>
+
+    <div class="ch-header-actions">
+      <a href="https://calendly.com/michelle-shocron" class="ch-btn ch-btn-ghost js-scroll">Talk to sales</a>
+      <button class="ch-header-menu-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Header scroll logic
+  const header = document.querySelector(".ch-header");
+  
+  function updateHeader() {
+    const y = window.scrollY || window.pageYOffset;
+    if (header) header.classList.toggle("ch-header--scrolled", y > 12);
+  }
+  
+  window.addEventListener("scroll", updateHeader);
+  updateHeader(); // Init
+
+  // Mobile menu
+  const headerInner = document.querySelector(".ch-header-inner");
+  const menuToggle = document.querySelector(".ch-header-menu-toggle");
+
+  if (menuToggle && headerInner) {
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      headerInner.classList.toggle("is-open");
+    });
+  }
+
+  document.querySelectorAll(".nav-pills a").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (headerInner) headerInner.classList.remove("is-open");
+    });
+  });
+
+  // Active state highlighting
+  function updateActiveLink() {
+    const path = (location.pathname || "").toLowerCase();
+    // For hash links on the same page, we might want IntersectionObserver, 
+    // but preserving original behavior which seemed to be path-based or simple.
+    // The original JS had a snippet:
+    /*
+    document.querySelectorAll(".nav-pill").forEach(a => {
+      const href = (a.getAttribute("href") || "").toLowerCase();
+      if (!href) return;
+      if (path.endsWith(href)) a.classList.add("is-active");
+    });
+    */
+   // Since this is a single page landing, typically we want scroll spy. 
+   // The original JS didn't seem to have a robust scroll spy for these sections, 
+   // just a "Highlight current page" which might not work for #hashes on root.
+   // I will add a simple scroll spy here for better UX.
+  }
+
+  // Smooth scroll for anchors
+  document.querySelectorAll("a.js-scroll, .nav-pill").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      
+      // Close menu if open
+      if (headerInner) headerInner.classList.remove("is-open");
+
+      const rect = target.getBoundingClientRect();
+      const offset = rect.top + window.scrollY - 64; // 64px header offset
+      window.scrollTo({ top: offset, behavior: "smooth" });
+    });
+  });
+</script>

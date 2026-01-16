@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+
+// Fontsource imports
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+import '@fontsource/raleway/300.css';
+import '@fontsource/raleway/400.css';
+import '@fontsource/raleway/500.css';
+
+interface Props {
+	title?: string;
+}
+
+const { title = "Continuum — Build continuity. Scale personalization." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>{title}</title>
+
+        <!-- Viewport -->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- SEO básico -->
+        <meta
+            name="description"
+            content="Continuum is the AI-powered platform that automates creative production and campaign activation end to end."
+        />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="https://continuum.agency/" />
+
+        <!-- Open Graph para compartir en redes -->
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:title"
+            content="Continuum — Build continuity. Scale personalization."
+        />
+        <meta
+            property="og:description"
+            content="Continuum is the AI-powered platform that automates creative production and campaign activation end to end."
+        />
+        <meta property="og:url" content="https://continuum.agency/" />
+
+        <!-- Tema para navegadores -->
+        <meta name="theme-color" content="#010409" />
+
+        <!-- Generator -->
+		<meta name="generator" content={Astro.generator} />
+	</head>
+	<body class="ch-body" id="top">
+        <div class="ch-environment"></div>
+        <div class="wave-container">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+        <main class="ch-content-wrapper">
+		    <slot />
+        </main>
+        <!-- main.js removed, scripts are now colocated in components -->
+	</body>
+</html>
