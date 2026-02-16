@@ -16,6 +16,43 @@ interface Plan {
 }
 
 export function PricingSection() {
+	const handleGetStarted = () => {
+		const demoSection = document.getElementById('demo');
+		if (demoSection) {
+			const yOffset = -80; // Adjust for header height
+			const y = demoSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+			window.scrollTo({ top: y, behavior: 'smooth' });
+
+			// Trigger highlight in CTA component
+			const emailInput = document.querySelector('#footer-demo-form input') as HTMLInputElement;
+			if (emailInput) {
+				setTimeout(() => {
+					emailInput.focus();
+					emailInput.classList.add('highlight-pulse');
+					
+					// Add a tooltip-like effect
+					const tooltip = document.createElement('div');
+					tooltip.id = 'pricing-tooltip';
+					tooltip.className = 'absolute -top-12 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs py-2 px-4 rounded-lg shadow-xl animate-bounce whitespace-nowrap z-50';
+					tooltip.innerHTML = 'Complete this to get started! <span class="absolute bottom-[-6px] left-1/2 -translate-x-1/2 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-blue-600"></span>';
+					
+					const inputWrapper = emailInput.parentElement;
+					if (inputWrapper) {
+						// Remove existing if any
+						document.getElementById('pricing-tooltip')?.remove();
+						inputWrapper.style.position = 'relative';
+						inputWrapper.appendChild(tooltip);
+						
+						setTimeout(() => {
+							tooltip.remove();
+							emailInput.classList.remove('highlight-pulse');
+						}, 4000);
+					}
+				}, 800);
+			}
+		}
+	};
+
 	return (
 		<section className="w-full bg-[#010409] px-4 py-24 sm:px-6 lg:px-8">
 			<div className="mx-auto max-w-7xl">
@@ -75,6 +112,7 @@ export function PricingSection() {
 
 							{plan.variant === "default" ? (
 								<button
+									onClick={handleGetStarted}
 									className="mb-8 w-full rounded-md px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
 									style={{
 										background: 'linear-gradient(90deg, #2f81f7 0%, #a371f7 25%, #3fb950 50%, #a371f7 75%, #2f81f7 100%)',
@@ -86,6 +124,7 @@ export function PricingSection() {
 								</button>
 							) : (
 								<Button
+									onClick={handleGetStarted}
 									className="mb-8 w-full border-white/20 bg-transparent font-semibold text-white hover:bg-white/10"
 									variant="outline"
 								>

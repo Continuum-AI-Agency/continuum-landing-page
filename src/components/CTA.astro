@@ -65,6 +65,17 @@ import { Magnetic } from './core/magnetic';
       background-position: 200% center;
     }
   }
+
+  @keyframes highlight-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(47, 129, 247, 0.4); border-color: #2f81f7; }
+    70% { box-shadow: 0 0 0 15px rgba(47, 129, 247, 0); border-color: #2f81f7; }
+    100% { box-shadow: 0 0 0 0 rgba(47, 129, 247, 0); }
+  }
+
+  .highlight-pulse {
+    animation: highlight-pulse 2s ease-out infinite;
+    border-color: #2f81f7 !important;
+  }
 </style>
 
 <script>

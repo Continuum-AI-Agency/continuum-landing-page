@@ -6,11 +6,11 @@ import { cn } from "../../lib/utils";
 import { AnimatedBeam } from "./AnimatedBeam";
 import GoogleDriveIcon from "../../assets/Icons/icons8-google-drive.svg";
 import GoogleAdsIcon from "../../assets/Icons/icons8-google-ads.svg";
-import TikTokIcon from "../../assets/Icons/icons8-tiktok.svg";
+import TikTokIcon from "../../assets/Icons/tiktok.svg";
 import YouTubeIcon from "../../assets/Icons/icons8-youtube.svg";
 import MetaIcon from "../../assets/Icons/icons8-meta-96.png";
 import OneDriveIcon from "../../assets/Icons/icons8-microsoft-onedrive-2025-96.png";
-import NotionIcon from "../../assets/Icons/icons8-notion-96.png";
+import RedditIcon from "../../assets/Icons/icons8-reddit-96.png";
 import ContinuumLogo from "../../assets/Icons/Continuum-icon-2.jpg";
 
 const Circle = forwardRef<
@@ -21,7 +21,7 @@ const Circle = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "z-10 flex size-12 items-center justify-center rounded-full border-2 border-white/10 bg-[#0d1117] p-3 shadow-xl backdrop-blur-sm",
+        "z-10 flex size-14 items-center justify-center rounded-full border-2 border-white/10 bg-[#0d1117] p-3 shadow-xl backdrop-blur-sm",
         className
       )}
     >
@@ -34,8 +34,8 @@ Circle.displayName = "Circle";
 
 const FolderIcon = ({ isOpen }: { isOpen: boolean }) => (
   <svg
-    width="48"
-    height="48"
+    width="64"
+    height="64"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -73,56 +73,80 @@ export function AnimatedBento({ results }: { results: any[] }) {
   const div7Ref = useRef<HTMLDivElement>(null);
   const div8Ref = useRef<HTMLDivElement>(null);
   const div9Ref = useRef<HTMLDivElement>(null);
+  const div10Ref = useRef<HTMLDivElement>(null);
+  const div11Ref = useRef<HTMLDivElement>(null);
+  const div12Ref = useRef<HTMLDivElement>(null);
+  const div13Ref = useRef<HTMLDivElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIsOpen((prev) => !prev);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div
-      className="relative flex h-[600px] w-full items-center justify-center overflow-hidden rounded-3xl border border-white/5 bg-[#010409] p-10"
+      className="relative flex h-[850px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/5 bg-[#010409] p-10 md:p-20"
       ref={containerRef}
     >
-      <div className="flex size-full max-w-2xl flex-row items-stretch justify-between gap-10">
+      {/* Top Headers */}
+      <div className="mb-16 flex w-full max-w-5xl flex-row justify-between px-2">
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-blue/50 uppercase">Stage 01</span>
+          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Listen</span>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-purple/50 uppercase">Stage 02</span>
+          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Analyze</span>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-green/50 uppercase">Stage 03</span>
+          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Create</span>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-blue/50 uppercase">Stage 04</span>
+          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Implement</span>
+        </div>
+      </div>
+
+      <div className="flex w-full max-w-5xl flex-row items-stretch justify-between gap-12 md:gap-24">
         {/* Left Side: Inputs */}
-        <div className="flex flex-col justify-center gap-3">
+        <div className="flex flex-col justify-center gap-4">
           <Circle ref={div1Ref}>
-            <img src={GoogleDriveIcon.src} alt="Google Drive" className="w-6 h-6" />
+            <img src={GoogleDriveIcon.src} alt="Google Drive" className="w-7 h-7" />
           </Circle>
           <Circle ref={div2Ref}>
-            <img src={GoogleAdsIcon.src} alt="Google Ads" className="w-6 h-6" />
+            <img src={GoogleAdsIcon.src} alt="Google Ads" className="w-7 h-7" />
           </Circle>
           <Circle ref={div3Ref}>
-            <img src={TikTokIcon.src} alt="TikTok" className="w-6 h-6" />
+            <img src={TikTokIcon.src} alt="TikTok" className="w-7 h-7" />
           </Circle>
           <Circle ref={div4Ref}>
-            <img src={YouTubeIcon.src} alt="YouTube" className="w-6 h-6" />
+            <img src={YouTubeIcon.src} alt="YouTube" className="w-7 h-7" />
           </Circle>
           <Circle ref={div5Ref}>
-            <img src={MetaIcon.src} alt="Meta" className="w-6 h-6" />
+            <img src={MetaIcon.src} alt="Meta" className="w-7 h-7" />
           </Circle>
           <Circle ref={div6Ref}>
-            <img src={OneDriveIcon.src} alt="OneDrive" className="w-6 h-6" />
+            <img src={OneDriveIcon.src} alt="OneDrive" className="w-7 h-7" />
           </Circle>
           <Circle ref={div7Ref}>
-            <img src={NotionIcon.src} alt="Notion" className="w-6 h-6" />
+            <img src={RedditIcon.src} alt="Reddit" className="w-7 h-7" />
           </Circle>
         </div>
 
         <div className="flex flex-col justify-center">
-          <Circle ref={div8Ref} className="size-32 border-accent-blue/30 bg-[#0d1117] overflow-hidden p-0">
+          <Circle ref={div8Ref} className="size-40 border-accent-blue/30 bg-[#0d1117] overflow-hidden p-0 shadow-[0_0_50px_-12px_rgba(47,129,247,0.3)]">
             <img src={ContinuumLogo.src} alt="Continuum" className="h-full w-full object-cover" />
           </Circle>
         </div>
 
         {/* Right Side: Output */}
-        <div className="flex flex-col justify-center relative">
-          <Circle ref={div9Ref} className="size-24 border-accent-green/30">
+        <div className="flex flex-col justify-center relative md:-ml-20">
+          <Circle ref={div9Ref} className="size-32 border-accent-green/30">
             <FolderIcon isOpen={isOpen} />
           </Circle>
 
@@ -137,9 +161,9 @@ export function AnimatedBento({ results }: { results: any[] }) {
                     animate={{ 
                       opacity: 1, 
                       scale: 1, 
-                      x: (i - 1) * 100 + 100, // Increased horizontal distance
-                      y: (i - 1) * 140 - 100, // Increased vertical spread
-                      rotate: (i - 1) * 20    // More dramatic rotation
+                      x: (i - 1) * 140 - 60, // Shifted left and reduced spread
+                      y: 100 + (Math.abs(i - 1) * 20), // Brought closer vertically
+                      rotate: (i - 1) * 8
                     }}
                     exit={{ opacity: 0, scale: 0, x: 0, y: 0 }}
                     transition={{ 
@@ -148,7 +172,7 @@ export function AnimatedBento({ results }: { results: any[] }) {
                       damping: 20,
                       delay: i * 0.1 
                     }}
-                    className="absolute z-40 w-32 h-48 overflow-hidden rounded-lg border-2 border-white/20 shadow-2xl"
+                    className="absolute z-40 w-40 h-60 overflow-hidden rounded-xl border-2 border-white/20 shadow-2xl"
                   >
                     <img src={img.src} alt={`Result ${i + 1}`} className="w-full h-full object-cover" />
                   </motion.div>
@@ -156,6 +180,22 @@ export function AnimatedBento({ results }: { results: any[] }) {
               </div>
             )}
           </AnimatePresence>
+        </div>
+
+        {/* Final Destinations */}
+        <div className="flex flex-col justify-center gap-8">
+          <Circle ref={div10Ref}>
+            <img src={GoogleAdsIcon.src} alt="Google Ads" className="w-8 h-8" />
+          </Circle>
+          <Circle ref={div11Ref}>
+            <img src={MetaIcon.src} alt="Meta" className="w-8 h-8" />
+          </Circle>
+          <Circle ref={div12Ref}>
+            <img src={TikTokIcon.src} alt="TikTok" className="w-8 h-8" />
+          </Circle>
+          <Circle ref={div13Ref}>
+            <img src={YouTubeIcon.src} alt="YouTube" className="w-8 h-8" />
+          </Circle>
         </div>
       </div>
 
@@ -223,6 +263,38 @@ export function AnimatedBento({ results }: { results: any[] }) {
         gradientStartColor="#7c3aed"
         gradientStopColor="#39d353"
         duration={1.5}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div9Ref}
+        toRef={div10Ref}
+        curvature={-30}
+        gradientStartColor="#39d353"
+        gradientStopColor="#2f81f7"
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div9Ref}
+        toRef={div11Ref}
+        curvature={-10}
+        gradientStartColor="#39d353"
+        gradientStopColor="#a371f7"
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div9Ref}
+        toRef={div12Ref}
+        curvature={10}
+        gradientStartColor="#39d353"
+        gradientStopColor="#ff004f"
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div9Ref}
+        toRef={div13Ref}
+        curvature={30}
+        gradientStartColor="#39d353"
+        gradientStopColor="#ff0000"
       />
     </div>
   );
