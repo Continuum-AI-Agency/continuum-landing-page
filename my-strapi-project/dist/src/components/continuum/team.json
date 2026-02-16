@@ -1,0 +1,23 @@
+{
+    "collectionName": "components_continuum_teams",
+    "info": {
+        "displayName": "Team",
+        "description": "Team section"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text",
+            "required": true
+        },
+        "members": {
+            "type": "component",
+            "repeatable": true,
+            "component": "continuum.team-member",
+            "required": true
+        }
+    }
+}

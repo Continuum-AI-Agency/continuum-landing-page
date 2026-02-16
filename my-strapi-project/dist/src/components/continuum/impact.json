@@ -1,0 +1,23 @@
+{
+    "collectionName": "components_continuum_impacts",
+    "info": {
+        "displayName": "Impact Metrics",
+        "description": "Impact section"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text",
+            "required": true
+        },
+        "metrics": {
+            "type": "component",
+            "repeatable": true,
+            "component": "continuum.metric-card",
+            "required": true
+        }
+    }
+}

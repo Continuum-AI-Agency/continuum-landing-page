@@ -1,0 +1,29 @@
+{
+    "collectionName": "components_continuum_ctas",
+    "info": {
+        "displayName": "CTA",
+        "description": "Call to action"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text",
+            "required": true
+        },
+        "formPlaceholder": {
+            "type": "string",
+            "required": true
+        },
+        "buttonLabel": {
+            "type": "string",
+            "required": true
+        },
+        "successMessage": {
+            "type": "string",
+            "required": true
+        }
+    }
+}

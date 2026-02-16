@@ -1,0 +1,27 @@
+{
+    "collectionName": "components_continuum_pricings",
+    "info": {
+        "displayName": "Pricing",
+        "description": "Pricing section"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text",
+            "required": true
+        },
+        "plans": {
+            "type": "component",
+            "repeatable": true,
+            "component": "continuum.plan",
+            "required": true
+        },
+        "footnote": {
+            "type": "text",
+            "required": true
+        }
+    }
+}

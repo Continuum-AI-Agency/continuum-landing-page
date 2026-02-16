@@ -1,0 +1,43 @@
+{
+    "collectionName": "components_continuum_personas",
+    "info": {
+        "displayName": "Persona",
+        "description": "Solutions persona card"
+    },
+    "attributes": {
+        "key": {
+            "type": "string",
+            "required": true
+        },
+        "emoji": {
+            "type": "string",
+            "required": true
+        },
+        "label": {
+            "type": "string",
+            "required": true
+        },
+        "headline": {
+            "type": "string",
+            "required": true
+        },
+        "intro": {
+            "type": "text",
+            "required": true
+        },
+        "bullets": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.text-item",
+            "required": true
+        },
+        "stripLabel": {
+            "type": "string",
+            "required": true
+        },
+        "stripText": {
+            "type": "text",
+            "required": true
+        }
+    }
+}

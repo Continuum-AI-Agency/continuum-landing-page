@@ -1,0 +1,19 @@
+{
+    "collectionName": "components_continuum_footers",
+    "info": {
+        "displayName": "Footer",
+        "description": "Footer section"
+    },
+    "attributes": {
+        "copyright": {
+            "type": "string",
+            "required": true
+        },
+        "links": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.link",
+            "required": true
+        }
+    }
+}

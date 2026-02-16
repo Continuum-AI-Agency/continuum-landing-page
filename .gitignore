@@ -1,7 +1,8 @@
 node_modules/
 
 # Build artifacts
-dist/
+# dist/ - uncomment to include built files in git
+# dist/
 
 # OS metadata
 .DS_Store

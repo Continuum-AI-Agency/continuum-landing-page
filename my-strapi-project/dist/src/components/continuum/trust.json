@@ -1,0 +1,19 @@
+{
+    "collectionName": "components_continuum_trusts",
+    "info": {
+        "displayName": "Trust Marquee",
+        "description": "Logo strip"
+    },
+    "attributes": {
+        "label": {
+            "type": "string",
+            "required": true
+        },
+        "logos": {
+            "type": "media",
+            "multiple": true,
+            "required": true,
+            "allowedTypes": ["images"]
+        }
+    }
+}

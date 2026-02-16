@@ -1,0 +1,27 @@
+{
+    "collectionName": "components_continuum_how_analyzes",
+    "info": {
+        "displayName": "How - Analyze",
+        "description": "Analyze step"
+    },
+    "attributes": {
+        "stepLabel": {
+            "type": "string",
+            "required": true
+        },
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "body": {
+            "type": "text",
+            "required": true
+        },
+        "metrics": {
+            "type": "component",
+            "repeatable": true,
+            "component": "continuum.metric-counter",
+            "required": true
+        }
+    }
+}

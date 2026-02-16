@@ -1,0 +1,31 @@
+{
+    "collectionName": "components_continuum_metric_cards",
+    "info": {
+        "displayName": "Metric Card",
+        "description": "Impact metric"
+    },
+    "attributes": {
+        "label": {
+            "type": "string",
+            "required": true
+        },
+        "value": {
+            "type": "integer",
+            "required": true
+        },
+        "prefix": {
+            "type": "string"
+        },
+        "suffix": {
+            "type": "string"
+        },
+        "useGrouping": {
+            "type": "boolean",
+            "default": false
+        },
+        "caption": {
+            "type": "text",
+            "required": true
+        }
+    }
+}

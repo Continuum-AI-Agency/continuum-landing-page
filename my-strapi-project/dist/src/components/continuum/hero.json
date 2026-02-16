@@ -1,0 +1,35 @@
+{
+    "collectionName": "components_continuum_heroes",
+    "info": {
+        "displayName": "Hero",
+        "description": "Homepage hero"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "highlight": {
+            "type": "string",
+            "required": true
+        },
+        "subtitle": {
+            "type": "text",
+            "required": true
+        },
+        "formPlaceholder": {
+            "type": "string",
+            "required": true
+        },
+        "formButton": {
+            "type": "string",
+            "required": true
+        },
+        "video": {
+            "type": "media",
+            "multiple": false,
+            "required": true,
+            "allowedTypes": ["videos"]
+        }
+    }
+}

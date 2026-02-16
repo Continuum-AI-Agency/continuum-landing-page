@@ -1,0 +1,27 @@
+{
+    "collectionName": "components_continuum_metric_counters",
+    "info": {
+        "displayName": "Metric Counter",
+        "description": "Animated metric value"
+    },
+    "attributes": {
+        "label": {
+            "type": "string",
+            "required": true
+        },
+        "value": {
+            "type": "integer",
+            "required": true
+        },
+        "prefix": {
+            "type": "string"
+        },
+        "suffix": {
+            "type": "string"
+        },
+        "useGrouping": {
+            "type": "boolean",
+            "default": false
+        }
+    }
+}

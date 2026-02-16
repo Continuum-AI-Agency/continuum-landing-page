@@ -1,0 +1,23 @@
+{
+    "collectionName": "components_continuum_solutions",
+    "info": {
+        "displayName": "Solutions",
+        "description": "Solutions section"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text",
+            "required": true
+        },
+        "personas": {
+            "type": "component",
+            "repeatable": true,
+            "component": "continuum.persona",
+            "required": true
+        }
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "collectionName": "components_continuum_how_launches",
+    "info": {
+        "displayName": "How - Launch",
+        "description": "Launch step"
+    },
+    "attributes": {
+        "stepLabel": {
+            "type": "string",
+            "required": true
+        },
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "body": {
+            "type": "text",
+            "required": true
+        },
+        "beforeLabel": {
+            "type": "string",
+            "required": true
+        },
+        "beforeValue": {
+            "type": "string",
+            "required": true
+        },
+        "afterLabel": {
+            "type": "string",
+            "required": true
+        },
+        "afterValue": {
+            "type": "string",
+            "required": true
+        },
+        "chips": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.text-item",
+            "required": true
+        }
+    }
+}

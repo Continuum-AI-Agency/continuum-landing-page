@@ -1,0 +1,45 @@
+{
+    "collectionName": "components_continuum_hows",
+    "info": {
+        "displayName": "How It Works",
+        "description": "How section"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text",
+            "required": true
+        },
+        "loopText": {
+            "type": "string",
+            "required": true
+        },
+        "listen": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.how-listen",
+            "required": true
+        },
+        "analyze": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.how-analyze",
+            "required": true
+        },
+        "create": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.how-create",
+            "required": true
+        },
+        "launch": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.how-launch",
+            "required": true
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "collectionName": "components_continuum_plans",
+    "info": {
+        "displayName": "Plan",
+        "description": "Pricing plan"
+    },
+    "attributes": {
+        "label": {
+            "type": "string",
+            "required": true
+        },
+        "pill": {
+            "type": "string"
+        },
+        "tagline": {
+            "type": "string",
+            "required": true
+        },
+        "currency": {
+            "type": "string"
+        },
+        "amount": {
+            "type": "string",
+            "required": true
+        },
+        "term": {
+            "type": "string"
+        },
+        "meta": {
+            "type": "text",
+            "required": true
+        },
+        "bullets": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.text-item",
+            "required": true
+        },
+        "ctaLabel": {
+            "type": "string",
+            "required": true
+        },
+        "ctaUrl": {
+            "type": "string",
+            "required": true
+        },
+        "highlight": {
+            "type": "boolean",
+            "default": false
+        }
+    }
+}

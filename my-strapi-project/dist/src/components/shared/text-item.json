@@ -1,0 +1,13 @@
+{
+    "collectionName": "components_shared_text_items",
+    "info": {
+        "displayName": "Text Item",
+        "description": "Single text entry"
+    },
+    "attributes": {
+        "text": {
+            "type": "string",
+            "required": true
+        }
+    }
+}

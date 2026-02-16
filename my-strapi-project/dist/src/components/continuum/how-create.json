@@ -1,0 +1,27 @@
+{
+    "collectionName": "components_continuum_how_creates",
+    "info": {
+        "displayName": "How - Create",
+        "description": "Create step"
+    },
+    "attributes": {
+        "stepLabel": {
+            "type": "string",
+            "required": true
+        },
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "body": {
+            "type": "text",
+            "required": true
+        },
+        "templates": {
+            "type": "media",
+            "multiple": true,
+            "required": true,
+            "allowedTypes": ["images"]
+        }
+    }
+}

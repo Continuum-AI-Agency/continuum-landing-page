@@ -1,0 +1,94 @@
+{
+    "kind": "singleType",
+    "collectionName": "homepages",
+    "info": {
+        "singularName": "homepage",
+        "pluralName": "homepages",
+        "displayName": "Homepage",
+        "description": "Continuum landing content"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "header": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.header",
+            "required": true
+        },
+        "hero": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.hero",
+            "required": true
+        },
+        "trust": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.trust",
+            "required": true
+        },
+        "gallery": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.gallery",
+            "required": true
+        },
+        "how": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.how",
+            "required": true
+        },
+        "modules": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.modules",
+            "required": true
+        },
+        "solutions": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.solutions",
+            "required": true
+        },
+        "impact": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.impact",
+            "required": true
+        },
+        "team": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.team",
+            "required": true
+        },
+        "pricing": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.pricing",
+            "required": true
+        },
+        "faq": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.faq",
+            "required": true
+        },
+        "cta": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.cta",
+            "required": true
+        },
+        "footer": {
+            "type": "component",
+            "repeatable": false,
+            "component": "continuum.footer",
+            "required": true
+        }
+    }
+}

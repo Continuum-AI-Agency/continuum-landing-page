@@ -1,0 +1,28 @@
+{
+    "collectionName": "components_continuum_gallery_items",
+    "info": {
+        "displayName": "Gallery Item",
+        "description": "Image or video tile"
+    },
+    "attributes": {
+        "type": {
+            "type": "enumeration",
+            "enum": ["image", "video"],
+            "required": true
+        },
+        "aspect": {
+            "type": "enumeration",
+            "enum": ["1x1", "9x16", "4x5"],
+            "required": true
+        },
+        "media": {
+            "type": "media",
+            "multiple": false,
+            "required": true,
+            "allowedTypes": ["images", "videos"]
+        },
+        "alt": {
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "collectionName": "components_continuum_galleries",
+    "info": {
+        "displayName": "Gallery",
+        "description": "Media carousel"
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "type": "text",
+            "required": true
+        },
+        "items": {
+            "type": "component",
+            "repeatable": true,
+            "component": "continuum.gallery-item",
+            "required": true
+        }
+    }
+}

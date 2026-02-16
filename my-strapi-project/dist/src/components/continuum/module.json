@@ -1,0 +1,45 @@
+{
+    "collectionName": "components_continuum_modules",
+    "info": {
+        "displayName": "Module",
+        "description": "Product module"
+    },
+    "attributes": {
+        "key": {
+            "type": "string",
+            "required": true
+        },
+        "label": {
+            "type": "string",
+            "required": true
+        },
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "headline": {
+            "type": "string",
+            "required": true
+        },
+        "bullets": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.text-item",
+            "required": true
+        },
+        "ctaText": {
+            "type": "text",
+            "required": true
+        },
+        "ctaButton": {
+            "type": "string",
+            "required": true
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "required": true,
+            "allowedTypes": ["images"]
+        }
+    }
+}

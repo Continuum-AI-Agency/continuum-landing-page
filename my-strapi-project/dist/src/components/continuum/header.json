@@ -1,0 +1,27 @@
+{
+    "collectionName": "components_continuum_headers",
+    "info": {
+        "displayName": "Header",
+        "description": "Top navigation"
+    },
+    "attributes": {
+        "logo": {
+            "type": "media",
+            "multiple": false,
+            "required": true,
+            "allowedTypes": ["images"]
+        },
+        "navItems": {
+            "type": "component",
+            "repeatable": true,
+            "component": "shared.link",
+            "required": true
+        },
+        "ctaLink": {
+            "type": "component",
+            "repeatable": false,
+            "component": "shared.link",
+            "required": true
+        }
+    }
+}

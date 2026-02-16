@@ -1,0 +1,17 @@
+{
+    "collectionName": "components_shared_links",
+    "info": {
+        "displayName": "Link",
+        "description": "Label + href pair"
+    },
+    "attributes": {
+        "label": {
+            "type": "string",
+            "required": true
+        },
+        "href": {
+            "type": "string",
+            "required": true
+        }
+    }
+}

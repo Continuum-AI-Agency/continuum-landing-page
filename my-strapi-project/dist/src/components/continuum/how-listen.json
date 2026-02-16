@@ -1,0 +1,27 @@
+{
+    "collectionName": "components_continuum_how_listens",
+    "info": {
+        "displayName": "How - Listen",
+        "description": "Listen step"
+    },
+    "attributes": {
+        "stepLabel": {
+            "type": "string",
+            "required": true
+        },
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "body": {
+            "type": "text",
+            "required": true
+        },
+        "logos": {
+            "type": "media",
+            "multiple": true,
+            "required": true,
+            "allowedTypes": ["images"]
+        }
+    }
+}
