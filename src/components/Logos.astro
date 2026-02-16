@@ -1,0 +1,159 @@
+---
+import { Image } from 'astro:assets';
+
+const logoFiles = import.meta.glob('../assets/cliente_logos/*.{png,jpg,jpeg,svg,gif,webp}', { eager: true });
+
+const logos = Object.entries(logoFiles).map(([path, module]: [string, any]) => {
+  const filenameWithExt = path.split('/').pop() || '';
+  const filename = filenameWithExt.split('.')[0] || 'Client';
+  
+  const brandName = filename
+    .replace(/[-_]/g, ' ')
+    .replace(/\blogo\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+  
+  return {
+    src: module.default,
+    brandName
+  };
+});
+
+logos.sort((a, b) => a.brandName.localeCompare(b.brandName));
+
+// Triple the logos for seamless infinite scroll
+const tripleLogos = [...logos, ...logos, ...logos];
+
+const metrics = [
+  { value: 25000, suffix: "+", label: "Generated pieces", description: "On-brand pieces produced for brands in different markets and channels.", useGrouping: true },
+  { value: 2, suffix: "×", label: "ROAS", description: "Average uplift in campaigns optimized with creative and media loops." },
+  { value: 75, suffix: "%", label: "Cost reduction", description: "Lower production costs compared to traditional studio and agency workflows." },
+  { value: 35, prefix: "+", suffix: "%", label: "Conversion lift", description: "Increase in conversion rate driven by real-time creative optimization." }
+];
+---
+
+<section id="proof" class="relative py-32 bg-[#010409] z-10 border-y border-white/5">
+  <div class="container mx-auto px-6 relative z-20">
+    <!-- Header -->
+    <div class="max-w-4xl mx-auto mb-16 text-center">
+      <h2 class="mb-8 font-medium text-white text-xl tracking-tight md:text-4xl font-futura">
+        <span class="text-gray-500">Trusted by experts.</span>
+        <br />
+        <span class="font-bold text-white">Used by the leaders.</span>
+      </h2>
+    </div>
+  </div>
+
+  <!-- Full-width Logo Carousel -->
+  <div class="w-full">
+    <!-- Infinite Scroll Carousel with Logo Cards -->
+    <div class="py-12 overflow-hidden">
+      <div class="logo-track flex items-center gap-6 md:gap-8">
+        {tripleLogos.map((logo, index) => (
+          <div class="flex items-center justify-center h-20 md:h-24 px-6 md:px-8 bg-gray-50 rounded-xl border border-gray-200 shadow-sm flex-shrink-0 hover:shadow-md hover:border-gray-300 transition-all duration-300">
+            <Image
+              src={logo.src}
+              alt={`${logo.brandName} Logo`}
+              class="h-8 md:h-10 w-auto object-contain mix-blend-multiply"
+              loading={index < logos.length ? "eager" : "lazy"}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-6 relative z-20">
+
+    <!-- Metrics Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-32" id="impact-metrics">
+      {metrics.map((metric) => (
+        <div class="relative flex flex-col items-center md:items-start text-center md:text-left group cursor-default">
+          <div class="text-5xl md:text-7xl font-bold text-white mb-2 font-futura tracking-tighter flex items-baseline gap-1">
+            {metric.prefix && <span class="text-3xl text-blue-400 font-medium">{metric.prefix}</span>}
+            <span 
+              data-counter
+              data-from="0"
+              data-to={metric.value}
+              data-use-grouping={metric.useGrouping ? "true" : "false"}
+            >0</span>
+            {metric.suffix && <span class="text-3xl text-blue-400 font-medium">{metric.suffix}</span>}
+          </div>
+          <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-3 opacity-90">{metric.label}</h3>
+          <p class="text-xs text-gray-400 leading-relaxed max-w-[200px] opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+            {metric.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .font-futura {
+    font-family: 'Futura Maxi', sans-serif;
+  }
+  
+  .logo-track {
+    animation: scroll 35s linear infinite;
+    width: max-content;
+  }
+  
+  .logo-track:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+</style>
+
+<script>
+  function animateCountersWithin(panel: Element) {
+    const counters = panel.querySelectorAll("[data-counter]");
+    counters.forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const from = parseFloat(el.dataset.from ?? "0");
+      const to = parseFloat(el.dataset.to ?? "0");
+      const useGrouping = el.dataset.useGrouping === "true";
+      const duration = 2000;
+      const startTime = performance.now();
+
+      function step(now: number) {
+        const t = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - t, 4); 
+        const value = from + (to - from) * eased;
+        const rounded = Math.round(value);
+        
+        el.textContent = useGrouping
+          ? rounded.toLocaleString('en-US', { maximumFractionDigits: 0 })
+          : String(rounded);
+
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  const impactGrid = document.getElementById("impact-metrics");
+  if (impactGrid && "IntersectionObserver" in window) {
+    let impactAnimated = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !impactAnimated) {
+          impactAnimated = true;
+          animateCountersWithin(impactGrid);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    observer.observe(impactGrid);
+  }
+</script>

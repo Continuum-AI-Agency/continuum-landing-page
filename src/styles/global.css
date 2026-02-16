@@ -642,30 +642,15 @@ body.ch-body {
   font-family: var(--font-sans);
   color: var(--text-primary);
   scroll-behavior: smooth;
-
-  /* Imagen + look Continuum encima */
-  background:
-    /* glows Continuum */
-    radial-gradient(1000px 800px at 80% 10%, rgba(102, 51, 255, 0.55), transparent 70%),
-    radial-gradient(900px 700px at 20% 70%, rgba(57, 208, 255, 0.30), transparent 70%),
-    radial-gradient(1200px 900px at 40% 90%, rgba(83, 168, 138, 0.22), transparent 75%),
-
-    /* oscurecido editorial para legibilidad */
-    linear-gradient(180deg, rgba(1, 4, 9, 0.55) 0%, rgba(1, 4, 9, 0.85) 70%, rgba(1, 4, 9, 0.95) 100%),
-
-    /* TU imagen (ojo al ../) */
+  background-color: var(--bg-body);
+  background-image: 
+    radial-gradient(1000px 800px at 80% 10%, rgba(102, 51, 255, 0.25), transparent 70%),
+    radial-gradient(900px 700px at 20% 70%, rgba(57, 208, 255, 0.15), transparent 70%),
     url("/assets/Fondos/continuum-platform-bg.jpg");
-
-
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
-  /* “parallax” suave */
   background-attachment: fixed;
-
-  /* integra la imagen con los glows sin quemarla */
-  background-blend-mode: screen, screen, screen, normal, normal;
 }
 
 
@@ -680,7 +665,7 @@ body.ch-body {
 .ch-header {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   backdrop-filter: blur(12px);
   background: linear-gradient(
       to bottom,
@@ -978,7 +963,7 @@ body.ch-body {
 .header, header {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 

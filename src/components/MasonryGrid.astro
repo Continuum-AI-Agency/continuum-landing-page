@@ -1,0 +1,106 @@
+---
+/**
+ * MasonryGrid Component
+ * Implementation of an edge-to-edge masonry gallery using CSS Grid with left-to-right filling.
+ * Exclusively shows looping videos with no hover overlays.
+ */
+
+// 1. Define videos from public/assets
+const items = [
+  { src: "/assets/Turismo.mp4", title: "Travel & Tourism", ratio: 1.77 }, 
+  { src: "/assets/Tiene_3.mp4", title: "Social Content", ratio: 1.77 },
+  { src: "/assets/claro_catalogo.mp4", title: "E-commerce Catalog", ratio: 1.77 },
+  { src: "/assets/consorcio_9-16.mp4", title: "Real Estate", ratio: 1.77 },
+  { src: "/assets/dic-2-tomas-del-castillo-story_027ad7d.mp4", title: "Influencer Content", ratio: 1.77 },
+  { src: "/assets/VENTA_PRODUCTO_1-1.mp4", title: "Product Showcase", ratio: 1.25 },
+  { src: "/assets/Real Estate.mp4", title: "Property Tour", ratio: 1.77 },
+  { src: "/assets/SPEAKER_9-16.mp4", title: "Event Speaker", ratio: 1.77 },
+  { src: "/assets/Kamay_Render_Vertical.mp4", title: "3D Rendering", ratio: 1.77 },
+  { src: "/assets/Catalogo_Heineken.mp4", title: "Brand Catalog", ratio: 1.77 },
+  { src: "/assets/Mercado_Libre.mp4", title: "Retail Ads", ratio: 1 },
+  { src: "/assets/Tiene_4.mp4", title: "Fashion Creative", ratio: 1.77 },
+  { src: "/assets/BODEGA_GOL_PROMO_9-16.mp4", title: "Sports Promotion", ratio: 1.77 },
+  { src: "/assets/Tiene_2.mp4", title: "Lifestyle", ratio: 1 },
+  { src: "/assets/Deportes_resultados.mp4", title: "Sports Results", ratio: 1 },
+];
+
+// Function to calculate grid row span based on ratio
+const getSpan = (ratio) => {
+    const baseSpan = 25; 
+    return Math.ceil(baseSpan * ratio);
+};
+---
+
+<section id="showcase" class="pt-0 pb-0 bg-[#010409] relative overflow-hidden z-10 reveal">
+  <!-- Edge-to-edge grid container -->
+  <div class="w-full px-1">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 grid-auto-rows-[10px] grid-flow-dense">
+      {items.map((item) => (
+        <div 
+          class="overflow-hidden bg-[#0d1117] relative transition-all duration-500 hover:z-30 group"
+          style={`grid-row: span ${getSpan(item.ratio)};`}
+        >
+          <div class="relative w-full h-full">
+            <video 
+              data-src={item.src} 
+              muted 
+              playsinline 
+              loop 
+              preload="none" 
+              class="w-full h-full object-cover block lazy-video"
+            ></video>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .font-futura {
+    font-family: 'Futura Maxi', sans-serif;
+  }
+  .font-raleway {
+    font-family: 'Raleway', sans-serif;
+  }
+  .text-accent-blue {
+    color: var(--accent-blue, #2f81f7);
+  }
+  
+  /* Grid settings */
+  .grid-auto-rows-\[10px\] {
+    grid-auto-rows: 10px;
+  }
+</style>
+
+<script>
+  // Lazy Loading and Autoplay for Videos
+  const initLazyVideos = () => {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting) {
+          if (video.dataset.src) {
+            video.src = video.dataset.src;
+            video.load();
+            video.removeAttribute('data-src');
+          }
+          // Autoplay when in view
+          video.play().catch(() => {});
+        } else {
+           video.pause();
+        }
+      });
+    }, { rootMargin: "100px", threshold: 0.1 });
+
+    document.querySelectorAll("video.lazy-video").forEach(v => videoObserver.observe(v));
+  };
+
+  // Initialize
+  initLazyVideos();
+
+  // Support for view transitions
+  document.addEventListener('astro:page-load', () => {
+    initLazyVideos();
+  });
+</script>

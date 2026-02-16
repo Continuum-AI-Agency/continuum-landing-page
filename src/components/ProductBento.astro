@@ -1,0 +1,166 @@
+---
+import { Image } from 'astro:assets';
+import { AnimatedBento } from './react/AnimatedBento';
+
+// Modules Images
+import studioImg from '../assets/Fotos_productos/Studio.jpeg';
+import socialImg from '../assets/Fotos_productos/Social.jpeg';
+import performanceImg from '../assets/Fotos_productos/Performance.jpeg';
+
+// Template Images
+import imgRes1 from '../assets/Videos_templates/Resultado_1.jpg';
+import imgRes2 from '../assets/Videos_templates/Resultado_2.jpg';
+import imgRes3 from '../assets/Videos_templates/Resultado_3.jpg';
+
+const resultImages = [imgRes1, imgRes2, imgRes3];
+
+const modules = [
+  {
+    id: "studio",
+    label: "STUDIO+",
+    name: "Template-driven production",
+    headline: "Create once. Ship everywhere.",
+    description: "Automated assets, built to scale. Perfect for in-house studios and brand teams that need to scale production without losing control.",
+    cta: "Talk to us about STUDIO+",
+    image: studioImg,
+    color: "var(--accent-blue, #2f81f7)"
+  },
+  {
+    id: "social",
+    label: "SOCIAL+",
+    name: "Always-on social",
+    headline: "Never let your feeds go quiet.",
+    description: "Data-driven social, always alive. Perfect for social & community teams that need a steady stream of on-brand content.",
+    cta: "Talk to us about SOCIAL+",
+    image: socialImg,
+    color: "var(--accent-purple, #a371f7)"
+  },
+  {
+    id: "performance",
+    label: "PERFORMANCE+",
+    name: "Creative x media engine",
+    headline: "Optimize spend and ideas together.",
+    description: "Creative engine plugged into your media spend. Perfect for performance marketers who need creative and budgets to sync automatically.",
+    cta: "Talk to us about PERFORMANCE+",
+    image: performanceImg,
+    color: "var(--accent-green, #3fb950)"
+  }
+];
+---
+
+<section id="product" class="pb-24 pt-0 bg-[#010409]">
+  <div class="container mx-auto px-6">
+    <div class="max-w-4xl mb-14 reveal">
+      <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 font-futura tracking-tight">
+        The Creative <div><span class="shimmer-text">Operating System</span></div>
+      </h2>
+      <p class="text-xl text-gray-400 font-raleway">
+        Continuum connects your data, brand, and media stack into a single, high-performance loop.
+      </p>
+    </div>
+
+    <!-- MAIN ANIMATED BENTO (USE CLIENT) -->
+    <div class="mb-24 reveal">
+      <AnimatedBento client:load results={resultImages} />
+    </div>
+
+    <!-- MODULES GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-24 reveal">
+      {modules.map((module) => (
+        <div class="group relative bg-[#0d1117] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+          <div class="p-8 pb-0">
+            <span class={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 bg-white/5`} style={`color: ${module.color}; border: 1px solid ${module.color}22`}>
+              {module.label}
+            </span>
+            <h3 class="text-2xl font-bold text-white mb-2">{module.headline}</h3>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+              {module.description}
+            </p>
+          </div>
+          <div class="relative h-64 overflow-hidden px-8">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent z-10"></div>
+            <Image 
+              src={module.image} 
+              alt={module.name} 
+              class="w-full h-full object-cover object-top rounded-t-xl group-hover:scale-105 transition-transform duration-700"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- TARGET PERSONAS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
+      <div class="p-8 rounded-3xl bg-[#0d1117] border border-white/5 hover:border-accent-blue/30 transition-all duration-500 group">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 rounded-xl bg-accent-blue/10 flex items-center justify-center text-2xl">🎨</div>
+          <h4 class="text-2xl font-bold text-white font-futura uppercase tracking-tight">In-house & Creative Teams</h4>
+        </div>
+        <p class="text-gray-400 text-lg mb-6 font-raleway">Build one creative system for all your channels. Maintain control without slowing down.</p>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-blue">✓</span> Centralized creative library</li>
+          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-blue">✓</span> Template-driven automated production</li>
+        </ul>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-[#0d1117] border border-white/5 hover:border-accent-green/30 transition-all duration-500 group">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 rounded-xl bg-accent-green/10 flex items-center justify-center text-2xl">⚡</div>
+          <h4 class="text-2xl font-bold text-white font-futura uppercase tracking-tight">Performance Agencies</h4>
+        </div>
+        <p class="text-gray-400 text-lg mb-6 font-raleway">Keep creative testing in lockstep with media optimization. Ship more tests with less chaos.</p>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-green">✓</span> Real-time performance-to-brief automation</li>
+          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-green">✓</span> ROAS-driven concept generation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .font-futura {
+    font-family: 'Futura Maxi', sans-serif;
+  }
+  .font-raleway {
+    font-family: 'Raleway', sans-serif;
+  }
+  .text-accent-blue { color: #2f81f7; }
+  .text-accent-green { color: #3fb950; }
+
+  .shimmer-text {
+    background: linear-gradient(
+      90deg, 
+      #2f81f7 0%, 
+      #a371f7 25%, 
+      #3fb950 50%, 
+      #a371f7 75%, 
+      #2f81f7 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  :global(.is-visible) .reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  // Reveal animation is now handled globally in index.astro using Motion
+</script>
