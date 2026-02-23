@@ -1,11 +1,11 @@
 ---
-import { Image } from 'astro:assets';
 import { AnimatedBento } from './react/AnimatedBento';
-
-// Modules Images
-import studioImg from '../assets/Fotos_productos/Studio.jpeg';
-import socialImg from '../assets/Fotos_productos/Social.jpeg';
-import performanceImg from '../assets/Fotos_productos/Performance.jpeg';
+import { BentoStudioCanvas } from './react/BentoStudioCanvas';
+import { BentoSocialCalendar } from './react/BentoSocialCalendar';
+import { BentoPerformanceChart } from './react/BentoPerformanceChart';
+import { BentoPersonaCreative } from './react/BentoPersonaCreative';
+import { BentoPersonaAgency } from './react/BentoPersonaAgency';
+import Metrics from './Metrics.astro';
 
 // Template Images
 import imgRes1 from '../assets/Videos_templates/Resultado_1.jpg';
@@ -13,107 +13,93 @@ import imgRes2 from '../assets/Videos_templates/Resultado_2.jpg';
 import imgRes3 from '../assets/Videos_templates/Resultado_3.jpg';
 
 const resultImages = [imgRes1, imgRes2, imgRes3];
-
-const modules = [
-  {
-    id: "studio",
-    label: "STUDIO+",
-    name: "Template-driven production",
-    headline: "Create once. Ship everywhere.",
-    description: "Automated assets, built to scale. Perfect for in-house studios and brand teams that need to scale production without losing control.",
-    cta: "Talk to us about STUDIO+",
-    image: studioImg,
-    color: "var(--accent-blue, #2f81f7)"
-  },
-  {
-    id: "social",
-    label: "SOCIAL+",
-    name: "Always-on social",
-    headline: "Never let your feeds go quiet.",
-    description: "Data-driven social, always alive. Perfect for social & community teams that need a steady stream of on-brand content.",
-    cta: "Talk to us about SOCIAL+",
-    image: socialImg,
-    color: "var(--accent-purple, #a371f7)"
-  },
-  {
-    id: "performance",
-    label: "PERFORMANCE+",
-    name: "Creative x media engine",
-    headline: "Optimize spend and ideas together.",
-    description: "Creative engine plugged into your media spend. Perfect for performance marketers who need creative and budgets to sync automatically.",
-    cta: "Talk to us about PERFORMANCE+",
-    image: performanceImg,
-    color: "var(--accent-green, #3fb950)"
-  }
-];
 ---
 
-<section id="product" class="pb-24 pt-0 bg-[#010409]">
-  <div class="container mx-auto px-6">
+<section id="product" class="pb-24 pt-0 bg-slate-900 relative overflow-hidden">
+  <!-- Subtle background glow -->
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <div class="container mx-auto px-6 relative z-10">
     <div class="max-w-4xl mb-14 reveal">
       <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 font-futura tracking-tight">
-        The Creative <div><span class="shimmer-text">Operating System</span></div>
+        The Creative <br/><span class="shimmer-text">Operating System</span>
       </h2>
-      <p class="text-xl text-gray-400 font-raleway">
+      <p class="text-xl text-gray-400 font-raleway leading-relaxed">
         Continuum connects your data, brand, and media stack into a single, high-performance loop.
       </p>
     </div>
 
-    <!-- MAIN ANIMATED BENTO (USE CLIENT) -->
-    <div class="mb-24 reveal">
-      <AnimatedBento client:load results={resultImages} />
-    </div>
+    <!-- MAIN BENTO GRID -->
+    <div class="flex flex-col gap-6 w-full max-w-[1400px] mx-auto reveal">
+      
+      <!-- MAIN ANIMATED BENTO (USE CLIENT) -->
+      <div class="w-full mb-12">
+        <AnimatedBento client:load results={resultImages} />
+      </div>
 
-    <!-- MODULES GRID -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-24 reveal">
-      {modules.map((module) => (
-        <div class="group relative bg-[#0d1117] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
-          <div class="p-8 pb-0">
-            <span class={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 bg-white/5`} style={`color: ${module.color}; border: 1px solid ${module.color}22`}>
-              {module.label}
-            </span>
-            <h3 class="text-2xl font-bold text-white mb-2">{module.headline}</h3>
-            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
-              {module.description}
-            </p>
+      <!-- Bottom Row: 3 Interactive Modules -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+        
+        {/* SOCIAL+ */}
+        <div class="flex flex-col rounded-3xl bg-white/[0.02] backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:border-purple-500/30 hover:shadow-[0_0_40px_-10px_rgba(163,113,247,0.15)] transition-all duration-500 group overflow-hidden h-[500px]">
+          <div class="p-8 pb-4 flex-none">
+             <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold mb-4 bg-purple-500/10 text-purple-400 border border-purple-500/20 tracking-wider">
+               SOCIAL+
+             </span>
+             <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Always-on social.</h3>
+             <p class="text-slate-400 text-sm font-raleway leading-relaxed">
+               Never let your feeds go quiet. A steady stream of on-brand content mapped to your calendar.
+             </p>
           </div>
-          <div class="relative h-64 overflow-hidden px-8">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent z-10"></div>
-            <Image 
-              src={module.image} 
-              alt={module.name} 
-              class="w-full h-full object-cover object-top rounded-t-xl group-hover:scale-105 transition-transform duration-700"
-            />
+          <div class="flex-grow relative border-t border-white/5 mt-4 bg-[#0d1117]/50">
+             <BentoSocialCalendar client:visible />
           </div>
         </div>
-      ))}
+
+        {/* STUDIO+ */}
+        <div class="flex flex-col rounded-3xl bg-white/[0.02] backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:border-blue-500/30 hover:shadow-[0_0_40px_-10px_rgba(47,129,247,0.15)] transition-all duration-500 group overflow-hidden h-[500px]">
+          <div class="p-8 pb-4 flex-none">
+             <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold mb-4 bg-blue-500/10 text-blue-400 border border-blue-500/20 tracking-wider">
+               STUDIO+
+             </span>
+             <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Template-driven scaling.</h3>
+             <p class="text-slate-400 text-sm font-raleway leading-relaxed">
+               Create once, ship everywhere. Automated assets built to scale perfectly for in-house studios.
+             </p>
+          </div>
+          <div class="flex-grow relative border-t border-white/5 mt-4">
+             <BentoStudioCanvas client:visible />
+          </div>
+        </div>
+
+        {/* PERFORMANCE+ */}
+        <div class="flex flex-col rounded-3xl bg-white/[0.02] backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:border-green-500/30 hover:shadow-[0_0_40px_-10px_rgba(57,211,83,0.15)] transition-all duration-500 group overflow-hidden h-[500px]">
+          <div class="p-8 pb-4 flex-none">
+             <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold mb-4 bg-green-500/10 text-green-400 border border-green-500/20 tracking-wider">
+               PERFORMANCE+
+             </span>
+             <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Creative x media engine.</h3>
+             <p class="text-slate-400 text-sm font-raleway leading-relaxed">
+               Creative plugged directly into media spend. Optimize both ideas and budgets simultaneously.
+             </p>
+          </div>
+          <div class="flex-grow relative border-t border-white/5 mt-4">
+             <BentoPerformanceChart client:visible />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="mt-8 mb-4">
+      <Metrics />
     </div>
 
     <!-- TARGET PERSONAS -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
-      <div class="p-8 rounded-3xl bg-[#0d1117] border border-white/5 hover:border-accent-blue/30 transition-all duration-500 group">
-        <div class="flex items-center gap-4 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-accent-blue/10 flex items-center justify-center text-2xl">🎨</div>
-          <h4 class="text-2xl font-bold text-white font-futura uppercase tracking-tight">In-house & Creative Teams</h4>
-        </div>
-        <p class="text-gray-400 text-lg mb-6 font-raleway">Build one creative system for all your channels. Maintain control without slowing down.</p>
-        <ul class="space-y-3">
-          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-blue">✓</span> Centralized creative library</li>
-          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-blue">✓</span> Template-driven automated production</li>
-        </ul>
-      </div>
-
-      <div class="p-8 rounded-3xl bg-[#0d1117] border border-white/5 hover:border-accent-green/30 transition-all duration-500 group">
-        <div class="flex items-center gap-4 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-accent-green/10 flex items-center justify-center text-2xl">⚡</div>
-          <h4 class="text-2xl font-bold text-white font-futura uppercase tracking-tight">Performance Agencies</h4>
-        </div>
-        <p class="text-gray-400 text-lg mb-6 font-raleway">Keep creative testing in lockstep with media optimization. Ship more tests with less chaos.</p>
-        <ul class="space-y-3">
-          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-green">✓</span> Real-time performance-to-brief automation</li>
-          <li class="flex items-center gap-3 text-sm text-gray-500"><span class="text-accent-green">✓</span> ROAS-driven concept generation</li>
-        </ul>
-      </div>
+    <div class="flex flex-col gap-6 reveal mt-10 max-w-[1400px] mx-auto">
+      <BentoPersonaCreative client:visible />
+      <BentoPersonaAgency client:visible />
     </div>
   </div>
 </section>
@@ -125,8 +111,6 @@ const modules = [
   .font-raleway {
     font-family: 'Raleway', sans-serif;
   }
-  .text-accent-blue { color: #2f81f7; }
-  .text-accent-green { color: #3fb950; }
 
   .shimmer-text {
     background: linear-gradient(
@@ -160,7 +144,3 @@ const modules = [
     transform: translateY(0);
   }
 </style>
-
-<script>
-  // Reveal animation is now handled globally in index.astro using Motion
-</script>

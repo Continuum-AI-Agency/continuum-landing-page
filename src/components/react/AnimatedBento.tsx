@@ -89,7 +89,7 @@ export function AnimatedBento({ results }: { results: any[] }) {
 
   return (
     <div
-      className="relative flex h-[850px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/5 bg-[#010409] p-10 md:p-20"
+      className="relative flex h-[850px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/5 bg-[#0f172a] p-10 md:p-20"
       ref={containerRef}
     >
       {/* Top Headers */}
