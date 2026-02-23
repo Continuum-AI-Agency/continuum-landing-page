@@ -1,0 +1,90 @@
+---
+const metrics = [
+  { value: 25000, suffix: "+", label: "Generated pieces", description: "On-brand pieces produced for brands in different markets and channels.", useGrouping: true },
+  { value: 2, suffix: "×", label: "ROAS", description: "Average uplift in campaigns optimized with creative and media loops." },
+  { value: 90, suffix: "%", label: "Time Savings", description: "Reduction in production and deployment time compared to manual workflows." },
+  { value: 75, suffix: "%", label: "Cost reduction", description: "Lower production costs compared to traditional studio and agency workflows." },
+  { value: 35, prefix: "+", suffix: "%", label: "Conversion lift", description: "Increase in conversion rate driven by real-time creative optimization." }
+];
+---
+
+<div class="container mx-auto px-6 relative z-20 py-20 reveal">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12" id="impact-metrics">
+    {metrics.map((metric) => (
+      <div class="relative flex flex-col items-center md:items-start text-center md:text-left group cursor-default">
+        <div class="text-5xl md:text-7xl font-bold text-white mb-2 font-futura tracking-tighter flex items-baseline gap-1">
+          {metric.prefix && <span class="text-3xl text-blue-400 font-medium">{metric.prefix}</span>}
+          <span 
+            data-counter
+            data-from="0"
+            data-to={metric.value}
+            data-use-grouping={metric.useGrouping ? "true" : "false"}
+          >0</span>
+          {metric.suffix && <span class="text-3xl text-blue-400 font-medium">{metric.suffix}</span>}
+        </div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-3 opacity-90">{metric.label}</h3>
+        <p class="text-xs text-gray-400 leading-relaxed max-w-[200px] opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+          {metric.description}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .font-futura {
+    font-family: 'Futura Maxi', sans-serif;
+  }
+</style>
+
+<script>
+  function animateCountersWithin(panel: Element) {
+    const counters = panel.querySelectorAll("[data-counter]");
+    counters.forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const from = parseFloat(el.dataset.from ?? "0");
+      const to = parseFloat(el.dataset.to ?? "0");
+      const useGrouping = el.dataset.useGrouping === "true";
+      const duration = 2000;
+      const startTime = performance.now();
+
+      function step(now: number) {
+        const t = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - t, 4); 
+        const value = from + (to - from) * eased;
+        const rounded = Math.round(value);
+        
+        el.textContent = useGrouping
+          ? rounded.toLocaleString('en-US', { maximumFractionDigits: 0 })
+          : String(rounded);
+
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  const impactGrid = document.getElementById("impact-metrics");
+  if (impactGrid && "IntersectionObserver" in window) {
+    let isAnimating = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !isAnimating) {
+          isAnimating = true;
+          animateCountersWithin(impactGrid);
+        } else if (!entry.isIntersecting) {
+          // Reset counters to 0 when scrolled out of view
+          isAnimating = false;
+          const counters = impactGrid.querySelectorAll("[data-counter]");
+          counters.forEach((el) => {
+            if (el instanceof HTMLElement) {
+              el.textContent = "0";
+            }
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    observer.observe(impactGrid);
+  }
+</script>
