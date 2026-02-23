@@ -3,6 +3,8 @@ import { Image } from 'astro:assets';
 import { InteractiveHoverButton } from './ui/interactive-hover-button';
 import { Magnetic } from './core/magnetic';
 import { ProgressiveBlur } from './core/progressive-blur';
+import { ScrollIndicator } from './react/ScrollIndicator';
+import { HeroTypography } from './react/HeroTypography';
 import logoImage from '../assets/Logo_Continuum.png';
 import bgVideo from '../assets/Landing-Page.mp4';
 
@@ -13,9 +15,9 @@ import iconMeta from '../assets/Icons/icons8-meta-96.png';
 import iconYoutube from '../assets/Icons/icons8-youtube.svg';
 ---
 
-<section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden bg-[#010409] z-0">
+<section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0f172a] z-0">
   <!-- Video Background with Crossfade -->
-  <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black">
+  <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-slate-900">
     <video 
       id="bg-video-1"
       src={bgVideo} 
@@ -31,7 +33,7 @@ import iconYoutube from '../assets/Icons/icons8-youtube.svg';
       class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-0 scale-110 transition-opacity duration-1000"
     ></video>
     <!-- Dark Overlay to ensure readability and seamless bottom transition -->
-    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="absolute inset-0 bg-slate-900/40"></div>
     <ProgressiveBlur 
       client:load
       className="absolute bottom-0 left-0 w-full h-64 z-10" 
@@ -52,12 +54,16 @@ import iconYoutube from '../assets/Icons/icons8-youtube.svg';
           />
         </div>
         
-        <h2 
-          id="hero-tagline"
-          class="text-2xl md:text-5xl font-medium font-raleway text-center relative z-30"
-        >
-          Build Continuity. Scale Personalization.
-        </h2>
+        <div className="mt-8 mb-12 flex flex-col items-center">
+          <HeroTypography client:load text="Build Continuity. Scale Personalization." />
+          <p 
+            class="text-sm md:text-xl text-center max-w-2xl mx-auto text-gray-400 mt-6 leading-relaxed font-raleway hero-subtext opacity-0"
+            style="animation: fadeUp 1s ease-out 1.2s forwards;"
+          >
+            Combine creative intelligence and automated production to unlock 
+            performance at scale. Made for modern brands.
+          </p>
+        </div>
       </div>
 
       <div class="flex flex-col items-center justify-center w-full cta-container opacity-0">
@@ -93,6 +99,9 @@ import iconYoutube from '../assets/Icons/icons8-youtube.svg';
       </div>
     </div>
   </div>
+
+  <!-- Scroll Indicator -->
+  <ScrollIndicator client:load />
 </section>
 
 <style>
