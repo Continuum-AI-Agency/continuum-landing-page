@@ -4,7 +4,7 @@
 /* Core variables */
 :root {
   color-scheme: dark;
-  --bg-body: #010409;
+  --bg-body: #0f172a;
   --text-primary: #e6edf3;
   --text-muted: #8b949e;
   --border-subtle: #30363d;
@@ -12,7 +12,7 @@
   --accent-purple: #7c3aed;
   --accent-green: #39d353;
   --radius: 10px;
-  --shadow-soft: 0 20px 60px rgba(1, 4, 9, 0.8);
+  --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.8);
   --bg-main: #050816;
   --text-main: #f9fafb;
   --font-sans: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
@@ -60,9 +60,9 @@ body {
     /* Oscurecido editorial (clave para que el texto se lea) */
     linear-gradient(
       180deg,
-      rgba(1, 4, 9, 0.55) 0%,
-      rgba(1, 4, 9, 0.82) 70%,
-      rgba(1, 4, 9, 0.95) 100%
+      rgba(15, 23, 42, 0.55) 0%,
+      rgba(15, 23, 42, 0.82) 70%,
+      rgba(15, 23, 42, 0.95) 100%
     );
 
   background-size: cover;
@@ -665,9 +665,9 @@ body.ch-body {
   backdrop-filter: blur(12px);
   background: linear-gradient(
       to bottom,
-      rgba(1, 4, 9, 0.96),
-      rgba(1, 4, 9, 0.9),
-      rgba(1, 4, 9, 0.85),
+      rgba(15, 23, 42, 0.96),
+      rgba(15, 23, 42, 0.9),
+      rgba(15, 23, 42, 0.85),
       transparent
     );
   border-bottom: 1px solid rgba(48, 54, 61, 0.8);
@@ -676,7 +676,7 @@ body.ch-body {
 }
 
 .ch-header--scrolled {
-  background-color: rgba(1, 4, 9, 0.98);
+  background-color: rgba(15, 23, 42, 0.98);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
@@ -791,7 +791,7 @@ body.ch-body {
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   min-width: 220px;
-  box-shadow: 0 16px 40px rgba(1, 4, 9, 0.9);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
   opacity: 0;
   visibility: hidden;
   transform: translateY(4px);
@@ -1147,7 +1147,7 @@ nav a.active::after, .nav a.active::after, .menu a.active::after {
 }
 
 .ch-hero-field input {
-  background-color: #010409;
+  background-color: #0f172a;
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
   padding: 8px 12px;
@@ -3430,7 +3430,7 @@ nav a.active::after, .nav a.active::after, .menu a.active::after {
   padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
-  background-color: #010409;
+  background-color: #0f172a;
   color: var(--text-primary);
 }
 
@@ -3445,7 +3445,7 @@ nav a.active::after, .nav a.active::after, .menu a.active::after {
 .ch-footer {
   border-top: 1px solid var(--border-subtle);
   padding: 16px;
-  background-color: #010409;
+  background-color: #0f172a;
 }
 
 .ch-footer-inner {
@@ -3536,7 +3536,7 @@ nav a.active::after, .nav a.active::after, .menu a.active::after {
     top: 52px;
     left: 0;
     right: 0;
-    background-color: #010409;
+    background-color: #0f172a;
     padding: 8px 16px 12px;
     display: flex;
     flex-direction: column;

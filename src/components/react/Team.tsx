@@ -124,13 +124,13 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
             transition={{ duration: 0.3, ease: 'easeOut' }}
           />
 
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-6 pt-16">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 via-slate-900/60 to-transparent p-6 pt-16">
             <h3 className="text-xl font-semibold text-white">{name}</h3>
             <p className="text-sm font-medium text-neutral-300">{role}</p>
           </div>
 
           <motion.div
-            className="absolute right-4 top-4 rounded-full bg-black/50 p-2 backdrop-blur-sm"
+            className="absolute right-4 top-4 rounded-full bg-slate-900/50 p-2 backdrop-blur-sm"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: isHover ? 1 : 0, scale: isHover ? 1 : 0.8 }}
             transition={{ duration: 0.2 }}
@@ -183,7 +183,7 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
 
 export function TeamSection() {
   return (
-    <section id="team" className="bg-[#010409] px-4 py-24 sm:px-6 lg:px-8">
+    <section id="team" className="bg-[#0f172a] px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">

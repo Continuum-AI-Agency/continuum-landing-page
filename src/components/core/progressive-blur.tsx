@@ -21,7 +21,7 @@ export function ProgressiveBlur({
   return (
     <motion.div
       className={cn(
-        'pointer-events-none bg-gradient-to-t from-black/60 via-black/30 to-transparent backdrop-blur-[2px]',
+        'pointer-events-none bg-gradient-to-t from-slate-900/60 via-slate-900/30 to-transparent backdrop-blur-[2px]',
         className
       )}
       style={{
