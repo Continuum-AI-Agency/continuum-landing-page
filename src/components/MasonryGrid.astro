@@ -31,13 +31,13 @@ const getSpan = (ratio) => {
 };
 ---
 
-<section id="showcase" class="pt-0 pb-0 bg-[#010409] relative overflow-hidden z-10 reveal">
+<section id="showcase" class="pt-0 pb-0 bg-[#0f172a] relative overflow-hidden z-10 reveal">
   <!-- Edge-to-edge grid container -->
   <div class="w-full px-1">
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 grid-auto-rows-[10px] grid-flow-dense">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 grid-auto-rows-[10px] grid-flow-dense group/grid">
       {items.map((item) => (
         <div 
-          class="overflow-hidden bg-[#0d1117] relative transition-all duration-500 hover:z-30 group"
+          class="overflow-hidden bg-[#0d1117] relative transition-all duration-700 group/item hover:z-30 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(0,0,0,0.8)]"
           style={`grid-row: span ${getSpan(item.ratio)};`}
         >
           <div class="relative w-full h-full">
@@ -47,7 +47,7 @@ const getSpan = (ratio) => {
               playsinline 
               loop 
               preload="none" 
-              class="w-full h-full object-cover block lazy-video"
+              class="w-full h-full object-cover block lazy-video transition-all duration-700 group-hover/grid:opacity-40 group-hover/grid:grayscale-[0.5] group-hover/item:!opacity-100 group-hover/item:!grayscale-0"
             ></video>
           </div>
         </div>
