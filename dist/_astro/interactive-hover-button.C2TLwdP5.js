@@ -1,6 +1,0 @@
-import{j as r}from"./jsx-runtime.D_zvdyIk.js";import{c as a}from"./utils.9wJ42EUr.js";import{c as s}from"./createLucideIcon.BALfhKxD.js";import"./index.DiEladB3.js";/**
- * @license lucide-react v0.564.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */const n=[["path",{d:"M5 12h14",key:"1ays0h"}],["path",{d:"m12 5 7 7-7 7",key:"xquz4c"}]],i=s("arrow-right",n);function d({children:t,className:o,...e}){return r.jsxs("button",{className:a("group bg-background relative w-auto cursor-pointer overflow-hidden rounded-full border p-2 px-6 text-center font-semibold",o),...e,children:[r.jsxs("div",{className:"flex items-center gap-2",children:[r.jsx("div",{className:"bg-primary h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-[100.8]"}),r.jsx("span",{className:"inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0",children:t})]}),r.jsxs("div",{className:"text-primary-foreground absolute top-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 opacity-0 transition-all duration-300 group-hover:-translate-x-5 group-hover:opacity-100",children:[r.jsx("span",{children:t}),r.jsx(i,{})]})]})}export{d as InteractiveHoverButton};

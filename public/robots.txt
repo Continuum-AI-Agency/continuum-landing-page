@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+
+# Block internal and non-public paths
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# AI Crawler Directives (2026 Best Practices)
+User-agent: GPTBot
+Disallow: /private/
+
+User-agent: ChatGPT-User
+Disallow: /private/
+
+User-agent: Google-Extended
+Disallow: /private/
+
+User-agent: CCBot
+Disallow: /private/
+
+User-agent: Anthropic-AI
+Disallow: /private/
+
+User-agent: Claude-Web
+Disallow: /private/
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Sitemap Reference
+Sitemap: https://continuum.agency/sitemap-index.xml

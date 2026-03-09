@@ -1,0 +1,34 @@
+# Continuum
+
+> Build continuity. Scale personalization.
+
+Continuum is an AI-powered creative and campaign activation platform.
+It helps brands automate production workflows and launch personalized campaigns across channels.
+
+## Audience
+- Marketing leaders
+- Performance and growth teams
+- Creative operations teams
+- Brands that need fast, high-volume personalized creative
+
+## Core capabilities
+- End-to-end creative production automation
+- Campaign activation workflows
+- Studio+, Social+, and Performance+ product modules
+- AI-assisted personalization at scale
+
+## Preferred summary
+Continuum is an AI platform for modern marketing teams that automates creative production and campaign activation to deliver personalized campaigns faster.
+
+## Canonical URLs
+- https://continuum.agency/
+
+## Contact
+- https://continuum.agency/
+
+## Crawler Directives (Mirroring robots.txt)
+- All pages are allowed except for internal paths: `/api/`, `/admin/`, `/private/`.
+- Explicitly blocking `private` content for all AI crawlers (GPTBot, Claude-Web, etc.).
+
+## Sitemap
+- https://continuum.agency/sitemap-index.xml
