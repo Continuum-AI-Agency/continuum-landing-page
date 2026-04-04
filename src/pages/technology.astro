@@ -1,0 +1,811 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Design Automation — Continuum"
+  description="Design automation at scale. Continuum generates, validates, and ships brand-consistent creative — automatically."
+>
+  <div class="tp-root">
+
+    <!-- Nav -->
+    <nav class="tp-nav">
+      <a href="/" class="tp-nav-home">
+        <span class="tp-nav-arrow">←</span>
+        CONTINUUM
+      </a>
+      <span class="tp-nav-pill">DESIGN AUTOMATION</span>
+    </nav>
+
+    <!-- ══════════════════════════════════════
+         HERO
+    ══════════════════════════════════════ -->
+    <section class="tp-hero">
+      <div class="tp-grain"></div>
+      <div class="tp-hero-inner">
+        <p class="tp-eyebrow">CONTINUUM / DESIGN AUTOMATION</p>
+        <h1 class="tp-hero-title">
+          Design Automation<br />
+          <em>at Scale.</em>
+        </h1>
+        <p class="tp-hero-sub">
+          One design system. Infinite brand-consistent creative — generated,
+          validated, and shipped automatically across every channel and format.
+        </p>
+        <div class="tp-hero-stats">
+          <div class="tp-stat">
+            <span class="tp-stat-num">10K+</span>
+            <span class="tp-stat-label">VARIANTS PER BRIEF</span>
+          </div>
+          <div class="tp-stat">
+            <span class="tp-stat-num">&lt;&nbsp;2s</span>
+            <span class="tp-stat-label">PER VARIANT</span>
+          </div>
+          <div class="tp-stat">
+            <span class="tp-stat-num">100%</span>
+            <span class="tp-stat-label">BRAND-CONSISTENT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tp-hatch"></div>
+
+    <!-- ══════════════════════════════════════
+         01 — SCALABLE
+    ══════════════════════════════════════ -->
+    <section class="tp-feature">
+      <div class="tp-feature-inner">
+        <div class="tp-feature-text">
+          <div class="tp-feature-eyebrow">
+            <span class="tp-feature-num">01</span>
+            <span class="tp-feature-tag">SCALABLE</span>
+          </div>
+          <h2 class="tp-feature-title">SCALABLE</h2>
+          <p class="tp-feature-desc">
+            From a single design system, Continuum produces thousands of on-brand
+            variants — across every format, channel, and audience segment —
+            without manual production. Scale is not a setting. It's the default.
+          </p>
+          <div class="tp-specs">
+            <div class="tp-spec-row">
+              <span>VARIANTS PER BATCH</span>
+              <span>Unlimited</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>PARALLEL RENDERS</span>
+              <span>Up to 500</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>FORMAT SUPPORT</span>
+              <span>30+ formats</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>BRAND RULE CHECKS</span>
+              <span>Per variant</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>THROUGHPUT</span>
+              <span>10K+ / day</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual: variant grid -->
+        <div class="tp-visual tp-visual--scale">
+          <div class="tp-scale-source">
+            <span class="tp-scale-source-label">TEMPLATE</span>
+            <div class="tp-scale-source-body">
+              <div class="tp-scale-source-bar tp-scale-source-bar--wide"></div>
+              <div class="tp-scale-source-bar tp-scale-source-bar--med"></div>
+              <div class="tp-scale-source-bar tp-scale-source-bar--short"></div>
+              <div class="tp-scale-source-thumb"></div>
+            </div>
+          </div>
+          <div class="tp-scale-arrow">→</div>
+          <div class="tp-scale-grid">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <div class={`tp-scale-cell tp-scale-cell--${i % 4 === 0 ? 'active' : i % 7 === 0 ? 'dim' : 'base'}`}></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tp-hatch"></div>
+
+    <!-- ══════════════════════════════════════
+         02 — TESTABLE
+    ══════════════════════════════════════ -->
+    <section class="tp-feature tp-feature--alt">
+      <div class="tp-feature-inner tp-feature-inner--rev">
+
+        <!-- Visual: terminal validation -->
+        <div class="tp-visual tp-visual--test">
+          <div class="tp-terminal">
+            <div class="tp-terminal-bar">
+              <span class="tp-dot tp-dot--r"></span>
+              <span class="tp-dot tp-dot--y"></span>
+              <span class="tp-dot tp-dot--g"></span>
+              <span class="tp-terminal-title">brand-check · batch_01J2K</span>
+            </div>
+            <div class="tp-terminal-body">
+              <p class="tp-tline tp-tline--cmd">$ continuum validate --batch 01J2K --strict</p>
+              <p class="tp-tline tp-tline--muted">Running 16 variants against brand spec v4.2...</p>
+              <p class="tp-tline">&nbsp;</p>
+              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> BRAND_SCORE<span class="tp-dots"></span><span>94 / 100</span><span class="tp-badge-pass">PASS</span></p>
+              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> TONE_CHECK<span class="tp-dots"></span><span>FORMAL</span><span class="tp-badge-pass">PASS</span></p>
+              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> COLOR_PALETTE<span class="tp-dots"></span><span>ALIGNED</span><span class="tp-badge-pass">PASS</span></p>
+              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> CONTRAST_RATIO<span class="tp-dots"></span><span>8.2 : 1</span><span class="tp-badge-pass">PASS</span></p>
+              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> COPY_LENGTH<span class="tp-dots"></span><span>≤ 120c</span><span class="tp-badge-pass">PASS</span></p>
+              <p class="tp-tline tp-tline--warn"><span class="tp-warn-icon">!</span> LOGO_CLEARANCE<span class="tp-dots"></span><span>14px</span><span class="tp-badge-warn">WARN</span></p>
+              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> FORMAT_SPEC<span class="tp-dots"></span><span>16 / 16</span><span class="tp-badge-pass">PASS</span></p>
+              <p class="tp-tline">&nbsp;</p>
+              <p class="tp-tline tp-tline--result">15/16 passed · 1 warning · 0 blocked</p>
+              <p class="tp-tline tp-tline--muted">Ready for review queue.</p>
+              <p class="tp-tline tp-tline--cursor">▌</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tp-feature-text">
+          <div class="tp-feature-eyebrow">
+            <span class="tp-feature-num">02</span>
+            <span class="tp-feature-tag">TESTABLE</span>
+          </div>
+          <h2 class="tp-feature-title">TESTABLE</h2>
+          <p class="tp-feature-desc">
+            Every creative is automatically validated against your brand rules
+            before it reaches a single reviewer. Automated scoring, approval gates,
+            and regression testing are built into the generation pipeline — not
+            bolted on afterward.
+          </p>
+          <div class="tp-specs">
+            <div class="tp-spec-row">
+              <span>BRAND SCORE GATE</span>
+              <span>Configurable (/100)</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>VALIDATION CHECKS</span>
+              <span>20+ per variant</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>BLOCKED AUTO-REGEN</span>
+              <span>Yes</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>APPROVAL AUDIT LOG</span>
+              <span>Immutable</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>REGRESSION TESTING</span>
+              <span>Per design system update</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tp-hatch"></div>
+
+    <!-- ══════════════════════════════════════
+         03 — ADAPTABLE
+    ══════════════════════════════════════ -->
+    <section class="tp-feature">
+      <div class="tp-feature-inner">
+        <div class="tp-feature-text">
+          <div class="tp-feature-eyebrow">
+            <span class="tp-feature-num">03</span>
+            <span class="tp-feature-tag">ADAPTABLE</span>
+          </div>
+          <h2 class="tp-feature-title">ADAPTABLE</h2>
+          <p class="tp-feature-desc">
+            The same creative brief adapts to every channel, format, audience,
+            and market — automatically. When your design system updates,
+            every downstream variant regenerates. Zero manual reformatting.
+          </p>
+          <div class="tp-specs">
+            <div class="tp-spec-row">
+              <span>CHANNEL FORMATS</span>
+              <span>Social · Display · OOH · Video</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>LOCALIZATION</span>
+              <span>50+ languages</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>AUDIENCE VARIANTS</span>
+              <span>Per segment</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>DESIGN SYSTEM SYNC</span>
+              <span>Real-time propagation</span>
+            </div>
+            <div class="tp-spec-row">
+              <span>PLATFORM CONNECTORS</span>
+              <span>30+ native</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual: format grid -->
+        <div class="tp-visual tp-visual--adapt">
+          <div class="tp-formats">
+            <div class="tp-format-cell tp-format--square">
+              <span class="tp-format-ratio">1:1</span>
+              <span class="tp-format-name">FEED</span>
+            </div>
+            <div class="tp-format-cell tp-format--portrait">
+              <span class="tp-format-ratio">9:16</span>
+              <span class="tp-format-name">STORY</span>
+            </div>
+            <div class="tp-format-cell tp-format--landscape">
+              <span class="tp-format-ratio">16:9</span>
+              <span class="tp-format-name">DISPLAY</span>
+            </div>
+            <div class="tp-format-cell tp-format--wide">
+              <span class="tp-format-ratio">1.91:1</span>
+              <span class="tp-format-name">OG IMAGE</span>
+            </div>
+            <div class="tp-format-cell tp-format--tall">
+              <span class="tp-format-ratio">4:5</span>
+              <span class="tp-format-name">PORTRAIT</span>
+            </div>
+            <div class="tp-format-cell tp-format--banner">
+              <span class="tp-format-ratio">728:90</span>
+              <span class="tp-format-name">LEADERBOARD</span>
+            </div>
+          </div>
+          <p class="tp-format-caption">Same brief. Every format.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="tp-hatch"></div>
+
+    <!-- ══════════════════════════════════════
+         CTA
+    ══════════════════════════════════════ -->
+    <section class="tp-cta">
+      <div class="tp-cta-inner">
+        <p class="tp-cta-eyebrow">GET STARTED</p>
+        <h2 class="tp-cta-title">AUTOMATE YOUR<br />DESIGN PIPELINE.</h2>
+        <p class="tp-cta-desc">
+          See Continuum generate, validate, and ship on-brand creative — in under two minutes.
+        </p>
+        <div class="tp-cta-actions">
+          <a href="/#demo" class="tp-btn tp-btn--filled">REQUEST A DEMO</a>
+          <a href="/" class="tp-btn tp-btn--outline">BACK TO SITE</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="tp-footer">
+      <span>© <span id="tp-year"></span> Continuum. Made with love in Palo Alto, CA.</span>
+      <a href="/" class="tp-footer-link">← Back to site</a>
+    </footer>
+
+  </div>
+</Layout>
+
+<style>
+  /* ── RESET & ROOT ──────────────────────── */
+  .tp-root {
+    background: #080808;
+    color: #e2e2e2;
+    font-family: 'Poppins', system-ui, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ───────────────────────────────── */
+  .tp-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 1px solid #1e1e1e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #080808;
+  }
+  .tp-nav-home {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #e2e2e2;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tp-nav-home:hover { color: #fff; }
+  .tp-nav-arrow { opacity: 0.4; }
+  .tp-nav-pill {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #555;
+    border: 1px solid #282828;
+    padding: 4px 12px;
+  }
+
+  /* ── HERO ──────────────────────────────── */
+  .tp-hero {
+    position: relative;
+    padding: 96px 40px 80px;
+    border-bottom: 1px solid #1e1e1e;
+    overflow: hidden;
+  }
+  .tp-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.3;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    mix-blend-mode: overlay;
+  }
+  .tp-hero-inner {
+    position: relative;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .tp-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: #444;
+    margin: 0 0 36px;
+  }
+  .tp-hero-title {
+    font-size: clamp(48px, 8vw, 108px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: #f0f0f0;
+    margin: 0 0 32px;
+  }
+  .tp-hero-title em {
+    font-style: normal;
+    -webkit-text-stroke: 1.5px #f0f0f0;
+    color: transparent;
+  }
+  .tp-hero-sub {
+    font-size: 16px;
+    color: #777;
+    max-width: 520px;
+    line-height: 1.7;
+    margin: 0 0 56px;
+    font-weight: 400;
+  }
+  .tp-hero-stats {
+    display: flex;
+    width: fit-content;
+    border: 1px solid #222;
+  }
+  .tp-stat {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 40px;
+    border-right: 1px solid #222;
+  }
+  .tp-stat:last-child { border-right: none; }
+  .tp-stat-num {
+    font-family: 'Courier New', monospace;
+    font-size: 30px;
+    font-weight: 700;
+    color: #f0f0f0;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .tp-stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: #4a4a4a;
+  }
+
+  /* ── HATCH BAND ────────────────────────── */
+  .tp-hatch {
+    height: 36px;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #171717 0,
+      #171717 1px,
+      #0c0c0c 1px,
+      #0c0c0c 7px
+    );
+    border-top: 1px solid #1e1e1e;
+    border-bottom: 1px solid #1e1e1e;
+  }
+
+  /* ── FEATURE SECTIONS ──────────────────── */
+  .tp-feature {
+    padding: 96px 40px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .tp-feature--alt { background: #0c0c0c; }
+  .tp-feature-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .tp-feature-inner--rev { direction: rtl; }
+  .tp-feature-inner--rev > * { direction: ltr; }
+
+  .tp-feature-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .tp-feature-num {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 0.06em;
+  }
+  .tp-feature-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #555;
+    border: 1px solid #2a2a2a;
+    padding: 3px 10px;
+  }
+  .tp-feature-title {
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: #e8e8e8;
+    line-height: 0.95;
+    margin: 0 0 28px;
+  }
+  .tp-feature-desc {
+    font-size: 15px;
+    color: #6a6a6a;
+    line-height: 1.75;
+    margin: 0 0 40px;
+    max-width: 460px;
+  }
+
+  /* Spec table */
+  .tp-specs {
+    border: 1px solid #1e1e1e;
+  }
+  .tp-spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 18px;
+    border-bottom: 1px solid #1a1a1a;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+  }
+  .tp-spec-row:last-child { border-bottom: none; }
+  .tp-spec-row span:first-child {
+    color: #444;
+    letter-spacing: 0.1em;
+  }
+  .tp-spec-row span:last-child {
+    color: #888;
+  }
+
+  /* ── VISUAL: SCALABLE ──────────────────── */
+  .tp-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tp-visual--scale {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .tp-scale-source {
+    border: 1px solid #2a2a2a;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 110px;
+  }
+  .tp-scale-source-label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #444;
+  }
+  .tp-scale-source-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tp-scale-source-bar {
+    height: 8px;
+    background: #2a2a2a;
+  }
+  .tp-scale-source-bar--wide  { width: 100%; }
+  .tp-scale-source-bar--med   { width: 68%; }
+  .tp-scale-source-bar--short { width: 42%; }
+  .tp-scale-source-thumb {
+    width: 100%;
+    height: 52px;
+    background: #1c1c1c;
+    border: 1px solid #2a2a2a;
+    margin-top: 4px;
+  }
+  .tp-scale-arrow {
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    color: #333;
+    flex-shrink: 0;
+  }
+  .tp-scale-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+  }
+  .tp-scale-cell {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #222;
+  }
+  .tp-scale-cell--active { background: #1e1e1e; border-color: #3a3a3a; }
+  .tp-scale-cell--dim    { background: #111; border-color: #1a1a1a; }
+  .tp-scale-cell--base   { background: #161616; border-color: #252525; }
+
+  /* ── VISUAL: TESTABLE ──────────────────── */
+  .tp-terminal {
+    width: 100%;
+    border: 1px solid #252525;
+    background: #090909;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    overflow: hidden;
+  }
+  .tp-terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #1e1e1e;
+    background: #0e0e0e;
+  }
+  .tp-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .tp-dot--r { background: #2d2d2d; }
+  .tp-dot--y { background: #272727; }
+  .tp-dot--g { background: #232323; }
+  .tp-terminal-title {
+    font-size: 10px;
+    color: #444;
+    margin-left: 8px;
+    letter-spacing: 0.04em;
+  }
+  .tp-terminal-body {
+    padding: 20px 22px 24px;
+    line-height: 1.9;
+  }
+  .tp-tline {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .tp-tline--cmd    { color: #555; }
+  .tp-tline--muted  { color: #383838; }
+  .tp-tline--pass   { color: #666; }
+  .tp-tline--warn   { color: #5a5040; }
+  .tp-tline--result { color: #aaa; font-weight: 600; }
+  .tp-tline--cursor { color: #444; animation: blink 1.2s step-end infinite; }
+  .tp-pass-icon { color: #4a6a4a; }
+  .tp-warn-icon { color: #7a6a3a; }
+  .tp-dots {
+    flex: 1;
+    border-bottom: 1px dotted #222;
+    margin: 0 8px;
+    min-width: 20px;
+  }
+  .tp-badge-pass {
+    border: 1px solid #2a3a2a;
+    color: #4a6a4a;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 1px 6px;
+  }
+  .tp-badge-warn {
+    border: 1px solid #3a3020;
+    color: #7a6a3a;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 1px 6px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── VISUAL: ADAPTABLE ─────────────────── */
+  .tp-visual--adapt {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .tp-formats {
+    display: grid;
+    grid-template-columns: 120px 80px 1fr;
+    grid-template-rows: auto auto;
+    gap: 6px;
+    width: 100%;
+  }
+  .tp-format-cell {
+    border: 1px solid #252525;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    gap: 6px;
+    background: #0f0f0f;
+  }
+  .tp-format--square   { aspect-ratio: 1 / 1; }
+  .tp-format--portrait { aspect-ratio: 9 / 16; grid-row: 1 / 3; }
+  .tp-format--landscape { aspect-ratio: 16 / 9; grid-column: 3; }
+  .tp-format--wide     { aspect-ratio: 1.91 / 1; }
+  .tp-format--tall     { aspect-ratio: 4 / 5; }
+  .tp-format--banner   { grid-column: 1 / -1; height: 36px; flex-direction: row; padding: 0 16px; justify-content: space-between; }
+
+  .tp-format-ratio {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+    letter-spacing: 0.04em;
+  }
+  .tp-format-name {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #333;
+  }
+  .tp-format-caption {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: #3a3a3a;
+    margin: 0;
+  }
+
+  /* ── CTA ───────────────────────────────── */
+  .tp-cta {
+    padding: 100px 40px;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #111 0,
+      #111 1px,
+      #090909 1px,
+      #090909 8px
+    );
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .tp-cta-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .tp-cta-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: #444;
+    margin: 0 0 24px;
+  }
+  .tp-cta-title {
+    font-size: clamp(36px, 5.5vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: #f0f0f0;
+    line-height: 1.0;
+    margin: 0 0 24px;
+  }
+  .tp-cta-desc {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.7;
+    margin: 0 0 48px;
+  }
+  .tp-cta-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tp-btn {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    padding: 14px 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.15s ease;
+  }
+  .tp-btn--filled {
+    background: #e8e8e8;
+    color: #080808;
+    border: 1px solid #e8e8e8;
+  }
+  .tp-btn--filled:hover { background: #fff; border-color: #fff; }
+  .tp-btn--outline {
+    background: transparent;
+    color: #777;
+    border: 1px solid #2e2e2e;
+  }
+  .tp-btn--outline:hover { color: #e2e2e2; border-color: #555; }
+
+  /* ── PAGE FOOTER ───────────────────────── */
+  .tp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    font-size: 11px;
+    color: #3a3a3a;
+    letter-spacing: 0.06em;
+  }
+  .tp-footer-link {
+    color: #444;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+  .tp-footer-link:hover { color: #999; }
+
+  /* ── RESPONSIVE ────────────────────────── */
+  @media (max-width: 960px) {
+    .tp-nav   { padding: 14px 20px; }
+    .tp-hero  { padding: 64px 20px 56px; }
+    .tp-feature { padding: 64px 20px; }
+    .tp-cta   { padding: 72px 20px; }
+    .tp-footer { padding: 16px 20px; }
+
+    .tp-feature-inner,
+    .tp-feature-inner--rev {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      gap: 48px;
+    }
+
+    .tp-hero-stats { flex-direction: column; width: 100%; }
+    .tp-stat { border-right: none; border-bottom: 1px solid #222; padding: 18px 24px; }
+    .tp-stat:last-child { border-bottom: none; }
+
+    .tp-scale-grid { grid-template-columns: repeat(4, 1fr); }
+    .tp-scale-cell { width: 32px; height: 32px; }
+
+    .tp-formats {
+      grid-template-columns: 100px 70px 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .tp-hero-title { letter-spacing: -0.025em; }
+    .tp-feature-title { font-size: clamp(44px, 14vw, 72px); }
+    .tp-formats {
+      grid-template-columns: 90px 60px 1fr;
+    }
+  }
+</style>
+
+<script>
+  const yearEl = document.getElementById("tp-year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
+</script>
