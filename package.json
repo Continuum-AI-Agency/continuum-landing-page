@@ -21,7 +21,7 @@
     "@types/react-dom": "^19.2.3",
     "astro": "^5.16.9",
     "clsx": "^2.1.1",
-    "framer": "^2.4.1",
+    "framer-motion": "^12.35.1",
     "lucide-react": "^0.564.0",
     "motion": "^12.34.0",
     "react": "^19.2.4",
