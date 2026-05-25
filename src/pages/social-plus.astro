@@ -1,0 +1,1687 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Social+ — AI Community Management Plugin for Claude · Continuum"
+  description="Social+ is a Claude plugin for AI-powered community management. Detect trends, generate brand-aligned content, and plan your editorial calendar — all inside Claude."
+>
+  <div class="sp-root">
+
+    <!-- NAV -->
+    <nav class="sp-nav">
+      <a href="/" class="sp-nav-home">
+        <span class="sp-nav-arrow">←</span>
+        CONTINUUM
+      </a>
+      <span class="sp-nav-pill">SOCIAL+</span>
+    </nav>
+
+    <!-- HERO -->
+    <section class="sp-hero">
+      <div class="sp-grid-bg" aria-hidden="true"></div>
+      <div class="sp-hero-inner reveal">
+        <p class="sp-eyebrow">CONTINUUM / SOCIAL+</p>
+        <h1 class="sp-hero-title">
+          <span class="sr-only">AI Social Media Content Automation: </span>
+          Social<span class="sp-accent-mark">+</span><br />
+          for Claude.
+        </h1>
+        <p class="sp-hero-tagline">Install once. Post on autopilot.</p>
+        <p class="sp-hero-sub">
+          Social+ brings trend detection, brand-aligned content creation, and editorial
+          planning directly into <a href="https://github.com/anthropics/claude-code" class="text-primary underline">Claude Code</a> and <a href="https://docs.anthropic.com/en/docs/welcome" class="text-primary underline">Claude Desktop</a>. One plugin. Your entire social workflow, powered by our core <a href="/technology" class="text-primary underline">design automation engine</a>.
+        </p>
+
+        <div class="sp-install-block">
+          <div class="sp-install-header">
+            <span>PLUGIN INSTALL</span>
+            <span class="sp-install-ver">v1.0</span>
+          </div>
+          <div class="sp-install-row">
+            <div class="sp-platform">
+              <span class="sp-platform-glyph">⌨</span>
+              <span class="sp-platform-label">CLAUDE CODE</span>
+            </div>
+            <div class="sp-cmd-line">
+              <span class="sp-cmd-prompt">$</span>
+              <code class="sp-cmd-text">claude mcp add @continuum/social-plus</code>
+              <button class="sp-cmd-copy" data-cmd="claude mcp add @continuum/social-plus" aria-label="Copy command">⧉</button>
+            </div>
+          </div>
+          <div class="sp-install-sep"></div>
+          <div class="sp-install-row">
+            <div class="sp-platform">
+              <span class="sp-platform-glyph">◈</span>
+              <span class="sp-platform-label">CLAUDE DESKTOP</span>
+            </div>
+            <a href="mailto:michelle@continuumai.agency" class="sp-request-link">Request access →</a>
+          </div>
+        </div>
+
+        <div class="sp-hero-stats">
+          <div class="sp-stat">
+            <span class="sp-stat-num">01</span>
+            <span class="sp-stat-label">TRENDS · $9.99 ADD-ON</span>
+          </div>
+          <div class="sp-stat">
+            <span class="sp-stat-num">02</span>
+            <span class="sp-stat-label">CREATIVE STUDIO</span>
+          </div>
+          <div class="sp-stat">
+            <span class="sp-stat-num">03</span>
+            <span class="sp-stat-label">ORGANIC PLANNER</span>
+          </div>
+          <div class="sp-stat sp-stat--accent">
+            <span class="sp-stat-num">04</span>
+            <span class="sp-stat-label">JAINA · UPGRADE</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- WHAT SOCIAL+ SOLVES -->
+    <section class="sp-solves">
+      <div class="sp-solves-inner">
+        <div class="sp-section-header">
+          <p class="sp-eyebrow">THE PROBLEM</p>
+          <h2 class="sp-section-title">What Social<span class="sp-accent-mark">+</span> solves</h2>
+        </div>
+        <div class="sp-solves-grid reveal">
+          <div class="sp-solve-item">
+            <span class="sp-solve-num">01</span>
+            <h3 class="sp-solve-title">FAST, BRAND-ALIGNED CONTENT</h3>
+            <p class="sp-solve-desc">The first flow builds your brand inside the system so everything created afterward is relevant and coherent from day one.</p>
+          </div>
+          <div class="sp-solve-item">
+            <span class="sp-solve-num">02</span>
+            <h3 class="sp-solve-title">SIGNAL-BASED DECISIONS</h3>
+            <p class="sp-solve-desc">Replace gut feeling with insights backed by social listening, market trends, and real external signals — not guesswork.</p>
+          </div>
+          <div class="sp-solve-item">
+            <span class="sp-solve-num">03</span>
+            <h3 class="sp-solve-title">LESS OPERATIONAL FRICTION</h3>
+            <p class="sp-solve-desc">Centralize context, data, and assets so you can operate without jumping between tools. One place, all the intelligence.</p>
+          </div>
+          <div class="sp-solve-item">
+            <span class="sp-solve-num">04</span>
+            <h3 class="sp-solve-title">FROM INSIGHT TO EXECUTION</h3>
+            <p class="sp-solve-desc">Turn signals into real content and an actionable editorial plan. No more analysis that never makes it to production.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- MODULE 01: TRENDS ADD-ON -->
+    <section class="sp-module" id="modules">
+      <div class="sp-module-inner reveal">
+        <div class="sp-module-text">
+          <div class="sp-module-eyebrow">
+            <span class="sp-module-num sp-module-num--active">02</span>
+            <span class="sp-module-tag">TRENDS · ADD-ON</span>
+          </div>
+          <h2 class="sp-module-title">Signal<br /><em>Radar</em></h2>
+          <p class="sp-module-desc">Don't follow trends — master the signals impacting your industry before your competition even notices them.</p>
+          <div class="sp-specs">
+            <div class="sp-spec-row"><span>SOCIAL LISTENING</span><span>Topics, keywords, hashtags</span></div>
+            <div class="sp-spec-row"><span>EXTERNAL SIGNALS</span><span>Weather, sports, pop culture</span></div>
+            <div class="sp-spec-row"><span>SEGMENTATION</span><span>Country, city, language, category</span></div>
+            <div class="sp-spec-row"><span>OUTPUT</span><span>Prioritized opportunity list</span></div>
+            <div class="sp-spec-row"><span>COVERAGE</span><span>Retail, Fintech, Sports + more</span></div>
+          </div>
+          <div class="sp-addon-inline">ADD-ON · <strong>$9.99 / mo</strong></div>
+        </div>
+        <div class="sp-visual sp-visual--radar">
+          <div class="sp-radar-wrap">
+            <div class="sp-radar-label">SIGNAL RADAR · LIVE</div>
+            <div class="sp-radar-rings">
+              <div class="sp-radar-ring sp-radar-ring--outer"></div>
+              <div class="sp-radar-ring sp-radar-ring--mid"></div>
+              <div class="sp-radar-ring sp-radar-ring--inner"></div>
+              <div class="sp-radar-dot"></div>
+            </div>
+            <div class="sp-radar-signals">
+              <div class="sp-signal-row sp-signal-row--hot">
+                <span class="sp-signal-dot sp-signal-dot--active"></span>
+                <span class="sp-signal-name">TRD</span>
+                <span class="sp-signal-dots">· · · · · · ·</span>
+                <span class="sp-signal-tag sp-signal-tag--high">HIGH</span>
+              </div>
+              <div class="sp-signal-row">
+                <span class="sp-signal-dot"></span>
+                <span class="sp-signal-name">CMP</span>
+                <span class="sp-signal-dots">· · · · · ·</span>
+                <span class="sp-signal-tag sp-signal-tag--med">MED</span>
+              </div>
+              <div class="sp-signal-row">
+                <span class="sp-signal-dot"></span>
+                <span class="sp-signal-name">AUD</span>
+                <span class="sp-signal-dots">· · · · ·</span>
+                <span class="sp-signal-tag">LOW</span>
+              </div>
+              <div class="sp-signal-row">
+                <span class="sp-signal-dot"></span>
+                <span class="sp-signal-name">EVT</span>
+                <span class="sp-signal-dots">· · · · · · · ·</span>
+                <span class="sp-signal-tag sp-signal-tag--high">HIGH</span>
+              </div>
+            </div>
+            <div class="sp-radar-footer">
+              <span>12 OPPORTUNITIES DETECTED</span>
+              <span>USA · EN · FINTECH</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- MODULE 03: CREATIVE STUDIO -->
+    <section class="sp-module sp-module--alt">
+      <div class="sp-module-inner sp-module-inner--rev reveal">
+        <div class="sp-module-text">
+          <div class="sp-module-eyebrow">
+            <span class="sp-module-num sp-module-num--active">03</span>
+            <span class="sp-module-tag">CREATIVE STUDIO</span>
+          </div>
+          <h2 class="sp-module-title">Visual<br /><em>Lab</em></h2>
+          <p class="sp-module-desc">From idea to brand-aligned content in minutes. AI-generated images and video that respect your brand guidelines every time.</p>
+          <div class="sp-specs">
+            <div class="sp-spec-row"><span>IMAGE GENERATION</span><span>Scenarios, product, lifestyle</span></div>
+            <div class="sp-spec-row"><span>VIDEO GENERATION</span><span>Micro scenes, loops, mood</span></div>
+            <div class="sp-spec-row"><span>CANVAS WORKFLOWS</span><span>5 sets per opportunity</span></div>
+            <div class="sp-spec-row"><span>FORMATS</span><span>1:1 / 9:16 / 16:9 + variants</span></div>
+            <div class="sp-spec-row"><span>CREDITS</span><span>Pay per generation · top up anytime</span></div>
+          </div>
+        </div>
+        <div class="sp-visual sp-visual--canvas">
+          <div class="sp-canvas-wrap">
+            <div class="sp-canvas-titlebar">
+              <div class="sp-canvas-dots">
+                <span class="sp-cdot sp-cdot--r"></span>
+                <span class="sp-cdot sp-cdot--y"></span>
+                <span class="sp-cdot sp-cdot--g"></span>
+              </div>
+              <span class="sp-canvas-title">canvas_workflow_v3</span>
+            </div>
+            <div class="sp-canvas-body">
+              <div class="sp-canvas-main">
+                <div class="sp-canvas-toolbar">
+                  <span class="sp-tool">T</span>
+                  <span class="sp-tool">▣</span>
+                  <span class="sp-tool">◎</span>
+                  <span class="sp-tool">╱</span>
+                  <span class="sp-tool sp-tool--active">✦</span>
+                </div>
+                <div class="sp-canvas-stage">
+                  <div class="sp-canvas-bar sp-canvas-bar--full"></div>
+                  <div class="sp-canvas-bar sp-canvas-bar--wide"></div>
+                  <div class="sp-canvas-bar sp-canvas-bar--med"></div>
+                  <div class="sp-canvas-thumb"></div>
+                  <div class="sp-canvas-bar sp-canvas-bar--short"></div>
+                </div>
+                <div class="sp-canvas-footer-bar">
+                  <span>FORMAT · 1080×1080</span>
+                  <span>BATCH (24)</span>
+                </div>
+              </div>
+              <div class="sp-canvas-layers">
+                <div class="sp-layers-title">LAYERS</div>
+                <div class="sp-layer sp-layer--active">
+                  <span class="sp-layer-icon">▣</span>
+                  <span>headline_v3</span>
+                </div>
+                <div class="sp-layer">
+                  <span class="sp-layer-icon">▣</span>
+                  <span>product_shot_r</span>
+                </div>
+                <div class="sp-layer">
+                  <span class="sp-layer-icon">▣</span>
+                  <span>bg_texture</span>
+                </div>
+                <div class="sp-layer sp-layer--dim">
+                  <span class="sp-layer-icon">◎</span>
+                  <span>logo_lockup</span>
+                </div>
+                <div class="sp-layer sp-layer--dim">
+                  <span class="sp-layer-icon">◎</span>
+                  <span>cta_block</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- MODULE 04: ORGANIC PLANNER -->
+    <section class="sp-module">
+      <div class="sp-module-inner reveal">
+        <div class="sp-module-text">
+          <div class="sp-module-eyebrow">
+            <span class="sp-module-num sp-module-num--active">04</span>
+            <span class="sp-module-tag">ORGANIC PLANNER</span>
+          </div>
+          <h2 class="sp-module-title">Editorial<br /><em>Calendar</em></h2>
+          <p class="sp-module-desc">Execution-ready planning for Instagram and LinkedIn. What you detect becomes a calendar — it never stays just an analysis.</p>
+          <div class="sp-specs">
+            <div class="sp-spec-row"><span>CONVERSION</span><span>Insights → actionable calendar</span></div>
+            <div class="sp-spec-row"><span>CADENCE</span><span>Steady weekly publishing rhythm</span></div>
+            <div class="sp-spec-row"><span>POWERED BY</span><span>Trending Topics + briefs</span></div>
+            <div class="sp-spec-row"><span>TRACEABILITY</span><span>Draft → ready → published</span></div>
+            <div class="sp-spec-row"><span>HISTORY</span><span>Reuse + continuous learning</span></div>
+          </div>
+        </div>
+        <div class="sp-visual sp-visual--calendar">
+          <div class="sp-cal-wrap">
+            <div class="sp-cal-header">
+              <span class="sp-cal-month">ORGANIC PLANNER</span>
+              <span class="sp-cal-range">APR 7–13</span>
+            </div>
+            <div class="sp-cal-weekdays">
+              <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+            </div>
+            <div class="sp-cal-grid">
+              <div class="sp-cal-day sp-cal-day--active">
+                <span class="sp-cal-dot sp-cal-dot--scheduled"></span>
+                <span class="sp-cal-platform">IG</span>
+                <span class="sp-cal-status">DRAFT</span>
+              </div>
+              <div class="sp-cal-day"></div>
+              <div class="sp-cal-day sp-cal-day--active">
+                <span class="sp-cal-dot sp-cal-dot--scheduled"></span>
+                <span class="sp-cal-platform">LI</span>
+                <span class="sp-cal-status">READY</span>
+              </div>
+              <div class="sp-cal-day"></div>
+              <div class="sp-cal-day sp-cal-day--active">
+                <span class="sp-cal-dot sp-cal-dot--scheduled"></span>
+                <span class="sp-cal-platform">TK</span>
+                <span class="sp-cal-status">SCHED</span>
+              </div>
+              <div class="sp-cal-day"></div>
+              <div class="sp-cal-day"></div>
+              <div class="sp-cal-day"></div>
+              <div class="sp-cal-day sp-cal-day--planned">
+                <span class="sp-cal-dot"></span>
+                <span class="sp-cal-platform">YT</span>
+                <span class="sp-cal-status">PLAN</span>
+              </div>
+              <div class="sp-cal-day sp-cal-day--active">
+                <span class="sp-cal-dot sp-cal-dot--scheduled"></span>
+                <span class="sp-cal-platform">IG</span>
+                <span class="sp-cal-status">READY</span>
+              </div>
+              <div class="sp-cal-day sp-cal-day--planned">
+                <span class="sp-cal-dot"></span>
+                <span class="sp-cal-platform">LI</span>
+                <span class="sp-cal-status">PLAN</span>
+              </div>
+              <div class="sp-cal-day sp-cal-day--active">
+                <span class="sp-cal-dot sp-cal-dot--scheduled"></span>
+                <span class="sp-cal-platform">IG</span>
+                <span class="sp-cal-status">SCHED</span>
+              </div>
+              <div class="sp-cal-day"></div>
+              <div class="sp-cal-day sp-cal-day--active">
+                <span class="sp-cal-dot sp-cal-dot--scheduled"></span>
+                <span class="sp-cal-platform">YT</span>
+                <span class="sp-cal-status">READY</span>
+              </div>
+            </div>
+            <div class="sp-cal-legend">
+              <span><span class="sp-legend-dot sp-legend-dot--scheduled"></span> SCHEDULED</span>
+              <span><span class="sp-legend-dot sp-legend-dot--planned"></span> PLANNED</span>
+              <span><span class="sp-legend-dot"></span> OPEN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- JAINA: INCLUDED IN BASE -->
+    <section class="sp-module sp-module--alt">
+      <div class="sp-module-inner sp-module-inner--rev reveal">
+        <div class="sp-module-text">
+          <div class="sp-module-eyebrow">
+            <span class="sp-module-num sp-module-num--active">+</span>
+            <span class="sp-module-tag">JAINA · UPGRADE</span>
+          </div>
+          <h2 class="sp-module-title">Paid Media<br /><em>Copilot</em></h2>
+          <p class="sp-module-desc">From performance data to an action plan. Jaina reads your campaigns, identifies what's working, and tells you exactly what to do next.</p>
+          <div class="sp-specs">
+            <div class="sp-spec-row"><span>PERFORMANCE REPORTING</span><span>Winning creatives + audiences</span></div>
+            <div class="sp-spec-row"><span>CAMPAIGN PLANNING</span><span>Objectives, structure, budget</span></div>
+            <div class="sp-spec-row"><span>STRATEGY ACTIVATION</span><span>Ready-to-launch action sets</span></div>
+            <div class="sp-spec-row"><span>A/B TESTING</span><span>Suggested tests + iteration map</span></div>
+            <div class="sp-spec-row"><span>OPTIMIZATION</span><span>Playbook + Q-roadmap</span></div>
+          </div>
+        </div>
+        <div class="sp-visual sp-visual--dashboard">
+          <div class="sp-dash-wrap">
+            <div class="sp-dash-titlebar">
+              <span class="sp-dash-name">JAINA · PAID MEDIA COPILOT</span>
+              <span class="sp-dash-live">LIVE</span>
+            </div>
+            <div class="sp-dash-metrics">
+              <div class="sp-dash-metric">
+                <span class="sp-dash-val">4.2×</span>
+                <span class="sp-dash-lbl">ROAS</span>
+              </div>
+              <div class="sp-dash-metric">
+                <span class="sp-dash-val">$0.84</span>
+                <span class="sp-dash-lbl">CPC</span>
+              </div>
+              <div class="sp-dash-metric">
+                <span class="sp-dash-val">3.1%</span>
+                <span class="sp-dash-lbl">CTR</span>
+              </div>
+              <div class="sp-dash-metric">
+                <span class="sp-dash-val">$8.40</span>
+                <span class="sp-dash-lbl">CPM</span>
+              </div>
+            </div>
+            <div class="sp-dash-bars-label">CAMPAIGN PERFORMANCE</div>
+            <div class="sp-dash-bars">
+              <div class="sp-dash-bar-row">
+                <span class="sp-dash-bar-name">SEARCH</span>
+                <div class="sp-dash-bar-track">
+                  <div class="sp-dash-bar-fill" style="width:68%"></div>
+                </div>
+                <span class="sp-dash-bar-pct">68%</span>
+              </div>
+              <div class="sp-dash-bar-row">
+                <span class="sp-dash-bar-name">SOCIAL</span>
+                <div class="sp-dash-bar-track">
+                  <div class="sp-dash-bar-fill" style="width:44%"></div>
+                </div>
+                <span class="sp-dash-bar-pct">44%</span>
+              </div>
+              <div class="sp-dash-bar-row">
+                <span class="sp-dash-bar-name">RETARGET</span>
+                <div class="sp-dash-bar-track">
+                  <div class="sp-dash-bar-fill sp-dash-bar-fill--accent" style="width:79%"></div>
+                </div>
+                <span class="sp-dash-bar-pct sp-dash-bar-pct--accent">79%</span>
+              </div>
+            </div>
+            <div class="sp-dash-insight">
+              <span class="sp-dash-insight-label">RECOMMENDATION</span>
+              <p class="sp-dash-insight-text">Increase RETARGET budget by +15%. Creative A outperforms by 32%.<span class="sp-dash-cursor">▌</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- METRICS -->
+    <section class="sp-metrics-section">
+      <div class="sp-metrics-inner reveal">
+        <div class="sp-metric">
+          <span class="sp-metric-num sp-metric-num--accent">−60%</span>
+          <span class="sp-metric-label">AD CREATION TIME</span>
+          <span class="sp-metric-sub">Faster production using market signals</span>
+        </div>
+        <div class="sp-metric">
+          <span class="sp-metric-num">10→4</span>
+          <span class="sp-metric-label">CAMPAIGN WEEKS</span>
+          <span class="sp-metric-sub">Timeline cut from 10 down to 4 weeks</span>
+        </div>
+        <div class="sp-metric">
+          <span class="sp-metric-num sp-metric-num--accent">+35%</span>
+          <span class="sp-metric-label">CONVERSION RATE</span>
+          <span class="sp-metric-sub">Across strategic campaigns and ad sets</span>
+        </div>
+        <div class="sp-metric">
+          <span class="sp-metric-num sp-metric-num--accent">+30%</span>
+          <span class="sp-metric-label">ENGAGEMENT RATE</span>
+          <span class="sp-metric-sub">vs. content without market signals</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- KPIs -->
+    <section class="sp-kpis-section">
+      <div class="sp-kpis-inner">
+        <p class="sp-eyebrow" style="margin-bottom: 24px;">KPIs &amp; MEASUREMENT</p>
+        <div class="sp-kpis-row reveal">
+          <div class="sp-kpi">
+            <span class="sp-kpi-label">TIME-TO-INSIGHT</span>
+            <p class="sp-kpi-value">Speed from signal detection to a ready-to-act opportunity in your pipeline.</p>
+          </div>
+          <div class="sp-kpi">
+            <span class="sp-kpi-label">ACTIVATION RATE</span>
+            <p class="sp-kpi-value">Percentage of detected trends that actually become published content.</p>
+          </div>
+          <div class="sp-kpi">
+            <span class="sp-kpi-label">CONSISTENCY</span>
+            <p class="sp-kpi-value">Stability in publishing volume and format mix week over week.</p>
+          </div>
+          <div class="sp-kpi">
+            <span class="sp-kpi-label">PERFORMANCE LIFT</span>
+            <p class="sp-kpi-value">Engagement improvement vs. content created without market signals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sp-hatch"></div>
+
+    <!-- PRICING -->
+    <section class="sp-pricing-section">
+      <div class="sp-pricing-inner">
+        <div class="sp-section-header sp-section-header--center">
+          <p class="sp-eyebrow">PRICING</p>
+          <h2 class="sp-section-title">Simple pricing.<br />Serious output.</h2>
+          <p class="sp-section-desc">One base subscription. Add what you need. Pay for what you generate.</p>
+        </div>
+        <div class="sp-pricing-cards reveal">
+
+          <div class="sp-pricing-card sp-pricing-card--main">
+            <div class="sp-card-badge">BASE PLAN</div>
+            <p class="sp-plan-name">SOCIAL+</p>
+            <div class="sp-plan-price-row">
+              <span class="sp-plan-currency">$</span>
+              <span class="sp-plan-price">19</span>
+              <div class="sp-plan-price-right">
+                <span class="sp-plan-cents">.99</span>
+                <span class="sp-plan-per">/ mo</span>
+              </div>
+            </div>
+            <p class="sp-plan-period">5 seats · cancel anytime</p>
+            <div class="sp-plan-divider"></div>
+            <ul class="sp-plan-features">
+              <li class="sp-plan-feature sp-plan-feature--head">Creative Studio</li>
+              <li class="sp-plan-feature">AI image &amp; video generation</li>
+              <li class="sp-plan-feature">Canvas workflows &amp; multi-format variants</li>
+              <li class="sp-plan-feature sp-plan-feature--head">Organic Planner</li>
+              <li class="sp-plan-feature">Editorial calendar + draft → published</li>
+              <li class="sp-plan-feature">Weekly cadence &amp; history</li>
+            </ul>
+            <a href="mailto:michelle@continuumai.agency" class="sp-btn sp-btn--filled">GET STARTED →</a>
+          </div>
+
+          <div class="sp-pricing-card">
+            <div class="sp-card-badge sp-card-badge--blue">+ ADD-ON</div>
+            <p class="sp-plan-name">TRENDS</p>
+            <div class="sp-plan-price-row">
+              <span class="sp-plan-currency">$</span>
+              <span class="sp-plan-price">9</span>
+              <div class="sp-plan-price-right">
+                <span class="sp-plan-cents">.99</span>
+                <span class="sp-plan-per">/ mo</span>
+              </div>
+            </div>
+            <p class="sp-plan-period">added to your Social+ plan</p>
+            <div class="sp-plan-divider"></div>
+            <ul class="sp-plan-features">
+              <li class="sp-plan-feature sp-plan-feature--head">Signal Radar · Full Access</li>
+              <li class="sp-plan-feature">Social listening &amp; keyword tracking</li>
+              <li class="sp-plan-feature">External signals (weather, sports, culture)</li>
+              <li class="sp-plan-feature">Country, city &amp; language segmentation</li>
+              <li class="sp-plan-feature">Prioritized opportunity list</li>
+              <li class="sp-plan-feature">Trend history &amp; KPI tracking</li>
+              <li class="sp-plan-feature">Coverage: Retail, Fintech, Sports + more</li>
+            </ul>
+            <a href="mailto:michelle@continuumai.agency" class="sp-btn sp-btn--outline">ADD TRENDS</a>
+          </div>
+
+          <div class="sp-pricing-card">
+            <div class="sp-card-badge">CREDITS</div>
+            <p class="sp-plan-name">AI STUDIO</p>
+            <div class="sp-plan-credit-wrap">
+              <span class="sp-plan-credit-label">PAY AS<br />YOU GO</span>
+            </div>
+            <p class="sp-plan-period">no subscription · top up anytime</p>
+            <div class="sp-plan-divider"></div>
+            <ul class="sp-plan-features">
+              <li class="sp-plan-feature sp-plan-feature--head">Canvas Generations</li>
+              <li class="sp-plan-feature">AI image generation credits</li>
+              <li class="sp-plan-feature">Video generation credits</li>
+              <li class="sp-plan-feature">Multi-format output (1:1 · 9:16 · 16:9)</li>
+              <li class="sp-plan-feature">Batch processing</li>
+              <li class="sp-plan-feature sp-plan-feature--head">Flexible Usage</li>
+              <li class="sp-plan-feature">Credits never expire</li>
+              <li class="sp-plan-feature">Buy exactly what you need</li>
+            </ul>
+            <a href="mailto:michelle@continuumai.agency" class="sp-btn sp-btn--outline">BUY CREDITS</a>
+          </div>
+
+        </div>
+
+        <div class="sp-pricing-bundle">
+          <div class="sp-bundle-main">
+            <span class="sp-bundle-eyebrow">FULL STACK</span>
+            <span class="sp-bundle-eq">Social+ + Trends = <strong>$29.98 / mo</strong></span>
+          </div>
+          <p class="sp-bundle-desc">Everything you need to go from market signal to published content — continuously.</p>
+          <a href="mailto:michelle@continuumai.agency" class="sp-bundle-cta">Get the full stack →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sp-cta-section">
+      <div class="sp-cta-inner reveal">
+        <div class="sp-cta-copy">
+          <p class="sp-eyebrow">GET STARTED</p>
+          <h2 class="sp-cta-title">LET AI DO<br /><em>ALL THE WORK.</em></h2>
+          <p class="sp-cta-desc">Get in touch with the Continuum team, check our <a href="/#pricing" class="text-primary underline">pricing modules</a>, or explore our core <a href="/technology" class="text-primary underline">design automation technology</a> to start operating with real market intelligence today.</p>
+          <div class="sp-cta-actions">
+            <a href="mailto:michelle@continuumai.agency" class="sp-btn sp-btn--filled">EMAIL MICHELLE →</a>
+            <a href="https://wa.me/5491161991009" class="sp-btn sp-btn--outline">WHATSAPP</a>
+          </div>
+        </div>
+        <div class="sp-contact-card">
+          <p class="sp-contact-name">MICHELLE SHOCRON</p>
+          <p class="sp-contact-title">Co-founder &amp; CEO · Continuum AI Agency</p>
+          <div class="sp-contact-rows">
+            <a href="mailto:michelle@continuumai.agency" class="sp-contact-link">michelle@continuumai.agency</a>
+            <a href="https://wa.me/5491161991009" class="sp-contact-link">+54 (911) 6199-1009</a>
+            <span class="sp-contact-link">+1 (650) 660-0365</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="sp-footer">
+      <span>© <span id="sp-year"></span> Continuum Agency Inc. All rights reserved.</span>
+      <a href="/" class="sp-footer-link">← Back to site</a>
+    </footer>
+
+  </div>
+</Layout>
+
+<style>
+  /* ── ROOT & TOKENS ─────────────────────────────── */
+  .sp-root {
+    --sp-accent:      var(--primary);
+    --sp-accent-dim:  color-mix(in oklch, var(--primary) 18%, transparent);
+    --sp-accent-glow: color-mix(in oklch, var(--primary) 8%, transparent);
+    --sp-border:      var(--border);
+    --sp-border-mid:  color-mix(in oklch, var(--primary) 10%, var(--border));
+    --sp-bg:          var(--background);
+    --sp-bg-raised:   var(--card);
+    --sp-bg-alt:      var(--muted);
+    background: var(--sp-bg);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ───────────────────────────────────────── */
+  .sp-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 1px solid var(--sp-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(12px);
+  }
+  .sp-nav-home {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #94a3b8;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.15s;
+  }
+  .sp-nav-home:hover { color: #e2e8f0; }
+  .sp-nav-arrow { opacity: 0.4; }
+  .sp-nav-pill {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--sp-accent);
+    border: 1px solid var(--sp-accent-dim);
+    padding: 4px 12px;
+  }
+
+  /* ── HERO ──────────────────────────────────────── */
+  .sp-hero {
+    position: relative;
+    padding: 96px 40px 80px;
+    border-bottom: 1px solid var(--sp-border);
+    overflow: hidden;
+  }
+  .sp-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(47,129,247,0.12) 1px, transparent 0);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+    pointer-events: none;
+  }
+  .sp-hero-inner {
+    position: relative;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .sp-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #334155;
+    margin: 0 0 36px;
+  }
+  .sp-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 9vw, 120px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: #f1f5f9;
+    margin: 0 0 24px;
+  }
+  .sp-accent-mark { color: var(--sp-accent); }
+  .sp-hero-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.2vw, 28px);
+    font-weight: 800;
+    font-style: italic;
+    color: #334155;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+  }
+  .sp-hero-sub {
+    font-size: 15px;
+    color: #94a3b8;
+    max-width: 520px;
+    line-height: 1.8;
+    margin: 0 0 48px;
+  }
+
+  /* ── INSTALL BLOCK ─────────────────────────────── */
+  .sp-install-block {
+    background: var(--sp-bg-raised);
+    border: 1px solid var(--sp-border-mid);
+    max-width: 600px;
+    margin: 0 0 52px;
+  }
+  .sp-install-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 18px;
+    border-bottom: 1px solid var(--sp-border);
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #334155;
+  }
+  .sp-install-ver { color: var(--sp-accent); }
+  .sp-install-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 18px;
+  }
+  .sp-install-sep { height: 1px; background: var(--sp-border); }
+  .sp-platform {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 148px;
+    flex-shrink: 0;
+  }
+  .sp-platform-glyph {
+    font-size: 13px;
+    color: var(--sp-accent);
+    line-height: 1;
+  }
+  .sp-platform-label {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #64748b;
+  }
+  .sp-cmd-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    background: rgba(0,0,0,0.25);
+    padding: 8px 12px;
+    border: 1px solid var(--sp-border);
+    min-width: 0;
+  }
+  .sp-cmd-prompt {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--sp-accent);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .sp-cmd-text {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #cbd5e1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  .sp-cmd-copy {
+    background: none;
+    border: 1px solid #1e3054;
+    color: #475569;
+    cursor: pointer;
+    padding: 2px 7px;
+    font-size: 12px;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .sp-cmd-copy:hover { border-color: var(--sp-accent); color: var(--sp-accent); }
+  .sp-request-link {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #64748b;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.15s;
+  }
+  .sp-request-link:hover { color: var(--sp-accent); }
+
+  /* ── HERO STATS ────────────────────────────────── */
+  .sp-hero-stats {
+    display: flex;
+    width: fit-content;
+    border: 1px solid var(--sp-border);
+  }
+  .sp-stat {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 32px;
+    border-right: 1px solid var(--sp-border);
+  }
+  .sp-stat:last-child { border-right: none; }
+  .sp-stat--accent .sp-stat-num { color: var(--sp-accent); }
+  .sp-stat-num {
+    font-family: 'Courier New', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .sp-stat-label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #334155;
+  }
+
+  /* ── HATCH ─────────────────────────────────────── */
+  .sp-hatch {
+    height: 36px;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #1a2844 0, #1a2844 1px,
+      var(--sp-bg) 1px, var(--sp-bg) 8px
+    );
+    border-top: 1px solid var(--sp-border);
+    border-bottom: 1px solid var(--sp-border);
+  }
+
+  /* ── SHARED SECTION ELEMENTS ───────────────────── */
+  .sp-section-header { margin-bottom: 56px; }
+  .sp-section-header--center {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 56px;
+  }
+  .sp-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: #f1f5f9;
+    margin: 0 0 14px;
+  }
+  .sp-section-desc {
+    font-size: 15px;
+    color: #94a3b8;
+    line-height: 1.75;
+  }
+  .sp-specs { border: 1px solid var(--sp-border); }
+  .sp-spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+  }
+  .sp-spec-row:last-child { border-bottom: none; }
+  .sp-spec-row span:first-child { color: #64748b; letter-spacing: 0.1em; }
+  .sp-spec-row span:last-child  { color: #94a3b8; }
+
+  /* ── ADDON TAG ─────────────────────────────────── */
+  .sp-addon-inline {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: #64748b;
+    border: 1px solid var(--sp-border-mid);
+    padding: 6px 14px;
+    margin-top: 24px;
+    display: inline-block;
+  }
+  .sp-addon-inline strong { color: var(--sp-accent); }
+
+  /* ── WHAT SOCIAL+ SOLVES ───────────────────────── */
+  .sp-solves {
+    padding: 80px 40px;
+    border-bottom: 1px solid var(--sp-border);
+  }
+  .sp-solves-inner { max-width: 1120px; margin: 0 auto; }
+  .sp-solves-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--sp-border);
+  }
+  .sp-solve-item {
+    padding: 32px 28px;
+    border-right: 1px solid var(--sp-border);
+  }
+  .sp-solve-item:last-child { border-right: none; }
+  .sp-solve-num {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: #1e3054;
+    margin-bottom: 16px;
+  }
+  .sp-solve-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+    margin: 0 0 12px;
+  }
+  .sp-solve-desc {
+    font-size: 13px;
+    color: #7c90a8;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* ── BRAND PROFILE ─────────────────────────────── */
+  .sp-brand {
+    padding: 96px 40px;
+    background: var(--sp-bg-alt);
+    border-bottom: 1px solid var(--sp-border);
+  }
+  .sp-brand-inner { max-width: 1120px; margin: 0 auto; }
+  .sp-brand-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--sp-border);
+  }
+  .sp-brand-step {
+    background: var(--sp-bg-alt);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .sp-step-ghost {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(72px, 8vw, 112px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+    color: rgba(255,255,255,0.03);
+    margin-bottom: 20px;
+    user-select: none;
+  }
+  .sp-step-content { position: relative; }
+  .sp-step-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #64748b;
+    margin: 0 0 12px;
+  }
+  .sp-step-body {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.8;
+    margin: 0 0 24px;
+  }
+  .sp-step-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sp-tag {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #334155;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 3px 8px;
+  }
+
+  /* ── MODULE SECTIONS ───────────────────────────── */
+  .sp-module {
+    padding: 96px 40px;
+    border-bottom: 1px solid var(--sp-border);
+  }
+  .sp-module--alt { background: var(--sp-bg-alt); }
+  .sp-module-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .sp-module-inner--rev { direction: rtl; }
+  .sp-module-inner--rev > * { direction: ltr; }
+  .sp-module-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .sp-module-num {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e3054;
+    letter-spacing: 0.06em;
+  }
+  .sp-module-num--active {
+    color: var(--sp-accent);
+    animation: sp-num-pulse 4s ease-in-out infinite;
+  }
+  .sp-module-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #334155;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 3px 10px;
+  }
+  .sp-module-title {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6vw, 88px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: #e2e8f0;
+    line-height: 0.95;
+    margin: 0 0 28px;
+  }
+  .sp-module-title em {
+    font-style: normal;
+    -webkit-text-stroke: 1.5px #e2e8f0;
+    color: transparent;
+  }
+  .sp-module-desc {
+    font-size: 15px;
+    color: #94a3b8;
+    line-height: 1.8;
+    margin: 0 0 40px;
+    max-width: 460px;
+  }
+  .sp-visual { display: flex; align-items: center; justify-content: center; }
+
+  /* ── VISUAL: SIGNAL RADAR ──────────────────────── */
+  .sp-visual--radar { align-items: flex-start; }
+  .sp-radar-wrap {
+    width: 100%;
+    border: 1px solid var(--sp-border-mid);
+    padding: 24px;
+    background: var(--sp-bg-raised);
+  }
+  .sp-radar-label {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #1e3054;
+    margin-bottom: 24px;
+  }
+  .sp-radar-rings {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sp-radar-ring {
+    position: absolute;
+    border: 1px solid var(--sp-border);
+  }
+  .sp-radar-ring--outer { width: 140px; height: 140px; }
+  .sp-radar-ring--mid   { width: 90px;  height: 90px;  }
+  .sp-radar-ring--inner { width: 48px;  height: 48px;  }
+  .sp-radar-dot {
+    width: 6px; height: 6px;
+    background: var(--sp-accent);
+    position: absolute; z-index: 1;
+  }
+  .sp-radar-signals {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .sp-signal-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+  }
+  .sp-signal-row:last-child { border-bottom: none; }
+  .sp-signal-dot { width: 6px; height: 6px; background: #1e3054; flex-shrink: 0; }
+  .sp-signal-dot--active { background: var(--sp-accent); }
+  .sp-signal-name { color: #64748b; letter-spacing: 0.1em; width: 32px; }
+  .sp-signal-dots { color: #1a2844; flex: 1; }
+  .sp-signal-tag {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: #1e3054;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 1px 6px;
+  }
+  .sp-signal-tag--high { color: var(--sp-accent); border-color: var(--sp-accent-dim); }
+  .sp-signal-tag--med  { color: #64748b; border-color: #1e3054; }
+  .sp-radar-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    color: #1e3054;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── VISUAL: CANVAS WORKFLOW ───────────────────── */
+  .sp-visual--canvas { align-items: flex-start; }
+  .sp-canvas-wrap {
+    width: 100%;
+    border: 1px solid var(--sp-border-mid);
+    background: var(--sp-bg-raised);
+    overflow: hidden;
+  }
+  .sp-canvas-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--sp-border);
+    background: rgba(0,0,0,0.2);
+  }
+  .sp-canvas-dots { display: flex; gap: 6px; }
+  .sp-cdot { width: 9px; height: 9px; border-radius: 50%; }
+  .sp-cdot--r { background: #1e2d4a; }
+  .sp-cdot--y { background: #1a2844; }
+  .sp-cdot--g { background: #162038; }
+  .sp-canvas-title {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: #1e3054;
+    letter-spacing: 0.06em;
+    margin-left: 8px;
+  }
+  .sp-canvas-body { display: grid; grid-template-columns: 1fr 160px; }
+  .sp-canvas-main { padding: 16px; border-right: 1px solid var(--sp-border); }
+  .sp-canvas-toolbar { display: flex; gap: 4px; margin-bottom: 12px; }
+  .sp-tool {
+    width: 26px; height: 26px;
+    border: 1px solid var(--sp-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #334155;
+    cursor: default; user-select: none; font-family: monospace;
+  }
+  .sp-tool--active { border-color: var(--sp-accent-dim); color: var(--sp-accent); }
+  .sp-canvas-stage {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid var(--sp-border);
+    padding: 16px;
+    display: flex; flex-direction: column;
+    gap: 8px; min-height: 130px;
+  }
+  .sp-canvas-bar { height: 8px; background: rgba(255,255,255,0.05); }
+  .sp-canvas-bar--full  { width: 100%; }
+  .sp-canvas-bar--wide  { width: 75%; }
+  .sp-canvas-bar--med   { width: 55%; }
+  .sp-canvas-bar--short { width: 35%; }
+  .sp-canvas-thumb {
+    width: 100%; height: 48px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--sp-border);
+  }
+  .sp-canvas-footer-bar {
+    display: flex; justify-content: space-between;
+    margin-top: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 9px; color: #1e3054; letter-spacing: 0.1em;
+  }
+  .sp-canvas-layers { padding: 12px; }
+  .sp-layers-title {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.15em;
+    color: #1e3054;
+    padding-bottom: 10px; border-bottom: 1px solid var(--sp-border); margin-bottom: 4px;
+  }
+  .sp-layer {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-family: 'Courier New', monospace; font-size: 10px; color: #334155;
+  }
+  .sp-layer:last-child { border-bottom: none; }
+  .sp-layer--active { color: #64748b; }
+  .sp-layer--dim    { color: #1e3054; }
+  .sp-layer-icon { font-size: 10px; flex-shrink: 0; }
+
+  /* ── VISUAL: CALENDAR ──────────────────────────── */
+  .sp-visual--calendar { align-items: flex-start; }
+  .sp-cal-wrap {
+    width: 100%;
+    border: 1px solid var(--sp-border-mid);
+    background: var(--sp-bg-raised);
+    padding: 20px;
+  }
+  .sp-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .sp-cal-month {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.15em; color: #1e3054;
+  }
+  .sp-cal-range {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; color: #1a2844; letter-spacing: 0.1em;
+  }
+  .sp-cal-weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 2px; margin-bottom: 2px;
+  }
+  .sp-cal-weekdays span {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; letter-spacing: 0.1em; color: #1e3054;
+    text-align: center; padding: 4px 0;
+  }
+  .sp-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .sp-cal-day {
+    border: 1px solid rgba(255,255,255,0.04);
+    min-height: 52px; padding: 6px 5px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+  }
+  .sp-cal-day--active  { border-color: rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
+  .sp-cal-day--planned { border-color: rgba(255,255,255,0.05); }
+  .sp-cal-dot { width: 5px; height: 5px; background: #1e3054; flex-shrink: 0; }
+  .sp-cal-dot--scheduled { background: var(--sp-accent); }
+  .sp-cal-platform {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.08em; color: #334155;
+  }
+  .sp-cal-status {
+    font-family: 'Courier New', monospace;
+    font-size: 7px; letter-spacing: 0.06em; color: #1e3054;
+  }
+  .sp-cal-legend {
+    display: flex; gap: 16px; margin-top: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 8px; color: #1e3054; letter-spacing: 0.1em;
+  }
+  .sp-cal-legend span { display: flex; align-items: center; gap: 5px; }
+  .sp-legend-dot { display: inline-block; width: 5px; height: 5px; background: #1e3054; }
+  .sp-legend-dot--scheduled { background: var(--sp-accent); }
+  .sp-legend-dot--planned   { background: #243660; }
+
+  /* ── VISUAL: JAINA DASHBOARD ───────────────────── */
+  .sp-visual--dashboard { align-items: flex-start; }
+  .sp-dash-wrap {
+    width: 100%;
+    border: 1px solid var(--sp-border-mid);
+    background: var(--sp-bg-raised);
+    padding: 20px;
+  }
+  .sp-dash-titlebar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--sp-border);
+  }
+  .sp-dash-name {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.15em; color: #1e3054;
+  }
+  .sp-dash-live {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; letter-spacing: 0.15em;
+    color: var(--sp-accent); border: 1px solid var(--sp-accent-dim); padding: 2px 7px;
+  }
+  .sp-dash-metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--sp-border); margin-bottom: 20px;
+  }
+  .sp-dash-metric {
+    padding: 12px 10px; border-right: 1px solid var(--sp-border);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .sp-dash-metric:last-child { border-right: none; }
+  .sp-dash-val {
+    font-family: 'Courier New', monospace;
+    font-size: 16px; font-weight: 700; color: #94a3b8;
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .sp-dash-lbl {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; color: #334155; letter-spacing: 0.12em;
+  }
+  .sp-dash-bars-label {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.15em;
+    color: #1e3054; margin-bottom: 10px;
+  }
+  .sp-dash-bars { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+  .sp-dash-bar-row { display: flex; align-items: center; gap: 10px; }
+  .sp-dash-bar-name {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; color: #64748b; letter-spacing: 0.1em; width: 58px; flex-shrink: 0;
+  }
+  .sp-dash-bar-track {
+    flex: 1; height: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--sp-border); overflow: hidden;
+  }
+  .sp-dash-bar-fill { height: 100%; background: #1e3054; }
+  .sp-dash-bar-fill--accent { background: rgba(47,129,247,0.4); }
+  .sp-dash-bar-pct {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; color: #334155; width: 28px; text-align: right; flex-shrink: 0;
+  }
+  .sp-dash-bar-pct--accent { color: var(--sp-accent); }
+  .sp-dash-insight {
+    border: 1px solid var(--sp-accent-dim);
+    padding: 12px 14px;
+  }
+  .sp-dash-insight-label {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.15em;
+    color: var(--sp-accent); margin-bottom: 6px;
+  }
+  .sp-dash-insight-text {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: #94a3b8; line-height: 1.5; margin: 0;
+  }
+  .sp-dash-cursor { color: var(--sp-accent); animation: blink 1.2s step-end infinite; }
+
+  /* ── METRICS ───────────────────────────────────── */
+  .sp-metrics-section {
+    padding: 80px 40px;
+    border-bottom: 1px solid var(--sp-border);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #111d36 0, #111d36 1px,
+      var(--sp-bg) 1px, var(--sp-bg) 8px
+    );
+  }
+  .sp-metrics-inner {
+    max-width: 1120px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--sp-border);
+  }
+  .sp-metric {
+    padding: 40px 32px; border-right: 1px solid var(--sp-border);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .sp-metric:last-child { border-right: none; }
+  .sp-metric-num {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4vw, 64px);
+    font-weight: 800; letter-spacing: -0.04em; color: #f1f5f9; line-height: 1;
+  }
+  .sp-metric-num--accent { color: var(--sp-accent); }
+  .sp-metric-label {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #334155;
+  }
+  .sp-metric-sub { font-size: 12px; color: #64748b; line-height: 1.5; }
+
+  /* ── KPIs ──────────────────────────────────────── */
+  .sp-kpis-section { padding: 64px 40px; border-bottom: 1px solid var(--sp-border); }
+  .sp-kpis-inner { max-width: 1120px; margin: 0 auto; }
+  .sp-kpis-row { display: flex; border: 1px solid var(--sp-border); }
+  .sp-kpi {
+    flex: 1; padding: 24px 28px;
+    border-right: 1px solid var(--sp-border);
+  }
+  .sp-kpi:last-child { border-right: none; }
+  .sp-kpi-label {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.15em;
+    color: #334155; margin-bottom: 10px;
+  }
+  .sp-kpi-value { font-size: 13px; color: #7c90a8; line-height: 1.65; margin: 0; }
+
+  /* ── PRICING ───────────────────────────────────── */
+  .sp-pricing-section {
+    padding: 96px 40px;
+    border-bottom: 1px solid var(--sp-border);
+    background: var(--sp-bg-alt);
+  }
+  .sp-pricing-inner { max-width: 1000px; margin: 0 auto; }
+  .sp-pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--sp-border);
+  }
+  .sp-pricing-card {
+    padding: 40px 32px;
+    border-right: 1px solid var(--sp-border);
+  }
+  .sp-pricing-card:last-child { border-right: none; }
+  .sp-pricing-card--main { background: var(--sp-bg-raised); }
+
+  .sp-card-badge {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.2em;
+    color: #334155; border: 1px solid var(--sp-border);
+    padding: 3px 9px; display: inline-block; margin-bottom: 16px;
+  }
+  .sp-card-badge--blue { color: var(--sp-accent); border-color: var(--sp-accent-dim); }
+
+  .sp-plan-name {
+    font-family: 'Courier New', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+    color: #475569; margin: 0 0 16px;
+  }
+  .sp-plan-price-row {
+    display: flex; align-items: baseline; gap: 2px; margin-bottom: 6px;
+  }
+  .sp-plan-currency {
+    font-family: 'Courier New', monospace;
+    font-size: 14px; color: #334155; letter-spacing: 0.08em; padding-bottom: 4px;
+  }
+  .sp-plan-price {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 4vw, 60px);
+    font-weight: 800; letter-spacing: -0.04em; color: #f1f5f9; line-height: 1;
+  }
+  .sp-plan-price-right {
+    display: flex; flex-direction: column; padding-top: 6px; margin-left: 2px;
+  }
+  .sp-plan-cents {
+    font-family: var(--font-display);
+    font-size: 20px; font-weight: 800; color: #f1f5f9; line-height: 1;
+  }
+  .sp-plan-per {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; color: #334155; letter-spacing: 0.1em;
+  }
+  .sp-plan-credit-wrap { margin: 16px 0 6px; }
+  .sp-plan-credit-label {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 800; color: #334155;
+    letter-spacing: -0.02em; line-height: 1.1; display: block;
+  }
+  .sp-plan-period {
+    font-family: 'Courier New', monospace;
+    font-size: 10px; color: #64748b; margin: 0 0 4px;
+  }
+  .sp-plan-divider { border-top: 1px solid var(--sp-border); margin: 24px 0; }
+  .sp-plan-features {
+    list-style: none; padding: 0; margin: 0 0 28px;
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .sp-plan-feature {
+    font-size: 13px; color: #7c90a8; line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .sp-plan-feature::before {
+    content: '—'; color: #334155; flex-shrink: 0;
+    font-family: 'Courier New', monospace;
+  }
+  .sp-plan-feature--head { color: #94a3b8; font-weight: 600; }
+  .sp-plan-feature--head::before { color: #475569; }
+
+  .sp-btn {
+    display: block; width: 100%;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+    padding: 14px 24px; text-decoration: none; text-align: center;
+    text-transform: uppercase; cursor: pointer; transition: all 0.15s ease;
+    border-radius: var(--radius-sm);
+  }
+  .sp-btn--filled {
+    background: var(--primary); color: var(--primary-foreground); border: 1px solid var(--primary);
+  }
+  .sp-btn--filled:hover { background: oklch(75% 0.13 180); border-color: oklch(75% 0.13 180); }
+  .sp-btn--outline {
+    background: transparent; color: var(--muted-foreground); border: 1px solid var(--border);
+  }
+  .sp-btn--outline:hover { color: var(--foreground); border-color: var(--primary); }
+
+  /* ── PRICING BUNDLE ────────────────────────────── */
+  .sp-pricing-bundle {
+    display: flex; align-items: center; gap: 40px; flex-wrap: wrap;
+    border: 1px solid var(--sp-border);
+    border-top: none;
+    padding: 22px 32px;
+    background: rgba(47,129,247,0.04);
+  }
+  .sp-bundle-main { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; }
+  .sp-bundle-eyebrow {
+    font-family: 'Courier New', monospace;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.2em; color: var(--sp-accent);
+  }
+  .sp-bundle-eq {
+    font-family: 'Courier New', monospace;
+    font-size: 13px; color: #64748b;
+  }
+  .sp-bundle-eq strong { color: #e2e8f0; }
+  .sp-bundle-desc { font-size: 13px; color: #64748b; line-height: 1.6; flex: 1; }
+  .sp-bundle-cta {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--sp-accent); text-decoration: none; white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .sp-bundle-cta:hover { opacity: 0.75; }
+
+  /* ── CTA ───────────────────────────────────────── */
+  .sp-cta-section { padding: 96px 40px; border-bottom: 1px solid var(--sp-border); }
+  .sp-cta-inner {
+    max-width: 1120px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+  }
+  .sp-cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5.5vw, 72px);
+    font-weight: 800; letter-spacing: -0.03em;
+    text-transform: uppercase; color: #f1f5f9;
+    line-height: 1.0; margin: 0 0 20px;
+  }
+  .sp-cta-title em {
+    font-style: normal;
+    -webkit-text-stroke: 1.5px #f1f5f9; color: transparent;
+  }
+  .sp-cta-desc { font-size: 15px; color: #94a3b8; line-height: 1.75; margin: 0; }
+  .sp-cta-actions {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px;
+  }
+  .sp-cta-actions .sp-btn {
+    width: auto; display: inline-block; padding: 14px 28px;
+  }
+  .sp-contact-card { border: 1px solid var(--sp-border); padding: 36px 32px; }
+  .sp-contact-name {
+    font-family: var(--font-display);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+    color: #64748b; margin: 0 0 6px;
+  }
+  .sp-contact-title {
+    font-size: 12px; color: #1e3054; margin: 0 0 28px;
+    padding-bottom: 20px; border-bottom: 1px solid var(--sp-border);
+  }
+  .sp-contact-rows { display: flex; flex-direction: column; gap: 12px; }
+  .sp-contact-link {
+    font-family: 'Courier New', monospace;
+    font-size: 12px; color: #64748b; text-decoration: none;
+    letter-spacing: 0.06em; transition: color 0.15s;
+  }
+  .sp-contact-link:hover { color: #e2e8f0; }
+
+  /* ── PAGE FOOTER ───────────────────────────────── */
+  .sp-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 40px;
+    font-size: 11px; color: #1e3054; letter-spacing: 0.06em;
+  }
+  .sp-footer-link {
+    color: #334155; text-decoration: none;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; transition: color 0.15s;
+  }
+  .sp-footer-link:hover { color: #94a3b8; }
+
+  /* ── KEYFRAMES ─────────────────────────────────── */
+  @keyframes blink { 50% { opacity: 0; } }
+  @keyframes sp-num-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+  }
+
+  /* ── RESPONSIVE: 960px ─────────────────────────── */
+  @media (max-width: 960px) {
+    .sp-nav     { padding: 14px 20px; }
+    .sp-hero    { padding: 64px 20px 56px; }
+    .sp-solves  { padding: 64px 20px; }
+    .sp-brand   { padding: 64px 20px; }
+    .sp-module  { padding: 64px 20px; }
+    .sp-metrics-section { padding: 56px 20px; }
+    .sp-kpis-section    { padding: 48px 20px; }
+    .sp-pricing-section { padding: 64px 20px; }
+    .sp-cta-section     { padding: 72px 20px; }
+    .sp-footer          { padding: 16px 20px; }
+
+    .sp-module-inner,
+    .sp-module-inner--rev {
+      grid-template-columns: 1fr;
+      direction: ltr; gap: 48px;
+    }
+    .sp-cta-inner { grid-template-columns: 1fr; gap: 48px; }
+    .sp-pricing-cards { grid-template-columns: 1fr; }
+    .sp-pricing-card { border-right: none; border-bottom: 1px solid var(--sp-border); }
+    .sp-pricing-card:last-child { border-bottom: none; }
+    .sp-hero-stats   { flex-direction: column; width: 100%; }
+    .sp-stat         { border-right: none; border-bottom: 1px solid var(--sp-border); padding: 18px 24px; }
+    .sp-stat:last-child { border-bottom: none; }
+    .sp-solves-grid  { grid-template-columns: 1fr 1fr; }
+    .sp-solve-item   { border-bottom: 1px solid var(--sp-border); }
+    .sp-brand-steps  { grid-template-columns: 1fr; }
+    .sp-metrics-inner { grid-template-columns: 1fr 1fr; }
+    .sp-metric        { border-bottom: 1px solid var(--sp-border); }
+    .sp-metric:nth-child(even) { border-right: none; }
+    .sp-metric:nth-last-child(-n+2) { border-bottom: none; }
+    .sp-pricing-bundle { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+
+  /* ── RESPONSIVE: 600px ─────────────────────────── */
+  @media (max-width: 600px) {
+    .sp-solves-grid   { grid-template-columns: 1fr; }
+    .sp-kpis-row      { flex-direction: column; }
+    .sp-kpi           { border-right: none; border-bottom: 1px solid var(--sp-border); }
+    .sp-kpi:last-child { border-bottom: none; }
+    .sp-hero-title    { letter-spacing: -0.025em; }
+    .sp-module-title  { font-size: clamp(36px, 14vw, 64px); }
+    .sp-metrics-inner { grid-template-columns: 1fr 1fr; }
+    .sp-dash-metrics  { grid-template-columns: 1fr 1fr; }
+    .sp-canvas-body   { grid-template-columns: 1fr; }
+    .sp-canvas-layers { border-top: 1px solid var(--sp-border); }
+    .sp-install-block { max-width: 100%; }
+    .sp-install-row   { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .sp-cmd-line      { width: 100%; }
+  }
+</style>
+
+<script>
+  document.getElementById("sp-year")!.textContent = new Date().getFullYear().toString();
+
+  // Copy command button
+  document.querySelectorAll<HTMLButtonElement>(".sp-cmd-copy").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const cmd = btn.dataset.cmd || "";
+      navigator.clipboard.writeText(cmd).then(() => {
+        btn.textContent = "✓";
+        btn.style.color = "var(--sp-accent)";
+        btn.style.borderColor = "var(--sp-accent)";
+        setTimeout(() => {
+          btn.textContent = "⧉";
+          btn.style.color = "";
+          btn.style.borderColor = "";
+        }, 2000);
+      });
+    });
+  });
+
+  // Scroll reveals
+  import { inView, animate, stagger } from "motion";
+
+  document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(32px)";
+    inView(el, () => {
+      animate(
+        el,
+        { opacity: [0, 1], transform: ["translateY(32px)", "translateY(0px)"] },
+        { duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.1 });
+  });
+
+  // Stagger grid children
+  (["sp-solves-grid", "sp-brand-steps", "sp-metrics-inner"] as const).forEach((cls) => {
+    const grid = document.querySelector<HTMLElement>(`.${cls}`);
+    if (!grid) return;
+    Array.from(grid.children).forEach((child) => {
+      (child as HTMLElement).style.opacity = "0";
+    });
+    inView(grid, () => {
+      animate(
+        Array.from(grid.children) as HTMLElement[],
+        { opacity: [0, 1], transform: ["translateY(16px)", "translateY(0px)"] },
+        { duration: 0.5, delay: stagger(0.08), easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.1 });
+  });
+</script>

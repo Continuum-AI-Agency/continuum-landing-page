@@ -21,7 +21,7 @@ export function InteractiveGridPattern({
     const [hoveredSquares, setHoveredSquares] = useState<Set<string>>(new Set());
 
     const brandColors = useMemo(
-        () => ["#2f81f7", "#a371f7", "#3fb950"],
+        () => ["#0fb5a8", "#853bf4", "#2ec070"],
         []
     );
 
@@ -90,10 +90,9 @@ export function InteractiveGridPattern({
                     height={height - 1}
                     rx={4}
                     fill={color}
-                    opacity={0.3}
+                    opacity={0.15}
                     style={{
                         transition: "opacity 0.5s ease",
-                        filter: `drop-shadow(0 0 6px ${color})`,
                     }}
                 />
             );

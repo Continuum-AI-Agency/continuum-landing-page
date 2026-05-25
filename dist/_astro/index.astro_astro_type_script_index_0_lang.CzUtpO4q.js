@@ -1,0 +1,1 @@
+import{i as r}from"./index.D728GeyV.js";import{a as t,s as o}from"./index.D-_52tQE.js";import"./single-value.BtOHRyB6.js";r(".reveal",a=>{t(a,{opacity:[0,1],y:[40,0]},{duration:.8,easing:[.16,1,.3,1]});const i=a.querySelectorAll(".group, .grid > div");i.length>0&&t(i,{opacity:[0,1],scale:[.95,1],y:[20,0]},{delay:o(.1,{startDelay:.2}),duration:.5})},{amount:.15});

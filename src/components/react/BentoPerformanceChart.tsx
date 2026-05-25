@@ -41,34 +41,34 @@ export function BentoPerformanceChart() {
             {/* Chart Header */}
             <div className="flex items-end justify-between w-full mb-4 z-20">
                 <div className="flex flex-col">
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Average ROAS</span>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Advantage+ Outcomes</span>
                     <motion.div
                         layout
-                        className={`text-2xl font-bold font-mono transition-colors duration-500 ${isOptimized ? 'text-green-400' : 'text-slate-300'}`}
+                        className={`text-2xl font-bold font-mono transition-colors duration-500 ${isOptimized ? 'text-success' : 'text-muted-foreground'}`}
                     >
-                        {isOptimized ? "4.2x" : "1.2x"}
+                        {isOptimized ? "2x" : "1x"}
                     </motion.div>
                 </div>
 
-                <div className="flex items-center gap-3 text-[9px] font-medium uppercase tracking-widest text-slate-400">
-                    <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 rounded-full bg-slate-600"></div>
+                <div className="flex items-center gap-3 text-[9px] font-medium uppercase tracking-widest text-muted-foreground">
+                    <div className="flex items-center gap-1 font-sans">
+                        <div className="w-2 h-2 rounded-full bg-muted-foreground/40"></div>
                         Before
                     </div>
-                    <div className={`flex items-center gap-1 transition-opacity duration-500 ${isOptimized ? 'opacity-100' : 'opacity-40'}`}>
-                        <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(57,211,83,0.8)]"></div>
+                    <div className={`flex items-center gap-1 transition-opacity duration-500 font-sans ${isOptimized ? 'opacity-100' : 'opacity-40'}`}>
+                        <div className="w-2 h-2 rounded-full bg-success"></div>
                         Continuum
                     </div>
                 </div>
             </div>
 
             {/* Chart Area */}
-            <div className="relative w-full h-32 border-b border-l border-slate-700/50 pb-1 pl-1 z-10 flex flex-col justify-end">
+            <div className="relative w-full h-32 border-b border-l border-border pb-1 pl-1 z-10 flex flex-col justify-end">
                 {/* Horizontal grid lines */}
                 <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
-                    <div className="w-full border-t border-slate-800/50"></div>
-                    <div className="w-full border-t border-slate-800/50"></div>
-                    <div className="w-full border-t border-slate-800/50"></div>
+                    <div className="w-full border-t border-border/20"></div>
+                    <div className="w-full border-t border-border/20"></div>
+                    <div className="w-full border-t border-border/20"></div>
                     <div className="w-full"></div>
                 </div>
 
@@ -76,8 +76,8 @@ export function BentoPerformanceChart() {
                 <svg viewBox="0 -10 200 120" className="absolute inset-x-0 bottom-0 w-full h-full overflow-visible" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#3fb950" stopOpacity="0.3" />
-                            <stop offset="100%" stopColor="#3fb950" stopOpacity="0" />
+                            <stop offset="0%" stopColor="var(--cs-success)" stopOpacity="0.25" />
+                            <stop offset="100%" stopColor="var(--cs-success)" stopOpacity="0" />
                         </linearGradient>
                     </defs>
 
@@ -85,8 +85,8 @@ export function BentoPerformanceChart() {
                     <path
                         d={pathBefore}
                         fill="none"
-                        stroke="#475569"
-                        strokeWidth="3"
+                        stroke="var(--cs-muted-fg)"
+                        strokeWidth="2.5"
                         strokeLinecap="round"
                     />
 
@@ -103,13 +103,12 @@ export function BentoPerformanceChart() {
                     <motion.path
                         d={pathAfter}
                         fill="none"
-                        stroke="#3fb950"
-                        strokeWidth="3"
+                        stroke="var(--cs-success)"
+                        strokeWidth="2.5"
                         strokeLinecap="round"
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: isOptimized ? 1 : 0, opacity: isOptimized ? 1 : 0 }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
-                        style={{ filter: 'drop-shadow(0 0 6px rgba(57,211,83,0.6))' }}
                     />
 
                     {/* Points for Continuum */}
@@ -118,9 +117,9 @@ export function BentoPerformanceChart() {
                             key={`point-${i}`}
                             cx={(i / 3) * 200}
                             cy={100 - d.after}
-                            r="4"
-                            fill="#0f172a"
-                            stroke="#3fb950"
+                            r="3.5"
+                            fill="var(--background)"
+                            stroke="var(--cs-success)"
                             strokeWidth="2"
                             initial={{ opacity: 0, scale: 0 }}
                             animate={{ opacity: isOptimized ? 1 : 0, scale: isOptimized ? 1 : 0 }}
@@ -131,8 +130,8 @@ export function BentoPerformanceChart() {
             </div>
 
             {/* X-Axis Labels */}
-            <div className="flex justify-between w-full mt-2 pl-1 z-20 relative">
-                {datasets.map(d => <span key={d.label} className="text-[9px] text-slate-500 text-center">{d.label}</span>)}
+            <div className="flex justify-between w-full mt-2 pl-1 z-20 relative font-mono">
+                {datasets.map(d => <span key={d.label} className="text-[9px] text-muted-foreground/60 text-center">{d.label}</span>)}
             </div>
         </motion.div>
     );

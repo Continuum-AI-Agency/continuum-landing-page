@@ -1,80 +1,155 @@
 ---
 /**
  * MasonryGrid Component
- * Implementation of an edge-to-edge masonry gallery using CSS Grid with left-to-right filling.
- * Exclusively shows looping videos with no hover overlays.
+ * Re-designed as a balanced, gapless, infinitely scrolling creative showcase.
+ * Features 3 parallel vertical scrolling columns (up/down/up) that loop seamlessly.
+ * Respects prefers-reduced-motion.
  */
 
-// 1. Define videos from public/assets
 const items = [
   { src: "/assets/Turismo.mp4", title: "Travel & Tourism", ratio: 1.77 }, 
   { src: "/assets/Tiene_3.mp4", title: "Social Content", ratio: 1.77 },
   { src: "/assets/claro_catalogo.mp4", title: "E-commerce Catalog", ratio: 1.77 },
-  { src: "/assets/consorcio_9-16.mp4", title: "Real Estate", ratio: 1.77 },
-  { src: "/assets/dic-2-tomas-del-castillo-story_027ad7d.mp4", title: "Influencer Content", ratio: 1.77 },
-  { src: "/assets/VENTA_PRODUCTO_1-1.mp4", title: "Product Showcase", ratio: 1.25 },
-  { src: "/assets/Real Estate.mp4", title: "Property Tour", ratio: 1.77 },
-  { src: "/assets/SPEAKER_9-16.mp4", title: "Event Speaker", ratio: 1.77 },
-  { src: "/assets/Kamay_Render_Vertical.mp4", title: "3D Rendering", ratio: 1.77 },
+  { src: "/assets/consorcio_9-16.mp4", title: "Real Estate", ratio: 0.56 }, 
+  { src: "/assets/dic-2-tomas-del-castillo-story_027ad7d.mp4", title: "Influencer Content", ratio: 0.56 },
+  { src: "/assets/VENTA_PRODUCTO_1-1.mp4", title: "Product Showcase", ratio: 1 },
+  { src: "/assets/Real Estate.mp4", title: "Property Tour", ratio: 0.56 },
+  { src: "/assets/SPEAKER_9-16.mp4", title: "Event Speaker", ratio: 0.56 },
+  { src: "/assets/Kamay_Render_Vertical.mp4", title: "3D Rendering", ratio: 0.56 },
   { src: "/assets/Catalogo_Heineken.mp4", title: "Brand Catalog", ratio: 1.77 },
   { src: "/assets/Mercado_Libre.mp4", title: "Retail Ads", ratio: 1 },
   { src: "/assets/Tiene_4.mp4", title: "Fashion Creative", ratio: 1.77 },
-  { src: "/assets/BODEGA_GOL_PROMO_9-16.mp4", title: "Sports Promotion", ratio: 1.77 },
+  { src: "/assets/BODEGA_GOL_PROMO_9-16.mp4", title: "Sports Promotion", ratio: 0.56 },
   { src: "/assets/Tiene_2.mp4", title: "Lifestyle", ratio: 1 },
   { src: "/assets/Deportes_resultados.mp4", title: "Sports Results", ratio: 1 },
 ];
 
-// Function to calculate grid row span based on ratio
-const getSpan = (ratio) => {
-    const baseSpan = 25; 
-    return Math.ceil(baseSpan * ratio);
+// Balanced distribution across 3 columns
+const col1 = [items[0], items[3], items[6], items[9], items[10]];
+const col2 = [items[1], items[4], items[7], items[11], items[13]];
+const col3 = [items[2], items[5], items[8], items[12], items[14]];
+
+// Duplicate lists for seamless looping
+const col1Double = [...col1, ...col1];
+const col2Double = [...col2, ...col2];
+const col3Double = [...col3, ...col3];
+
+const getAspectClass = (ratio: number) => {
+  if (ratio === 0.56) return "aspect-[9/16]";
+  if (ratio === 1) return "aspect-square";
+  return "aspect-video";
 };
 ---
 
-<section id="showcase" class="pt-0 pb-0 bg-[#0f172a] relative overflow-hidden z-10 reveal">
-  <!-- Edge-to-edge grid container -->
-  <div class="w-full px-1">
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1 grid-auto-rows-[10px] grid-flow-dense group/grid">
-      {items.map((item) => (
-        <div 
-          class="overflow-hidden bg-[#0d1117] relative transition-all duration-700 group/item hover:z-30 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(0,0,0,0.8)]"
-          style={`grid-row: span ${getSpan(item.ratio)};`}
-        >
-          <div class="relative w-full h-full">
-            <video 
-              data-src={item.src} 
-              muted 
-              playsinline 
-              loop 
-              preload="none" 
-              class="w-full h-full object-cover block lazy-video transition-all duration-700 group-hover/grid:opacity-40 group-hover/grid:grayscale-[0.5] group-hover/item:!opacity-100 group-hover/item:!grayscale-0"
-            ></video>
-          </div>
+<section id="showcase" class="py-24 bg-background relative overflow-hidden z-10 reveal">
+  {/* Event Horizon Fade Gradients */}
+  <div class="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-background via-background/90 to-transparent z-20 pointer-events-none"></div>
+  <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background via-background/90 to-transparent z-20 pointer-events-none"></div>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-12 relative">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-8 h-[1150px] overflow-hidden group/grid relative">
+      
+      {/* Column 1 (Scrolls Up) */}
+      <div class="flex flex-col gap-8 scroll-container">
+        <div class="flex flex-col gap-8 animate-scroll-up">
+          {col1Double.map((item) => (
+            <div 
+              class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
+            >
+              <video 
+                data-src={item.src} 
+                muted 
+                playsinline 
+                loop 
+                preload="none" 
+                class="w-full h-full object-cover block lazy-video"
+              ></video>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
+
+      {/* Column 2 (Scrolls Down) */}
+      <div class="flex flex-col gap-8 scroll-container">
+        <div class="flex flex-col gap-8 animate-scroll-down">
+          {col2Double.map((item) => (
+            <div 
+              class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
+            >
+              <video 
+                data-src={item.src} 
+                muted 
+                playsinline 
+                loop 
+                preload="none" 
+                class="w-full h-full object-cover block lazy-video"
+              ></video>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Column 3 (Scrolls Up - Hidden on Mobile) */}
+      <div class="hidden md:flex flex-col gap-8 scroll-container">
+        <div class="flex flex-col gap-8 animate-scroll-up">
+          {col3Double.map((item) => (
+            <div 
+              class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
+            >
+              <video 
+                data-src={item.src} 
+                muted 
+                playsinline 
+                loop 
+                preload="none" 
+                class="w-full h-full object-cover block lazy-video"
+              ></video>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <style>
-  .font-futura {
-    font-family: 'Futura Maxi', sans-serif;
+  .scroll-container {
+    height: 100%;
+    overflow: hidden;
   }
-  .font-raleway {
-    font-family: 'Raleway', sans-serif;
+
+  @keyframes scroll-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
   }
-  .text-accent-blue {
-    color: var(--accent-blue, #2f81f7);
+
+  @keyframes scroll-down {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
   }
-  
-  /* Grid settings */
-  .grid-auto-rows-\[10px\] {
-    grid-auto-rows: 10px;
+
+  .animate-scroll-up {
+    animation: scroll-up 45s linear infinite;
+  }
+
+  .animate-scroll-down {
+    animation: scroll-down 45s linear infinite;
+  }
+
+
+
+  /* Accessibility and reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-scroll-up,
+    .animate-scroll-down {
+      animation: none;
+      transform: none;
+    }
   }
 </style>
 
 <script>
-  // Lazy Loading and Autoplay for Videos
   const initLazyVideos = () => {
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -85,21 +160,18 @@ const getSpan = (ratio) => {
             video.load();
             video.removeAttribute('data-src');
           }
-          // Autoplay when in view
           video.play().catch(() => {});
         } else {
-           video.pause();
+          video.pause();
         }
       });
-    }, { rootMargin: "100px", threshold: 0.1 });
+    }, { rootMargin: "150px", threshold: 0.1 });
 
     document.querySelectorAll("video.lazy-video").forEach(v => videoObserver.observe(v));
   };
 
-  // Initialize
   initLazyVideos();
 
-  // Support for view transitions
   document.addEventListener('astro:page-load', () => {
     initLazyVideos();
   });

@@ -1,15 +1,17 @@
 ---
 ---
 
-<button class="ch-scroll-top" aria-label="Scroll to top">
-  ↑
+<button class="ch-scroll-top fixed bottom-6 right-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-border/40 bg-card shadow-sm text-foreground hover:bg-muted hover:border-primary/20 transition-all duration-300 translate-y-10 opacity-0 pointer-events-none [&.is-visible]:translate-y-0 [&.is-visible]:opacity-100 [&.is-visible]:pointer-events-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+  <span aria-hidden="true">↑</span>
+  <span class="sr-only">Scroll to top</span>
 </button>
 
-<footer class="ch-footer">
-  <div class="ch-footer-inner">
-    <span>© <span id="ch-year"></span> Continuum Agency Inc. All rights reserved.       Made with love in Palo Alto, CA.</span>
-    <nav class="ch-footer-links">
-      <a href="/technology">Technology</a>
+<footer class="w-full bg-background border-t border-border/30 py-8 px-6 font-sans">
+  <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+    <span>© <span id="ch-year"></span> Continuum Agency Inc. All rights reserved. Made with love in Palo Alto, CA.</span>
+    <nav class="flex items-center gap-6">
+      <a href="/technology/" class="hover:text-primary transition-colors">Technology</a>
+      <a href="/social-plus" class="hover:text-primary transition-colors">Social+</a>
     </nav>
   </div>
 </footer>

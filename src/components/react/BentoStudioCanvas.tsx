@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Play, Image as ImageIcon } from "lucide-react";
+import { Play, Image as ImageIcon } from "@phosphor-icons/react";
 
 export function BentoStudioCanvas() {
     const [isGenerated, setIsGenerated] = useState(false);
@@ -15,13 +15,13 @@ export function BentoStudioCanvas() {
 
     return (
         <motion.div
-            className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-slate-900/50 rounded-b-3xl cursor-pointer"
+            className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-background/20 rounded-b-3xl cursor-pointer"
             onViewportEnter={() => setIsGenerated(true)}
             onViewportLeave={() => setIsGenerated(false)}
             viewport={{ once: false, amount: 0.5 }}
         >
             {/* Background Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_14px]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(65%_0.13_180_/_0.06)_1px,transparent_1px),linear-gradient(to_bottom,oklch(65%_0.13_180_/_0.06)_1px,transparent_1px)] bg-[size:14px_14px]"></div>
 
             {/* Main Asset Area */}
             <div className="relative z-10 flex h-3/4 items-center justify-center w-full">
@@ -35,10 +35,10 @@ export function BentoStudioCanvas() {
                         opacity: isGenerated ? 0.5 : 1,
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="absolute z-20 flex flex-col items-center justify-center w-32 h-32 bg-slate-800 border border-slate-600 rounded-xl shadow-lg"
+                    className="absolute z-20 flex flex-col items-center justify-center w-32 h-32 bg-muted border border-border/40 rounded-xl shadow-sm"
                 >
-                    <ImageIcon className="text-slate-400 mb-2" size={24} />
-                    <span className="text-[10px] font-medium text-slate-300">Master Asset</span>
+                    <ImageIcon className="text-muted-foreground/60 mb-2" size={24} />
+                    <span className="text-[10px] font-medium text-muted-foreground font-sans">Master Asset</span>
                 </motion.div>
 
                 {/* Generated Variants */}
@@ -62,11 +62,11 @@ export function BentoStudioCanvas() {
                                     delay: i * 0.15,
                                 }}
                                 style={{ width: variant.w, height: variant.h }}
-                                className="absolute z-30 flex items-center justify-center bg-blue-500/10 border border-blue-500/30 rounded-lg shadow-xl backdrop-blur-sm"
+                                className="absolute z-30 flex items-center justify-center bg-primary/10 border border-primary/20 rounded-lg shadow-sm backdrop-blur-sm"
                             >
                                 <div className="flex flex-col items-center justify-center space-y-1">
-                                    <Play className="text-blue-400 w-4 h-4" />
-                                    <span className="text-[8px] text-blue-300/80 font-mono tracking-tighter">
+                                    <Play className="text-primary w-4 h-4" />
+                                    <span className="text-[8px] text-primary/80 font-mono tracking-tighter">
                                         {variant.id}
                                     </span>
                                 </div>

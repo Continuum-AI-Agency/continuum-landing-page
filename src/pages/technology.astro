@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout
-  title="Design Automation — Continuum"
-  description="Design automation at scale. Continuum generates, validates, and ships brand-consistent creative — automatically."
+  title="Design Automation at Scale — Continuum AI Creative Platform"
+  description="Design automation at scale. Continuum generates, validates, and ships brand-consistent creative across every channel and format — automatically and at speed."
 >
   <div class="tp-root">
 
@@ -25,12 +25,15 @@ import Layout from '../layouts/Layout.astro';
       <div class="tp-hero-inner">
         <p class="tp-eyebrow">CONTINUUM / DESIGN AUTOMATION</p>
         <h1 class="tp-hero-title">
+          <span class="sr-only">Automated Creative Production Engine: </span>
           Design Automation<br />
           <em>at Scale.</em>
         </h1>
         <p class="tp-hero-sub">
           One design system. Infinite brand-consistent creative — generated,
-          validated, and shipped automatically across every channel and format.
+          validated, and shipped automatically across every channel and format. 
+          Integrate with <a href="/social-plus" class="text-primary hover:underline font-medium">Social+ for Claude</a> 
+          or learn more about our <a href="/#pricing" class="text-primary hover:underline font-medium">pricing options</a>.
         </p>
         <div class="tp-hero-stats">
           <div class="tp-stat">
@@ -157,8 +160,7 @@ import Layout from '../layouts/Layout.astro';
           <p class="tp-feature-desc">
             Every creative is automatically validated against your brand rules
             before it reaches a single reviewer. Automated scoring, approval gates,
-            and regression testing are built into the generation pipeline — not
-            bolted on afterward.
+            and regression testing are built into the generation pipeline — ensuring compliance with web accessibility standards like <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" class="text-primary hover:underline font-medium">WCAG 2.1</a>.
           </p>
           <div class="tp-specs">
             <div class="tp-spec-row">
@@ -271,7 +273,7 @@ import Layout from '../layouts/Layout.astro';
         <p class="tp-cta-eyebrow">GET STARTED</p>
         <h2 class="tp-cta-title">AUTOMATE YOUR<br />DESIGN PIPELINE.</h2>
         <p class="tp-cta-desc">
-          See Continuum generate, validate, and ship on-brand creative — in under two minutes.
+          Get in touch with the Continuum team, discover our <a href="/#pricing" class="text-primary hover:underline font-medium">pricing models</a>, or consult the official <a href="https://developers.facebook.com/docs/marketing-apis" class="text-primary hover:underline font-medium">Meta Marketing API documentation</a> to start building your brand's automated creative engine.
         </p>
         <div class="tp-cta-actions">
           <a href="/#demo" class="tp-btn tp-btn--filled">REQUEST A DEMO</a>
@@ -292,9 +294,9 @@ import Layout from '../layouts/Layout.astro';
 <style>
   /* ── RESET & ROOT ──────────────────────── */
   .tp-root {
-    background: #080808;
-    color: #e2e2e2;
-    font-family: 'Poppins', system-ui, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -305,30 +307,30 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     justify-content: space-between;
     padding: 18px 40px;
-    border-bottom: 1px solid #1e1e1e;
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
-    background: #080808;
+    background: var(--background);
   }
   .tp-nav-home {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.18em;
-    color: #e2e2e2;
+    color: var(--foreground);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .tp-nav-home:hover { color: #fff; }
+  .tp-nav-home:hover { color: var(--primary); }
   .tp-nav-arrow { opacity: 0.4; }
   .tp-nav-pill {
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.18em;
-    color: #555;
-    border: 1px solid #282828;
+    color: var(--muted-foreground);
+    border: 1px solid var(--border);
     padding: 4px 12px;
   }
 
@@ -394,7 +396,7 @@ import Layout from '../layouts/Layout.astro';
   }
   .tp-stat:last-child { border-right: none; }
   .tp-stat-num {
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 30px;
     font-weight: 700;
     color: #f0f0f0;
@@ -447,7 +449,7 @@ import Layout from '../layouts/Layout.astro';
     margin-bottom: 20px;
   }
   .tp-feature-num {
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 700;
     color: #333;
@@ -488,7 +490,7 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     padding: 11px 18px;
     border-bottom: 1px solid #1a1a1a;
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 11px;
   }
   .tp-spec-row:last-child { border-bottom: none; }
@@ -545,7 +547,7 @@ import Layout from '../layouts/Layout.astro';
     margin-top: 4px;
   }
   .tp-scale-arrow {
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 18px;
     color: #333;
     flex-shrink: 0;
@@ -569,7 +571,7 @@ import Layout from '../layouts/Layout.astro';
     width: 100%;
     border: 1px solid #252525;
     background: #090909;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: var(--font-mono);
     font-size: 12px;
     overflow: hidden;
   }
@@ -663,7 +665,7 @@ import Layout from '../layouts/Layout.astro';
   .tp-format--banner   { grid-column: 1 / -1; height: 36px; flex-direction: row; padding: 0 16px; justify-content: space-between; }
 
   .tp-format-ratio {
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 700;
     color: #555;
@@ -738,17 +740,19 @@ import Layout from '../layouts/Layout.astro';
     transition: all 0.15s ease;
   }
   .tp-btn--filled {
-    background: #e8e8e8;
-    color: #080808;
-    border: 1px solid #e8e8e8;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-sm);
   }
-  .tp-btn--filled:hover { background: #fff; border-color: #fff; }
+  .tp-btn--filled:hover { background: oklch(75% 0.13 180); border-color: oklch(75% 0.13 180); }
   .tp-btn--outline {
     background: transparent;
-    color: #777;
-    border: 1px solid #2e2e2e;
+    color: var(--muted-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
   }
-  .tp-btn--outline:hover { color: #e2e2e2; border-color: #555; }
+  .tp-btn--outline:hover { color: var(--foreground); border-color: var(--primary); }
 
   /* ── PAGE FOOTER ───────────────────────── */
   .tp-footer {

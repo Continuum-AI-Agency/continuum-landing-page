@@ -21,13 +21,12 @@ This document outlines the strategy for creating a new set of modern components 
 ### Examples Gallery (`Gallery.astro`)
 - **Focus:** Visual proof of work.
 - **Logic:** Astro wrapper for `MasonryGallery.tsx`.
-- **Data:** Consumes `GalleryImage` array from Strapi.
-- **Design:** Responsive masonry layout with lazy-loaded images and hover overlays.
+- **Data:** displays `GalleryImage` array, key'd to the /public/assets.
+- **Design:** Responsive masonry layout with lazy-loaded images and hover overlays, scrolling vertically past, arranged to fit together seamlessly.
 
 ### Product Bento (`ProductBento.astro`)
 - **Focus:** Module breakdown (Studio+, Social+, Performance+).
 - **Design:** Bento-box grid using Tailwind's `grid-cols-3`.
-- **Visuals:** High-quality product screenshots with glassmorphism overlays.
 
 ### Team Section (`Team.astro`)
 - **Focus:** Human expertise.

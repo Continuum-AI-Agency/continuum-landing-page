@@ -4,7 +4,7 @@ import { Magnetic } from './core/magnetic';
 import { InteractiveGridPattern } from './react/InteractiveGridPattern';
 ---
 
-<section id="demo" class="py-24 bg-[#0f172a] border-t border-white/5 relative overflow-hidden">
+<section id="demo" class="py-24 bg-background border-t border-border/30 relative overflow-hidden">
   {/* Interactive Grid Pattern Background */}
   <div class="absolute inset-0 z-0">
     <InteractiveGridPattern 
@@ -14,15 +14,15 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
       squares={[40, 20]}
       className="[mask-image:radial-gradient(500px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-10%] h-[120%]"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-[#0f172a] pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background pointer-events-none"></div>
   </div>
 
   <div class="container mx-auto px-6 relative z-10">
     <div class="max-w-4xl mx-auto text-center reveal">
-      <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 font-futura tracking-tight">
-        Ready to scale on <span class="shimmer-text">Continuum?</span>
+      <h2 class="text-4xl md:text-6xl font-bold text-foreground mb-6 font-display tracking-tight uppercase">
+        Ready to scale on <span class="text-primary">Continuum?</span>
       </h2>
-      <p class="text-xl text-gray-400 font-raleway mb-12 max-w-2xl mx-auto">
+      <p class="text-xl text-muted-foreground font-sans mb-12 max-w-2xl mx-auto">
         Talk to our team and see how Continuum can become the creative engine
         behind your next stage of growth.
       </p>
@@ -30,64 +30,40 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
       <div class="flex flex-col items-center justify-center w-full">
         <form class="flex flex-col md:flex-row items-center justify-center gap-4 w-full max-w-2xl" id="footer-demo-form">
           <div class="w-full md:flex-1">
+            <label for="footer-email" class="sr-only">Work email address</label>
             <input
+              id="footer-email"
               type="email"
               placeholder="Work email"
-              class="w-full bg-white/5 border border-white/10 rounded-full px-8 py-4 text-white focus:outline-none focus:border-blue-500 transition-colors h-[58px]"
+              class="w-full bg-background border border-muted-foreground/50 rounded-sm px-6 py-4 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background transition-all duration-150 h-[58px]"
               required
             />
           </div>
           <Magnetic client:load>
-            <InteractiveHoverButton client:load type="submit" className="whitespace-nowrap h-[58px] min-w-[200px]">
+            <button
+              type="submit"
+              class="whitespace-nowrap h-[58px] min-w-[200px] bg-primary text-primary-foreground font-medium rounded-md px-6 py-2 shadow-sm hover:bg-[oklch(75%_0.13_180)] transition-all duration-150 ease-standard focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
+            >
               Book a live demo
-            </InteractiveHoverButton>
+            </button>
           </Magnetic>
         </form>
-        <p class="mt-6 text-accent-blue font-medium min-h-[1.5rem]" id="demo-success"></p>
+        <p class="mt-6 text-primary font-medium min-h-[1.5rem]" id="demo-success"></p>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .font-futura {
-    font-family: 'Futura Maxi', sans-serif;
-  }
-  .font-raleway {
-    font-family: 'Raleway', sans-serif;
-  }
-  .text-accent-blue { color: #2f81f7; }
-
-  .shimmer-text {
-    background: linear-gradient(
-      90deg, 
-      #2f81f7 0%, 
-      #a371f7 25%, 
-      #3fb950 50%, 
-      #a371f7 75%, 
-      #2f81f7 100%
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 4s linear infinite;
-  }
-
-  @keyframes shimmer {
-    to {
-      background-position: 200% center;
-    }
-  }
-
   @keyframes highlight-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(47, 129, 247, 0.4); border-color: #2f81f7; }
-    70% { box-shadow: 0 0 0 15px rgba(47, 129, 247, 0); border-color: #2f81f7; }
-    100% { box-shadow: 0 0 0 0 rgba(47, 129, 247, 0); }
+    0% { box-shadow: 0 0 0 0 oklch(65% 0.13 180 / 0.4); border-color: var(--cs-teal); }
+    70% { box-shadow: 0 0 0 15px oklch(65% 0.13 180 / 0); border-color: var(--cs-teal); }
+    100% { box-shadow: 0 0 0 0 oklch(65% 0.13 180 / 0); }
   }
 
   .highlight-pulse {
     animation: highlight-pulse 2s ease-out infinite;
-    border-color: #2f81f7 !important;
+    border-color: var(--cs-teal) !important;
   }
 </style>
 

@@ -21,7 +21,7 @@ const Circle = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "z-10 flex size-14 items-center justify-center rounded-full border-2 border-white/10 bg-[#0d1117] p-3 shadow-xl backdrop-blur-sm",
+        "z-10 flex size-14 items-center justify-center rounded-full border border-border/40 bg-background p-3 shadow-sm backdrop-blur-sm",
         className
       )}
     >
@@ -39,7 +39,7 @@ const FolderIcon = ({ isOpen }: { isOpen: boolean }) => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="text-accent-blue"
+    className="text-primary"
   >
     <motion.path
       d="M22 19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19V5C2 3.89543 2.89543 3 4 3H9L11 5H20C21.1046 5 22 5.89543 22 7V19Z"
@@ -47,7 +47,7 @@ const FolderIcon = ({ isOpen }: { isOpen: boolean }) => (
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      animate={{ fill: isOpen ? "rgba(47, 129, 247, 0.2)" : "rgba(47, 129, 247, 0)" }}
+      animate={{ fill: isOpen ? "rgba(13, 174, 162, 0.2)" : "rgba(13, 174, 162, 0)" }}
     />
     <motion.path
       d="M2 10H22"
@@ -89,26 +89,26 @@ export function AnimatedBento({ results }: { results: any[] }) {
 
   return (
     <div
-      className="relative flex h-[850px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/5 bg-[#0f172a] p-10 md:p-20"
+      className="relative flex h-[850px] w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-card p-10 md:p-20"
       ref={containerRef}
     >
       {/* Top Headers */}
-      <div className="mb-16 flex w-full max-w-5xl flex-row justify-between px-2">
+      <div className="mb-16 flex w-full max-w-5xl flex-row justify-between px-2 font-sans">
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-blue/50 uppercase">Stage 01</span>
-          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Listen</span>
+          <span className="text-[10px] font-bold tracking-[0.3em] text-primary/50 uppercase">Stage 01</span>
+          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Listen</span>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-purple/50 uppercase">Stage 02</span>
-          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Analyze</span>
+          <span className="text-[10px] font-bold tracking-[0.3em] text-brand-violet/50 uppercase">Stage 02</span>
+          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Analyze</span>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-green/50 uppercase">Stage 03</span>
-          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Create</span>
+          <span className="text-[10px] font-bold tracking-[0.3em] text-success/50 uppercase">Stage 03</span>
+          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Create</span>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-accent-blue/50 uppercase">Stage 04</span>
-          <span className="text-sm font-bold tracking-widest text-white/70 uppercase">Implement</span>
+          <span className="text-[10px] font-bold tracking-[0.3em] text-primary/50 uppercase">Stage 04</span>
+          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Implement</span>
         </div>
       </div>
 
@@ -139,14 +139,14 @@ export function AnimatedBento({ results }: { results: any[] }) {
         </div>
 
         <div className="flex flex-col justify-center">
-          <Circle ref={div8Ref} className="size-40 border-accent-blue/30 bg-[#0d1117] overflow-hidden p-0 shadow-[0_0_50px_-12px_rgba(47,129,247,0.3)]">
+          <Circle ref={div8Ref} className="size-40 border-primary/30 bg-background overflow-hidden p-0 shadow-sm">
             <img src={ContinuumLogo.src} alt="Continuum" className="h-full w-full object-cover" />
           </Circle>
         </div>
 
         {/* Right Side: Output */}
         <div className="flex flex-col justify-center relative md:-ml-20">
-          <Circle ref={div9Ref} className="size-32 border-accent-green/30">
+          <Circle ref={div9Ref} className="size-32 border-success/30">
             <FolderIcon isOpen={isOpen} />
           </Circle>
 
@@ -172,7 +172,7 @@ export function AnimatedBento({ results }: { results: any[] }) {
                       damping: 20,
                       delay: i * 0.1 
                     }}
-                    className="absolute z-40 w-40 h-60 overflow-hidden rounded-xl border-2 border-white/20 shadow-2xl"
+                    className="absolute z-40 w-40 h-60 overflow-hidden rounded-xl border border-border/40 shadow-sm"
                   >
                     <img src={img.src} alt={`Result ${i + 1}`} className="w-full h-full object-cover" />
                   </motion.div>
@@ -205,63 +205,63 @@ export function AnimatedBento({ results }: { results: any[] }) {
         fromRef={div1Ref}
         toRef={div8Ref}
         curvature={-45}
-        gradientStartColor="#2f81f7"
-        gradientStopColor="#7c3aed"
+        gradientStartColor="#0DAEA2"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div2Ref}
         toRef={div8Ref}
         curvature={-30}
-        gradientStartColor="#2f81f7"
-        gradientStopColor="#7c3aed"
+        gradientStartColor="#0DAEA2"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div3Ref}
         toRef={div8Ref}
         curvature={-15}
-        gradientStartColor="#2f81f7"
-        gradientStopColor="#7c3aed"
+        gradientStartColor="#0DAEA2"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div4Ref}
         toRef={div8Ref}
         curvature={0}
-        gradientStartColor="#2f81f7"
-        gradientStopColor="#7c3aed"
+        gradientStartColor="#0DAEA2"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div5Ref}
         toRef={div8Ref}
         curvature={15}
-        gradientStartColor="#2f81f7"
-        gradientStopColor="#7c3aed"
+        gradientStartColor="#0DAEA2"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div6Ref}
         toRef={div8Ref}
         curvature={30}
-        gradientStartColor="#2f81f7"
-        gradientStopColor="#7c3aed"
+        gradientStartColor="#0DAEA2"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div7Ref}
         toRef={div8Ref}
         curvature={45}
-        gradientStartColor="#2f81f7"
-        gradientStopColor="#7c3aed"
+        gradientStartColor="#0DAEA2"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div8Ref}
         toRef={div9Ref}
-        gradientStartColor="#7c3aed"
-        gradientStopColor="#39d353"
+        gradientStartColor="#853bf4"
+        gradientStopColor="#53A88A"
         duration={1.5}
       />
       <AnimatedBeam
@@ -269,32 +269,32 @@ export function AnimatedBento({ results }: { results: any[] }) {
         fromRef={div9Ref}
         toRef={div10Ref}
         curvature={-30}
-        gradientStartColor="#39d353"
-        gradientStopColor="#2f81f7"
+        gradientStartColor="#53A88A"
+        gradientStopColor="#0DAEA2"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div9Ref}
         toRef={div11Ref}
         curvature={-10}
-        gradientStartColor="#39d353"
-        gradientStopColor="#a371f7"
+        gradientStartColor="#53A88A"
+        gradientStopColor="#853bf4"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div9Ref}
         toRef={div12Ref}
         curvature={10}
-        gradientStartColor="#39d353"
-        gradientStopColor="#ff004f"
+        gradientStartColor="#53A88A"
+        gradientStopColor="#E056FD"
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div9Ref}
         toRef={div13Ref}
         curvature={30}
-        gradientStartColor="#39d353"
-        gradientStopColor="#ff0000"
+        gradientStartColor="#53A88A"
+        gradientStopColor="#0DAEA2"
       />
     </div>
   );

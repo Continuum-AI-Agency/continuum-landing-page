@@ -3,13 +3,12 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ProgressiveBlur } from '@/components/core/progressive-blur';
-import { RotateCw } from 'lucide-react';
+import { ArrowClockwise as RotateCw } from '@phosphor-icons/react';
 
 import avatarMich from '@/assets/team/mich.jpg';
 import avatarDuane from '@/assets/team/Duane Scott Profile.png';
 import avatarMati from '@/assets/team/mati.png';
 import avatarFlor from '@/assets/team/flor.png';
-import avatarYair from '@/assets/team/yair.png';
 
 import logoPedidosYa from '@/assets/Logos_Team/pedidosya-logo_brandlogos.net_perjc.png';
 import logoCocaCola from '@/assets/Logos_Team/Coca-Cola_bottle_cap.svg';
@@ -17,9 +16,6 @@ import logoMercadoLibre from '@/assets/Logos_Team/mercado-libre-logo.svg';
 import logoTechstars from '@/assets/Logos_Team/techstars-duane.png';
 import logoUnnamed from '@/assets/Logos_Team/unnamed.png';
 import logoDatobox from '@/assets/Logos_Team/datobox_logo.jpeg';
-import logoYair1 from '@/assets/Logos_Team/Yair_1.jpeg';
-import logoYair2 from '@/assets/Logos_Team/Yair_2.jpeg';
-import logoPixis from '@/assets/Logos_Team/pixisai_logo.jpeg';
 
 interface TeamMember {
   name: string;
@@ -70,18 +66,6 @@ const teamMembers: TeamMember[] = [
       { src: logoDatobox.src, alt: 'Datobox' },
     ],
   },
-  {
-    name: 'Yair Sanjuanero',
-    role: 'Growth',
-    image: avatarYair.src,
-    bio: '+7 years scaling Pixies AI to Series C in Latin America. Experience in B2B SaaS MarTech (Appsflyer, Pixis AI). Expert in operations and delivery.',
-    zoomOut: true,
-    logos: [
-      { src: logoYair1.src, alt: 'AppsFlyer' },
-      { src: logoPixis.src, alt: 'Pixis' },
-      { src: logoYair2.src, alt: 'Company' },
-    ],
-  },
 ];
 
 function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) {
@@ -104,12 +88,12 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
       >
         {/* Front Face */}
         <div
-          className="absolute inset-0 overflow-hidden rounded-xl bg-[#0d1117]"
+          className="absolute inset-0 overflow-hidden rounded-xl bg-card border border-border/40 shadow-[0_1px_3px_oklch(0%_0_0_/_40%),_inset_0_1px_0_oklch(100%_0_0_/_8%)]"
           style={{ backfaceVisibility: 'hidden' }}
         >
           <img
             src={image}
-            alt={name}
+            alt=""
             className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${zoomOut ? 'scale-90 object-top' : ''}`}
           />
 
@@ -124,44 +108,44 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
             transition={{ duration: 0.3, ease: 'easeOut' }}
           />
 
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 via-slate-900/60 to-transparent p-6 pt-16">
-            <h3 className="text-xl font-semibold text-white">{name}</h3>
-            <p className="text-sm font-medium text-neutral-300">{role}</p>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent p-6 pt-16 font-sans">
+            <h3 className="text-xl font-semibold text-foreground">{name}</h3>
+            <p className="text-sm font-medium text-muted-foreground">{role}</p>
           </div>
 
           <motion.div
-            className="absolute right-4 top-4 rounded-full bg-slate-900/50 p-2 backdrop-blur-sm"
+            className="absolute right-4 top-4 rounded-full bg-background/60 border border-border/30 p-2 backdrop-blur-sm"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: isHover ? 1 : 0, scale: isHover ? 1 : 0.8 }}
             transition={{ duration: 0.2 }}
           >
-            <RotateCw className="h-5 w-5 text-white" />
+            <RotateCw className="h-5 w-5 text-foreground" />
           </motion.div>
         </div>
 
         {/* Back Face */}
         <div
-          className="absolute inset-0 overflow-hidden rounded-xl bg-[#0d1117] p-5"
+          className="absolute inset-0 overflow-hidden rounded-xl bg-card border border-border/40 p-5 shadow-[0_1px_3px_oklch(0%_0_0_/_40%),_inset_0_1px_0_oklch(100%_0_0_/_8%)]"
           style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
           }}
         >
-          <div className="flex h-full flex-col">
+          <div className="flex h-full flex-col font-sans">
             <div className="flex-none pt-2">
-              <h3 className="mb-1 text-lg font-semibold text-white">{name}</h3>
-              <p className="mb-3 text-xs font-medium text-neutral-400">{role}</p>
-              <p className="text-xs leading-relaxed text-neutral-300">{bio}</p>
+              <h3 className="mb-1 text-lg font-semibold text-foreground">{name}</h3>
+              <p className="mb-3 text-xs font-medium text-muted-foreground">{role}</p>
+              <p className="text-xs leading-relaxed text-muted-foreground/90">{bio}</p>
             </div>
 
             {logos.length > 0 && (
               <div className="mt-auto flex flex-nowrap items-center justify-center gap-2 pb-2">
                 {logos.map((logo, index) => (
-                  <div key={index} className="h-6 w-auto shrink-0">
+                  <div key={index} className="h-6 w-auto shrink-0 bg-white/5 rounded px-1.5 py-0.5 border border-white/10 flex items-center justify-center">
                     <img
                       src={logo.src}
                       alt={logo.alt}
-                      className="h-full w-auto object-contain opacity-80"
+                      className="h-full w-auto object-contain opacity-80 mix-blend-lighten brightness-110"
                     />
                   </div>
                 ))}
@@ -170,10 +154,10 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
           </div>
 
           <motion.div
-            className="absolute right-4 top-4 rounded-full bg-white/10 p-2"
+            className="absolute right-4 top-4 rounded-full bg-background/60 border border-border/30 p-2"
             whileHover={{ scale: 1.1 }}
           >
-            <RotateCw className="h-5 w-5 text-white" />
+            <RotateCw className="h-5 w-5 text-foreground" />
           </motion.div>
         </div>
       </motion.div>
@@ -183,19 +167,19 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
 
 export function TeamSection() {
   return (
-    <section id="team" className="bg-[#0f172a] px-4 py-24 sm:px-6 lg:px-8">
+    <section id="team" className="bg-background border-t border-border/30 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display uppercase">
             Meet our Co-founders
           </h2>
-          <p className="mx-auto max-w-6xl text-lg text-neutral-400">
+          <p className="mx-auto max-w-6xl text-lg text-muted-foreground font-sans">
             A small team obsessed with creative systems, media performance, and
             building tools that actually get used.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
           {teamMembers.map((member) => (
             <TeamMemberCard key={member.name} {...member} />
           ))}

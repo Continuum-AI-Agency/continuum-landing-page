@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { CaretDown } from '@phosphor-icons/react';
 
 export function ScrollIndicator() {
     const scrollToNext = () => {
@@ -18,11 +19,13 @@ export function ScrollIndicator() {
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
-                className="p-3 rounded-full bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors flex items-center justify-center"
+                className="p-2.5 rounded-full bg-transparent border border-white/5 group-hover:border-white/25 group-hover:bg-white/5 transition-all duration-300 flex items-center justify-center"
             >
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5 text-white/70 group-hover:text-white transition-colors">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                <CaretDown 
+                    size={16} 
+                    className="text-white/30 group-hover:text-white/80 transition-colors" 
+                    weight="light"
+                />
             </motion.div>
         </div>
     );
