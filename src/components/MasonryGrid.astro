@@ -24,15 +24,19 @@ const items = [
   { src: "/assets/Deportes_resultados.mp4", title: "Sports Results", ratio: 1 },
 ];
 
-// Balanced distribution across 3 columns
-const col1 = [items[0], items[3], items[6], items[9], items[10]];
-const col2 = [items[1], items[4], items[7], items[11], items[13]];
-const col3 = [items[2], items[5], items[8], items[12], items[14]];
+// Balanced distribution across 5 columns
+const col1 = [items[0], items[3], items[5]];
+const col2 = [items[1], items[4], items[10]];
+const col3 = [items[2], items[6], items[13]];
+const col4 = [items[9], items[7], items[14]];
+const col5 = [items[11], items[8], items[12]];
 
 // Duplicate lists for seamless looping
 const col1Double = [...col1, ...col1];
 const col2Double = [...col2, ...col2];
 const col3Double = [...col3, ...col3];
+const col4Double = [...col4, ...col4];
+const col5Double = [...col5, ...col5];
 
 const getAspectClass = (ratio: number) => {
   if (ratio === 0.56) return "aspect-[9/16]";
@@ -41,17 +45,13 @@ const getAspectClass = (ratio: number) => {
 };
 ---
 
-<section id="showcase" class="py-24 bg-background relative overflow-hidden z-10 reveal">
-  {/* Event Horizon Fade Gradients */}
-  <div class="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-background via-background/90 to-transparent z-20 pointer-events-none"></div>
-  <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background via-background/90 to-transparent z-20 pointer-events-none"></div>
-
-  <div class="max-w-[1600px] mx-auto px-8 md:px-12 relative">
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-8 h-[1150px] overflow-hidden group/grid relative">
+<section id="showcase" class="py-16 md:py-24 bg-background relative overflow-hidden z-10 reveal">
+  <div class="w-full max-w-none px-4 md:px-8 relative">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8 h-[80vh] min-h-[500px] max-h-[1000px] overflow-hidden group/grid relative border-y border-border/10 py-4">
       
       {/* Column 1 (Scrolls Up) */}
-      <div class="flex flex-col gap-8 scroll-container">
-        <div class="flex flex-col gap-8 animate-scroll-up">
+      <div class="flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container">
+        <div class="flex flex-col gap-4 md:gap-6 lg:gap-8 animate-scroll-up">
           {col1Double.map((item) => (
             <div 
               class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
@@ -70,8 +70,8 @@ const getAspectClass = (ratio: number) => {
       </div>
 
       {/* Column 2 (Scrolls Down) */}
-      <div class="flex flex-col gap-8 scroll-container">
-        <div class="flex flex-col gap-8 animate-scroll-down">
+      <div class="flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container">
+        <div class="flex flex-col gap-4 md:gap-6 lg:gap-8 animate-scroll-down">
           {col2Double.map((item) => (
             <div 
               class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
@@ -89,10 +89,50 @@ const getAspectClass = (ratio: number) => {
         </div>
       </div>
 
-      {/* Column 3 (Scrolls Up - Hidden on Mobile) */}
-      <div class="hidden md:flex flex-col gap-8 scroll-container">
-        <div class="flex flex-col gap-8 animate-scroll-up">
+      {/* Column 3 (Scrolls Up - Hidden on Mobile, visible from sm) */}
+      <div class="hidden sm:flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container">
+        <div class="flex flex-col gap-4 md:gap-6 lg:gap-8 animate-scroll-up">
           {col3Double.map((item) => (
+            <div 
+              class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
+            >
+              <video 
+                data-src={item.src} 
+                muted 
+                playsinline 
+                loop 
+                preload="none" 
+                class="w-full h-full object-cover block lazy-video"
+              ></video>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Column 4 (Scrolls Down - Hidden, visible from md) */}
+      <div class="hidden md:flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container">
+        <div class="flex flex-col gap-4 md:gap-6 lg:gap-8 animate-scroll-down">
+          {col4Double.map((item) => (
+            <div 
+              class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
+            >
+              <video 
+                data-src={item.src} 
+                muted 
+                playsinline 
+                loop 
+                preload="none" 
+                class="w-full h-full object-cover block lazy-video"
+              ></video>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Column 5 (Scrolls Up - Hidden, visible from lg) */}
+      <div class="hidden lg:flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container">
+        <div class="flex flex-col gap-4 md:gap-6 lg:gap-8 animate-scroll-up">
+          {col5Double.map((item) => (
             <div 
               class={`w-full ${getAspectClass(item.ratio)} rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500`}
             >
