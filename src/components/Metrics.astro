@@ -9,20 +9,20 @@ const metrics = [
 ---
 
 <div class="container mx-auto px-6 relative z-20 py-20 reveal">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12" id="impact-metrics">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10 lg:gap-8" id="impact-metrics">
     {metrics.map((metric) => (
-      <div class="relative flex flex-col items-center md:items-start text-center md:text-left group cursor-default">
-        <div class="text-5xl md:text-7xl font-bold text-foreground mb-2 font-data tracking-tighter flex items-baseline gap-1">
-          {metric.prefix && <span class="text-3xl text-primary font-medium">{metric.prefix}</span>}
+      <div class="relative flex flex-col items-center sm:items-start text-center sm:text-left group cursor-default">
+        <div class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-2 font-data tracking-tighter flex items-baseline gap-1">
+          {metric.prefix && <span class="text-2xl sm:text-3xl text-primary font-medium">{metric.prefix}</span>}
           <span 
             data-counter
             data-from="0"
             data-to={metric.value}
             data-use-grouping={metric.useGrouping ? "true" : "false"}
           >0</span>
-          {metric.suffix && <span class="text-3xl text-primary font-medium">{metric.suffix}</span>}
+          {metric.suffix && <span class="text-2xl sm:text-3xl text-primary font-medium">{metric.suffix}</span>}
         </div>
-        <h3 class="text-sm font-bold text-foreground uppercase tracking-widest mb-3 opacity-90 font-sans">{metric.label}</h3>
+        <h3 class="text-xs sm:text-sm font-bold text-foreground uppercase tracking-widest mb-3 opacity-90 font-sans">{metric.label}</h3>
         <p class="text-xs text-muted-foreground leading-relaxed max-w-[200px] opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 font-sans">
           {metric.description}
         </p>

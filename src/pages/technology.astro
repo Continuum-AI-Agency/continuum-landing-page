@@ -6,810 +6,490 @@ import Layout from '../layouts/Layout.astro';
   title="Design Automation at Scale — Continuum AI Creative Platform"
   description="Design automation at scale. Continuum generates, validates, and ships brand-consistent creative across every channel and format — automatically and at speed."
 >
-  <div class="tp-root">
-
+  <div class="relative min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
     <!-- Nav -->
-    <nav class="tp-nav">
-      <a href="/" class="tp-nav-home">
-        <span class="tp-nav-arrow">←</span>
-        CONTINUUM
+    <nav class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 border-b border-border/10 bg-background/80 backdrop-blur-md transition-colors duration-normal ease-standard">
+      <a href="/" class="group flex items-center gap-2 font-display text-[10px] tracking-[0.25em] text-foreground hover:text-primary transition-colors duration-fast ease-standard uppercase">
+        <span class="text-muted-foreground/40 group-hover:text-primary group-hover:-translate-x-0.5 transition-all duration-fast">←</span>
+        Continuum
       </a>
-      <span class="tp-nav-pill">DESIGN AUTOMATION</span>
+      <span class="font-sans text-[9px] font-bold tracking-[0.2em] text-muted-foreground border border-border/20 px-3 py-1 rounded-full bg-card/40 uppercase">
+        Design Automation
+      </span>
     </nav>
 
-    <!-- ══════════════════════════════════════
-         HERO
-    ══════════════════════════════════════ -->
-    <section class="tp-hero">
-      <div class="tp-grain"></div>
-      <div class="tp-hero-inner">
-        <p class="tp-eyebrow">CONTINUUM / DESIGN AUTOMATION</p>
-        <h1 class="tp-hero-title">
-          <span class="sr-only">Automated Creative Production Engine: </span>
-          Design Automation<br />
-          <em>at Scale.</em>
-        </h1>
-        <p class="tp-hero-sub">
-          One design system. Infinite brand-consistent creative — generated,
-          validated, and shipped automatically across every channel and format. 
-          Integrate with <a href="/social-plus" class="text-primary hover:underline font-medium">Social+ for Claude</a> 
-          or learn more about our <a href="/#pricing" class="text-primary hover:underline font-medium">pricing options</a>.
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden py-24 md:py-32 border-b border-border/10">
+      <!-- Grid Background Overlay -->
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-[0.07] pointer-events-none"></div>
+
+      <!-- Concentric Orbital (Accretion Disk Metaphor) in background -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none opacity-[0.06] mix-blend-screen">
+        <svg viewBox="0 0 200 200" class="w-full h-full animate-[spin_180s_linear_infinite]" aria-hidden="true">
+          <circle cx="100" cy="100" r="90" stroke="currentColor" class="text-primary" stroke-width="0.1" fill="none" stroke-dasharray="1 10" />
+          <circle cx="100" cy="100" r="75" stroke="currentColor" class="text-brand-violet" stroke-width="0.15" fill="none" stroke-dasharray="5 5" />
+          <circle cx="100" cy="100" r="60" stroke="currentColor" class="text-primary" stroke-width="0.1" fill="none" />
+          <circle cx="100" cy="100" r="45" stroke="currentColor" class="text-brand-violet" stroke-width="0.2" fill="none" stroke-dasharray="2 15" />
+          <circle cx="100" cy="100" r="30" stroke="currentColor" class="text-primary" stroke-width="0.1" fill="none" />
+        </svg>
+      </div>
+
+      <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+        <p class="font-sans text-[10px] font-bold tracking-[0.25em] text-primary mb-6 uppercase">
+          Continuum / Design Automation
         </p>
-        <div class="tp-hero-stats">
-          <div class="tp-stat">
-            <span class="tp-stat-num">10K+</span>
-            <span class="tp-stat-label">VARIANTS PER BRIEF</span>
+        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-foreground mb-8 max-w-4xl uppercase">
+          Design Automation<br />
+          <span class="text-transparent [-webkit-text-stroke:1px_var(--color-foreground)]">at Scale.</span>
+        </h1>
+        <p class="text-base md:text-lg text-muted-foreground max-w-[65ch] leading-relaxed mb-16 font-sans">
+          One design system. Infinite brand-consistent creative — generated,
+          validated, and shipped automatically across every channel and format.
+          Integrate with <a href="/social-plus" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">Social+ for Claude</a>
+          or learn more about our <a href="/#pricing" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">pricing options</a>.
+        </p>
+
+        <!-- Stats Grid (Tonal Accretion Disk Cards with Liquid Glass Refraction) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
+          <!-- Stat 1 -->
+          <div class="relative overflow-hidden bg-card/40 border border-border/10 p-8 rounded-xl flex flex-col items-center justify-center transition-all duration-normal ease-standard hover:bg-card/60 hover:border-border/20 shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+            <span class="font-mono text-4xl font-bold tracking-tight text-foreground tabular-nums">10K+</span>
+            <span class="font-sans text-[9px] font-bold tracking-[0.2em] text-muted-foreground uppercase mt-3">Variants per Brief</span>
+            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
           </div>
-          <div class="tp-stat">
-            <span class="tp-stat-num">&lt;&nbsp;2s</span>
-            <span class="tp-stat-label">PER VARIANT</span>
+          <!-- Stat 2 -->
+          <div class="relative overflow-hidden bg-card/40 border border-border/10 p-8 rounded-xl flex flex-col items-center justify-center transition-all duration-normal ease-standard hover:bg-card/60 hover:border-border/20 shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+            <span class="font-mono text-4xl font-bold tracking-tight text-foreground tabular-nums">&lt;&nbsp;2s</span>
+            <span class="font-sans text-[9px] font-bold tracking-[0.2em] text-muted-foreground uppercase mt-3">Per Variant</span>
+            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-brand-violet/20 to-transparent"></div>
           </div>
-          <div class="tp-stat">
-            <span class="tp-stat-num">100%</span>
-            <span class="tp-stat-label">BRAND-CONSISTENT</span>
+          <!-- Stat 3 -->
+          <div class="relative overflow-hidden bg-card/40 border border-border/10 p-8 rounded-xl flex flex-col items-center justify-center transition-all duration-normal ease-standard hover:bg-card/60 hover:border-border/20 shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+            <span class="font-mono text-4xl font-bold tracking-tight text-foreground tabular-nums">100%</span>
+            <span class="font-sans text-[9px] font-bold tracking-[0.2em] text-muted-foreground uppercase mt-3">Brand-Consistent</span>
+            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="tp-hatch"></div>
+    <!-- Hatch Transition Band -->
+    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
 
-    <!-- ══════════════════════════════════════
-         01 — SCALABLE
-    ══════════════════════════════════════ -->
-    <section class="tp-feature">
-      <div class="tp-feature-inner">
-        <div class="tp-feature-text">
-          <div class="tp-feature-eyebrow">
-            <span class="tp-feature-num">01</span>
-            <span class="tp-feature-tag">SCALABLE</span>
+    <!-- 01 — SCALABLE Section -->
+    <section class="py-24 px-6 md:px-12 border-b border-border/10">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <!-- Text Column -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-mono text-xs font-bold text-primary">01</span>
+            <span class="text-[9px] font-bold tracking-[0.2em] text-muted-foreground border border-border/20 px-2 py-0.5 rounded-sm bg-card/40 uppercase">
+              Scalable
+            </span>
           </div>
-          <h2 class="tp-feature-title">SCALABLE</h2>
-          <p class="tp-feature-desc">
+          <h2 class="font-sans text-4xl md:text-5xl font-bold tracking-tight leading-none text-foreground mb-6 uppercase">
+            Scalable
+          </h2>
+          <p class="text-base text-muted-foreground max-w-[65ch] leading-relaxed mb-10 font-sans">
             From a single design system, Continuum produces thousands of on-brand
             variants — across every format, channel, and audience segment —
             without manual production. Scale is not a setting. It's the default.
           </p>
-          <div class="tp-specs">
-            <div class="tp-spec-row">
-              <span>VARIANTS PER BATCH</span>
-              <span>Unlimited</span>
+
+          <!-- Premium Data Spec List -->
+          <div class="border border-border/10 rounded-xl overflow-hidden bg-card/20 backdrop-blur-sm shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 bg-card/30">
+              <span class="font-sans text-[10px] font-bold tracking-wider text-muted-foreground/60 uppercase">Parameter</span>
+              <span class="font-sans text-[10px] font-bold tracking-wider text-muted-foreground/60 uppercase">Value</span>
             </div>
-            <div class="tp-spec-row">
-              <span>PARALLEL RENDERS</span>
-              <span>Up to 500</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">VARIANTS PER BATCH</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Unlimited</span>
             </div>
-            <div class="tp-spec-row">
-              <span>FORMAT SUPPORT</span>
-              <span>30+ formats</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">PARALLEL RENDERS</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Up to 500</span>
             </div>
-            <div class="tp-spec-row">
-              <span>BRAND RULE CHECKS</span>
-              <span>Per variant</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">FORMAT SUPPORT</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">30+ formats</span>
             </div>
-            <div class="tp-spec-row">
-              <span>THROUGHPUT</span>
-              <span>10K+ / day</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">BRAND RULE CHECKS</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Per variant</span>
+            </div>
+            <div class="flex justify-between items-center px-5 py-3 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">THROUGHPUT</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">10K+ / day</span>
             </div>
           </div>
         </div>
 
-        <!-- Visual: variant grid -->
-        <div class="tp-visual tp-visual--scale">
-          <div class="tp-scale-source">
-            <span class="tp-scale-source-label">TEMPLATE</span>
-            <div class="tp-scale-source-body">
-              <div class="tp-scale-source-bar tp-scale-source-bar--wide"></div>
-              <div class="tp-scale-source-bar tp-scale-source-bar--med"></div>
-              <div class="tp-scale-source-bar tp-scale-source-bar--short"></div>
-              <div class="tp-scale-source-thumb"></div>
+        <!-- Visual Column (Accretion Disk Metaphor Simulation) -->
+        <div class="relative w-full aspect-square max-w-[450px] mx-auto bg-card/5 rounded-2xl border border-border/5 overflow-hidden flex items-center justify-center p-8 shadow-inner">
+          <!-- Background Orbit Path Grid -->
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-border)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-20 pointer-events-none"></div>
+
+          <!-- Rotating Rings Container -->
+          <div class="relative w-full h-full flex items-center justify-center">
+            <!-- Gravity Well Core (Black Hole metaphor) -->
+            <div class="relative w-28 h-28 rounded-full bg-background flex items-center justify-center shadow-2xl z-20 group cursor-pointer border border-primary/20">
+              <!-- Event Horizon subtle line -->
+              <div class="absolute inset-0 rounded-full border border-brand-violet/20 group-hover:border-primary/50 transition-colors duration-normal ease-standard"></div>
+              <div class="w-20 h-20 rounded-full bg-radial from-background to-card border border-border/10 flex flex-col items-center justify-center text-center p-2">
+                <span class="font-display text-[8px] font-bold tracking-[0.2em] text-primary uppercase">Core</span>
+                <span class="font-mono text-[9px] text-muted-foreground/80 mt-1 uppercase">Event</span>
+                <span class="font-mono text-[9px] text-muted-foreground/80 uppercase">Horizon</span>
+              </div>
             </div>
-          </div>
-          <div class="tp-scale-arrow">→</div>
-          <div class="tp-scale-grid">
-            {Array.from({ length: 24 }).map((_, i) => (
-              <div class={`tp-scale-cell tp-scale-cell--${i % 4 === 0 ? 'active' : i % 7 === 0 ? 'dim' : 'base'}`}></div>
-            ))}
+
+            <!-- Accretion Disk Orbiting Ring 1 (Inner) -->
+            <div class="absolute w-52 h-52 rounded-full border border-dashed border-border/10 flex items-center justify-center animate-[spin_30s_linear_infinite]">
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-[oklch(14%_0.01_265)] font-mono text-[9px] font-bold px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_30s_linear_infinite_reverse]">
+                v1.0.4
+              </div>
+              <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_30s_linear_infinite_reverse]">
+                1:1 Crop
+              </div>
+            </div>
+
+            <!-- Accretion Disk Orbiting Ring 2 (Middle) -->
+            <div class="absolute w-72 h-72 rounded-full border border-dashed border-border/10 flex items-center justify-center animate-[spin_50s_linear_infinite_reverse]">
+              <div class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_50s_linear_infinite]">
+                v2.1.0
+              </div>
+              <div class="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 bg-brand-violet text-foreground font-mono text-[9px] font-bold px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_50s_linear_infinite]">
+                Identity
+              </div>
+            </div>
+
+            <!-- Accretion Disk Orbiting Ring 3 (Outer) -->
+            <div class="absolute w-96 h-96 rounded-full border border-dashed border-border/5 flex items-center justify-center animate-[spin_85s_linear_infinite]">
+              <div class="absolute top-1/4 left-6 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_85s_linear_infinite_reverse]">
+                9:16 Crop
+              </div>
+              <div class="absolute bottom-1/4 right-6 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_85s_linear_infinite_reverse]">
+                Meta API
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="tp-hatch"></div>
+    <!-- Hatch Transition Band -->
+    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
 
-    <!-- ══════════════════════════════════════
-         02 — TESTABLE
-    ══════════════════════════════════════ -->
-    <section class="tp-feature tp-feature--alt">
-      <div class="tp-feature-inner tp-feature-inner--rev">
-
-        <!-- Visual: terminal validation -->
-        <div class="tp-visual tp-visual--test">
-          <div class="tp-terminal">
-            <div class="tp-terminal-bar">
-              <span class="tp-dot tp-dot--r"></span>
-              <span class="tp-dot tp-dot--y"></span>
-              <span class="tp-dot tp-dot--g"></span>
-              <span class="tp-terminal-title">brand-check · batch_01J2K</span>
+    <!-- 02 — TESTABLE Section -->
+    <section class="py-24 px-6 md:px-12 bg-card/10 border-b border-border/10">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <!-- Visual Column (Terminal Validation Console) - Placed first on large screen via order utility -->
+        <div class="order-last lg:order-first w-full max-w-[500px] mx-auto bg-background border border-border/10 rounded-xl overflow-hidden shadow-2xl relative font-mono text-[11px] md:text-xs" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+          <!-- Terminal Header -->
+          <div class="flex items-center justify-between px-4 py-3 bg-card/60 border-b border-border/10">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-destructive/20 border border-destructive/40"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-warning/20 border border-warning/40"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-success/20 border border-success/40"></span>
+              <span class="text-muted-foreground/60 text-[9px] font-bold tracking-wider uppercase ml-2">brand-check · batch_01J2K</span>
             </div>
-            <div class="tp-terminal-body">
-              <p class="tp-tline tp-tline--cmd">$ continuum validate --batch 01J2K --strict</p>
-              <p class="tp-tline tp-tline--muted">Running 16 variants against brand spec v4.2...</p>
-              <p class="tp-tline">&nbsp;</p>
-              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> BRAND_SCORE<span class="tp-dots"></span><span>94 / 100</span><span class="tp-badge-pass">PASS</span></p>
-              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> TONE_CHECK<span class="tp-dots"></span><span>FORMAL</span><span class="tp-badge-pass">PASS</span></p>
-              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> COLOR_PALETTE<span class="tp-dots"></span><span>ALIGNED</span><span class="tp-badge-pass">PASS</span></p>
-              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> CONTRAST_RATIO<span class="tp-dots"></span><span>8.2 : 1</span><span class="tp-badge-pass">PASS</span></p>
-              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> COPY_LENGTH<span class="tp-dots"></span><span>≤ 120c</span><span class="tp-badge-pass">PASS</span></p>
-              <p class="tp-tline tp-tline--warn"><span class="tp-warn-icon">!</span> LOGO_CLEARANCE<span class="tp-dots"></span><span>14px</span><span class="tp-badge-warn">WARN</span></p>
-              <p class="tp-tline tp-tline--pass"><span class="tp-pass-icon">✓</span> FORMAT_SPEC<span class="tp-dots"></span><span>16 / 16</span><span class="tp-badge-pass">PASS</span></p>
-              <p class="tp-tline">&nbsp;</p>
-              <p class="tp-tline tp-tline--result">15/16 passed · 1 warning · 0 blocked</p>
-              <p class="tp-tline tp-tline--muted">Ready for review queue.</p>
-              <p class="tp-tline tp-tline--cursor">▌</p>
+            <span class="px-2 py-0.5 rounded text-[8px] font-bold bg-primary/10 border border-primary/20 text-primary uppercase font-sans">
+              Strict Mode
+            </span>
+          </div>
+
+          <!-- Terminal Content -->
+          <div class="p-6 space-y-2.5 leading-relaxed text-muted-foreground/90 select-none">
+            <!-- Command line -->
+            <div class="flex items-center gap-2 text-foreground/80 mb-2">
+              <span class="text-primary font-bold">continuum_agency ~</span>
+              <span class="text-foreground">validate --batch 01J2K --strict</span>
+            </div>
+            
+            <p class="text-muted-foreground/40 font-sans text-xs">Running 16 variants against brand spec v4.2...</p>
+            <div class="h-1"></div>
+
+            <!-- Parameter checks -->
+            <div class="flex items-center justify-between border-b border-border/5 py-1">
+              <div class="flex items-center gap-2">
+                <span class="text-success font-semibold">✓</span>
+                <span>BRAND_SCORE</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-muted-foreground/30">........................</span>
+                <span class="font-semibold text-foreground">94 / 100</span>
+                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">PASS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-border/5 py-1">
+              <div class="flex items-center gap-2">
+                <span class="text-success font-semibold">✓</span>
+                <span>TONE_CHECK</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-muted-foreground/30">........................</span>
+                <span class="font-semibold text-foreground">FORMAL</span>
+                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">PASS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-border/5 py-1">
+              <div class="flex items-center gap-2">
+                <span class="text-success font-semibold">✓</span>
+                <span>COLOR_PALETTE</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-muted-foreground/30">........................</span>
+                <span class="font-semibold text-foreground">ALIGNED</span>
+                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">PASS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-border/5 py-1">
+              <div class="flex items-center gap-2">
+                <span class="text-success font-semibold">✓</span>
+                <span>CONTRAST_RATIO</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-muted-foreground/30">........................</span>
+                <span class="font-semibold text-foreground">8.2 : 1</span>
+                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">PASS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-border/5 py-1">
+              <div class="flex items-center gap-2">
+                <span class="text-warning font-semibold">!</span>
+                <span>LOGO_CLEARANCE</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-muted-foreground/30">........................</span>
+                <span class="font-semibold text-foreground">14px</span>
+                <span class="text-[9px] font-bold bg-warning/15 border border-warning/20 text-warning px-1.5 py-0.2 rounded-sm">WARN</span>
+              </div>
+            </div>
+
+            <div class="h-3"></div>
+            <!-- Validation summary block -->
+            <div class="border-l-2 border-primary bg-primary/5 px-4 py-2 rounded-r flex flex-col gap-1">
+              <span class="text-primary font-bold uppercase tracking-wider text-[10px] font-sans">Batch Validation Complete</span>
+              <span class="text-foreground/90 font-medium font-sans">15/16 passed · 1 warning · 0 blocked</span>
+              <span class="text-muted-foreground/50 text-[10px] font-sans">Status: Ready for review queue.</span>
+            </div>
+
+            <div class="flex items-center gap-1 mt-3">
+              <span class="text-primary font-bold">continuum_agency ~</span>
+              <span class="w-1.5 h-3 bg-primary animate-pulse"></span>
             </div>
           </div>
         </div>
 
-        <div class="tp-feature-text">
-          <div class="tp-feature-eyebrow">
-            <span class="tp-feature-num">02</span>
-            <span class="tp-feature-tag">TESTABLE</span>
+        <!-- Text Column -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-mono text-xs font-bold text-primary">02</span>
+            <span class="text-[9px] font-bold tracking-[0.2em] text-muted-foreground border border-border/20 px-2 py-0.5 rounded-sm bg-card/40 uppercase">
+              Testable
+            </span>
           </div>
-          <h2 class="tp-feature-title">TESTABLE</h2>
-          <p class="tp-feature-desc">
+          <h2 class="font-sans text-4xl md:text-5xl font-bold tracking-tight leading-none text-foreground mb-6 uppercase">
+            Testable
+          </h2>
+          <p class="text-base text-muted-foreground max-w-[65ch] leading-relaxed mb-10 font-sans">
             Every creative is automatically validated against your brand rules
             before it reaches a single reviewer. Automated scoring, approval gates,
-            and regression testing are built into the generation pipeline — ensuring compliance with web accessibility standards like <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" class="text-primary hover:underline font-medium">WCAG 2.1</a>.
+            and regression testing are built into the generation pipeline — ensuring compliance with web accessibility standards like <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">WCAG 2.1</a>.
           </p>
-          <div class="tp-specs">
-            <div class="tp-spec-row">
-              <span>BRAND SCORE GATE</span>
-              <span>Configurable (/100)</span>
+
+          <!-- Premium Data Spec List -->
+          <div class="border border-border/10 rounded-xl overflow-hidden bg-card/20 backdrop-blur-sm shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 bg-card/30">
+              <span class="font-sans text-[10px] font-bold tracking-wider text-muted-foreground/60 uppercase">Parameter</span>
+              <span class="font-sans text-[10px] font-bold tracking-wider text-muted-foreground/60 uppercase">Configuration</span>
             </div>
-            <div class="tp-spec-row">
-              <span>VALIDATION CHECKS</span>
-              <span>20+ per variant</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">BRAND SCORE GATE</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Configurable (/100)</span>
             </div>
-            <div class="tp-spec-row">
-              <span>BLOCKED AUTO-REGEN</span>
-              <span>Yes</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">VALIDATION CHECKS</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">20+ per variant</span>
             </div>
-            <div class="tp-spec-row">
-              <span>APPROVAL AUDIT LOG</span>
-              <span>Immutable</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">BLOCKED AUTO-REGEN</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Yes</span>
             </div>
-            <div class="tp-spec-row">
-              <span>REGRESSION TESTING</span>
-              <span>Per design system update</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">APPROVAL AUDIT LOG</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Immutable</span>
+            </div>
+            <div class="flex justify-between items-center px-5 py-3 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">REGRESSION TESTING</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Per system update</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="tp-hatch"></div>
+    <!-- Hatch Transition Band -->
+    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
 
-    <!-- ══════════════════════════════════════
-         03 — ADAPTABLE
-    ══════════════════════════════════════ -->
-    <section class="tp-feature">
-      <div class="tp-feature-inner">
-        <div class="tp-feature-text">
-          <div class="tp-feature-eyebrow">
-            <span class="tp-feature-num">03</span>
-            <span class="tp-feature-tag">ADAPTABLE</span>
+    <!-- 03 — ADAPTABLE Section -->
+    <section class="py-24 px-6 md:px-12 border-b border-border/10">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <!-- Text Column -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-mono text-xs font-bold text-primary">03</span>
+            <span class="text-[9px] font-bold tracking-[0.2em] text-muted-foreground border border-border/20 px-2 py-0.5 rounded-sm bg-card/40 uppercase">
+              Adaptable
+            </span>
           </div>
-          <h2 class="tp-feature-title">ADAPTABLE</h2>
-          <p class="tp-feature-desc">
+          <h2 class="font-sans text-4xl md:text-5xl font-bold tracking-tight leading-none text-foreground mb-6 uppercase">
+            Adaptable
+          </h2>
+          <p class="text-base text-muted-foreground max-w-[65ch] leading-relaxed mb-10 font-sans">
             The same creative brief adapts to every channel, format, audience,
             and market — automatically. When your design system updates,
             every downstream variant regenerates. Zero manual reformatting.
           </p>
-          <div class="tp-specs">
-            <div class="tp-spec-row">
-              <span>CHANNEL FORMATS</span>
-              <span>Social · Display · OOH · Video</span>
+
+          <!-- Premium Data Spec List -->
+          <div class="border border-border/10 rounded-xl overflow-hidden bg-card/20 backdrop-blur-sm shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 bg-card/30">
+              <span class="font-sans text-[10px] font-bold tracking-wider text-muted-foreground/60 uppercase">Parameter</span>
+              <span class="font-sans text-[10px] font-bold tracking-wider text-muted-foreground/60 uppercase">Capabilities</span>
             </div>
-            <div class="tp-spec-row">
-              <span>LOCALIZATION</span>
-              <span>50+ languages</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">CHANNEL FORMATS</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Social · Display · OOH · Video</span>
             </div>
-            <div class="tp-spec-row">
-              <span>AUDIENCE VARIANTS</span>
-              <span>Per segment</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">LOCALIZATION</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">50+ languages</span>
             </div>
-            <div class="tp-spec-row">
-              <span>DESIGN SYSTEM SYNC</span>
-              <span>Real-time propagation</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">AUDIENCE VARIANTS</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Per segment</span>
             </div>
-            <div class="tp-spec-row">
-              <span>PLATFORM CONNECTORS</span>
-              <span>30+ native</span>
+            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">DESIGN SYSTEM SYNC</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">Real-time propagation</span>
+            </div>
+            <div class="flex justify-between items-center px-5 py-3 hover:bg-card/50 transition-colors duration-fast ease-standard">
+              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">PLATFORM CONNECTORS</span>
+              <span class="font-mono text-xs font-semibold text-foreground tracking-normal uppercase">30+ native</span>
             </div>
           </div>
         </div>
 
-        <!-- Visual: format grid -->
-        <div class="tp-visual tp-visual--adapt">
-          <div class="tp-formats">
-            <div class="tp-format-cell tp-format--square">
-              <span class="tp-format-ratio">1:1</span>
-              <span class="tp-format-name">FEED</span>
+        <!-- Visual Column (Responsive Format Bento Grid) -->
+        <div class="relative w-full max-w-[480px] mx-auto bg-card/5 rounded-2xl border border-border/5 p-6 shadow-inner flex flex-col gap-4">
+          <!-- Bento Format grid layout representing Event Horizon crops -->
+          <div class="grid grid-cols-3 gap-3 w-full">
+            <!-- Story format (tall, spans 2 rows) -->
+            <div class="col-span-1 row-span-2 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-3 flex flex-col justify-between aspect-[9/16] shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+              <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">9:16</span>
+              <!-- Content Skeleton placeholder -->
+              <div class="w-full flex-1 flex flex-col justify-end gap-2 mt-4">
+                <div class="h-1.5 w-3/4 bg-border/20 rounded"></div>
+                <div class="h-1.5 w-1/2 bg-border/20 rounded"></div>
+                <div class="h-6 w-full bg-primary/10 border border-primary/20 rounded-sm mt-1"></div>
+              </div>
+              <span class="font-sans text-[8px] font-bold tracking-wider text-muted-foreground/75 mt-3 uppercase">Story</span>
             </div>
-            <div class="tp-format-cell tp-format--portrait">
-              <span class="tp-format-ratio">9:16</span>
-              <span class="tp-format-name">STORY</span>
+
+            <!-- Feed format (square) -->
+            <div class="col-span-2 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-3 flex flex-col justify-between aspect-square shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+              <div class="flex justify-between items-center">
+                <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">1:1</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-success/50"></span>
+              </div>
+              <!-- Skeleton placeholder -->
+              <div class="w-full flex-1 flex flex-col justify-center gap-2 mt-2">
+                <div class="w-full h-12 bg-border/10 rounded border border-border/5 flex items-center justify-center">
+                  <div class="w-6 h-6 rounded-full border border-dashed border-border/30"></div>
+                </div>
+                <div class="h-1.5 w-2/3 bg-border/20 rounded"></div>
+              </div>
+              <span class="font-sans text-[8px] font-bold tracking-wider text-muted-foreground/75 mt-2 uppercase">Feed</span>
             </div>
-            <div class="tp-format-cell tp-format--landscape">
-              <span class="tp-format-ratio">16:9</span>
-              <span class="tp-format-name">DISPLAY</span>
+
+            <!-- Display format (landscape) -->
+            <div class="col-span-2 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-3 flex flex-col justify-between aspect-[16/9] shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+              <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">16:9</span>
+              <div class="flex gap-2 items-center flex-1 my-2">
+                <div class="w-10 h-full bg-border/10 rounded border border-border/5"></div>
+                <div class="flex-1 flex flex-col gap-1.5">
+                  <div class="h-1.5 w-full bg-border/20 rounded"></div>
+                  <div class="h-1.5 w-2/3 bg-border/20 rounded"></div>
+                </div>
+              </div>
+              <span class="font-sans text-[8px] font-bold tracking-wider text-muted-foreground/75 uppercase">Display</span>
             </div>
-            <div class="tp-format-cell tp-format--wide">
-              <span class="tp-format-ratio">1.91:1</span>
-              <span class="tp-format-name">OG IMAGE</span>
-            </div>
-            <div class="tp-format-cell tp-format--tall">
-              <span class="tp-format-ratio">4:5</span>
-              <span class="tp-format-name">PORTRAIT</span>
-            </div>
-            <div class="tp-format-cell tp-format--banner">
-              <span class="tp-format-ratio">728:90</span>
-              <span class="tp-format-name">LEADERBOARD</span>
+
+            <!-- Banner format (spanning bottom width) -->
+            <div class="col-span-3 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-2.5 flex items-center justify-between shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">728:90</span>
+                <span class="font-sans text-[8px] font-bold tracking-wider text-muted-foreground/75 uppercase">Leaderboard</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="h-1.5 w-16 bg-border/20 rounded"></div>
+                <div class="h-5 w-16 bg-primary/10 border border-primary/20 rounded-sm"></div>
+              </div>
             </div>
           </div>
-          <p class="tp-format-caption">Same brief. Every format.</p>
+          <p class="font-sans text-[10px] font-bold tracking-wider text-muted-foreground/50 text-center uppercase">
+            Same brief. Every format.
+          </p>
         </div>
       </div>
     </section>
 
-    <div class="tp-hatch"></div>
+    <!-- Hatch Transition Band -->
+    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
 
-    <!-- ══════════════════════════════════════
-         CTA
-    ══════════════════════════════════════ -->
-    <section class="tp-cta">
-      <div class="tp-cta-inner">
-        <p class="tp-cta-eyebrow">GET STARTED</p>
-        <h2 class="tp-cta-title">AUTOMATE YOUR<br />DESIGN PIPELINE.</h2>
-        <p class="tp-cta-desc">
-          Get in touch with the Continuum team, discover our <a href="/#pricing" class="text-primary hover:underline font-medium">pricing models</a>, or consult the official <a href="https://developers.facebook.com/docs/marketing-apis" class="text-primary hover:underline font-medium">Meta Marketing API documentation</a> to start building your brand's automated creative engine.
+    <!-- CTA Section -->
+    <section class="relative py-24 px-6 md:px-12 bg-card/10 border-b border-border/10 text-center overflow-hidden">
+      <!-- Grid backdrop subtle effect -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-border)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(circle_40%_at_50%_50%,#000_60%,transparent_100%)] opacity-[0.05] pointer-events-none"></div>
+
+      <div class="max-w-3xl mx-auto relative z-10 flex flex-col items-center">
+        <p class="font-sans text-[10px] font-bold tracking-[0.25em] text-primary mb-6 uppercase">
+          Get Started
         </p>
-        <div class="tp-cta-actions">
-          <a href="/#demo" class="tp-btn tp-btn--filled">REQUEST A DEMO</a>
-          <a href="/" class="tp-btn tp-btn--outline">BACK TO SITE</a>
+        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 uppercase leading-none">
+          Automate Your<br />
+          <span class="text-transparent [-webkit-text-stroke:1px_var(--color-foreground)]">Design Pipeline.</span>
+        </h2>
+        <p class="text-base text-muted-foreground max-w-[60ch] leading-relaxed mb-10 font-sans">
+          Get in touch with the Continuum team or discover our <a href="/#pricing" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">pricing models</a> to start building your brand's automated creative engine.
+        </p>
+        
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <!-- Request a Demo (Primary) -->
+          <a href="/#demo" class="inline-flex items-center justify-center font-sans text-xs font-bold tracking-wider uppercase bg-primary text-primary-foreground px-8 py-3.5 rounded-md hover:bg-[oklch(75%_0.13_180)] hover:scale-[1.02] shadow-sm transition-all duration-normal ease-standard cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
+            Request a Demo
+          </a>
+          <!-- Back to Site (Outline) -->
+          <a href="/" class="inline-flex items-center justify-center font-sans text-xs font-bold tracking-wider uppercase border border-border/20 text-foreground bg-transparent px-8 py-3.5 rounded-md hover:bg-card hover:border-border/40 transition-all duration-normal ease-standard cursor-pointer">
+            Back to Site
+          </a>
         </div>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="tp-footer">
-      <span>© <span id="tp-year"></span> Continuum. Made with love in Palo Alto, CA.</span>
-      <a href="/" class="tp-footer-link">← Back to site</a>
+    <footer class="max-w-7xl mx-auto py-8 px-6 md:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-[10px] font-bold tracking-wider text-muted-foreground/50 uppercase">
+      <span>
+        © {new Date().getFullYear()} Continuum. Made with love in Palo Alto, CA.
+      </span>
+      <a href="/" class="hover:text-primary transition-colors duration-fast ease-standard flex items-center gap-1.5">
+        <span class="text-muted-foreground/30">←</span> Back to site
+      </a>
     </footer>
-
   </div>
 </Layout>
-
-<style>
-  /* ── RESET & ROOT ──────────────────────── */
-  .tp-root {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-sans);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ── NAV ───────────────────────────────── */
-  .tp-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 40px;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--background);
-  }
-  .tp-nav-home {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    color: var(--foreground);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .tp-nav-home:hover { color: var(--primary); }
-  .tp-nav-arrow { opacity: 0.4; }
-  .tp-nav-pill {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    color: var(--muted-foreground);
-    border: 1px solid var(--border);
-    padding: 4px 12px;
-  }
-
-  /* ── HERO ──────────────────────────────── */
-  .tp-hero {
-    position: relative;
-    padding: 96px 40px 80px;
-    border-bottom: 1px solid #1e1e1e;
-    overflow: hidden;
-  }
-  .tp-grain {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.3;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    background-size: 200px 200px;
-    mix-blend-mode: overlay;
-  }
-  .tp-hero-inner {
-    position: relative;
-    max-width: 1120px;
-    margin: 0 auto;
-  }
-  .tp-eyebrow {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    color: #444;
-    margin: 0 0 36px;
-  }
-  .tp-hero-title {
-    font-size: clamp(48px, 8vw, 108px);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -0.03em;
-    color: #f0f0f0;
-    margin: 0 0 32px;
-  }
-  .tp-hero-title em {
-    font-style: normal;
-    -webkit-text-stroke: 1.5px #f0f0f0;
-    color: transparent;
-  }
-  .tp-hero-sub {
-    font-size: 16px;
-    color: #777;
-    max-width: 520px;
-    line-height: 1.7;
-    margin: 0 0 56px;
-    font-weight: 400;
-  }
-  .tp-hero-stats {
-    display: flex;
-    width: fit-content;
-    border: 1px solid #222;
-  }
-  .tp-stat {
-    display: flex;
-    flex-direction: column;
-    padding: 22px 40px;
-    border-right: 1px solid #222;
-  }
-  .tp-stat:last-child { border-right: none; }
-  .tp-stat-num {
-    font-family: var(--font-mono);
-    font-size: 30px;
-    font-weight: 700;
-    color: #f0f0f0;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-  .tp-stat-label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    color: #4a4a4a;
-  }
-
-  /* ── HATCH BAND ────────────────────────── */
-  .tp-hatch {
-    height: 36px;
-    background-image: repeating-linear-gradient(
-      -45deg,
-      #171717 0,
-      #171717 1px,
-      #0c0c0c 1px,
-      #0c0c0c 7px
-    );
-    border-top: 1px solid #1e1e1e;
-    border-bottom: 1px solid #1e1e1e;
-  }
-
-  /* ── FEATURE SECTIONS ──────────────────── */
-  .tp-feature {
-    padding: 96px 40px;
-    border-bottom: 1px solid #1a1a1a;
-  }
-  .tp-feature--alt { background: #0c0c0c; }
-  .tp-feature-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-  .tp-feature-inner--rev { direction: rtl; }
-  .tp-feature-inner--rev > * { direction: ltr; }
-
-  .tp-feature-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
-  .tp-feature-num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    color: #333;
-    letter-spacing: 0.06em;
-  }
-  .tp-feature-tag {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: #555;
-    border: 1px solid #2a2a2a;
-    padding: 3px 10px;
-  }
-  .tp-feature-title {
-    font-size: clamp(52px, 7vw, 96px);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
-    color: #e8e8e8;
-    line-height: 0.95;
-    margin: 0 0 28px;
-  }
-  .tp-feature-desc {
-    font-size: 15px;
-    color: #6a6a6a;
-    line-height: 1.75;
-    margin: 0 0 40px;
-    max-width: 460px;
-  }
-
-  /* Spec table */
-  .tp-specs {
-    border: 1px solid #1e1e1e;
-  }
-  .tp-spec-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 11px 18px;
-    border-bottom: 1px solid #1a1a1a;
-    font-family: var(--font-mono);
-    font-size: 11px;
-  }
-  .tp-spec-row:last-child { border-bottom: none; }
-  .tp-spec-row span:first-child {
-    color: #444;
-    letter-spacing: 0.1em;
-  }
-  .tp-spec-row span:last-child {
-    color: #888;
-  }
-
-  /* ── VISUAL: SCALABLE ──────────────────── */
-  .tp-visual {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .tp-visual--scale {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  .tp-scale-source {
-    border: 1px solid #2a2a2a;
-    padding: 18px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 110px;
-  }
-  .tp-scale-source-label {
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: #444;
-  }
-  .tp-scale-source-body {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .tp-scale-source-bar {
-    height: 8px;
-    background: #2a2a2a;
-  }
-  .tp-scale-source-bar--wide  { width: 100%; }
-  .tp-scale-source-bar--med   { width: 68%; }
-  .tp-scale-source-bar--short { width: 42%; }
-  .tp-scale-source-thumb {
-    width: 100%;
-    height: 52px;
-    background: #1c1c1c;
-    border: 1px solid #2a2a2a;
-    margin-top: 4px;
-  }
-  .tp-scale-arrow {
-    font-family: var(--font-mono);
-    font-size: 18px;
-    color: #333;
-    flex-shrink: 0;
-  }
-  .tp-scale-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 5px;
-  }
-  .tp-scale-cell {
-    width: 36px;
-    height: 36px;
-    border: 1px solid #222;
-  }
-  .tp-scale-cell--active { background: #1e1e1e; border-color: #3a3a3a; }
-  .tp-scale-cell--dim    { background: #111; border-color: #1a1a1a; }
-  .tp-scale-cell--base   { background: #161616; border-color: #252525; }
-
-  /* ── VISUAL: TESTABLE ──────────────────── */
-  .tp-terminal {
-    width: 100%;
-    border: 1px solid #252525;
-    background: #090909;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    overflow: hidden;
-  }
-  .tp-terminal-bar {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 10px 16px;
-    border-bottom: 1px solid #1e1e1e;
-    background: #0e0e0e;
-  }
-  .tp-dot { width: 9px; height: 9px; border-radius: 50%; }
-  .tp-dot--r { background: #2d2d2d; }
-  .tp-dot--y { background: #272727; }
-  .tp-dot--g { background: #232323; }
-  .tp-terminal-title {
-    font-size: 10px;
-    color: #444;
-    margin-left: 8px;
-    letter-spacing: 0.04em;
-  }
-  .tp-terminal-body {
-    padding: 20px 22px 24px;
-    line-height: 1.9;
-  }
-  .tp-tline {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-  }
-  .tp-tline--cmd    { color: #555; }
-  .tp-tline--muted  { color: #383838; }
-  .tp-tline--pass   { color: #666; }
-  .tp-tline--warn   { color: #5a5040; }
-  .tp-tline--result { color: #aaa; font-weight: 600; }
-  .tp-tline--cursor { color: #444; animation: blink 1.2s step-end infinite; }
-  .tp-pass-icon { color: #4a6a4a; }
-  .tp-warn-icon { color: #7a6a3a; }
-  .tp-dots {
-    flex: 1;
-    border-bottom: 1px dotted #222;
-    margin: 0 8px;
-    min-width: 20px;
-  }
-  .tp-badge-pass {
-    border: 1px solid #2a3a2a;
-    color: #4a6a4a;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    padding: 1px 6px;
-  }
-  .tp-badge-warn {
-    border: 1px solid #3a3020;
-    color: #7a6a3a;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    padding: 1px 6px;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* ── VISUAL: ADAPTABLE ─────────────────── */
-  .tp-visual--adapt {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  .tp-formats {
-    display: grid;
-    grid-template-columns: 120px 80px 1fr;
-    grid-template-rows: auto auto;
-    gap: 6px;
-    width: 100%;
-  }
-  .tp-format-cell {
-    border: 1px solid #252525;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 8px;
-    gap: 6px;
-    background: #0f0f0f;
-  }
-  .tp-format--square   { aspect-ratio: 1 / 1; }
-  .tp-format--portrait { aspect-ratio: 9 / 16; grid-row: 1 / 3; }
-  .tp-format--landscape { aspect-ratio: 16 / 9; grid-column: 3; }
-  .tp-format--wide     { aspect-ratio: 1.91 / 1; }
-  .tp-format--tall     { aspect-ratio: 4 / 5; }
-  .tp-format--banner   { grid-column: 1 / -1; height: 36px; flex-direction: row; padding: 0 16px; justify-content: space-between; }
-
-  .tp-format-ratio {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    color: #555;
-    letter-spacing: 0.04em;
-  }
-  .tp-format-name {
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    color: #333;
-  }
-  .tp-format-caption {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    color: #3a3a3a;
-    margin: 0;
-  }
-
-  /* ── CTA ───────────────────────────────── */
-  .tp-cta {
-    padding: 100px 40px;
-    background-image: repeating-linear-gradient(
-      -45deg,
-      #111 0,
-      #111 1px,
-      #090909 1px,
-      #090909 8px
-    );
-    border-bottom: 1px solid #1e1e1e;
-  }
-  .tp-cta-inner {
-    max-width: 680px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .tp-cta-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    color: #444;
-    margin: 0 0 24px;
-  }
-  .tp-cta-title {
-    font-size: clamp(36px, 5.5vw, 72px);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    color: #f0f0f0;
-    line-height: 1.0;
-    margin: 0 0 24px;
-  }
-  .tp-cta-desc {
-    font-size: 15px;
-    color: #666;
-    line-height: 1.7;
-    margin: 0 0 48px;
-  }
-  .tp-cta-actions {
-    display: flex;
-    gap: 14px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .tp-btn {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    padding: 14px 30px;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: all 0.15s ease;
-  }
-  .tp-btn--filled {
-    background: var(--primary);
-    color: var(--primary-foreground);
-    border: 1px solid var(--primary);
-    border-radius: var(--radius-sm);
-  }
-  .tp-btn--filled:hover { background: oklch(75% 0.13 180); border-color: oklch(75% 0.13 180); }
-  .tp-btn--outline {
-    background: transparent;
-    color: var(--muted-foreground);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-  }
-  .tp-btn--outline:hover { color: var(--foreground); border-color: var(--primary); }
-
-  /* ── PAGE FOOTER ───────────────────────── */
-  .tp-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    font-size: 11px;
-    color: #3a3a3a;
-    letter-spacing: 0.06em;
-  }
-  .tp-footer-link {
-    color: #444;
-    text-decoration: none;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-  }
-  .tp-footer-link:hover { color: #999; }
-
-  /* ── RESPONSIVE ────────────────────────── */
-  @media (max-width: 960px) {
-    .tp-nav   { padding: 14px 20px; }
-    .tp-hero  { padding: 64px 20px 56px; }
-    .tp-feature { padding: 64px 20px; }
-    .tp-cta   { padding: 72px 20px; }
-    .tp-footer { padding: 16px 20px; }
-
-    .tp-feature-inner,
-    .tp-feature-inner--rev {
-      grid-template-columns: 1fr;
-      direction: ltr;
-      gap: 48px;
-    }
-
-    .tp-hero-stats { flex-direction: column; width: 100%; }
-    .tp-stat { border-right: none; border-bottom: 1px solid #222; padding: 18px 24px; }
-    .tp-stat:last-child { border-bottom: none; }
-
-    .tp-scale-grid { grid-template-columns: repeat(4, 1fr); }
-    .tp-scale-cell { width: 32px; height: 32px; }
-
-    .tp-formats {
-      grid-template-columns: 100px 70px 1fr;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .tp-hero-title { letter-spacing: -0.025em; }
-    .tp-feature-title { font-size: clamp(44px, 14vw, 72px); }
-    .tp-formats {
-      grid-template-columns: 90px 60px 1fr;
-    }
-  }
-</style>
-
-<script>
-  const yearEl = document.getElementById("tp-year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
-</script>

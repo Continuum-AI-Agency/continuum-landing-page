@@ -3,22 +3,30 @@ import { Image } from 'astro:assets';
 
 const logoFiles = import.meta.glob('../assets/cliente_logos/*.{png,jpg,jpeg,svg,gif,webp}', { eager: true });
 
-const logos = Object.entries(logoFiles).map(([path, module]: [string, any]) => {
-  const filenameWithExt = path.split('/').pop() || '';
-  const filename = filenameWithExt.split('.')[0] || 'Client';
-  
-  const brandName = filename
-    .replace(/[-_]/g, ' ')
-    .replace(/\blogo\b/gi, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/\b\w/g, (l) => l.toUpperCase());
-  
-  return {
-    src: module.default,
-    brandName
-  };
-});
+const logos = Object.entries(logoFiles)
+  .filter(([path]) => {
+    const filename = path.split('/').pop() || '';
+    if (filename === 'ProptechLatam_Logo_color.png') return false;
+    if (filename === 'image.png') return false;
+    if (filename === 'La_liga_basquet.png') return false;
+    return true;
+  })
+  .map(([path, module]: [string, any]) => {
+    const filenameWithExt = path.split('/').pop() || '';
+    const filename = filenameWithExt.split('.')[0] || 'Client';
+    
+    const brandName = filename
+      .replace(/[-_]/g, ' ')
+      .replace(/\blogo\b/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+    
+    return {
+      src: module.default,
+      brandName
+    };
+  });
 
 logos.sort((a, b) => a.brandName.localeCompare(b.brandName));
 
@@ -52,7 +60,7 @@ const tripleLogos = [...logos, ...logos, ...logos];
             <Image
               src={logo.src}
               alt={`${logo.brandName} Logo`}
-              class="h-10 md:h-12 w-auto object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105"
+              class={`h-10 md:h-12 w-auto object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105 ${logo.brandName.toLowerCase().includes('feva') || logo.brandName.toLowerCase().includes('privalia') ? 'invert brightness-200' : ''}`}
               loading={index < logos.length ? "eager" : "lazy"}
             />
           </div>

@@ -11,7 +11,7 @@ export function HeroTypography() {
     };
 
     return (
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold font-display text-center relative z-30 tracking-tight leading-none uppercase flex flex-col gap-2 md:gap-4 select-none">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-center relative z-30 tracking-tight leading-none uppercase flex flex-col gap-2 md:gap-4 select-none">
             {/* Line 1 */}
             <div className="flex flex-wrap justify-center gap-x-2 md:gap-x-4 overflow-hidden py-1">
                 {line1.map((word, index) => (
