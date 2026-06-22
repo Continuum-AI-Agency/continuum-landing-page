@@ -1,13 +1,31 @@
 import React from "react";
 import { motion } from "motion/react";
 
+type Word = { text: string; muted?: boolean; accent?: boolean };
+
 export function HeroTypography() {
-    const line1 = ["Build", "Continuity."];
-    const line2 = ["Scale", "Personalization."];
+    const line1: Word[] = [
+        { text: "Right", muted: true },
+        { text: "message,", muted: false },
+        { text: "right", muted: true },
+        { text: "audience,", muted: false },
+        { text: "right", muted: true },
+        { text: "moment.", muted: false },
+    ];
+    const line2: Word[] = [
+        { text: "Better", muted: false },
+        { text: "conversion.", accent: true },
+    ];
 
     const getDelay = (isLine2: boolean, index: number) => {
-        const startDelay = isLine2 ? 2.0 : 1.0;
-        return startDelay + index * 0.15;
+        const startDelay = isLine2 ? 1.4 : 0.6;
+        return startDelay + index * 0.12;
+    };
+
+    const colorFor = (word: Word) => {
+        if (word.accent) return "text-brand-violet font-bold";
+        if (word.muted) return "text-muted-foreground/80";
+        return "text-foreground font-bold";
     };
 
     return (
@@ -27,11 +45,7 @@ export function HeroTypography() {
                             delay: getDelay(false, index)
                         }}
                     >
-                        {word === "Continuity." ? (
-                            <span className="text-foreground font-bold">{word}</span>
-                        ) : (
-                            <span className="text-muted-foreground/80">{word}</span>
-                        )}
+                        <span className={colorFor(word)}>{word.text}</span>
                     </motion.span>
                 ))}
             </div>
@@ -51,11 +65,7 @@ export function HeroTypography() {
                             delay: getDelay(true, index)
                         }}
                     >
-                        {word === "Personalization." ? (
-                            <span className="text-brand-violet font-bold">{word}</span>
-                        ) : (
-                            <span className="text-muted-foreground/80">{word}</span>
-                        )}
+                        <span className={colorFor(word)}>{word.text}</span>
                     </motion.span>
                 ))}
             </div>
