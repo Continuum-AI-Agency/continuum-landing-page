@@ -3,13 +3,18 @@ import '../styles/global.css';
 
 interface Props {
 	title?: string;
+	description?: string;
+	image?: string;
+	canonicalURL?: URL;
+	ogType?: string;
 }
 
 const {
   title = "Continuum — Build continuity. Scale personalization.",
   description = "Continuum is the AI-powered platform that automates creative production and campaign activation end to end — built for modern brands that need performance at scale.",
   image = "/assets/Logo_Continuum (1).png",
-  canonicalURL = new URL(Astro.url.pathname, "https://trycontinuum.ai")
+  canonicalURL = new URL(Astro.url.pathname, "https://trycontinuum.ai"),
+  ogType = "website"
 } = Astro.props;
 
 const buildDate = new Date().toISOString();
@@ -44,7 +49,7 @@ const buildDate = new Date().toISOString();
         <link rel="canonical" href={canonicalURL} />
 
         <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content={ogType} />
         <meta property="og:url" content={canonicalURL} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -85,6 +90,9 @@ const buildDate = new Date().toISOString();
 
         <!-- Tema para navegadores -->
         <meta name="theme-color" content="#0f172a" />
+
+        <!-- Per-page head injection (extra meta, structured data, etc.) -->
+        <slot name="head" />
 	<body class="ch-body" id="top">
         <main class="ch-content-wrapper">
 		    <slot />

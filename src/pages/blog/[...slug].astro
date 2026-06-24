@@ -1,0 +1,256 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+const SITE = 'https://trycontinuum.ai';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+
+const canonicalURL = new URL(`/blog/${post.id}/`, SITE);
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+
+const readingTime = Math.max(
+  1,
+  Math.round((post.body ?? '').trim().split(/\s+/).length / 220),
+);
+
+// --- Structured data (SEO + AEO) ---
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  description: data.metaDescription,
+  datePublished: data.pubDate.toISOString(),
+  dateModified: (data.updatedDate ?? data.pubDate).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: data.author,
+    jobTitle: 'Founder & CEO',
+    worksFor: { '@type': 'Organization', name: 'Continuum', url: SITE },
+    url: `${SITE}/press/`,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Continuum',
+    logo: { '@type': 'ImageObject', url: `${SITE}/assets/Logo_Continuum (1).png` },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.toString() },
+  image: `${SITE}/assets/Logo_Continuum (1).png`,
+  articleSection: data.category,
+  ...(data.targetKeyword ? { keywords: data.targetKeyword } : {}),
+  ...(data.sourcePublication
+    ? {
+        citation: {
+          '@type': 'CreativeWork',
+          name: data.sourcePublication,
+          ...(data.sourceUrl ? { url: data.sourceUrl } : {}),
+          ...(data.sourceDate ? { datePublished: data.sourceDate.toISOString() } : {}),
+        },
+        isBasedOn: data.sourceUrl ?? undefined,
+      }
+    : {}),
+};
+
+const faqSchema = data.faq?.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: data.faq.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    }
+  : null;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE}/blog/` },
+    { '@type': 'ListItem', position: 3, name: data.title, item: canonicalURL.toString() },
+  ],
+};
+---
+
+<Layout
+  title={data.metaTitle ?? `${data.title} | Continuum`}
+  description={data.metaDescription}
+  canonicalURL={canonicalURL}
+  ogType="article"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(articleSchema)} />
+  {faqSchema && <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqSchema)} />}
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="relative min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
+    <!-- Nav -->
+    <nav class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 border-b border-border/10 bg-background/80 backdrop-blur-md">
+      <a href="/blog/" class="group flex items-center gap-2 font-display text-[10px] tracking-[0.25em] text-foreground hover:text-primary transition-colors uppercase">
+        <span class="text-muted-foreground/40 group-hover:text-primary group-hover:-translate-x-0.5 transition-all">←</span>
+        Blog
+      </a>
+      <a href="/" class="font-display text-[10px] tracking-[0.25em] text-muted-foreground hover:text-primary transition-colors uppercase">
+        Continuum
+      </a>
+    </nav>
+
+    <article class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+      <!-- Breadcrumb (visible) -->
+      <nav aria-label="Breadcrumb" class="mb-8 text-[11px] uppercase tracking-[0.18em] font-mono text-muted-foreground/60">
+        <a href="/" class="hover:text-primary transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/blog/" class="hover:text-primary transition-colors">Blog</a>
+      </nav>
+
+      <!-- Header -->
+      <header class="mb-12">
+        <div class="flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-mono mb-6">
+          <span class="text-primary font-bold">{data.category}</span>
+          <span class="text-muted-foreground/40">•</span>
+          <time datetime={data.pubDate.toISOString()} class="text-muted-foreground/70">{fmtDate(data.pubDate)}</time>
+          <span class="text-muted-foreground/40">•</span>
+          <span class="text-muted-foreground/70">{readingTime} min read</span>
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold font-display text-foreground leading-[1.1] tracking-tight">
+          {data.title}
+        </h1>
+        <p class="mt-6 text-sm text-muted-foreground">
+          By <span class="text-foreground font-medium">{data.author}</span>, Founder &amp; CEO of Continuum
+        </p>
+      </header>
+
+      <!-- Body -->
+      <div class="prose-blog">
+        <Content />
+      </div>
+
+      {
+        data.sourcePublication && (
+          <aside class="mt-12 rounded-xl border border-border/40 bg-card/30 p-6 flex flex-col gap-1">
+            <span class="text-[10px] uppercase tracking-[0.2em] font-mono text-primary font-bold">Originally featured in</span>
+            <p class="text-base text-foreground font-medium mt-1">
+              {data.sourceUrl ? (
+                <a href={data.sourceUrl} target="_blank" rel="noopener" class="hover:text-primary transition-colors underline-offset-4 hover:underline">
+                  {data.sourcePublication}
+                </a>
+              ) : (
+                data.sourcePublication
+              )}
+            </p>
+            <p class="text-sm text-muted-foreground">
+              {data.sourceAuthor && <span>By {data.sourceAuthor}</span>}
+              {data.sourceAuthor && data.sourceDate && <span> · </span>}
+              {data.sourceDate && <span>{fmtDate(data.sourceDate)}</span>}
+            </p>
+          </aside>
+        )
+      }
+
+      <!-- CTA -->
+      <div class="mt-16 rounded-xl border border-border/40 bg-card/40 p-8 md:p-10 text-center">
+        <h2 class="text-xl md:text-2xl font-semibold font-display text-foreground">
+          See your brand, personalized at scale
+        </h2>
+        <p class="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          Continuum is the structured creative layer that renders hundreds of on-brand,
+          on-spec variations automatically. Book a demo and we'll show you your own creative, live.
+        </p>
+        <a
+          href="/"
+          class="mt-6 inline-flex items-center justify-center h-[52px] min-w-[200px] bg-primary text-primary-foreground font-medium rounded-md px-6 shadow-sm hover:bg-[oklch(75%_0.13_180)] transition-all"
+        >
+          Book a demo
+        </a>
+      </div>
+
+      <!-- Back link -->
+      <div class="mt-12 text-center">
+        <a href="/blog/" class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+          <span>←</span> Back to all articles
+        </a>
+      </div>
+    </article>
+  </div>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  .prose-blog {
+    color: color-mix(in oklab, var(--foreground) 84%, transparent);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+  .prose-blog > * + * { margin-top: 1.3rem; }
+  .prose-blog > p:first-child {
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--foreground);
+  }
+  .prose-blog h2 {
+    font-family: var(--font-display);
+    color: var(--foreground);
+    font-weight: 700;
+    font-size: 1.7rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-top: 3.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-blog h3 {
+    font-family: var(--font-display);
+    color: var(--foreground);
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-top: 2.25rem;
+    margin-bottom: 0.25rem;
+  }
+  .prose-blog strong { color: var(--foreground); font-weight: 600; }
+  .prose-blog em { font-style: italic; }
+  .prose-blog a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    text-underline-offset: 3px;
+  }
+  .prose-blog a:hover { text-decoration: underline; }
+  .prose-blog ul, .prose-blog ol { padding-left: 1.4rem; }
+  .prose-blog ul { list-style: disc; }
+  .prose-blog ol { list-style: decimal; }
+  .prose-blog li { margin-top: 0.55rem; padding-left: 0.35rem; }
+  .prose-blog li::marker { color: var(--primary); }
+  .prose-blog blockquote {
+    border-left: 2px solid var(--primary);
+    padding-left: 1.25rem;
+    color: var(--muted-foreground);
+    font-style: italic;
+  }
+  .prose-blog code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background: var(--card);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+  }
+  .prose-blog hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+</style>
