@@ -8,7 +8,6 @@ import { ArrowClockwise as RotateCw } from '@phosphor-icons/react';
 import avatarMich from '@/assets/team/mich.jpg';
 import avatarDuane from '@/assets/team/Duane Scott Profile.png';
 import avatarMati from '@/assets/team/mati.png';
-import avatarFlor from '@/assets/team/flor.png';
 
 import logoPedidosYa from '@/assets/Logos_Team/pedidosya-logo_brandlogos.net_perjc.png';
 import logoCocaCola from '@/assets/Logos_Team/Coca-Cola_bottle_cap.svg';
@@ -53,15 +52,6 @@ const teamMembers: TeamMember[] = [
     role: 'Engineering & Innovation',
     image: avatarMati.src,
     bio: 'Motion designer and creative technologist with experience in video, VFX, and After Effects. Designs and maintains the creative automation system.',
-    logos: [
-      { src: logoDatobox.src, alt: 'Datobox' },
-    ],
-  },
-  {
-    name: 'Florencia Cicero',
-    role: 'Marketing & Operations',
-    image: avatarFlor.src,
-    bio: 'Operations and delivery expert. Oversees operations, client onboarding, and success, ensuring teams adopt the platform and hit performance goals.',
     logos: [
       { src: logoDatobox.src, alt: 'Datobox' },
     ],
@@ -179,7 +169,7 @@ export function TeamSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
           {teamMembers.map((member) => (
             <TeamMemberCard key={member.name} {...member} />
           ))}
