@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const SITE = 'https://trycontinuum.ai';
+
+const pressPosts = (await getCollection('blog'))
+  .filter((p) => p.data.press && !p.data.draft)
+  .sort(
+    (a, b) =>
+      (b.data.sourceDate ?? b.data.pubDate).valueOf() -
+      (a.data.sourceDate ?? a.data.pubDate).valueOf(),
+  );
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+
+const title = 'Press & Media — Continuum Founder Michelle Shocron in the News';
+const description =
+  'Media coverage and interviews featuring Michelle Shocron, founder & CEO of Continuum — on AI in marketing, building in artificial intelligence, and women founders in tech.';
+
+// Michelle as a Person entity, subject of her press coverage (authority / E-E-A-T)
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Michelle Shocron',
+  jobTitle: 'Founder & CEO',
+  worksFor: { '@type': 'Organization', name: 'Continuum', url: SITE },
+  url: `${SITE}/press/`,
+  sameAs: ['https://www.linkedin.com/company/continuum-agency'],
+  subjectOf: pressPosts
+    .filter((p) => p.data.sourceUrl)
+    .map((p) => ({
+      '@type': 'NewsArticle',
+      headline: p.data.title,
+      url: p.data.sourceUrl,
+      ...(p.data.sourcePublication
+        ? { publisher: { '@type': 'Organization', name: p.data.sourcePublication } }
+        : {}),
+      ...(p.data.sourceDate ? { datePublished: p.data.sourceDate.toISOString() } : {}),
+    })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Press', item: `${SITE}/press/` },
+  ],
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(personSchema)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="relative min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
+    <!-- Nav -->
+    <nav class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 border-b border-border/10 bg-background/80 backdrop-blur-md">
+      <a href="/" class="group flex items-center gap-2 font-display text-[10px] tracking-[0.25em] text-foreground hover:text-primary transition-colors uppercase">
+        <span class="text-muted-foreground/40 group-hover:text-primary group-hover:-translate-x-0.5 transition-all">←</span>
+        Continuum
+      </a>
+      <span class="font-sans text-[9px] font-bold tracking-[0.2em] text-muted-foreground border border-border/20 px-3 py-1 rounded-full bg-card/40 uppercase">
+        Press
+      </span>
+    </nav>
+
+    <main class="mx-auto max-w-5xl px-6 py-20 md:py-28">
+      <!-- Header -->
+      <header class="mb-16 max-w-3xl">
+        <p class="text-[10px] uppercase tracking-[0.3em] text-primary font-bold font-mono mb-5">Press &amp; Media</p>
+        <h1 class="text-4xl md:text-6xl font-bold font-display uppercase tracking-tight leading-none text-foreground">
+          In the News
+        </h1>
+        <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed">
+          Continuum founder &amp; CEO <span class="text-foreground font-medium">Michelle Shocron</span> on
+          AI in marketing, building in artificial intelligence, and the road from Mercado Libre to founding
+          an AI company — featured across Latin America's business and technology press.
+        </p>
+      </header>
+
+      <!-- Coverage list -->
+      <div class="flex flex-col gap-px bg-border/30 rounded-xl overflow-hidden border border-border/30">
+        {
+          pressPosts.map((post) => (
+            <article class="bg-background hover:bg-card/40 transition-colors duration-300 p-8 md:p-10">
+              <div class="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-mono mb-4">
+                <span class="text-primary font-bold">{post.data.sourcePublication}</span>
+                {post.data.sourceDate && (
+                  <>
+                    <span class="text-muted-foreground/40">•</span>
+                    <span class="text-muted-foreground/70">{fmtDate(post.data.sourceDate)}</span>
+                  </>
+                )}
+              </div>
+              <h2 class="text-2xl md:text-3xl font-semibold font-display text-foreground leading-tight">
+                <a href={`/blog/${post.id}/`} class="hover:text-primary transition-colors">
+                  {post.data.title}
+                </a>
+              </h2>
+              <p class="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl">
+                {post.data.excerpt ?? post.data.metaDescription}
+              </p>
+              <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
+                <a href={`/blog/${post.id}/`} class="inline-flex items-center gap-2 text-primary">
+                  Read the story <span>→</span>
+                </a>
+                {post.data.sourceUrl && (
+                  <a
+                    href={post.data.sourceUrl}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Read on {post.data.sourcePublication} <span>↗</span>
+                  </a>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </main>
+  </div>
+
+  <Footer />
+</Layout>

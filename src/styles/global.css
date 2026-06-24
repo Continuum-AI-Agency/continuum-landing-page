@@ -236,6 +236,12 @@
   100% { background-position:  200% 0; }
 }
 
+/* Hero subtext / general fade-up reveal (used by inline `animation: fadeUp ...`) */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer {
     animation: none;

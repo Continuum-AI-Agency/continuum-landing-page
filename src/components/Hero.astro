@@ -16,6 +16,14 @@ import iconYoutube from '../assets/Icons/icons8-youtube.svg';
 ---
 
 <section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden bg-background z-0">
+  <!-- Top Navigation -->
+  <nav class="absolute top-0 left-0 right-0 z-40 flex items-center justify-center md:justify-end gap-5 md:gap-9 px-6 md:px-12 py-5 font-sans">
+    <a href="/technology/" class="text-[11px] uppercase tracking-[0.18em] font-medium text-muted-foreground/80 hover:text-primary transition-colors">Technology</a>
+    <a href="/social-plus" class="text-[11px] uppercase tracking-[0.18em] font-medium text-muted-foreground/80 hover:text-primary transition-colors">Social+</a>
+    <a href="/blog/" class="text-[11px] uppercase tracking-[0.18em] font-medium text-muted-foreground/80 hover:text-primary transition-colors">Blog</a>
+    <a href="/press/" class="text-[11px] uppercase tracking-[0.18em] font-medium text-muted-foreground/80 hover:text-primary transition-colors">Press</a>
+  </nav>
+
   <!-- Video Background with Crossfade -->
   <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-background">
     <video 
@@ -57,7 +65,7 @@ import iconYoutube from '../assets/Icons/icons8-youtube.svg';
         <div className="mt-8 mb-12 flex flex-col items-center">
           <HeroTypography client:load />
           <p
-            class="text-sm md:text-xl text-center max-w-3xl mx-auto text-muted-foreground mt-6 leading-relaxed font-sans hero-subtext opacity-0"
+            class="text-[0.6125rem] md:text-[0.875rem] text-center max-w-3xl mx-auto text-muted-foreground mt-6 leading-relaxed font-sans hero-subtext opacity-0"
             style="animation: fadeUp 1s ease-out 1.2s forwards;"
           >
             <strong class="text-foreground font-semibold">Uplift 35% in conversion</strong>, <strong class="text-foreground font-semibold">save 90% of design efforts</strong>. Continuum is the infrastructure to operate your agency, connecting the digital world with real-time retail media data. Let AI listen, analyze, create, implement and optimize 360° — with data-driven design, create thousands of on-brand creatives and let every customer feel seen again.
