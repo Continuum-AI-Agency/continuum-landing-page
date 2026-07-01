@@ -253,4 +253,29 @@ const breadcrumbSchema = {
     border-top: 1px solid var(--border);
     margin: 3rem 0;
   }
+  .prose-blog table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin: 1.75rem 0;
+    display: block;
+    overflow-x: auto;
+  }
+  .prose-blog th,
+  .prose-blog td {
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.85rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .prose-blog thead th {
+    background: var(--card);
+    color: var(--foreground);
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .prose-blog tbody td:first-child {
+    color: var(--foreground);
+    font-weight: 500;
+  }
 </style>
