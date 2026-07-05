@@ -65,9 +65,9 @@ export function VisualLabCanvas() {
   ]);
 
   const prompts: Preset[] = [
-    { id: 'preset-a', name: 'Deep Space', prompt: 'Sleek gravity well, oklch teal accent rings', tag: 'ASTRONOMY', guidance: 7.5, denoise: 0.65, steps: 30 },
-    { id: 'preset-b', name: 'Min Grid', prompt: 'Raw telemetry coordinates, outline typography', tag: 'VECTOR', guidance: 4.0, denoise: 0.15, steps: 20 },
-    { id: 'preset-c', name: 'Accretion Flow', prompt: 'Concentric particle wave, brand-violet sparks', tag: 'DYNAMICS', guidance: 8.5, denoise: 0.80, steps: 40 }
+    { id: 'preset-a', name: 'Deep Space', prompt: 'Sleek gravity well, oklch violet accent rings', tag: 'Astronomy', guidance: 7.5, denoise: 0.65, steps: 30 },
+    { id: 'preset-b', name: 'Min Grid', prompt: 'Raw telemetry coordinates, outline typography', tag: 'Vector', guidance: 4.0, denoise: 0.15, steps: 20 },
+    { id: 'preset-c', name: 'Accretion Flow', prompt: 'Concentric particle wave, brand-violet sparks', tag: 'Dynamics', guidance: 8.5, denoise: 0.80, steps: 40 }
   ];
 
   const refImages: RefImage[] = [
@@ -400,7 +400,7 @@ export function VisualLabCanvas() {
       <div className="flex items-center justify-between px-4 py-2 border-b border-border/10 bg-card/40 backdrop-blur-md z-30 select-none">
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-          <span className="text-[8px] font-bold text-muted-foreground/60 uppercase">social-plus // canvas</span>
+          <span className="text-[8px] font-bold text-muted-foreground/60">social-plus // canvas</span>
         </div>
         
         {/* Editor Tools */}
@@ -506,7 +506,7 @@ export function VisualLabCanvas() {
                   onPointerMove={(e) => handleNodeDragMove(e, node.id)}
                   onPointerUp={(e) => handleNodeDragEnd(e, node.id)}
                 >
-                  <span className="font-bold text-muted-foreground/60 uppercase">T-Prompt</span>
+                  <span className="font-bold text-muted-foreground/60">T-Prompt</span>
                   <button 
                     onClick={() => toggleNodeCollapse(node.id)}
                     className="hover:text-primary transition-colors cursor-pointer text-[8px] px-1 font-bold"
@@ -558,7 +558,7 @@ export function VisualLabCanvas() {
                   onPointerMove={(e) => handleNodeDragMove(e, node.id)}
                   onPointerUp={(e) => handleNodeDragEnd(e, node.id)}
                 >
-                  <span className="font-bold text-muted-foreground/60 uppercase">I-Ref</span>
+                  <span className="font-bold text-muted-foreground/60">I-Ref</span>
                   <button 
                     onClick={() => toggleNodeCollapse(node.id)}
                     className="hover:text-primary transition-colors cursor-pointer text-[8px] px-1 font-bold"
@@ -611,7 +611,7 @@ export function VisualLabCanvas() {
                   onPointerMove={(e) => handleNodeDragMove(e, node.id)}
                   onPointerUp={(e) => handleNodeDragEnd(e, node.id)}
                 >
-                  <span className="font-bold text-muted-foreground/60 uppercase">Style</span>
+                  <span className="font-bold text-muted-foreground/60">Style</span>
                   <button 
                     onClick={() => toggleNodeCollapse(node.id)}
                     className="hover:text-primary transition-colors cursor-pointer text-[8px] px-1 font-bold"
@@ -621,7 +621,7 @@ export function VisualLabCanvas() {
                 </div>
                 {!isCollapsed && (
                   <div className="flex items-center justify-between mt-1 px-1">
-                    <span className="w-2 h-2 rounded bg-primary" title="Teal font"></span>
+                    <span className="w-2 h-2 rounded bg-primary" title="Violet primary"></span>
                     <span className="w-2 h-2 rounded bg-brand-violet" title="Violet accent"></span>
                     <span className="w-2 h-2 rounded bg-card border border-border/10" title="Slate dark"></span>
                     <span className="text-[6px] text-muted-foreground/50">OKLCH</span>
@@ -658,7 +658,7 @@ export function VisualLabCanvas() {
                   onPointerMove={(e) => handleNodeDragMove(e, node.id)}
                   onPointerUp={(e) => handleNodeDragEnd(e, node.id)}
                 >
-                  <span className="font-bold text-primary uppercase">Studio Gen</span>
+                  <span className="font-bold text-primary">Studio Gen</span>
                   <div className="flex items-center gap-1">
                     {!isCollapsed && <span className="font-mono text-[7px] text-muted-foreground/50 mr-1">v1.2</span>}
                     <button 
@@ -746,7 +746,7 @@ export function VisualLabCanvas() {
                   onPointerMove={(e) => handleNodeDragMove(e, node.id)}
                   onPointerUp={(e) => handleNodeDragEnd(e, node.id)}
                 >
-                  <span className="font-bold text-muted-foreground/60 uppercase">Refiner</span>
+                  <span className="font-bold text-muted-foreground/60">Refiner</span>
                   <button 
                     onClick={() => toggleNodeCollapse(node.id)}
                     className="hover:text-primary transition-colors cursor-pointer text-[8px] px-1 font-bold"
@@ -762,7 +762,7 @@ export function VisualLabCanvas() {
                     </div>
                     <div className="flex justify-between">
                       <span>Color Check</span>
-                      <span className="text-foreground">MATCH</span>
+                      <span className="text-foreground">Match</span>
                     </div>
                   </div>
                 )}
@@ -808,7 +808,7 @@ export function VisualLabCanvas() {
                   onPointerMove={(e) => handleNodeDragMove(e, node.id)}
                   onPointerUp={(e) => handleNodeDragEnd(e, node.id)}
                 >
-                  <span className="font-bold text-brand-violet uppercase truncate max-w-[55px]" title={node.title}>{node.title}</span>
+                  <span className="font-bold text-brand-violet truncate max-w-[55px]" title={node.title}>{node.title}</span>
                   <div className="flex items-center gap-0.5">
                     <button 
                       onClick={() => toggleNodeCollapse(node.id)}
@@ -897,7 +897,7 @@ export function VisualLabCanvas() {
                   onPointerMove={(e) => handleNodeDragMove(e, node.id)}
                   onPointerUp={(e) => handleNodeDragEnd(e, node.id)}
                 >
-                  <span className="font-bold text-muted-foreground/60 uppercase text-[8px]">Output</span>
+                  <span className="font-bold text-muted-foreground/60 text-[8px]">Output</span>
                   <div className="flex items-center gap-1">
                     {!isCollapsed && <span className="text-primary font-bold text-[7px]">1:1</span>}
                     <button 
@@ -923,7 +923,7 @@ export function VisualLabCanvas() {
                         </div>
                       ) : (
                         <div className="w-full h-full flex flex-col justify-between text-left relative z-10">
-                          <span className="text-[6px] font-bold text-primary bg-primary/10 border border-primary/20 px-1 py-0.2 rounded-sm uppercase tracking-widest truncate self-start">{activePrompt.tag}</span>
+                          <span className="text-[6px] font-bold text-primary bg-primary/10 border border-primary/20 px-1 py-0.2 rounded-sm tracking-normal truncate self-start">{activePrompt.tag}</span>
                           
                           {/* Micro SVG preview changing with inputs and filters */}
                           <div className="w-full flex-1 flex items-center justify-center my-1 relative">
@@ -998,7 +998,7 @@ export function VisualLabCanvas() {
                           </div>
                           
                           <div className="h-3.5 w-full bg-primary/20 border border-primary/30 flex items-center justify-center rounded-sm mt-1 z-10">
-                            <span className="text-[5px] text-foreground font-bold tracking-wider uppercase">Variant Rendered</span>
+                            <span className="text-[5px] text-foreground font-bold tracking-normal">Variant Rendered</span>
                           </div>
                         </div>
                       )}
@@ -1049,8 +1049,8 @@ export function VisualLabCanvas() {
 
       {/* Footer statistics bar */}
       <div className="flex justify-between items-center px-4 py-2 border-t border-border/10 bg-card/20 z-20 text-[9px] text-muted-foreground/50 select-none">
-        <span>BATCH_ID · 01J2K</span>
-        <span className="font-bold">TOTAL GENERATIONS · {generationCount}</span>
+        <span>Batch ID · 01J2K</span>
+        <span className="font-bold">Total generations · {generationCount}</span>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ export function BentoPersonaCreative() {
                     <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                         <PencilSimpleLine size={20} className="text-primary" />
                     </div>
-                    <h4 className="text-xl md:text-2xl font-bold text-foreground font-display uppercase tracking-tight">In-house & Creative Teams</h4>
+                    <h4 className="text-xl md:text-2xl font-bold text-foreground font-display tracking-tight">In-house & Creative Teams</h4>
                 </div>
                 <p className="text-muted-foreground text-sm md:text-base mb-8 font-sans leading-relaxed max-w-md relative z-10">
                     Build one creative system for all your channels. Maintain control without slowing down, giving your team their time back.
@@ -47,7 +47,7 @@ export function BentoPersonaCreative() {
                 >
                     <div className="w-64 h-40 bg-background border border-border/40 rounded-xl shadow-sm flex flex-col p-4 relative top-4">
                         <div className="flex justify-between items-center border-b border-border/20 pb-2 mb-3">
-                            <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest font-mono">Workspace</div>
+                            <div className="text-[10px] font-bold text-muted-foreground tracking-wide font-mono">Workspace</div>
                             <div className="flex gap-1">
                                 <div className="w-2 h-2 rounded-full bg-red-400/30"></div>
                                 <div className="w-2 h-2 rounded-full bg-yellow-400/30"></div>
@@ -81,7 +81,7 @@ export function BentoPersonaCreative() {
                             <div className="w-10 h-10 border border-primary/30 bg-primary/10 rounded-lg shadow-sm flex items-center justify-center text-primary relative z-20">
                                 <Workflow size={16} />
                             </div>
-                            <span className="text-[8px] uppercase tracking-widest text-primary mt-2 font-mono">Input</span>
+                            <span className="text-[8px] tracking-wide text-primary mt-2 font-mono">Input</span>
                         </div>
 
                         {/* Animated Connecting Lines and Boxes (visible only on hover) */}

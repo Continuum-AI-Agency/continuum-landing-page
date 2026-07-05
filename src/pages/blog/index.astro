@@ -62,11 +62,11 @@ const breadcrumbSchema = {
   <div class="relative min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
     <!-- Nav -->
     <nav class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 border-b border-border/10 bg-background/80 backdrop-blur-md">
-      <a href="/" class="group flex items-center gap-2 font-display text-[10px] tracking-[0.25em] text-foreground hover:text-primary transition-colors uppercase">
+      <a href="/" class="group flex items-center gap-2 font-display text-[10px] tracking-wide text-foreground hover:text-primary transition-colors">
         <span class="text-muted-foreground/40 group-hover:text-primary group-hover:-translate-x-0.5 transition-all">←</span>
         Continuum
       </a>
-      <span class="font-sans text-[9px] font-bold tracking-[0.2em] text-muted-foreground border border-border/20 px-3 py-1 rounded-full bg-card/40 uppercase">
+      <span class="font-sans text-[9px] font-bold tracking-wide text-muted-foreground border border-border/20 px-3 py-1 rounded-full bg-card/40">
         Blog
       </span>
     </nav>
@@ -74,8 +74,8 @@ const breadcrumbSchema = {
     <main class="mx-auto max-w-5xl px-6 py-20 md:py-28">
       <!-- Header -->
       <header class="mb-16 max-w-3xl">
-        <p class="text-[10px] uppercase tracking-[0.3em] text-primary font-bold font-mono mb-5">Insights</p>
-        <h1 class="text-4xl md:text-6xl font-bold font-display uppercase tracking-tight leading-none text-foreground">
+        <p class="text-[10px] tracking-wide text-primary font-bold font-mono mb-5">Insights</p>
+        <h1 class="text-4xl md:text-6xl font-bold font-display tracking-tight leading-none text-foreground">
           The Continuum Blog
         </h1>
         <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed">
@@ -93,7 +93,7 @@ const breadcrumbSchema = {
               class="group block bg-background hover:bg-card/40 transition-colors duration-300 p-8 md:p-10"
             >
               <article class="flex flex-col gap-4">
-                <div class="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-mono">
+                <div class="flex items-center gap-3 text-[10px] tracking-wide font-mono">
                   <span class="text-primary font-bold">{post.data.category}</span>
                   <span class="text-muted-foreground/40">•</span>
                   <span class="text-muted-foreground/70">{fmtDate(post.data.pubDate)}</span>

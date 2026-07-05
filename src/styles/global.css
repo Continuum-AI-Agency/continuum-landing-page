@@ -1,25 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
 
 @import "tailwindcss";
-
-/* ── 0. Local Display Font ───────────────────────────────────────────────── */
-@font-face {
-  font-family: "Futura Maxi";
-  src: url("/assets/fonts/FuturaMaxi-Demi.woff2") format("woff2"),
-       url("/assets/fonts/FuturaMaxi-Demi.woff") format("woff");
-  font-weight: 800; /* Demi = la usamos como ExtraBold */
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Futura Maxi";
-  src: url("/assets/fonts/FuturaMaxi-Bold.woff2") format("woff2"),
-       url("/assets/fonts/FuturaMaxi-Bold.woff") format("woff");
-  font-weight: 700; /* Bold */
-  font-style: normal;
-  font-display: swap;
-}
 
 /* ── 1. Dark mode strategy ───────────────────────────────────────────────── */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -29,12 +11,12 @@
   --radius: 0.5rem;
 
   /* Font variables */
-  --font-geist-sans: "Geist", system-ui, -apple-system, sans-serif;
+  --font-satoshi: "Satoshi", system-ui, -apple-system, sans-serif;
   --font-geist-mono: "Geist Mono", monospace;
-  --font-display: "Futura Maxi", system-ui, sans-serif;
+  --font-display: var(--font-satoshi);
 
   /* Brand */
-  --cs-teal:             oklch(65% 0.13 180);
+  --cs-teal:             oklch(65% 0.13 275);
   --cs-teal-fg:          oklch(14% 0.01 265);
   --cs-violet:           oklch(52% 0.22 275);
   --cs-magenta:          oklch(65% 0.25 320);
@@ -50,7 +32,7 @@
   --cs-muted-fg:         oklch(45% 0.015 265);
   --cs-border:           oklch(88% 0.008 265);
   --cs-input:            oklch(88% 0.008 265);
-  --cs-ring:             oklch(65% 0.13 180);
+  --cs-ring:             oklch(65% 0.13 275);
 
   /* Feedback */
   --cs-success:          oklch(68% 0.11 150);
@@ -59,15 +41,15 @@
   --cs-error-fg:         oklch(98% 0.005 265);
 
   /* Data viz */
-  --cs-chart-1:          oklch(65% 0.13 180);
+  --cs-chart-1:          oklch(65% 0.13 275);
   --cs-chart-2:          oklch(70% 0.15 220);
   --cs-chart-3:          oklch(55% 0.18 100);
   --cs-chart-4:          oklch(60% 0.20 30);
 }
 
 .dark {
-  --cs-teal:             oklch(70% 0.14 182);
-  --cs-teal-fg:          oklch(10% 0.01 182);
+  --cs-teal:             oklch(70% 0.14 275);
+  --cs-teal-fg:          oklch(10% 0.01 275);
 
   /* Dark mode surfaces */
   --cs-bg:               oklch(14% 0.01 265);
@@ -80,14 +62,14 @@
   --cs-muted-fg:         oklch(75% 0.015 265);
   --cs-border:           oklch(100% 0 0 / 10%);
   --cs-input:            oklch(100% 0 0 / 15%);
-  --cs-ring:             oklch(70% 0.14 182);
+  --cs-ring:             oklch(70% 0.14 275);
 
   --cs-success:          oklch(72% 0.16 145);
   --cs-warning:          oklch(80% 0.16 85);
   --cs-error:            oklch(65% 0.20 25);
   --cs-error-fg:         oklch(98% 0.005 265);
 
-  --cs-chart-1:          oklch(70% 0.14 182);
+  --cs-chart-1:          oklch(70% 0.14 275);
   --cs-chart-2:          oklch(60% 0.15 220);
   --cs-chart-3:          oklch(55% 0.18 100);
   --cs-chart-4:          oklch(65% 0.20 30);
@@ -171,6 +153,7 @@
   /* Fixed brand tokens (never theme-switch) */
   --color-brand-violet:  oklch(52% 0.22 275);
   --color-brand-magenta: oklch(65% 0.25 320);
+  --color-brand-green:   oklch(72% 0.19 145);  /* grass green */
 
   /* Radius scale (derived from --radius root var) */
   --radius-sm:  calc(var(--radius) * 0.6);   /* ~4px  */
@@ -181,7 +164,7 @@
   --radius-3xl: calc(var(--radius) * 2.2);   /* ~20px */
 
   /* Font stacks */
-  --font-sans:    var(--font-geist-sans);
+  --font-sans:    var(--font-satoshi);
   --font-mono:    var(--font-geist-mono);
   --font-display: var(--font-display);
 }
@@ -196,6 +179,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    font-weight: 500; /* Satoshi Medium is the brand default weight */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -209,6 +193,12 @@
 /* ── 6. Custom utilities ─────────────────────────────────────────────────── */
 @utility font-tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* Satoshi Lite — the light weight of the Satoshi family, reserved for subtitles/secondary copy */
+@utility font-lite {
+  font-family: var(--font-satoshi);
+  font-weight: 300;
 }
 
 @utility font-data {
@@ -242,10 +232,38 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Animated brand shimmer for accent text (shared with the pricing "You") */
+@keyframes text-shimmer {
+  0%   { background-position:   0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position:   0% 50%; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--cs-teal)    0%,
+    var(--cs-violet)  25%,
+    var(--cs-magenta) 50%,
+    var(--cs-teal)    75%,
+    var(--cs-violet)  100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4s linear infinite;
+  display: inline-block;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer {
     animation: none;
     background-image: none;
     background-color: oklch(20% 0.015 265 / 0.7);
+  }
+  .shimmer-text {
+    animation: none;
+    background-position: 0% 50%;
   }
 }

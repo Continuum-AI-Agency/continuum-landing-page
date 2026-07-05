@@ -41,7 +41,7 @@ export function BentoPerformanceChart() {
             {/* Chart Header */}
             <div className="flex items-end justify-between w-full mb-4 z-20">
                 <div className="flex flex-col">
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Advantage+ Outcomes</span>
+                    <span className="text-[10px] text-muted-foreground tracking-normal font-semibold">Advantage+ Outcomes</span>
                     <motion.div
                         layout
                         className={`text-2xl font-bold font-mono transition-colors duration-500 ${isOptimized ? 'text-success' : 'text-muted-foreground'}`}
@@ -50,7 +50,7 @@ export function BentoPerformanceChart() {
                     </motion.div>
                 </div>
 
-                <div className="flex items-center gap-3 text-[9px] font-medium uppercase tracking-widest text-muted-foreground">
+                <div className="flex items-center gap-3 text-[9px] font-medium tracking-normal text-muted-foreground">
                     <div className="flex items-center gap-1 font-sans">
                         <div className="w-2 h-2 rounded-full bg-muted-foreground/40"></div>
                         Before

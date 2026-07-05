@@ -19,7 +19,7 @@ export function BentoPersonaAgency() {
                     <div className="w-12 h-12 rounded-xl bg-success/10 border border-success/20 flex items-center justify-center">
                         <TrendUp size={20} className="text-success" />
                     </div>
-                    <h4 className="text-xl md:text-2xl font-bold text-foreground font-display uppercase tracking-tight">Performance Agencies</h4>
+                    <h4 className="text-xl md:text-2xl font-bold text-foreground font-display tracking-tight">Performance Agencies</h4>
                 </div>
                 <p className="text-muted-foreground text-sm md:text-base mb-8 font-sans leading-relaxed max-w-md relative z-10">
                     Keep creative testing in lockstep with media optimization. Ship more concepts, test faster, and let the data find the winners.
@@ -53,11 +53,11 @@ export function BentoPersonaAgency() {
                         <div className="p-4 flex flex-col gap-4">
                             <div className="flex justify-between items-end border-b border-border/20 pb-2">
                                 <div className="flex flex-col">
-                                    <span className="text-[8px] text-muted-foreground/60 uppercase tracking-wider mb-1 font-sans">Total Spend</span>
+                                    <span className="text-[8px] text-muted-foreground/60 tracking-normal mb-1 font-sans">Total Spend</span>
                                     <span className="text-lg font-mono font-bold text-foreground">$12.4k</span>
                                 </div>
                                 <div className="flex flex-col text-right">
-                                    <span className="text-[8px] text-muted-foreground/60 uppercase tracking-wider mb-1 font-sans">CPA</span>
+                                    <span className="text-[8px] text-muted-foreground/60 tracking-normal mb-1 font-sans">CPA</span>
                                     <span className="text-lg font-mono font-bold text-success">$34.10</span>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@ export function BentoPersonaAgency() {
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0.8 }}
                             transition={{ type: "spring", delay: 0.6 }}
-                            className="absolute bottom-4 right-4 border border-success bg-success/20 px-3 py-1 text-success uppercase tracking-widest font-bold shadow-sm flex items-center gap-2 font-mono"
+                            className="absolute bottom-4 right-4 border border-success bg-success/20 px-3 py-1 text-success tracking-normal font-bold shadow-sm flex items-center gap-2 font-mono"
                         >
                             <Pulse size={12} className="animate-pulse" />
                             Optimizing

@@ -95,20 +95,20 @@ export function AnimatedBento({ results }: { results: any[] }) {
       {/* Top Headers */}
       <div className="mb-16 flex w-full max-w-5xl flex-row justify-between px-2 font-sans">
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-primary/50 uppercase">Stage 01</span>
-          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Listen</span>
+          <span className="text-[10px] font-bold tracking-wide text-primary/50">Stage 01</span>
+          <span className="text-sm font-bold tracking-wide text-muted-foreground">Listen</span>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-brand-violet/50 uppercase">Stage 02</span>
-          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Analyze</span>
+          <span className="text-[10px] font-bold tracking-wide text-brand-violet/50">Stage 02</span>
+          <span className="text-sm font-bold tracking-wide text-muted-foreground">Analyze</span>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-success/50 uppercase">Stage 03</span>
-          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Create</span>
+          <span className="text-[10px] font-bold tracking-wide text-success/50">Stage 03</span>
+          <span className="text-sm font-bold tracking-wide text-muted-foreground">Create</span>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-[0.3em] text-primary/50 uppercase">Stage 04</span>
-          <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">Implement</span>
+          <span className="text-[10px] font-bold tracking-wide text-primary/50">Stage 04</span>
+          <span className="text-sm font-bold tracking-wide text-muted-foreground">Implement</span>
         </div>
       </div>
 

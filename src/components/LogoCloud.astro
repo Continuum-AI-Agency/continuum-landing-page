@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  /** Small eyebrow label shown above the marquee. Pass `false` to hide. */
+  label?: string | false;
+  /** Seconds for one full loop of the marquee. Lower = faster. */
+  duration?: number;
+  class?: string;
+}
+
+const {
+  label = 'Trusted by experts, used by leaders',
+  duration = 35,
+  class: className = '',
+} = Astro.props;
+
+const logoFiles = import.meta.glob('../assets/cliente_logos/*.{png,jpg,jpeg,svg,gif,webp}', { eager: true });
+
+const logos = Object.entries(logoFiles)
+  .filter(([path]) => {
+    const filename = path.split('/').pop() || '';
+    if (filename === 'ProptechLatam_Logo_color.png') return false;
+    if (filename === 'image.png') return false;
+    if (filename === 'La_liga_basquet.png') return false;
+    return true;
+  })
+  .map(([path, module]: [string, any]) => {
+    const filenameWithExt = path.split('/').pop() || '';
+    const filename = filenameWithExt.split('.')[0] || 'Client';
+
+    const brandName = filename
+      .replace(/[-_]/g, ' ')
+      .replace(/\blogo\b/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+
+    return { src: module.default, brandName };
+  });
+
+logos.sort((a, b) => a.brandName.localeCompare(b.brandName));
+
+// Triple the logos so the track can scroll a third of its width and loop seamlessly.
+const tripleLogos = [...logos, ...logos, ...logos];
+---
+
+<div class:list={['logo-cloud flex flex-col items-center gap-6', className]}>
+  {label && (
+    <p class="text-xs tracking-wide text-muted-foreground/70 font-medium">{label}</p>
+  )}
+
+  <!-- Marquee -->
+  <div
+    class="logo-cloud-viewport w-full overflow-hidden"
+    style="mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);"
+  >
+    <div class="logo-cloud-track" style={`animation-duration: ${duration}s`}>
+      {tripleLogos.map((logo) => {
+        const invert = logo.brandName.toLowerCase().includes('feva') || logo.brandName.toLowerCase().includes('privalia');
+        return (
+          <Image
+            src={logo.src}
+            alt={`${logo.brandName} logo`}
+            class:list={[
+              'h-7 md:h-9 w-auto object-contain opacity-90 shrink-0 transition-all duration-500',
+              { 'invert brightness-200': invert },
+            ]}
+            loading="lazy"
+          />
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<style>
+  .logo-cloud-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    column-gap: 3rem;
+    animation-name: logo-cloud-scroll;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @media (min-width: 768px) {
+    .logo-cloud-track {
+      column-gap: 5rem;
+    }
+  }
+
+  .logo-cloud-viewport:hover .logo-cloud-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes logo-cloud-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-33.333%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-cloud-track {
+      animation: none;
+      justify-content: center;
+    }
+  }
+</style>

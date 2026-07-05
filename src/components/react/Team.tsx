@@ -160,7 +160,7 @@ export function TeamSection() {
     <section id="team" className="bg-background border-t border-border/30 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display uppercase">
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display">
             Meet our Co-founders
           </h2>
           <p className="mx-auto max-w-6xl text-lg text-muted-foreground font-sans">

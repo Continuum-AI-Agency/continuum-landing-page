@@ -165,7 +165,6 @@ function wireDemoForm(id) {
     form.reset();
   });
 }
-wireDemoForm("hero-demo-form");
 wireDemoForm("footer-demo-form");
 
 // Modules tabs (STUDIO+ / SOCIAL+ / PERFORMANCE+)

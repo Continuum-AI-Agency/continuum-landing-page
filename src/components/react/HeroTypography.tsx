@@ -1,40 +1,27 @@
 import React from "react";
 import { motion } from "motion/react";
+import { FlipWords } from "@/components/ui/flip-words";
 
-type Word = { text: string; muted?: boolean; accent?: boolean };
+const PHRASES = [
+    "AI Marketing Agency",
+    "AI Community Management",
+    "AI Native Personalization",
+    "AI Native DCO",
+    "AI Content Creation",
+];
 
 export function HeroTypography() {
-    const line1: Word[] = [
-        { text: "Right", muted: true },
-        { text: "message,", muted: false },
-        { text: "right", muted: true },
-        { text: "audience,", muted: false },
-        { text: "right", muted: true },
-        { text: "moment.", muted: false },
-    ];
-    const line2: Word[] = [
-        { text: "Better", muted: false },
-        { text: "conversion.", accent: true },
-    ];
+    const leadIn = ["is", "your"];
 
-    const getDelay = (isLine2: boolean, index: number) => {
-        const startDelay = isLine2 ? 1.4 : 0.6;
-        return startDelay + index * 0.12;
-    };
-
-    const colorFor = (word: Word) => {
-        if (word.accent) return "text-brand-violet font-bold";
-        if (word.muted) return "text-muted-foreground/80";
-        return "text-foreground font-bold";
-    };
+    const getDelay = (index: number) => 0.6 + index * 0.12;
 
     return (
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-center relative z-30 tracking-tight leading-none uppercase flex flex-col gap-2 md:gap-4 select-none">
-            {/* Line 1 */}
-            <div className="flex flex-wrap justify-center gap-x-2 md:gap-x-4 overflow-hidden py-1">
-                {line1.map((word, index) => (
+        <h1 className="font-medium font-display text-center relative z-30 tracking-tight leading-none flex flex-col items-center gap-2 md:gap-4 select-none">
+            {/* Lead-in — small, muted, staggered entrance */}
+            <div className="flex flex-wrap justify-center gap-x-2 md:gap-x-3 overflow-hidden py-2 text-xl sm:text-2xl md:text-3xl text-muted-foreground/80 font-medium tracking-normal">
+                {leadIn.map((word, index) => (
                     <motion.span
-                        key={`l1-${index}`}
+                        key={`lead-${index}`}
                         className="inline-block"
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -42,33 +29,27 @@ export function HeroTypography() {
                             type: "spring",
                             damping: 14,
                             stiffness: 100,
-                            delay: getDelay(false, index)
+                            delay: getDelay(index),
                         }}
                     >
-                        <span className={colorFor(word)}>{word.text}</span>
+                        {word}
                     </motion.span>
                 ))}
             </div>
 
-            {/* Line 2 */}
-            <div className="flex flex-wrap justify-center gap-x-2 md:gap-x-4 overflow-hidden py-1">
-                {line2.map((word, index) => (
-                    <motion.span
-                        key={`l2-${index}`}
-                        className="inline-block"
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                            type: "spring",
-                            damping: 14,
-                            stiffness: 100,
-                            delay: getDelay(true, index)
-                        }}
-                    >
-                        <span className={colorFor(word)}>{word.text}</span>
-                    </motion.span>
-                ))}
-            </div>
+            {/* Flip line — its own line, reserved height so length variance re-centers */}
+            <motion.div
+                className="flex justify-center items-center text-center min-h-[3.5rem] sm:min-h-[4rem] md:min-h-[4.5rem] lg:min-h-[5.5rem]"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", damping: 16, stiffness: 100, delay: 1.0 }}
+            >
+                <FlipWords
+                    words={PHRASES}
+                    duration={2800}
+                    className="shimmer-text font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] pb-[0.2em]"
+                />
+            </motion.div>
         </h1>
     );
 }

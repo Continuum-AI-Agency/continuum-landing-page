@@ -108,7 +108,7 @@ export function PricingSection() {
 			`}} />
 			<div className="mx-auto max-w-7xl">
 				<div className="mx-auto mb-16 max-w-2xl space-y-4 text-center">
-					<h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display uppercase">
+					<h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display">
 						Plans that Scale with <span className="shimmer-text">You</span>
 					</h2>
 					<p className="mx-auto max-w-xl text-lg text-muted-foreground font-sans">
@@ -133,7 +133,7 @@ export function PricingSection() {
 							/>
 						</button>
 						<span className={cn("flex items-center gap-2 text-sm font-medium transition-colors font-sans", isAnnual ? "text-foreground" : "text-muted-foreground")}>
-							Annually <span className="rounded-full bg-success/15 px-2.5 py-0.5 text-[10px] font-bold text-success border border-success/25 font-mono">SAVE 20%</span>
+							Annually <span className="rounded-full bg-success/15 px-2.5 py-0.5 text-[10px] font-bold text-success border border-success/25 font-mono">Save 20%</span>
 						</span>
 					</div>
 				</div>
