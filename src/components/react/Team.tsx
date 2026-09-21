@@ -7,14 +7,12 @@ import { ArrowClockwise as RotateCw } from '@phosphor-icons/react';
 
 import avatarMich from '@/assets/team/mich.jpg';
 import avatarDuane from '@/assets/team/Duane Scott Profile.png';
-import avatarMati from '@/assets/team/mati.png';
 
 import logoPedidosYa from '@/assets/Logos_Team/pedidosya-logo_brandlogos.net_perjc.png';
 import logoCocaCola from '@/assets/Logos_Team/Coca-Cola_bottle_cap.svg';
 import logoMercadoLibre from '@/assets/Logos_Team/mercado-libre-logo.svg';
 import logoTechstars from '@/assets/Logos_Team/techstars-duane.png';
 import logoUnnamed from '@/assets/Logos_Team/unnamed.png';
-import logoDatobox from '@/assets/Logos_Team/datobox_logo.jpeg';
 
 interface TeamMember {
   name: string;
@@ -45,15 +43,6 @@ const teamMembers: TeamMember[] = [
     logos: [
       { src: logoTechstars.src, alt: 'Techstars' },
       { src: logoUnnamed.src, alt: 'Foothill College' },
-    ],
-  },
-  {
-    name: 'Matías Ares',
-    role: 'Engineering & Innovation',
-    image: avatarMati.src,
-    bio: 'Motion designer and creative technologist with experience in video, VFX, and After Effects. Designs and maintains the creative automation system.',
-    logos: [
-      { src: logoDatobox.src, alt: 'Datobox' },
     ],
   },
 ];
@@ -169,7 +158,7 @@ export function TeamSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 max-w-3xl mx-auto">
           {teamMembers.map((member) => (
             <TeamMemberCard key={member.name} {...member} />
           ))}
