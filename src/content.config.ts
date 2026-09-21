@@ -14,6 +14,7 @@ const blog = defineCollection({
     category: z.string().default('Insights'),
     type: z.string().optional(),
     author: z.string().default('Michelle Shocron'),
+    authorTitle: z.string().default('Founder & CEO'),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     draft: z.boolean().default(false),
