@@ -22,7 +22,7 @@ export function BentoPersonaAgency() {
                     <h4 className="text-xl md:text-2xl font-bold text-foreground font-display tracking-tight">Performance Agencies</h4>
                 </div>
                 <p className="text-muted-foreground text-sm md:text-base mb-8 font-sans leading-relaxed max-w-md relative z-10">
-                    Keep creative testing in lockstep with media optimization. Ship more concepts, test faster, and let the data find the winners.
+                    Operate a creative factory for every client. Produce on-brand variations at scale, deliver straight into ad platforms, and let performance data pick the winners.
                 </p>
                 <ul className="space-y-4 relative z-10 font-sans">
                     <li className="flex items-center gap-3 text-sm font-medium text-muted-foreground">

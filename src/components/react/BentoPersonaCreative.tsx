@@ -22,7 +22,7 @@ export function BentoPersonaCreative() {
                     <h4 className="text-xl md:text-2xl font-bold text-foreground font-display tracking-tight">In-house & Creative Teams</h4>
                 </div>
                 <p className="text-muted-foreground text-sm md:text-base mb-8 font-sans leading-relaxed max-w-md relative z-10">
-                    Build one creative system for all your channels. Maintain control without slowing down, giving your team their time back.
+                    Run an intelligent creative factory in-house. One system ingests your design language and keeps every channel fed — without slowing your team down.
                 </p>
                 <ul className="space-y-4 relative z-10 font-sans">
                     <li className="flex items-center gap-3 text-sm font-medium text-muted-foreground">

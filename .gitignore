@@ -1,5 +1,11 @@
 node_modules/
 
+# npm / yarn / pnpm lockfiles — this project is Bun-only
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+npm-shrinkwrap.json
+
 # Build artifacts
 # dist/ - uncomment to include built files in git
 # dist/

@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets';
 import { AnimatedBento } from './react/AnimatedBento';
 import { BentoStudioCanvas } from './react/BentoStudioCanvas';
 import { BentoSocialCalendar } from './react/BentoSocialCalendar';
@@ -7,24 +8,30 @@ import { BentoPersonaCreative } from './react/BentoPersonaCreative';
 import { BentoPersonaAgency } from './react/BentoPersonaAgency';
 import Metrics from './Metrics.astro';
 
-// Template Images
 import imgRes1 from '../assets/Videos_templates/Resultado_1.jpg';
 import imgRes2 from '../assets/Videos_templates/Resultado_2.jpg';
 import imgRes3 from '../assets/Videos_templates/Resultado_3.jpg';
+import continuumIcon from '../assets/Icons/Continuum-icon-2.jpg';
 
-const resultImages = [imgRes1, imgRes2, imgRes3];
+const [res1, res2, res3, logo] = await Promise.all([
+  getImage({ src: imgRes1, width: 400, format: 'webp', quality: 70 }),
+  getImage({ src: imgRes2, width: 400, format: 'webp', quality: 70 }),
+  getImage({ src: imgRes3, width: 400, format: 'webp', quality: 70 }),
+  getImage({ src: continuumIcon, width: 320, format: 'webp', quality: 70 }),
+]);
+
+const resultImages = [{ src: res1.src }, { src: res2.src }, { src: res3.src }];
 ---
 
 <section id="product" class="pb-24 pt-0 bg-background relative overflow-hidden">
   <div class="container mx-auto px-6 relative z-10">
     <div class="max-w-4xl mb-14 reveal">
       <h2 class="text-4xl md:text-6xl font-bold text-foreground mb-6 font-display tracking-tight">
-        The Creative <br/><span class="text-primary">Operating System</span>
+        Signal in. <br/><span class="text-primary">Ads out.</span>
       </h2>
-      <p class="text-xl text-muted-foreground font-sans leading-relaxed">
-        Continuum connects your data, brand, and media stack into a single, high-performance loop. 
-        Read our platform <a href="/technology" class="text-primary hover:underline font-medium">technology deep-dive</a> 
-        or explore our <a href="/social-plus" class="text-primary hover:underline font-medium">social media automation plugin</a>.
+      <p class="text-xl text-muted-foreground font-sans leading-relaxed max-w-[38em]">
+        A production line for ads that get better. Live account in, on-brand unit out,
+        written back into spend so the next cycle already knows what happened.
       </p>
     </div>
 
@@ -33,7 +40,7 @@ const resultImages = [imgRes1, imgRes2, imgRes3];
       
       <!-- MAIN ANIMATED BENTO (USE CLIENT) -->
       <div class="w-full mb-12">
-        <AnimatedBento client:load results={resultImages} />
+        <AnimatedBento client:visible results={resultImages} logoSrc={logo.src} />
       </div>
 
       <!-- Bottom Row: 3 Interactive Modules -->
@@ -45,9 +52,9 @@ const resultImages = [imgRes1, imgRes2, imgRes3];
              <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold mb-4 bg-brand-violet/10 text-brand-violet border border-brand-violet/25 tracking-wide font-mono">
                Social+
              </span>
-             <h3 class="text-2xl font-bold text-foreground mb-2 tracking-tight font-sans">Always-on social.</h3>
+             <h3 class="text-2xl font-bold text-foreground mb-2 tracking-tight font-sans">Always-on organic.</h3>
              <p class="text-muted-foreground text-sm font-sans leading-relaxed">
-               Never let your feeds go quiet. A steady stream of on-brand content mapped to your calendar.
+               Your design system becomes a publishing line. On-brand posts drafted, planned, and scheduled so your feeds never go quiet.
              </p>
           </div>
           <div class="flex-grow relative border-t border-border/30 mt-4 bg-background/30">
@@ -61,9 +68,9 @@ const resultImages = [imgRes1, imgRes2, imgRes3];
              <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold mb-4 bg-primary/10 text-primary border border-primary/20 tracking-wide font-mono">
                Studio+
              </span>
-             <h3 class="text-2xl font-bold text-foreground mb-2 tracking-tight font-sans">Template-driven scaling.</h3>
+             <h3 class="text-2xl font-bold text-foreground mb-2 tracking-tight font-sans">Render automation at scale.</h3>
              <p class="text-muted-foreground text-sm font-sans leading-relaxed">
-               Create once, ship everywhere. Automated assets built to scale perfectly for in-house studios.
+                Templates in, finished assets out. Our render fleet turns your design system into thousands of production-ready variations.
              </p>
           </div>
           <div class="flex-grow relative border-t border-border/30 mt-4">
@@ -77,9 +84,9 @@ const resultImages = [imgRes1, imgRes2, imgRes3];
              <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold mb-4 bg-brand-magenta/10 text-brand-magenta border border-brand-magenta/25 tracking-wide font-mono">
                Performance+
              </span>
-             <h3 class="text-2xl font-bold text-foreground mb-2 tracking-tight font-sans">Creative x media engine.</h3>
+             <h3 class="text-2xl font-bold text-foreground mb-2 tracking-tight font-sans">DCO delivery.</h3>
              <p class="text-muted-foreground text-sm font-sans leading-relaxed">
-                Creative plugged directly into media spend. Optimize both ideas and budgets simultaneously using platforms like <a href="https://www.facebook.com/business/help/3856236611311910" class="text-primary hover:underline font-medium">Meta Advantage+</a> and the <a href="https://developers.google.com/google-ads/api/docs/start" class="text-primary hover:underline font-medium">Google Ads API</a>.
+                Finished creative ships straight into platform ad sets — via the <a href="https://developers.google.com/google-ads/api/docs/start" class="text-primary hover:underline font-medium">Google Ads API</a>, <a href="https://www.facebook.com/business/help/3856236611311910" class="text-primary hover:underline font-medium">Meta Advantage+</a>, and more — then swaps automatically as performance data lands.
              </p>
           </div>
           <div class="flex-grow relative border-t border-border/30 mt-4">

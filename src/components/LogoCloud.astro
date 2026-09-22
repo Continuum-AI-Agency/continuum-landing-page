@@ -6,25 +6,29 @@ interface Props {
   label?: string | false;
   /** Seconds for one full loop of the marquee. Lower = faster. */
   duration?: number;
+  /** White marks on dark, or original color on light. */
+  tone?: 'on-dark' | 'on-light';
   class?: string;
 }
 
 const {
   label = 'Trusted by experts, used by leaders',
   duration = 35,
+  tone = 'on-light',
   class: className = '',
 } = Astro.props;
 
-const logoFiles = import.meta.glob('../assets/cliente_logos/*.{png,jpg,jpeg,svg,gif,webp}', { eager: true });
+const logoFiles = import.meta.glob(
+  [
+    '../assets/cliente_logos/*.{png,jpg,jpeg,svg,webp}',
+    '!../assets/cliente_logos/ProptechLatam_Logo_color.png',
+    '!../assets/cliente_logos/image.png',
+    '!../assets/cliente_logos/La_liga_basquet.png',
+  ],
+  { eager: true },
+);
 
 const logos = Object.entries(logoFiles)
-  .filter(([path]) => {
-    const filename = path.split('/').pop() || '';
-    if (filename === 'ProptechLatam_Logo_color.png') return false;
-    if (filename === 'image.png') return false;
-    if (filename === 'La_liga_basquet.png') return false;
-    return true;
-  })
   .map(([path, module]: [string, any]) => {
     const filenameWithExt = path.split('/').pop() || '';
     const filename = filenameWithExt.split('.')[0] || 'Client';
@@ -57,16 +61,21 @@ const tripleLogos = [...logos, ...logos, ...logos];
   >
     <div class="logo-cloud-track" style={`animation-duration: ${duration}s`}>
       {tripleLogos.map((logo) => {
-        const invert = logo.brandName.toLowerCase().includes('feva') || logo.brandName.toLowerCase().includes('privalia');
+        const invert = tone === 'on-light' && (logo.brandName.toLowerCase().includes('feva') || logo.brandName.toLowerCase().includes('privalia'));
         return (
           <Image
             src={logo.src}
             alt={`${logo.brandName} logo`}
+            width={240}
+            format="webp"
+            quality={70}
             class:list={[
-              'h-7 md:h-9 w-auto object-contain opacity-90 shrink-0 transition-all duration-500',
+              'h-7 md:h-9 w-auto object-contain shrink-0 transition-all duration-500',
+              tone === 'on-dark' ? 'opacity-85 brightness-110 contrast-125' : 'opacity-90',
               { 'invert brightness-200': invert },
             ]}
             loading="lazy"
+            decoding="async"
           />
         );
       })}

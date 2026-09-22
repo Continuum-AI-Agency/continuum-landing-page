@@ -1,0 +1,4 @@
+# Force the Bun runtime for every `bun run` script, including CLIs
+# whose shebang is `#!/usr/bin/env node` (Astro, Vite, etc.).
+[run]
+bun = true

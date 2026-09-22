@@ -11,7 +11,6 @@ import YouTubeIcon from "../../assets/Icons/icons8-youtube.svg";
 import MetaIcon from "../../assets/Icons/icons8-meta-96.png";
 import OneDriveIcon from "../../assets/Icons/icons8-microsoft-onedrive-2025-96.png";
 import RedditIcon from "../../assets/Icons/icons8-reddit-96.png";
-import ContinuumLogo from "../../assets/Icons/Continuum-icon-2.jpg";
 
 const Circle = forwardRef<
   HTMLDivElement,
@@ -62,7 +61,13 @@ const FolderIcon = ({ isOpen }: { isOpen: boolean }) => (
   </svg>
 );
 
-export function AnimatedBento({ results }: { results: any[] }) {
+export function AnimatedBento({
+  results,
+  logoSrc,
+}: {
+  results: { src: string }[];
+  logoSrc: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const div1Ref = useRef<HTMLDivElement>(null);
   const div2Ref = useRef<HTMLDivElement>(null);
@@ -92,23 +97,19 @@ export function AnimatedBento({ results }: { results: any[] }) {
       className="relative flex h-[850px] w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-border/40 bg-card p-10 md:p-20"
       ref={containerRef}
     >
-      {/* Top Headers */}
-      <div className="mb-16 flex w-full max-w-5xl flex-row justify-between px-2 font-sans">
-        <div className="flex flex-col items-center gap-2">
+      {/* Top Headers — Ingest / Generate / Deliver */}
+      <div className="mb-16 grid w-full max-w-5xl grid-cols-4 px-2 font-sans">
+        <div className="col-start-1 flex flex-col items-center gap-2">
           <span className="text-[10px] font-bold tracking-wide text-primary/50">Stage 01</span>
-          <span className="text-sm font-bold tracking-wide text-muted-foreground">Listen</span>
+          <span className="text-sm font-bold tracking-wide text-muted-foreground">Ingest</span>
         </div>
-        <div className="flex flex-col items-center gap-2">
+        <div className="col-start-2 flex flex-col items-center gap-2">
           <span className="text-[10px] font-bold tracking-wide text-brand-violet/50">Stage 02</span>
-          <span className="text-sm font-bold tracking-wide text-muted-foreground">Analyze</span>
+          <span className="text-sm font-bold tracking-wide text-muted-foreground">Generate</span>
         </div>
-        <div className="flex flex-col items-center gap-2">
+        <div className="col-span-2 col-start-3 flex flex-col items-center gap-2">
           <span className="text-[10px] font-bold tracking-wide text-success/50">Stage 03</span>
-          <span className="text-sm font-bold tracking-wide text-muted-foreground">Create</span>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] font-bold tracking-wide text-primary/50">Stage 04</span>
-          <span className="text-sm font-bold tracking-wide text-muted-foreground">Implement</span>
+          <span className="text-sm font-bold tracking-wide text-muted-foreground">Deliver</span>
         </div>
       </div>
 
@@ -140,7 +141,7 @@ export function AnimatedBento({ results }: { results: any[] }) {
 
         <div className="flex flex-col justify-center">
           <Circle ref={div8Ref} className="size-40 border-primary/30 bg-background overflow-hidden p-0 shadow-sm">
-            <img src={ContinuumLogo.src} alt="Continuum" className="h-full w-full object-cover" />
+            <img src={logoSrc} alt="Continuum" className="h-full w-full object-cover" loading="lazy" decoding="async" />
           </Circle>
         </div>
 
@@ -174,7 +175,7 @@ export function AnimatedBento({ results }: { results: any[] }) {
                     }}
                     className="absolute z-40 w-40 h-60 overflow-hidden rounded-xl border border-border/40 shadow-sm"
                   >
-                    <img src={img.src} alt={`Result ${i + 1}`} className="w-full h-full object-cover" />
+                    <img src={img.src} alt={`Result ${i + 1}`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                   </motion.div>
                 ))}
               </div>

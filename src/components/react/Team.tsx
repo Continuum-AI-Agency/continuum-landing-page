@@ -5,18 +5,7 @@ import { motion } from 'motion/react';
 import { ProgressiveBlur } from '@/components/core/progressive-blur';
 import { ArrowClockwise as RotateCw } from '@phosphor-icons/react';
 
-import avatarMich from '@/assets/team/mich.jpg';
-import avatarDuane from '@/assets/team/Duane Scott Profile.png';
-import avatarMati from '@/assets/team/mati.png';
-
-import logoPedidosYa from '@/assets/Logos_Team/pedidosya-logo_brandlogos.net_perjc.png';
-import logoCocaCola from '@/assets/Logos_Team/Coca-Cola_bottle_cap.svg';
-import logoMercadoLibre from '@/assets/Logos_Team/mercado-libre-logo.svg';
-import logoTechstars from '@/assets/Logos_Team/techstars-duane.png';
-import logoUnnamed from '@/assets/Logos_Team/unnamed.png';
-import logoDatobox from '@/assets/Logos_Team/datobox_logo.jpeg';
-
-interface TeamMember {
+export interface TeamMember {
   name: string;
   role: string;
   image: string;
@@ -24,39 +13,6 @@ interface TeamMember {
   zoomOut?: boolean;
   logos: { src: string; alt: string }[];
 }
-
-const teamMembers: TeamMember[] = [
-  {
-    name: 'Michelle Shocron',
-    role: 'CEO',
-    image: avatarMich.src,
-    bio: '10+ years leading growth, product, and partnerships for tech and fintech companies in LatAm.',
-    logos: [
-      { src: logoPedidosYa.src, alt: 'PedidosYa' },
-      { src: logoCocaCola.src, alt: 'Coca-Cola' },
-      { src: logoMercadoLibre.src, alt: 'Mercado Libre' },
-    ],
-  },
-  {
-    name: 'Duane Scott',
-    role: 'Product & Engineering',
-    image: avatarDuane.src,
-    bio: 'Seasoned engineering leader with experience building high-scale SaaS platforms and data products. Owns the technical architecture and AI stack.',
-    logos: [
-      { src: logoTechstars.src, alt: 'Techstars' },
-      { src: logoUnnamed.src, alt: 'Foothill College' },
-    ],
-  },
-  {
-    name: 'Matías Ares',
-    role: 'Engineering & Innovation',
-    image: avatarMati.src,
-    bio: 'Motion designer and creative technologist with experience in video, VFX, and After Effects. Designs and maintains the creative automation system.',
-    logos: [
-      { src: logoDatobox.src, alt: 'Datobox' },
-    ],
-  },
-];
 
 function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -83,7 +39,9 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
         >
           <img
             src={image}
-            alt=""
+            alt={name}
+            loading="lazy"
+            decoding="async"
             className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${zoomOut ? 'scale-90 object-top' : ''}`}
           />
 
@@ -135,6 +93,8 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
                     <img
                       src={logo.src}
                       alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-auto object-contain opacity-80 mix-blend-lighten brightness-110"
                     />
                   </div>
@@ -155,7 +115,7 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
   );
 }
 
-export function TeamSection() {
+export function TeamSection({ members }: { members: TeamMember[] }) {
   return (
     <section id="team" className="bg-background border-t border-border/30 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -170,7 +130,7 @@ export function TeamSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-          {teamMembers.map((member) => (
+          {members.map((member) => (
             <TeamMemberCard key={member.name} {...member} />
           ))}
         </div>

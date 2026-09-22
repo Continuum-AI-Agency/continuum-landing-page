@@ -1,5 +1,58 @@
 ---
+import { getImage } from 'astro:assets';
 import { TeamSection } from '@/components/react/Team';
+
+import avatarMich from '@/assets/team/mich.jpg';
+import avatarDuane from '@/assets/team/Duane Scott Profile.png';
+import avatarMati from '@/assets/team/mati.png';
+
+import logoPedidosYa from '@/assets/Logos_Team/pedidosya-logo_brandlogos.net_perjc.png';
+import logoCocaCola from '@/assets/Logos_Team/Coca-Cola_bottle_cap.svg';
+import logoMercadoLibre from '@/assets/Logos_Team/mercado-libre-logo.svg';
+import logoTechstars from '@/assets/Logos_Team/techstars-duane.png';
+import logoUnnamed from '@/assets/Logos_Team/unnamed.png';
+import logoDatobox from '@/assets/Logos_Team/datobox_logo.jpeg';
+
+const [mich, duane, mati, pedidosya, techstars, unnamed, datobox] = await Promise.all([
+  getImage({ src: avatarMich, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: avatarDuane, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: avatarMati, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: logoPedidosYa, width: 96, format: 'webp', quality: 80 }),
+  getImage({ src: logoTechstars, width: 96, format: 'webp', quality: 80 }),
+  getImage({ src: logoUnnamed, width: 96, format: 'webp', quality: 80 }),
+  getImage({ src: logoDatobox, width: 96, format: 'webp', quality: 80 }),
+]);
+
+const members = [
+  {
+    name: 'Michelle Shocron',
+    role: 'CEO',
+    image: mich.src,
+    bio: '10+ years leading growth, product, and partnerships for tech and fintech companies in LatAm.',
+    logos: [
+      { src: pedidosya.src, alt: 'PedidosYa' },
+      { src: logoCocaCola.src, alt: 'Coca-Cola' },
+      { src: logoMercadoLibre.src, alt: 'Mercado Libre' },
+    ],
+  },
+  {
+    name: 'Duane Scott',
+    role: 'Product & Engineering',
+    image: duane.src,
+    bio: 'Seasoned engineering leader with experience building high-scale SaaS platforms and data products. Owns the technical architecture and AI stack.',
+    logos: [
+      { src: techstars.src, alt: 'Techstars' },
+      { src: unnamed.src, alt: 'Foothill College' },
+    ],
+  },
+  {
+    name: 'Matías Ares',
+    role: 'Engineering & Innovation',
+    image: mati.src,
+    bio: 'Motion designer and creative technologist with experience in video, VFX, and After Effects. Designs and maintains the creative automation system.',
+    logos: [{ src: datobox.src, alt: 'Datobox' }],
+  },
+];
 ---
 
-<TeamSection client:load />
+<TeamSection client:visible members={members} />

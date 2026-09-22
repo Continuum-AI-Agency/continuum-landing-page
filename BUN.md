@@ -1,12 +1,13 @@
 # Bun
 
-## Migration Complete ✓
+This project uses **Bun 1.4.0** as the runtime, package manager, and build toolchain. Node.js / npm are not used.
 
-This project now uses **Bun** as the default JavaScript runtime and package manager.
-
-### Quick Start
+## Quick Start
 
 ```bash
+# Install Bun 1.4.0 if needed
+curl -fsSL https://bun.sh/install | bash -s "bun-v1.4.0"
+
 # Install dependencies
 bun install
 
@@ -20,66 +21,20 @@ bun run build
 bun run preview
 ```
 
-### Why Bun?
+## How Bun is enforced
 
-- **3-4x faster** package installation vs npm
-- **Faster dev server** startup (~30% improvement)
-- **Faster builds** (~20-30% improvement)
-- Built-in bundler, transpiler, and package manager
-- Drop-in replacement for Node.js
+- `package.json` `"packageManager": "bun@1.4.0"` and `"engines.bun": "1.4.0"`
+- `.bun-version` pins 1.4.0 for version managers
+- `bunfig.toml` `[run] bun = true` aliases `node` → `bun` for every `bun run` script (Astro/Vite shebangs included)
+- Netlify: `BUN_VERSION=1.4.0`, `BUN_FLAGS=--frozen-lockfile`, build command `bun --bun run build`
+- Only `bun.lock` is committed. `package-lock.json` / yarn / pnpm lockfiles are gitignored.
 
-### Build Performance Comparison
-
-| Operation | Node/npm | Bun | Improvement |
-|-----------|----------|-----|-------------|
-| Cold install | ~45s | ~12s | **3.75x faster** |
-| Dev startup | ~2.1s | ~1.4s | **1.5x faster** |
-| Production build | ~18s | ~2.8s | **6.4x faster** |
-
-### Rollback to Node.js
-
-If you need to revert to Node.js:
-
-```bash
-rm -rf node_modules bun.lockb
-npm install
-```
-
-Then update `package.json` scripts to remove `bun --bun` prefix.
-
-### VS Code Settings
-
-Add to `.vscode/settings.json` for the best experience:
-
-```json
-{
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
-}
-```
-
-### CI/CD
-
-For CI/CD pipelines, use the official Bun setup:
+## CI/CD
 
 ```yaml
-# GitHub Actions example
-- uses: oven-sh/setup-bun@v1
+- uses: oven-sh/setup-bun@v2
   with:
-    bun-version: latest
-- run: bun install
-- run: bun run build
+    bun-version: "1.4.0"
+- run: bun install --frozen-lockfile
+- run: bun --bun run build
 ```
-
-### Troubleshooting
-
-**Issue: `bun: command not found`**
-```bash
-curl -fsSL https://bun.sh/install | bash
-```
-
-**Issue: Sharp image processing errors**
-Sharp is included as a dependency and works natively with Bun.
-
-**Issue: Environment variables not loading**
-Bun automatically loads `.env` files - same as Node with `dotenv`.

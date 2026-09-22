@@ -7,21 +7,23 @@ interface Props {
 	image?: string;
 	canonicalURL?: URL;
 	ogType?: string;
+	appearance?: "dark" | "light";
 }
 
 const {
-  title = "Continuum — Build continuity. Scale personalization.",
-  description = "Continuum is the AI-powered platform that automates creative production and campaign activation end to end — built for modern brands that need performance at scale.",
-  image = "/assets/Logo_Continuum (1).png",
+  title = "Continuum — Intelligent creative factories for modern marketing teams",
+  description = "Continuum ingests your design system, generates on-brand content between AI and rendering automations, and delivers it into every platform at scale through DCO.",
+  image = "/og.jpg",
   canonicalURL = new URL(Astro.url.pathname, "https://trycontinuum.ai"),
-  ogType = "website"
+  ogType = "website",
+  appearance = "dark",
 } = Astro.props;
 
 const buildDate = new Date().toISOString();
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class:list={[appearance === "dark" && "dark"]}>
 	<head>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KMFN2S0R2" is:inline></script>
@@ -39,12 +41,12 @@ const buildDate = new Date().toISOString();
         <meta name="generator" content={Astro.generator} />
 
         <!-- Favicons -->
-        <link rel="icon" type="image/png" href="/assets/Logo_Continuum (1).png" />
-        <link rel="apple-touch-icon" href="/assets/Logo_Continuum (1).png" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
         <!-- SEO básico -->
         <meta name="description" content={description} />
-        <meta name="keywords" content="AI creative production, campaign activation platform, personalized marketing, marketing automation, performance marketing, social creative automation" />
+        <meta name="keywords" content="intelligent creative factory, creative automation, design system ingestion, render automation, DCO, dynamic creative optimization, AI creative production, performance marketing" />
         <meta name="robots" content="index,follow" />
         <link rel="canonical" href={canonicalURL} />
 
@@ -71,8 +73,8 @@ const buildDate = new Date().toISOString();
             "@type": "Organization",
             "name": "Continuum",
             "url": "https://trycontinuum.ai",
-            "logo": "https://trycontinuum.ai/assets/Logo_Continuum (1).png",
-            "description": "Continuum is the AI-powered platform that automates creative production and campaign activation end to end.",
+            "logo": "https://trycontinuum.ai/og.jpg",
+            "description": "Continuum builds intelligent creative factories for modern marketing teams — ingesting design systems, generating on-brand content between AI and rendering automations, and delivering at scale through DCO.",
             "sameAs": [
               "https://www.linkedin.com/company/continuum-agency"
             ]
@@ -93,6 +95,7 @@ const buildDate = new Date().toISOString();
 
         <!-- Per-page head injection (extra meta, structured data, etc.) -->
         <slot name="head" />
+  </head>
 	<body class="ch-body" id="top">
         <main class="ch-content-wrapper">
 		    <slot />

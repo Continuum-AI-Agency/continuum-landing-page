@@ -45,10 +45,10 @@ const articleSchema = {
   publisher: {
     '@type': 'Organization',
     name: 'Continuum',
-    logo: { '@type': 'ImageObject', url: `${SITE}/assets/Logo_Continuum (1).png` },
+    logo: { '@type': 'ImageObject', url: `${SITE}/og.jpg` },
   },
   mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.toString() },
-  image: `${SITE}/assets/Logo_Continuum (1).png`,
+  image: `${SITE}/og.jpg`,
   articleSection: data.category,
   ...(data.targetKeyword ? { keywords: data.targetKeyword } : {}),
   ...(data.sourcePublication
