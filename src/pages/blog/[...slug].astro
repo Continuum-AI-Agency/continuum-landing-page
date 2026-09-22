@@ -38,9 +38,9 @@ const articleSchema = {
   author: {
     '@type': 'Person',
     name: data.author,
-    jobTitle: 'Founder & CEO',
+    jobTitle: data.authorTitle,
     worksFor: { '@type': 'Organization', name: 'Continuum', url: SITE },
-    url: `${SITE}/press/`,
+    ...(data.author === 'Michelle Shocron' ? { url: `${SITE}/press/` } : {}),
   },
   publisher: {
     '@type': 'Organization',
@@ -130,7 +130,7 @@ const breadcrumbSchema = {
           {data.title}
         </h1>
         <p class="mt-6 text-sm text-muted-foreground">
-          By <span class="text-foreground font-medium">{data.author}</span>, Founder &amp; CEO of Continuum
+          By <span class="text-foreground font-medium">{data.author}</span>, {data.authorTitle} of Continuum
         </p>
       </header>
 
