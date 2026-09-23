@@ -225,7 +225,7 @@ export function PerformanceDemo() {
                 <dd
                   className={cn(
                     "text-2xs font-medium tabular-nums",
-                    k.good === true ? "text-success" : k.good === false ? "text-destructive" : "text-muted-foreground",
+                    k.good === true ? "text-emerald-700" : k.good === false ? "text-red-700" : "text-muted-foreground",
                   )}
                 >
                   {k.note}

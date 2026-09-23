@@ -43,7 +43,7 @@ const START_ROWS: Row[] = [
     values: { headline: "Studio sound", keyColor: "#5a48f9", product: "headphones", price: "$149", was: "$199", discount: "-25%" },
     cleared: [],
   },
-  { id: "b", parentId: "base", label: "Base · B", values: { keyColor: "#d9482b", price: "$139", discount: "-30%" }, cleared: [] },
+  { id: "b", parentId: "base", label: "Base · B", values: { keyColor: "#c2410c", price: "$139", discount: "-30%" }, cleared: [] },
   { id: "c", parentId: "base", label: "Base · C", values: { headline: "Time, well kept", keyColor: "#0b7a5c", product: "watch" }, cleared: [] },
 ];
 

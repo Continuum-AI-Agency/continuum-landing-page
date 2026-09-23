@@ -85,7 +85,7 @@ export function PricingSection() {
               <ToggleGroupItem value="monthly" className="px-4">Monthly</ToggleGroupItem>
               <ToggleGroupItem value="annual" className="px-4">Annual</ToggleGroupItem>
             </ToggleGroup>
-            <Badge variant="violet">Save 20% yearly</Badge>
+            <Badge variant="violet" className="text-[var(--cs-violet)]">Save 20% yearly</Badge>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ export function PricingSection() {
                 <CardHeader>
                   <div className="flex items-center justify-between gap-3">
                     <CardTitle className="text-xl">{plan.name}</CardTitle>
-                    {plan.featured && <Badge variant="violet">{plan.featured}</Badge>}
+                    {plan.featured && <Badge variant="violet" className="text-[var(--cs-violet)]">{plan.featured}</Badge>}
                   </div>
                   <CardDescription className="text-base lg:min-h-[3rem]">{plan.description}</CardDescription>
                 </CardHeader>

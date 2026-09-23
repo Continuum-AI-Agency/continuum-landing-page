@@ -80,15 +80,15 @@ export function HeroStage() {
         )}
       </p>
 
-      <p
+      <div
         aria-hidden="true"
-        className="mt-10 text-balance text-center font-display text-2xl font-medium leading-[1.2] text-white sm:text-3xl md:mt-14 lg:text-5xl"
+        className="mt-10 text-center font-display text-2xl font-medium leading-[1.2] sm:text-3xl md:mt-14 lg:text-5xl"
       >
-        The intelligent creative factory for
-        <span className="mt-1 block min-h-[1.2em] text-[oklch(78%_0.12_285)]">
+        <p className="text-balance text-white">The intelligent creative factory for</p>
+        <p className="mt-1 min-h-[1.2em] text-[oklch(78%_0.12_285)]">
           <FlipWords words={AUDIENCES} duration={2600} />
-        </span>
-      </p>
+        </p>
+      </div>
 
       <a
         href="#demo"

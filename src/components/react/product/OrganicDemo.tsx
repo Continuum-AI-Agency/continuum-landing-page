@@ -37,7 +37,7 @@ const FRAME_WIDTH: Record<Format, string> = { "1:1": "w-[272px]", "4:5": "w-[248
 const SWATCHES = [
   { hex: "#16162a", name: "Ink" },
   { hex: "#5a48f9", name: "Violet" },
-  { hex: "#d9482b", name: "Vermilion" },
+  { hex: "#c2410c", name: "Vermilion" },
   { hex: "#0b7a5c", name: "Pine" },
 ];
 const CAPTION: Record<Platform, string> = {
@@ -310,7 +310,7 @@ function MetricTile({
     >
       <div className="flex items-baseline justify-between gap-2">
         <p className="truncate text-xs text-muted-foreground">{label}</p>
-        <p className="text-2xs font-medium text-success">+{delta}%</p>
+        <p className="text-2xs font-medium text-emerald-700">+{delta}%</p>
       </div>
       <p className="text-xl font-semibold tabular-nums">{format(series.at(-1)!)}</p>
       <ChartContainer config={config} className="aspect-auto h-20 w-full">
