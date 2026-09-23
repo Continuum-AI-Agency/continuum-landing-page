@@ -10,7 +10,7 @@ Performance marketers, creative agencies, and in-house brand teams who already h
 
 ## Product Purpose
 
-Continuum is a creative factory for paid creative. It ingests a design system, generates on-brand work between reasoning and render automation, ships it into ad platforms through DCO, and writes performance back so the next cycle starts from what just happened. Success on the public site is a visitor who can say what the factory does in one sentence and ask for a demo. This repo is the marketing surface only. The product app stays a quiet instrument.
+Continuum is the intelligent creative factory for performance marketers, designers, and agencies, sold as three lines: Organic+, Performance+, and Creative Automation. It ingests a design system, generates on-brand work between reasoning and render automation, ships it into ad platforms through DCO, and writes performance back so the next cycle starts from what just happened. Success on the public site is a visitor who can say what the factory does in one sentence and ask for a demo. This repo is the marketing surface only. The product app stays a quiet instrument.
 
 ## Brand Personality
 
@@ -20,7 +20,7 @@ Physical, cyclic, terrestrial. Continuum is a factory on a world, not an AI over
 
 - Generic AI-marketing agency pages (aurora wordmarks, “unleash”, “our AI”, navy-plus-glow)
 - SaaS template heroes (three equal feature cards, metric counters, gradient display type)
-- Photoreal NASA space posters and black-hole jewelry logos
+- Photoreal NASA space posters and black-hole jewelry logos (the wordmark's black-hole O is the one sanctioned exception)
 - Carrying planetary art into product chrome, tables, or forms
 - The current “is your / AI Marketing Agency” flip line as the public claim
 
@@ -34,4 +34,4 @@ Physical, cyclic, terrestrial. Continuum is a factory on a world, not an AI over
 
 ## Accessibility & Inclusion
 
-WCAG AA for body copy and controls. Honor `prefers-reduced-motion` (static rest pose for the orbit scene, no flip animation, no marquees). Honor `prefers-reduced-transparency`. Keyboard-visible focus on every control. Do not convey meaning with color alone.
+WCAG AA for body copy and controls. Honor `prefers-reduced-motion` (static poster for the black-hole O, no flip animation, no marquees). Honor `prefers-reduced-transparency`. Keyboard-visible focus on every control. Do not convey meaning with color alone.

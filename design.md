@@ -24,13 +24,13 @@ If a visual exists only to signal “AI,” remove it.
 
 ## 2. Brand idea
 
-Continuum is a creative factory for paid creative.
+Continuum is the intelligent creative factory for performance marketers, designers, and agencies.
 
 Work travels. It lands. The next cycle starts from what just happened.
 
 The landing page makes that physical: **one planet, several locations on it.** Each factory station is a climate you can stand in. Not separate brands. Not a space opera. Terrestrial places on a single world (and its moon).
 
-Hero establishes the planet from space / high atmosphere.  
+Hero is the CONTINUUM wordmark whose O is a small live black hole (vgpu WebGPU shader, grayscale, poster fallback). It is the page's one spectacle.  
 Every other still is a location **on** that world.
 
 ---
@@ -57,7 +57,7 @@ Match the first reference still (*Introducing Agentic Search* — red canyon).
 - Neon, glow rims, cyber grids, glass cards as the world
 - Photoreal NASA stills
 - Cute mascots
-- Black-hole jewelry / event-horizon logos
+- Black holes or event horizons anywhere except the wordmark O (one per page, never jewelry-style, never a logo mark)
 - Purple–cyan “AI” identity washes on the sky
 
 ---
@@ -119,7 +119,9 @@ Continuum is a creative factory.
 
 Name the parts. Optimizer kicks. Continuum analyzes. Jaina reasons through brand guidelines. AEP renders only if a new production asset is required. Write-back closes the loop.
 
-**Hero lines to test (pick one)**
+**Shipped hero line:** The intelligent creative factory for *performance marketers / designers / agencies* (rotating).
+
+**Earlier hero lines (archived)**
 
 1. Continuum — A production line for ads that get better.  
 2. Continuum — A creative factory for paid creative.  
@@ -135,30 +137,26 @@ If nothing writes back into the account, the loop is open.
 
 ## 10. Landing page map
 
-Replace the current arc (Agency → OS → four stages → Social+ / Studio+ / Performance+ → empty metrics).
+1. **Hero**  
+   Wordmark with the black-hole O. Line: "The intelligent creative factory for" plus the rotating audience. One CTA: Book a demo. Client logos sit under it.
 
-1. **Hero — Orbit**  
-   Kicker `CREATIVE FACTORY`. H1 Continuum. Product window in `#fdfdfd` on the planet. CTAs: Book a demo / See the loop.
+2. **Work**  
+   Masonry of real production clips. Lazy video, loop duplicates hidden from assistive tech.
 
-2. **The line to hold**  
-   Three sentences. No decoration required.
+3. **Three lines, one factory**  
+   Stacked chapters, each a live product window in the app's tokens:
+   - **Organic+**: canvas editor, post preview on Instagram / TikTok / LinkedIn, hover-expanding analytics, Organic agent.
+   - **Performance+**: Jaina chat (tool call, approval gate) driving the Optimizer chart and ad-set table.
+   - **Creative Automation**: Forge Render table with base / variation inheritance, format preview, approved delivery to the ad account.
 
-3. **The jump**  
-   Four substitutions: ticket, analysis, build, write-back. Software column quiet. Creative column live.
+4. **Founders**  
+   Michelle Shocron, Duane Scott.
 
-4. **The loop**  
-   Named parts. Climate still changes with the station. Do not collapse Optimizer / Continuum / Jaina / Generate / AEP / Account.
+5. **Pricing**  
+   Organic+ $30/mo, Performance+ $300/mo (includes Organic+), Creative Automation custom. Monthly / annual (20% off).
 
-5. **Worlds**  
-   Location plates as section weather. Short caption. Not a feature grid of plus-products.
-
-6. **Why it holds**  
-   Reporting tools vs generation tools vs the factory.
-
-7. **Close**  
-   Orbit or Harbor. “The next ad should already know what happened.” Book a demo.
-
-Founders and pricing are not hero slots. Social+ / Studio+ / Performance+ are not the sitemap.
+6. **Close**  
+   Book a demo.
 
 ---
 
