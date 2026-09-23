@@ -53,6 +53,7 @@ clips=(
 )
 
 echo "Transcoding showcase clips from $IN → $OUT"
+pids=()
 for spec in "${clips[@]}"; do
   IFS='|' read -r name rel dur start poster_at <<<"$spec"
   src="$IN/$rel"
@@ -67,8 +68,13 @@ for spec in "${clips[@]}"; do
   while (( $(jobs -rp | wc -l) >= 4 )); do sleep 0.2; done
   echo "  $name  ($rel)"
   transcode_clip "$src" "$OUT/$name.mp4" "$OUT/$name.jpg" "$dur" "${start:-0}" "${poster_at:-1.5}" &
+  pids+=("$!")
 done
-wait
+
+# A failed encode must fail the run (and not leave a half-written clip that a later run "keeps").
+fail=0
+for pid in ${pids[@]+"${pids[@]}"}; do wait "$pid" || fail=1; done
+(( fail == 0 )) || { echo "Some clips failed to encode; check the files above." >&2; exit 1; }
 
 du -h "$OUT"/*.mp4 | sort -h
 echo -n "showcase total: "

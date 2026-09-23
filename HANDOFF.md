@@ -42,6 +42,7 @@ Masonry grid refresh and pricing solids landed on 2026-09-23 (see [Masonry grid]
 ## Masonry grid
 
 `src/components/MasonryGrid.astro`, 19 clips (12 added 2026-09-23, owner-confirmed live client work; 7 kept from the old set).
+- **Rights caveat:** of the 7 kept, only Kamay traces to a known client. Heineken, Claro and Mercado Libre may be spec or agency-era work; the owner chose to keep them (2026-09-23), but the sr-only heading says "clips from live campaigns", so confirm them or drop them before launch.
 - **Adding a clip:** put the master in `media/` (gitignored) or point `MASTERS` at its folder, add a `name|file|seconds|start|poster-time` line to `clips=(...)` in `scripts/optimize-media.sh`, run `MASTERS=~/Downloads bun run optimize:media`, then add `[name, aria-label]` to `CLIPS` in the grid. Order in `CLIPS` = display order.
 - **Encoding:** 480px wide, 24fps, H.264 CRF 30, no audio, **boomerang** (forward then reversed) so the loop never jumps. Posters are taken `poster-time` seconds in (default 1.5) to skip intros. A clip with no master but existing output is kept. Old masters can be restored from git history: `git show 7fa0bd4:public/assets/<file>`.
 - **Layout:** ratio comes from the poster's real dimensions; clips are packed greedily into the shortest of 5 columns (cols 1-2 are the only ones on mobile); each column's scroll duration scales with its height (13s per column-width) so all move at one speed; the track is padded by one gap so the -50% loop is seamless; top/bottom fade into the stars. It never pauses (owner call).

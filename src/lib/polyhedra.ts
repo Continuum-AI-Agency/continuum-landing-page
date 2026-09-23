@@ -90,10 +90,10 @@ export function drawSolid(ctx: CanvasRenderingContext2D, solid: Solid, p: Pose) 
     return [cx + x * s, cy + y * s] as const;
   });
 
-  // Soft shadow below-left, only once the solid has body.
+  // Soft shadow below-right (away from the upper-left light), only once the solid has body.
   if (t > 0.01) {
     ctx.save();
-    ctx.translate(cx - r * 0.25, cy + r * 1.05);
+    ctx.translate(cx + r * 0.25, cy + r * 1.05);
     ctx.scale(1, 0.3);
     const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
     g.addColorStop(0, `rgba(30,22,80,${0.28 * t})`);

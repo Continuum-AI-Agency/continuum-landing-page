@@ -149,16 +149,36 @@ function useSolid(name: SolidName) {
     return () => cancelAnimationFrame(raf);
   }, [name]);
 
+  // Hover and keyboard focus each hold the solid up; it drops only when neither does.
+  const held = useRef({ hover: false, focus: false, timer: 0 });
+  const sync = () => control.current?.set(held.current.hover || held.current.focus);
+  const hover = (on: boolean) => {
+    clearTimeout(held.current.timer);
+    held.current.hover = on;
+    sync();
+  };
+
   const handlers = {
-    onPointerEnter: () => control.current?.set(true),
-    // A tap fires leave right after enter; keep the solid up on touch.
-    onPointerLeave: (e: PointerEvent) => e.pointerType !== "touch" && control.current?.set(false),
+    onPointerEnter: () => hover(true),
+    // A tap fires leave right after enter, so on touch the solid stays up for a moment instead.
+    onPointerLeave: (e: PointerEvent) => {
+      if (e.pointerType !== "touch") return hover(false);
+      held.current.timer = window.setTimeout(() => hover(false), 2500);
+    },
+    onPointerCancel: () => hover(false), // a scroll that started on the card
     onPointerMove: (e: PointerEvent) => {
       const b = canvas.current?.getBoundingClientRect();
       if (b) control.current?.aim((e.clientX - b.left - b.width / 2) / 200, (e.clientY - b.top - b.height / 2) / 200);
     },
-    onFocus: () => control.current?.set(true),
-    onBlur: (e: FocusEvent) => !e.currentTarget.contains(e.relatedTarget) && control.current?.set(false),
+    onFocus: () => {
+      held.current.focus = true;
+      sync();
+    },
+    onBlur: (e: FocusEvent) => {
+      if (e.currentTarget.contains(e.relatedTarget)) return;
+      held.current.focus = false;
+      sync();
+    },
   };
 
   return { canvas, handlers };
@@ -243,15 +263,26 @@ export function PricingSection() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <label className="flex cursor-pointer items-center gap-3 text-sm font-medium">
-              <span className={annual ? "text-muted-foreground" : "text-foreground"}>Monthly</span>
+            {/* The switch is the control; the words are mouse shortcuts that pick their own side. */}
+            <div className="flex items-center gap-3 text-sm font-medium">
+              <span
+                className={cn("cursor-pointer", annual ? "text-muted-foreground" : "text-foreground")}
+                onClick={() => setBilling("monthly")}
+              >
+                Monthly
+              </span>
               <Switch
                 aria-label="Bill yearly"
                 checked={annual}
                 onCheckedChange={(on) => setBilling(on ? "annual" : "monthly")}
               />
-              <span className={annual ? "text-foreground" : "text-muted-foreground"}>Yearly</span>
-            </label>
+              <span
+                className={cn("cursor-pointer", annual ? "text-foreground" : "text-muted-foreground")}
+                onClick={() => setBilling("annual")}
+              >
+                Yearly
+              </span>
+            </div>
             <Badge variant="violet" className="text-[var(--cs-violet)]">Save 20%</Badge>
           </div>
         </div>
