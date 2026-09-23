@@ -28,7 +28,7 @@ type Phase = "editing" | "rendering" | "rendered" | "delivered" | "held";
 const FIELDS: { key: FieldKey; label: string; kind: "text" | "color" | "image"; width: string }[] = [
   { key: "headline", label: "Headline", kind: "text", width: "min-w-[168px]" },
   { key: "keyColor", label: "Key color", kind: "color", width: "min-w-[140px]" },
-  { key: "product", label: "Product image", kind: "image", width: "min-w-[160px]" },
+  { key: "product", label: "Product image", kind: "image", width: "min-w-[184px]" },
   { key: "price", label: "Price", kind: "text", width: "min-w-[108px]" },
   { key: "was", label: "Was", kind: "text", width: "min-w-[108px]" },
   { key: "discount", label: "Discount", kind: "text", width: "min-w-[108px]" },
@@ -370,7 +370,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
               ))}
             </ToggleGroup>
           </div>
-          <div className="flex h-[380px] items-center justify-center bg-card/60 p-5">
+          <div className="flex min-h-[260px] flex-1 items-center justify-center bg-card/60 p-5">
             <div className={cn(ratio === "16:9" ? "w-full" : ratio === "1:1" ? "w-[260px]" : "w-[176px]")}>
               <PromoCreative v={currentValues} photo={photoByKey.get(currentValues.product ?? "")} ratio={ratio} />
             </div>
