@@ -86,11 +86,15 @@ const aspectClass = (ratio: Ratio) => {
 };
 ---
 
-<section id="showcase" class="py-16 md:py-24 bg-background relative overflow-hidden z-10 reveal">
+<section id="showcase" class="py-16 md:py-24 bg-transparent relative overflow-hidden z-10">
+  <div class="mx-auto mb-10 max-w-7xl px-4 md:px-6">
+    <h2 class="text-balance font-display text-3xl font-bold tracking-tight text-white md:text-5xl">Made on Continuum.</h2>
+    <p class="mt-3 max-w-[60ch] text-lg leading-relaxed text-white/70">Campaign work rendered for brands across retail, sports, real estate, and events.</p>
+  </div>
   <div class="w-full max-w-none px-4 md:px-8 relative">
     <div
       id="showcase-grid"
-      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8 h-[80vh] min-h-[500px] max-h-[1000px] overflow-hidden group/grid relative border-y border-border/10 py-4"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8 h-[80vh] min-h-[500px] max-h-[1000px] overflow-hidden group/grid relative py-4"
     >
       {columns.map((col) => (
         <div class:list={['flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container', col.visibility || 'flex']}>

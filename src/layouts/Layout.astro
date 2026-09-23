@@ -101,12 +101,27 @@ const buildDate = new Date().toISOString();
         })} />
 
         <!-- Tema para navegadores -->
-        <meta name="theme-color" content="#0f172a" />
+        <meta name="theme-color" content="#0b0b0e" />
 
         <!-- Per-page head injection (extra meta, structured data, etc.) -->
         <slot name="head" />
   </head>
 	<body class="ch-body" id="top">
+        <script>
+          // Port of the app's PointerOrigin: record where the pointer entered a .btn-fill element
+          // so its hover fill blooms from that point instead of the centre.
+          document.addEventListener(
+            "pointerover",
+            (event) => {
+              const button = (event.target as Element | null)?.closest<HTMLElement>(".btn-fill");
+              if (!button) return;
+              const bounds = button.getBoundingClientRect();
+              button.style.setProperty("--btn-x", `${event.clientX - bounds.left}px`);
+              button.style.setProperty("--btn-y", `${event.clientY - bounds.top}px`);
+            },
+            { passive: true },
+          );
+        </script>
         <main class="ch-content-wrapper">
 		    <slot />
         </main>

@@ -1,9 +1,10 @@
 ---
 import { Magnetic } from './core/magnetic';
+import { ShimmerButton } from './ui/shimmer-button';
 import { InteractiveGridPattern } from './react/InteractiveGridPattern';
 ---
 
-<section id="demo" class="py-24 bg-background border-t border-border/30 relative overflow-hidden">
+<section id="demo" class="py-24 md:py-32 bg-transparent relative overflow-hidden">
   {/* Interactive Grid Pattern Background */}
   <div class="absolute inset-0 z-0">
     <InteractiveGridPattern 
@@ -13,13 +14,12 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
       squares={[40, 20]}
       className="[mask-image:radial-gradient(500px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-10%] h-[120%]"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background pointer-events-none"></div>
   </div>
 
   <div class="container mx-auto px-6 relative z-10">
     <div class="max-w-4xl mx-auto text-center reveal">
       <h2 class="text-4xl md:text-6xl font-bold text-foreground mb-6 font-display tracking-tight">
-        Ready to scale on <span class="text-primary">Continuum?</span>
+        Ready to scale on <span class="shimmer pb-1">Continuum?</span>
       </h2>
       <p class="text-xl text-muted-foreground font-sans mb-12 max-w-2xl mx-auto">
         Talk to our team and see how Continuum can become the creative engine
@@ -42,12 +42,15 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
             />
           </div>
           <Magnetic client:visible>
-            <button
+            <ShimmerButton
               type="submit"
-              class="whitespace-nowrap h-[58px] min-w-[200px] bg-primary text-primary-foreground font-medium rounded-md px-6 py-2 shadow-sm hover:bg-[oklch(75%_0.13_180)] transition-all duration-150 ease-standard focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
+              shimmerColor="oklch(94% 0.08 195)"
+              borderRadius="12px"
+              background="linear-gradient(135deg, oklch(52% 0.13 205), oklch(42% 0.2 285))"
+              className="btn-fill h-[58px] min-w-[200px] px-8 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_40px_-8px_oklch(80%_0.14_195/0.5)] hover:shadow-[0_0_64px_-4px_oklch(80%_0.14_195/0.75)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
               Book a demo
-            </button>
+            </ShimmerButton>
           </Magnetic>
         </form>
         <p class="mt-6 text-primary font-medium min-h-[1.5rem]" id="demo-success" role="status"></p>

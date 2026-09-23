@@ -7,17 +7,26 @@ import Team from '../components/Team.astro';
 import Pricing from '../components/Pricing.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
+import Sky from '../components/Sky.astro';
 ---
 
 <Layout appearance="light">
+  <Sky />
   <Hero />
-  <MasonryGrid />
-  <Product />
-  <Team />
-  <Pricing />
-  <CTA />
-
-  <Footer />
+  <div class="dark">
+    <MasonryGrid />
+  </div>
+  <div class="horizon horizon-dawn" aria-hidden="true"></div>
+  <div class="daylight">
+    <Product />
+    <Team />
+    <Pricing />
+  </div>
+  <div class="horizon horizon-dusk" aria-hidden="true"></div>
+  <div class="dark">
+    <CTA />
+    <Footer />
+  </div>
 </Layout>
 
 <script>

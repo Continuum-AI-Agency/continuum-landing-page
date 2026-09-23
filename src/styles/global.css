@@ -21,6 +21,14 @@
 /* ── 2. Continuum Singularity brand vars (source of truth) ───────────────── */
 :root {
   --radius: 0.5rem;
+  /* Sky: the page's day cycle (Sky.astro). Night equals the hero ground. */
+  --night:   oklch(14.5% 0.005 285);
+  /* The brand pair: shimmer, hero letters, CTA glow, star tints. */
+  --hero-cyan:   oklch(80% 0.13 195);
+  --hero-violet: oklch(62% 0.22 292);
+  --star:    oklch(95% 0.012 85);
+  --day-top: oklch(95.5% 0.012 245);
+  --day-low: oklch(97.5% 0.008 80);
   /* Card padding for shadcn Card on the page; .app-theme tightens it to the app density. */
   --card-pad: 1.5rem;
   --card-gap: 1.5rem;
@@ -68,7 +76,7 @@
   --cs-teal-fg:          oklch(10% 0.01 275);
 
   /* Dark mode surfaces */
-  --cs-bg:               oklch(14% 0.01 265);
+  --cs-bg:               var(--night);
   --cs-fg:               oklch(98% 0.005 265);
   --cs-card:             oklch(20% 0.015 265);
   --cs-card-fg:          oklch(98% 0.005 265);
@@ -91,8 +99,10 @@
   --cs-chart-4:          oklch(65% 0.20 30);
 }
 
-/* ── 3. Shadcn semantic aliases (cascade-based switching) ─────────────────── */
-:root {
+/* ── 3. Shadcn semantic aliases (cascade-based switching) ───────────────────
+   Declared on .dark too, so a nested night zone re-resolves them against its own --cs-*. */
+:root,
+.dark {
   --background:          var(--cs-bg);
   --foreground:          var(--cs-fg);
   --card:                var(--cs-card);
@@ -190,6 +200,27 @@
   --font-mono:    var(--font-geist-mono);
   --font-display: var(--font-display);
   --font-wordmark: var(--font-futura);
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
+  }
 }
 
 /* ── 5. @layer base — HTML element defaults ──────────────────────────────── */
@@ -262,15 +293,9 @@
   100% { background-position:   0% 50%; }
 }
 
-.shimmer-text {
-  background: linear-gradient(
-    90deg,
-    var(--cs-teal)    0%,
-    var(--cs-violet)  25%,
-    var(--cs-magenta) 50%,
-    var(--cs-teal)    75%,
-    var(--cs-violet)  100%
-  );
+/* The cyan-violet sweep. Two words on the page, both on night: the hero audience and the closing "Continuum?". */
+.shimmer {
+  background: linear-gradient(90deg, var(--hero-violet) 0%, var(--hero-cyan) 45%, var(--hero-violet) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -279,20 +304,20 @@
   display: inline-block;
 }
 
-/* Hero audience word: the cyan-violet sweep the owners chose. One place only. */
-.hero-icp-shimmer {
-  background: linear-gradient(
-    90deg,
-    oklch(62% 0.22 292) 0%,
-    oklch(80% 0.13 195) 45%,
-    oklch(62% 0.22 292) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: text-shimmer 4s linear infinite;
-  display: inline-block;
+/* Wordmark letters light up cyan-violet under the pointer and fade out slowly behind it.
+   One gradient spans the word (offset per letter), so neighbours read as one sweep. */
+@media (hover: hover) {
+  .hero-letter {
+    background: linear-gradient(90deg, var(--hero-violet), var(--hero-cyan), var(--hero-violet))
+      calc(var(--i) * 12.5%) 0 / 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: color 0.9s ease-out;
+  }
+  .hero-letter:hover {
+    color: transparent;
+    transition-duration: 0.1s;
+  }
 }
 
 .hero-wordmark {
@@ -304,15 +329,13 @@
   text-wrap: balance;
 }
 
-
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer {
     animation: none;
     background-image: none;
     background-color: oklch(20% 0.015 265 / 0.7);
   }
-  .shimmer-text,
-  .hero-icp-shimmer {
+  .shimmer {
     animation: none;
     background-position: 0% 50%;
   }

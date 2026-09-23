@@ -21,7 +21,7 @@ export function InteractiveGridPattern({
     const [hoveredSquares, setHoveredSquares] = useState<Set<string>>(new Set());
 
     const brandColors = useMemo(
-        () => ["#0fb5a8", "#853bf4", "#2ec070"],
+        () => ["oklch(80% 0.13 195)", "oklch(62% 0.22 292)"],
         []
     );
 

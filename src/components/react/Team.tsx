@@ -149,13 +149,13 @@ function TeamMateCard({ name, role, image }: TeamMate) {
 
 export function TeamSection({ members, team = [] }: { members: TeamMember[]; team?: TeamMate[] }) {
   return (
-    <section id="team" className="bg-background border-t border-border/30 px-4 py-24 sm:px-6 lg:px-8">
+    <section id="team" className="bg-transparent px-4 py-24 sm:px-6 md:py-32 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display">
             Meet the Team
           </h2>
-          <p className="mx-auto max-w-6xl text-lg text-muted-foreground font-sans">
+          <p className="mx-auto max-w-[60ch] text-lg text-muted-foreground font-sans">
             A small team obsessed with creative systems, media performance, and
             building tools that actually get used.
           </p>

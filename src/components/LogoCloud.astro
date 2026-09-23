@@ -2,84 +2,78 @@
 import { Image } from 'astro:assets';
 
 interface Props {
-  /** Small eyebrow label shown above the marquee. Pass `false` to hide. */
+  /** Small label above the marquee. Pass `false` to hide. */
   label?: string | false;
   /** Seconds for one full loop of the marquee. Lower = faster. */
   duration?: number;
-  /** White marks on dark, or original color on light. */
-  tone?: 'on-dark' | 'on-light';
   class?: string;
 }
 
-const {
-  label = 'Trusted by experts, used by leaders',
-  duration = 35,
-  tone = 'on-light',
-  class: className = '',
-} = Astro.props;
+const { label = 'Trusted by teams at', duration = 35, class: className = '' } = Astro.props;
 
-const logoFiles = import.meta.glob(
-  [
-    '../assets/cliente_logos/*.{png,jpg,jpeg,svg,webp}',
-    '!../assets/cliente_logos/ProptechLatam_Logo_color.png',
-    '!../assets/cliente_logos/image.png',
-    '!../assets/cliente_logos/La_liga_basquet.png',
-  ],
-  { eager: true },
-);
+const files = import.meta.glob<ImageMetadata>('../assets/cliente_logos/*.{png,jpg,jpeg,svg,webp}', {
+  eager: true,
+  import: 'default',
+});
+const file = (name: string) => files[`../assets/cliente_logos/${name}`];
 
-const logos = Object.entries(logoFiles)
-  .map(([path, module]: [string, any]) => {
-    const filenameWithExt = path.split('/').pop() || '';
-    const filename = filenameWithExt.split('.')[0] || 'Client';
+// Uniform tiles make every mark readable whatever its own background. White-on-transparent
+// marks (AXO, Liga Nacional) get a dark tile instead of the cream one.
+const logos = [
+  { file: 'mercado-libre-logo.png', name: 'Mercado Libre' },
+  { file: 'privalia.png', name: 'Privalia' },
+  { file: 'image_2025-05-15_15-31-59.png', name: 'AFA' },
+  { file: 'logoLaLiga.png', name: 'Liga Nacional de Básquetbol', dark: true },
+  { file: 'image_2025-05-15_15-32-57.png', name: 'Canal Rural' },
+  { file: 'Coder_house.png', name: 'Coder House' },
+  { file: 'FeVA_logo.svg.png', name: 'FeVA' },
+  { file: 'image_2025-05-15_15-30-15.png', name: 'Wooloo' },
+  { file: 'ProptechLatam2.0.png', name: 'Proptech Latam Summit' },
+  { file: 'photo_2025-05-15_15-39-32.jpg', name: 'La Corte' },
+  { file: 'ala-applied-tech-2021-cube-logo.png', name: 'ALA Applied Tech' },
+  { file: 'axo-logo-a.png', name: 'AXO', dark: true },
+  { file: 'wsti.png', name: 'WSTI' },
+].filter((l) => file(l.file));
 
-    const brandName = filename
-      .replace(/[-_]/g, ' ')
-      .replace(/\blogo\b/gi, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .replace(/\b\w/g, (l) => l.toUpperCase());
-
-    return { src: module.default, brandName };
-  });
-
-logos.sort((a, b) => a.brandName.localeCompare(b.brandName));
-
-// Triple the logos so the track can scroll a third of its width and loop seamlessly.
-const tripleLogos = [...logos, ...logos, ...logos];
+// Three copies so the track can scroll a third of its width and loop seamlessly.
+// Only the first copy is exposed to assistive tech.
+const copies = [0, 1, 2];
 ---
 
-<div class:list={['logo-cloud flex flex-col items-center gap-6', className]}>
-  {label && (
-    <p class="text-xs tracking-wide text-muted-foreground/70 font-medium">{label}</p>
-  )}
+<div class:list={['logo-cloud flex flex-col items-center gap-5', className]}>
+  {label && <p class="text-sm font-medium text-white/60">{label}</p>}
 
-  <!-- Marquee -->
   <div
     class="logo-cloud-viewport w-full overflow-hidden"
-    style="mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);"
+    style="mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);"
   >
-    <div class="logo-cloud-track" style={`animation-duration: ${duration}s`}>
-      {tripleLogos.map((logo) => {
-        const invert = tone === 'on-light' && (logo.brandName.toLowerCase().includes('feva') || logo.brandName.toLowerCase().includes('privalia'));
-        return (
-          <Image
-            src={logo.src}
-            alt={`${logo.brandName} logo`}
-            width={240}
-            format="webp"
-            quality={70}
+    <ul class="logo-cloud-track" style={`animation-duration: ${duration}s`}>
+      {copies.map((copy) =>
+        logos.map((logo) => (
+          <li
+            aria-hidden={copy > 0 ? 'true' : undefined}
             class:list={[
-              'h-7 md:h-9 w-auto object-contain shrink-0 transition-all duration-500',
-              tone === 'on-dark' ? 'opacity-85 brightness-110 contrast-125' : 'opacity-90',
-              { 'invert brightness-200': invert },
+              'grid h-12 w-36 shrink-0 place-items-center rounded-xl px-4 md:h-14 md:w-44',
+              logo.dark ? 'bg-[oklch(22%_0.012_285)] ring-1 ring-white/10' : 'bg-[#f3efe6]',
             ]}
-            loading="lazy"
-            decoding="async"
-          />
-        );
-      })}
-    </div>
+          >
+            <Image
+              src={file(logo.file)!}
+              alt={copy > 0 ? '' : logo.name}
+              width={240}
+              format="webp"
+              quality={75}
+              class:list={[
+                'max-h-8 w-auto max-w-full object-contain md:max-h-10',
+                !logo.dark && 'mix-blend-multiply',
+              ]}
+              loading="lazy"
+              decoding="async"
+            />
+          </li>
+        )),
+      )}
+    </ul>
   </div>
 </div>
 
@@ -88,35 +82,30 @@ const tripleLogos = [...logos, ...logos, ...logos];
     display: flex;
     align-items: center;
     width: max-content;
-    column-gap: 3rem;
+    column-gap: 1rem;
     animation-name: logo-cloud-scroll;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }
 
-  @media (min-width: 768px) {
-    .logo-cloud-track {
-      column-gap: 5rem;
-    }
-  }
-
-  .logo-cloud-viewport:hover .logo-cloud-track {
+  .logo-cloud-viewport:hover .logo-cloud-track,
+  .logo-cloud-viewport:focus-within .logo-cloud-track {
     animation-play-state: paused;
   }
 
   @keyframes logo-cloud-scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-33.333%);
-    }
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-33.333% - 0.333rem)); }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .logo-cloud-track {
       animation: none;
+      flex-wrap: wrap;
       justify-content: center;
+      width: auto;
+      row-gap: 1rem;
     }
+    .logo-cloud-track li[aria-hidden='true'] { display: none; }
   }
 </style>

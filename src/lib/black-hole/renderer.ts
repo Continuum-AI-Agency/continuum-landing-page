@@ -25,6 +25,13 @@ const SCENE_YAW_TAU_S = 0.325;
 
 const MAX_FRAME_DT_S = 0.1;
 
+// Drag-to-tilt: pitch eases toward its target and re-bakes the geodesics, throttled to what
+// the GPU just proved it can afford. Slow GPUs (first bake over 30ms) do not tilt.
+const PITCH_TAU_S = 0.18;
+const PITCH_MIN = 0.25;
+const PITCH_MAX = 1.1;
+const TILT_BUDGET_MS = 30;
+
 const TARGET_FPS = 60;
 
 const FRAME_PACING_EPSILON_MS = 2;
@@ -67,6 +74,12 @@ export function createRenderer({ canvas, onError }: RendererOptions) {
   let pointerXNormalized = 0;
   let currentSceneYaw = 0;
   let lastYawAt: number | undefined;
+  const restPitch = settings.cameraY;
+  let targetPitch = restPitch;
+  let bakedPitch = restPitch;
+  let lastPitchAt: number | undefined;
+  let lastBakeAt = 0;
+  let bakeMs = Infinity; // measured after prewarm
 
   const onPointerMove = (event: PointerEvent) => {
     if (event.pointerType !== "mouse") return;
@@ -141,9 +154,16 @@ export function createRenderer({ canvas, onError }: RendererOptions) {
   const renderFrame = (frame: Frame): void => {
     if (disposed || !effects || !targets || !surface) return;
     const now = clockMs();
-    const runBake = forceBake;
+    advancePitch(now);
+    const pitchDirty = Math.abs(settings.cameraY - bakedPitch) > 0.0005;
+    const runBake =
+      forceBake || (pitchDirty && now - lastBakeAt > Math.max(33, bakeMs * 3));
     forceBake = false;
-    if (runBake) setBakeUniforms(effects, targets, settings);
+    if (runBake) {
+      setBakeUniforms(effects, targets, settings);
+      bakedPitch = settings.cameraY;
+      lastBakeAt = now;
+    }
     setShadeUniforms(
       effects,
       targets,
@@ -152,6 +172,19 @@ export function createRenderer({ canvas, onError }: RendererOptions) {
       advanceSceneYaw(now)
     );
     renderChain(frame, effects, targets, surface, runBake);
+  };
+
+  const advancePitch = (now: number): void => {
+    const dt =
+      lastPitchAt === undefined
+        ? 0
+        : Math.min(Math.max((now - lastPitchAt) / 1000, 0), MAX_FRAME_DT_S);
+    lastPitchAt = now;
+    const diff = targetPitch - settings.cameraY;
+    settings.cameraY =
+      Math.abs(diff) < 0.001
+        ? targetPitch
+        : settings.cameraY + diff * (1 - Math.exp(-dt / PITCH_TAU_S));
   };
 
   const advanceSceneYaw = (now: number): number => {
@@ -239,6 +272,13 @@ export function createRenderer({ canvas, onError }: RendererOptions) {
     setPostUniforms(effects, targets, settings);
     await prewarm(effects, targets, surface);
     if (disposed) return;
+    // Time one full bake so drag-to-tilt only runs where re-baking is affordable.
+    const bakeStart = clockMs();
+    forceBake = true;
+    vgpu.frame(gpu, renderFrame);
+    await gpu.gpu.queue.onSubmittedWorkDone();
+    if (disposed) return;
+    bakeMs = clockMs() - bakeStart;
     unsubResize = surface.onResize(({ width, height }) =>
       resize({ width, height })
     );
@@ -273,7 +313,18 @@ export function createRenderer({ canvas, onError }: RendererOptions) {
     handleFailure(error);
   });
 
-  return { ready, dispose };
+  return {
+    ready,
+    dispose,
+    /** True once the first bake proved fast enough to re-bake while dragging. */
+    canTilt: () => bakeMs < TILT_BUDGET_MS,
+    /** Pitch in radians (clamped); `null` returns to the resting pitch. */
+    setPitch: (pitch: number | null) => {
+      targetPitch =
+        pitch === null ? restPitch : Math.min(PITCH_MAX, Math.max(PITCH_MIN, pitch));
+    },
+    restPitch,
+  };
 }
 
 function clockMs(): number {

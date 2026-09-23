@@ -15,7 +15,7 @@ export function ProductWindow({
   return (
     <div
       className={cn(
-        "app-theme overflow-hidden rounded-xl border border-border shadow-[0_2px_8px_-2px_rgb(22_22_42/0.12)]",
+        "app-theme overflow-hidden rounded-xl border border-border shadow-[0_12px_40px_-12px_oklch(30%_0.05_260/0.18)]",
         className,
       )}
     >

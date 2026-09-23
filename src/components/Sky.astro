@@ -1,0 +1,55 @@
+---
+// The page's day cycle: one fixed starfield (two generated SVG tiles) behind everything. Night sections are
+// transparent so the stars show through; the day zone paints over them; horizon bands
+// carry the dawn and dusk gradients and never hold text.
+---
+
+<div class="sky" aria-hidden="true"></div>
+
+<style is:global>
+  html:has(.sky) { background: var(--night); }
+  html:has(.sky) body { background: none; }
+
+  .sky {
+    position: fixed;
+    top: 0;
+    inset-inline: 0;
+    height: 115lvh;
+    z-index: -1;
+    pointer-events: none;
+    /* Two randomly scattered star tiles at non-multiple sizes, so no lattice shows. */
+    background:
+      url("/assets/sky/stars-a.svg") 0 0 / 1200px 1200px,
+      url("/assets/sky/stars-b.svg") 311px 173px / 733px 733px,
+      var(--night);
+  }
+
+  .horizon { height: clamp(16rem, 50svh, 34rem); }
+  .horizon-dawn {
+    background: linear-gradient(
+      oklch(22% 0.04 265 / 0),
+      oklch(22% 0.04 265) 30%,
+      oklch(42% 0.06 255) 60%,
+      oklch(78% 0.06 55) 85%,
+      var(--day-top)
+    );
+  }
+  .daylight { background: linear-gradient(var(--day-top), var(--day-low)); }
+  .horizon-dusk {
+    height: clamp(14rem, 40svh, 28rem);
+    background: linear-gradient(
+      var(--day-low),
+      oklch(58% 0.08 35) 20%,
+      oklch(34% 0.06 300) 50%,
+      oklch(20% 0.05 285) 80%,
+      oklch(20% 0.05 285 / 0)
+    );
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .sky { animation: star-drift linear both; animation-timeline: scroll(root); }
+    }
+  }
+  @keyframes star-drift { to { transform: translate3d(0, -12%, 0); } }
+</style>

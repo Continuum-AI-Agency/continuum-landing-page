@@ -64,7 +64,7 @@ export function PricingSection() {
   const [billing, setBilling] = useState<Billing>("monthly");
 
   return (
-    <section id="pricing" className="scroll-mt-16 bg-background px-4 py-24 md:px-6 md:py-32">
+    <section id="pricing" className="scroll-mt-16 bg-transparent px-4 py-24 md:px-6 md:py-32">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
