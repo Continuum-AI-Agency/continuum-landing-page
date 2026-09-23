@@ -1,0 +1,33 @@
+---
+// Floating, sticky site nav: the same dark pill over night and day zones.
+// Links are absolute (/#...) so the nav works from inner pages too.
+const links = [
+  { href: '/#product', label: 'Product' },
+  { href: '/#results', label: 'Results' },
+  { href: '/#pricing', label: 'Pricing' },
+  { href: '/about', label: 'About' },
+  { href: '/blog/', label: 'Blog' },
+];
+---
+
+<header class="pointer-events-none fixed inset-x-0 top-3 z-40 px-3">
+  <nav
+    aria-label="Primary"
+    class="pointer-events-auto mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[oklch(14.5%_0.005_285/0.72)] py-2 pl-4 pr-2 text-white shadow-[0_8px_24px_-12px_oklch(0%_0_0/0.5)] backdrop-blur-md"
+  >
+    <a href="/" class="font-[family-name:var(--font-futura)] text-sm font-bold tracking-[0.18em] text-[#f3efe6] hover:text-white" aria-label="Continuum home">
+      CONTINUUM
+    </a>
+    <ul class="hidden items-center gap-6 text-sm text-white/75 md:flex">
+      {links.map((l) => (
+        <li><a href={l.href} class="transition-colors hover:text-white">{l.label}</a></li>
+      ))}
+    </ul>
+    <a
+      href="/#demo"
+      class="btn-fill inline-flex h-9 items-center rounded-lg px-4 text-sm font-semibold text-white [--btn-fill:oklch(40%_0.19_272)] [background:linear-gradient(135deg,oklch(52%_0.13_205),oklch(42%_0.2_285))] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+    >
+      Book a demo
+    </a>
+  </nav>
+</header>

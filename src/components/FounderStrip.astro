@@ -1,0 +1,29 @@
+---
+import { getImage } from 'astro:assets';
+import avatarMich from '@/assets/team/mich.jpg';
+import avatarDuane from '@/assets/team/duane-headshot.jpg';
+
+const [mich, duane] = await Promise.all([
+  getImage({ src: avatarMich, width: 96, height: 96, format: 'webp', quality: 75 }),
+  getImage({ src: avatarDuane, width: 96, height: 96, format: 'webp', quality: 75 }),
+]);
+---
+
+<!-- One line of founder credibility on the landing; the full team lives on /about. -->
+<section class="bg-transparent" aria-label="Founders">
+  <div class="mx-auto flex max-w-7xl px-4 md:px-6 flex-col items-start gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex items-center gap-4">
+      <div class="flex -space-x-3">
+        <img src={mich.src} alt="" width="48" height="48" class="size-12 rounded-full border-2 border-background object-cover" loading="lazy" />
+        <img src={duane.src} alt="" width="48" height="48" class="size-12 rounded-full border-2 border-background object-cover object-top" loading="lazy" />
+      </div>
+      <p class="max-w-[52ch] text-base text-foreground">
+        Founded by <span class="font-semibold">Michelle Shocron</span> (Mercado Libre, PedidosYa) and
+        <span class="font-semibold">Duane Scott</span> (Techstars).
+      </p>
+    </div>
+    <a href="/about" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-violet hover:underline underline-offset-4">
+      Meet the team <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+    </a>
+  </div>
+</section>

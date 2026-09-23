@@ -1,6 +1,5 @@
 ---
 import { getImage } from 'astro:assets';
-import { TeamSection } from '@/components/react/Team';
 
 import avatarMich from '@/assets/team/mich.jpg';
 import avatarDuane from '@/assets/team/Duane Scott Profile.png';
@@ -30,7 +29,7 @@ const [mich, duane, pedidosya, techstars, unnamed] = await Promise.all([
 const members = [
   {
     name: 'Michelle Shocron',
-    role: 'CEO',
+    role: 'Co-founder, CEO',
     image: mich.src,
     bio: '10+ years leading growth, product, and partnerships for tech and fintech companies in LatAm.',
     logos: [
@@ -41,7 +40,7 @@ const members = [
   },
   {
     name: 'Duane Scott',
-    role: 'Product & Engineering',
+    role: 'Co-founder, Product & Engineering',
     image: duane.src,
     bio: 'Seasoned engineering leader with experience building high-scale SaaS platforms and data products. Owns the technical architecture and AI stack.',
     logos: [
@@ -61,4 +60,48 @@ const team = await Promise.all(
 );
 ---
 
-<TeamSection client:visible members={members} team={team} />
+<!-- Static on purpose: bios are the credibility, so they are always visible (no flip cards, no JS). -->
+<section id="team" class="bg-transparent px-4 py-20 md:px-6 md:py-28" aria-labelledby="team-title">
+  <div class="mx-auto max-w-6xl">
+    <h2 id="team-title" class="text-balance font-display text-h2 font-bold text-foreground">The people on the line.</h2>
+
+    <div class="mt-12 grid gap-8 md:grid-cols-2">
+      {members.map((m) => (
+        <article class="grid gap-5 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:items-end">
+          <div class="aspect-[4/5] overflow-hidden rounded-xl border border-border/40 bg-[#0b0b0e]">
+            <img src={m.image} alt={`${m.name}, ${m.role}`} loading="lazy" decoding="async" class="size-full object-cover object-top" />
+          </div>
+          <div>
+            <h3 class="font-display text-xl font-bold leading-tight tracking-[-0.01em] text-foreground">{m.name}</h3>
+            <p class="mt-1 text-sm text-muted-foreground">{m.role}</p>
+            <p class="mt-4 text-base leading-relaxed text-foreground/85">{m.bio}</p>
+            <ul class="mt-5 flex flex-wrap items-center gap-2" aria-label={`${m.name} previously`}>
+              {m.logos.map((logo) => (
+                <li class="grid h-8 place-items-center rounded-md bg-white px-2 ring-1 ring-border/60">
+                  <img src={logo.src} alt={logo.alt} class="h-5 w-auto object-contain" loading="lazy" decoding="async" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <h3 class="mt-20 font-display text-h3 font-bold text-foreground">Who builds the factory.</h3>
+    <ul class="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 md:max-w-3xl">
+      {team.map((mate) => (
+        <li>
+          <div class="aspect-[4/5] overflow-hidden rounded-xl border border-border/40 bg-[#0b0b0e]">
+            {mate.image ? (
+              <img src={mate.image} alt={`${mate.name}, Continuum team`} loading="lazy" decoding="async" class="size-full object-cover object-top" />
+            ) : (
+              <div class="grid size-full place-items-center font-display text-4xl font-bold text-white/80" aria-hidden="true">{mate.name.charAt(0)}</div>
+            )}
+          </div>
+          <p class="mt-3 font-semibold text-foreground">{mate.name}</p>
+          {mate.role && <p class="text-sm text-muted-foreground">{mate.role}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

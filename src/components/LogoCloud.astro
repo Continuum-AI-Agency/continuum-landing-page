@@ -9,7 +9,7 @@ interface Props {
   class?: string;
 }
 
-const { label = 'Trusted by teams at', duration = 35, class: className = '' } = Astro.props;
+const { label = 'Shipping creative for', duration = 35, class: className = '' } = Astro.props;
 
 const files = import.meta.glob<ImageMetadata>('../assets/cliente_logos/*.{png,jpg,jpeg,svg,webp}', {
   eager: true,

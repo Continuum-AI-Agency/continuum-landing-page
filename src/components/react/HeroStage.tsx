@@ -138,7 +138,7 @@ export function HeroStage() {
 
       <div
         aria-hidden="true"
-        className="mt-10 text-center font-display text-2xl font-medium leading-[1.2] sm:text-3xl md:mt-14 lg:text-5xl"
+        className="mt-10 text-center font-display text-display font-medium md:mt-14"
       >
         <p className="text-balance text-white">The intelligent creative factory for</p>
         <p className="mt-1 min-h-[1.2em] pb-1">
@@ -146,16 +146,21 @@ export function HeroStage() {
         </p>
       </div>
 
+      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
       <ShimmerButton
         href="#demo"
         shimmerColor="oklch(94% 0.08 195)"
         borderRadius="12px"
         background="linear-gradient(135deg, oklch(52% 0.13 205), oklch(42% 0.2 285))"
-        className="btn-fill mt-10 h-14 px-9 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_48px_-8px_oklch(80%_0.14_195/0.55)] hover:shadow-[0_0_72px_-4px_oklch(80%_0.14_195/0.8)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        className="btn-fill h-14 px-9 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_48px_-8px_oklch(80%_0.14_195/0.55)] hover:shadow-[0_0_72px_-4px_oklch(80%_0.14_195/0.8)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
       >
         Book a demo
         <ArrowRight className="ml-2 size-5 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true" />
       </ShimmerButton>
+      <a href="#product" className="text-base font-medium text-white/75 underline-offset-4 transition-colors hover:text-white hover:underline">
+        See it work <span aria-hidden="true">↓</span>
+      </a>
+      </div>
     </div>
   );
 }

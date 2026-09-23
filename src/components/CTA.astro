@@ -18,12 +18,11 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
 
   <div class="container mx-auto px-6 relative z-10">
     <div class="max-w-4xl mx-auto text-center reveal">
-      <h2 class="text-4xl md:text-6xl font-bold text-foreground mb-6 font-display tracking-tight">
-        Ready to scale on <span class="shimmer pb-1">Continuum?</span>
+      <h2 class="text-h2 font-bold text-foreground mb-6 font-display text-balance">
+        What will you make on <span class="shimmer pb-1">Continuum?</span>
       </h2>
-      <p class="text-xl text-muted-foreground font-sans mb-12 max-w-2xl mx-auto">
-        Talk to our team and see how Continuum can become the creative engine
-        behind your next stage of growth.
+      <p class="text-lead text-muted-foreground font-sans mb-12 max-w-[46ch] mx-auto">
+        Tell us what you ship each week. We’ll show you the line that ships it.
       </p>
       
       <div class="flex flex-col items-center justify-center w-full">
@@ -69,7 +68,7 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
       e.preventDefault();
       const input = form.querySelector("input[type='email']") as HTMLInputElement;
       const email = input?.value || "";
-      note.textContent = `Thanks${email ? `, ${email}` : ""}! We’ll reach out shortly.`;
+      note.textContent = email ? `Got it. We’ll email ${email} to set a time.` : "Got it. We’ll be in touch to set a time.";
       form.reset();
       
       setTimeout(() => {

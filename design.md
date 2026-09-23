@@ -145,26 +145,17 @@ If nothing writes back into the account, the loop is open.
 
 ## 10. Landing page map
 
-1. **Hero**  
-   Wordmark with the black-hole O. Line: "The intelligent creative factory for" plus the rotating audience. One CTA: Book a demo. Client logos sit under it.
+Sticky pill nav on every page: CONTINUUM · Product · Results · Pricing · About · Blog · Book a demo.
 
-2. **Work**  
-   Masonry of real production clips. Lazy video, loop duplicates hidden from assistive tech.
+1. **Hero**: black-hole O wordmark; "The intelligent creative factory for" + rotating audience; Book a demo + "See it work". Logo strip "Shipping creative for".
+2. **Made on Continuum**: video showcase (night).
+3. **Three lines. One factory.**: Organic+, Performance+, Creative Automation demos (day).
+4. **Measured, not demoed.**: only published, footnoted results (the 8-week retail pilot). No unsourced counters.
+5. **Founder strip**: one line, links to /about.
+6. **Pricing**: Organic+ $30, Performance+ $300, Creative Automation custom.
+7. **Close**: "What will you make on Continuum?" (night), then the bookend footer with the wordmark.
 
-3. **Three lines, one factory**  
-   Stacked chapters, each a live product window in the app's tokens:
-   - **Organic+**: canvas editor, post preview on Instagram / TikTok / LinkedIn, hover-expanding analytics, Organic agent.
-   - **Performance+**: Jaina chat (tool call, approval gate) driving the Optimizer chart and ad-set table.
-   - **Creative Automation**: Forge Render table with base / variation inheritance, format preview, approved delivery to the ad account.
-
-4. **Founders**  
-   Michelle Shocron, Duane Scott.
-
-5. **Pricing**  
-   Organic+ $30/mo, Performance+ $300/mo (includes Organic+), Creative Automation custom. Monthly / annual (20% off).
-
-6. **Close**  
-   Book a demo.
+Team, story, press and podcasts live on **/about**.
 
 ---
 

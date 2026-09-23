@@ -1,0 +1,58 @@
+---
+// Only numbers already published on our own blog, each footnoted to its source.
+// Unsourced legacy stats (25,000+ pieces, 2x ROAS, ...) stay retired until someone can back them.
+const PILOT_POST = '/blog/ai-native-creative-operating-system/';
+
+const stats = [
+  { value: '~50%', label: 'higher first-time-buyer rate than the platform’s own automation' },
+  { value: '~40%', label: 'more new buyers in the peak month' },
+  { value: '~29%', label: 'lower cost per new buyer, on comparable spend' },
+];
+---
+
+<section id="results" class="scroll-mt-20 bg-transparent py-24 md:py-32" aria-labelledby="results-title">
+  <div class="mx-auto max-w-7xl px-4 md:px-6">
+    <h2 id="results-title" class="max-w-3xl text-balance font-display text-h2 font-bold text-foreground">Measured, not demoed.</h2>
+    <p class="mt-5 max-w-[46ch] text-lead text-muted-foreground">
+      A fashion e-commerce retailer ran Continuum head-to-head against a leading ad platform’s own automation for eight weeks.
+    </p>
+
+    <dl class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border">
+      {stats.map((s) => (
+        <div class="flex flex-col sm:px-8 sm:first:pl-0">
+          <dt class="order-2 mt-3 max-w-[24ch] text-base text-muted-foreground">{s.label}<sup class="ml-0.5 text-brand-violet">1</sup></dt>
+          <dd class="font-display text-[clamp(3.5rem,2.5rem+4vw,6rem)] font-bold leading-none tracking-[-0.04em] text-foreground tabular-nums">
+            {s.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+
+    <article class="mt-16 grid gap-8 rounded-xl border border-border bg-background p-6 md:grid-cols-[minmax(0,0.8fr)_repeat(3,minmax(0,1fr))] md:p-8">
+      <div>
+        <p class="font-display text-xl font-bold leading-tight text-foreground">Fashion e-commerce retailer</p>
+        <p class="mt-1 text-sm text-muted-foreground">Meta · 8 weeks · 50/50 split</p>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-foreground">The problem</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Ads kept promoting sold-out sizes while the brand needed first-time buyers, not repeat clicks.</p>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-foreground">What Continuum did</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Promotion- and stock-aware creative that changed in real time as promotions and inventory moved.</p>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-foreground">What happened</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">As the model learned it pulled ahead of the control, then held the lead through the peak month.</p>
+        <a href={PILOT_POST} class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-violet underline-offset-4 hover:underline">
+          Read the pilot <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </article>
+
+    <p class="mt-6 max-w-[80ch] text-xs leading-relaxed text-muted-foreground">
+      <sup class="text-brand-violet">1</sup> Controlled 8-week experiment, 50/50 budget split, first-time buyers as the primary metric, compared with a leading platform’s own automation. Client name withheld. Details in
+      <a href={PILOT_POST} class="underline underline-offset-2 hover:text-foreground">our write-up</a>.
+    </p>
+  </div>
+</section>

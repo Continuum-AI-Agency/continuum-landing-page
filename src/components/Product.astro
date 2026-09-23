@@ -23,44 +23,33 @@ const photos = [
 
 <section id="product" class="bg-transparent py-24 md:py-32">
   <div class="mx-auto max-w-7xl px-4 md:px-6">
-    <h2 class="max-w-3xl text-balance font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
-      Three lines. One factory.
-    </h2>
-    <p class="mt-5 max-w-[60ch] text-lg leading-relaxed text-muted-foreground">
+    <h2 class="max-w-3xl text-balance font-display text-h2 font-bold text-foreground">Three lines. One factory.</h2>
+    <p class="mt-5 max-w-[46ch] text-lead text-muted-foreground">
       Every line runs on your design system and writes results back, so the next post, bid, or render starts from what just happened.
     </p>
 
-    <article id="organic" class="mt-20 scroll-mt-24 md:mt-28">
-      <h3 class="max-w-3xl text-balance font-display text-2xl font-bold tracking-tight text-foreground md:text-4xl">
-        <span class="text-brand-violet">Organic+.</span> Design once, post everywhere.
-      </h3>
-      <p class="mt-3 max-w-[62ch] leading-relaxed text-muted-foreground">
-        Edit a post on a live canvas, preview it on Instagram, TikTok, and LinkedIn, and see what it earns. The Organic agent adapts and schedules it.
-      </p>
+    <article id="organic" class="mt-20 md:mt-28 scroll-mt-24" aria-labelledby="organic-title">
+      <p class="font-display text-base font-semibold text-brand-violet">Organic+</p>
+      <h3 id="organic-title" class="mt-1 max-w-3xl text-balance font-display text-h3 font-bold text-foreground">One design, fitted to every feed.</h3>
+      <p class="mt-3 max-w-[46ch] text-lead text-muted-foreground">Edit on a live canvas, preview the fit on Instagram, TikTok, and LinkedIn, and see what each post earns. The Organic agent rewrites and schedules.</p>
       <div class="mt-8">
         <OrganicDemo client:visible={{ rootMargin: '300px' }} photos={photos} />
       </div>
     </article>
 
-    <article id="performance" class="mt-24 scroll-mt-24 md:mt-32">
-      <h3 class="max-w-3xl text-balance font-display text-2xl font-bold tracking-tight text-foreground md:text-4xl">
-        <span class="text-brand-violet">Performance+.</span> Jaina reads the account. You approve.
-      </h3>
-      <p class="mt-3 max-w-[62ch] leading-relaxed text-muted-foreground">
-        The Optimizer handles routine moves inside your guardrails and flags every one. Jaina explains what moved and makes bigger changes only after you sign off.
-      </p>
+    <article id="performance" class="mt-24 md:mt-32 scroll-mt-24" aria-labelledby="performance-title">
+      <p class="font-display text-base font-semibold text-brand-violet">Performance+</p>
+      <h3 id="performance-title" class="mt-1 max-w-3xl text-balance font-display text-h3 font-bold text-foreground">The Optimizer acts. Jaina explains. You approve.</h3>
+      <p class="mt-3 max-w-[46ch] text-lead text-muted-foreground">The Optimizer paces budget and swaps tired creative inside your guardrails, flagging every move. Jaina explains what changed and applies bigger moves after sign-off.</p>
       <div class="mt-8">
         <PerformanceDemo client:visible={{ rootMargin: '300px' }} photos={photos} />
       </div>
     </article>
 
-    <article id="automation" class="mt-24 scroll-mt-24 md:mt-32">
-      <h3 class="max-w-3xl text-balance font-display text-2xl font-bold tracking-tight text-foreground md:text-4xl">
-        <span class="text-brand-violet">Creative Automation.</span> One template, every variation.
-      </h3>
-      <p class="mt-3 max-w-[62ch] leading-relaxed text-muted-foreground">
-        Fill a table, let variations inherit from a base, render every format, and deliver approved ads straight into the ad account.
-      </p>
+    <article id="automation" class="mt-24 md:mt-32 scroll-mt-24" aria-labelledby="automation-title">
+      <p class="font-display text-base font-semibold text-brand-violet">Creative Automation</p>
+      <h3 id="automation-title" class="mt-1 max-w-3xl text-balance font-display text-h3 font-bold text-foreground">Fill a table. Render every format.</h3>
+      <p class="mt-3 max-w-[46ch] text-lead text-muted-foreground">Each row is a variation. It inherits from the base, renders in 16:9, 1:1, and 9:16, and ships to the ad account once approved.</p>
       <div class="mt-8">
         <AutomationDemo client:visible={{ rootMargin: '300px' }} photos={photos} />
       </div>

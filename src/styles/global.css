@@ -1,4 +1,13 @@
 
+/* Satoshi, self-hosted variable (ITF Free Font License permits self-hosting): real 300-900. */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: "Futura Maxi";
   src: url("/assets/fonts/FuturaMaxi-Bold.woff2") format("woff2"),
@@ -194,6 +203,20 @@
   --radius-xl:  calc(var(--radius) * 1.4);   /* ~12px */
   --radius-2xl: calc(var(--radius) * 1.8);   /* ~16px */
   --radius-3xl: calc(var(--radius) * 2.2);   /* ~20px */
+
+  /* Type scale: one size per role. Display is the hero line; h2 every section heading;
+     h3 the product chapters; lead all section prose. */
+  --text-display: clamp(1.375rem, 0.8rem + 2.4vw, 3rem);
+  --text-display--line-height: 1.15;
+  --text-display--letter-spacing: -0.015em;
+  --text-h2: clamp(2.25rem, 1.5rem + 2.5vw, 3.5rem);
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.03em;
+  --text-h3: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.02em;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
 
   /* Font stacks */
   --font-sans:    var(--font-satoshi);

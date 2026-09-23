@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Team from '../components/Team.astro';
+import Footer from '../components/Footer.astro';
+import SiteNav from '../components/SiteNav.astro';
+import { ShimmerButton } from '../components/ui/shimmer-button';
+
+const links = [
+  { href: '/press/', title: 'In the news', body: 'Coverage and interviews on AI in marketing and building Continuum.' },
+  { href: '/podcasts/', title: 'Listen', body: 'Conversations with the founders on AI, creative, and performance.' },
+  { href: '/blog/', title: 'Read', body: 'How the factory works: DCO, render automation, and the creative loop.' },
+];
+---
+
+<Layout
+  title="About Continuum: a production line for ads that get better"
+  description="Meet the team building Continuum, the intelligent creative factory for performance marketers, designers, and agencies."
+  appearance="light"
+>
+  <SiteNav />
+  <div class="min-h-screen bg-[linear-gradient(var(--day-top),var(--day-low))] text-foreground">
+
+    <header class="mx-auto max-w-6xl px-4 pb-8 pt-32 md:px-6 md:pt-40">
+      <h1 class="max-w-4xl text-balance font-display text-h2 font-bold">A production line for ads that get better.</h1>
+      <p class="mt-6 max-w-[46ch] text-lead text-muted-foreground">
+        Creative at scale is a render farm. A factory is a render farm with a spec, a gate, and a memory. We build the factory.
+      </p>
+    </header>
+
+    <Team />
+
+    <section class="px-4 pb-24 md:px-6" aria-labelledby="more-title">
+      <div class="mx-auto max-w-6xl">
+        <h2 id="more-title" class="font-display text-h3 font-bold">More from us.</h2>
+        <ul class="mt-8 grid gap-4 md:grid-cols-3">
+          {links.map((l) => (
+            <li>
+              <a href={l.href} class="group block h-full rounded-xl border border-border bg-background p-6 transition-colors hover:border-brand-violet/50">
+                <p class="font-display text-xl font-bold">{l.title} <span aria-hidden="true" class="inline-block transition-transform group-hover:translate-x-0.5">→</span></p>
+                <p class="mt-2 text-sm text-muted-foreground">{l.body}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <div class="dark bg-[var(--night)] text-foreground">
+    <section class="px-4 py-24 text-center md:px-6">
+      <h2 class="text-balance font-display text-h2 font-bold">Stand up your creative factory.</h2>
+      <div class="mt-10 flex justify-center">
+        <ShimmerButton
+          href="/#demo"
+          shimmerColor="oklch(94% 0.08 195)"
+          borderRadius="12px"
+          background="linear-gradient(135deg, oklch(52% 0.13 205), oklch(42% 0.2 285))"
+          className="btn-fill h-14 px-9 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_48px_-8px_oklch(80%_0.14_195/0.55)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        >
+          Book a demo
+        </ShimmerButton>
+      </div>
+    </section>
+    <Footer />
+  </div>
+</Layout>
