@@ -24,32 +24,89 @@
       var(--night);
   }
 
-  .horizon { height: clamp(16rem, 50svh, 34rem); }
+  /* Dawn and dusk. Lightness eases in and out across dense stops (no visible knees), the hue
+     walks a real twilight (indigo, violet, rose, apricot, gold) instead of cutting through grey,
+     a sun glow sits on the horizon line, and grain dithers the long ramps so they don't band. */
+  .horizon {
+    position: relative;
+    overflow: clip;
+    isolation: isolate;
+    height: clamp(11rem, 34svh, 22rem);
+    view-timeline-name: --band;
+  }
   .horizon-dawn {
     background: linear-gradient(
-      oklch(22% 0.04 265 / 0),
-      oklch(22% 0.04 265) 30%,
-      oklch(42% 0.06 255) 60%,
-      oklch(78% 0.06 55) 85%,
+      in oklab,
+      transparent,
+      var(--night) 6%,
+      oklch(20% 0.035 268) 18%,
+      oklch(30% 0.055 264) 32%,
+      oklch(44% 0.065 285) 46%,
+      oklch(61% 0.075 345) 59%,
+      oklch(77% 0.08 45) 72%,
+      oklch(89% 0.045 75) 85%,
       var(--day-top)
     );
   }
   .daylight { background: linear-gradient(var(--day-top), var(--day-low)); }
   .horizon-dusk {
-    height: clamp(14rem, 40svh, 28rem);
+    height: clamp(10rem, 30svh, 20rem);
     background: linear-gradient(
+      in oklab,
       var(--day-low),
-      oklch(58% 0.08 35) 20%,
-      oklch(34% 0.06 300) 50%,
-      oklch(20% 0.05 285) 80%,
-      oklch(20% 0.05 285 / 0)
+      oklch(93% 0.035 75) 11%,
+      oklch(84% 0.07 55) 23%,
+      oklch(71% 0.085 30) 36%,
+      oklch(54% 0.075 350) 50%,
+      oklch(38% 0.06 300) 63%,
+      oklch(25% 0.04 280) 77%,
+      var(--night) 90%,
+      transparent
     );
+  }
+
+  .horizon::before,
+  .horizon::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+  }
+  /* The sun's glow, anchored on the daylight edge where it fades to nothing (so the clip never
+     shows a seam). Its resting pose is "up"; scroll grows it out of, or sinks it into, that edge. */
+  .horizon::before {
+    left: 50%;
+    width: max(76%, 36rem); /* phones get a wide horizon, not a spotlight */
+    translate: -50% 0;
+    height: 80%;
+    background: radial-gradient(closest-side, oklch(95% 0.07 85 / 0.7), oklch(84% 0.09 55 / 0.28) 50%, transparent);
+  }
+  /* Dawn tucks into the showcase's bottom padding. Both bands overlap the daylight by 1px:
+     they're composited, and a sub-pixel seam would let the night show through as a line. */
+  .horizon-dawn { margin-block: -3rem -1px; }
+  .horizon-dusk { margin-top: -1px; }
+  .horizon-dawn::before { bottom: 0; transform-origin: 50% 100%; }
+  .horizon-dusk::before {
+    top: 0;
+    transform-origin: 50% 0;
+    background: radial-gradient(closest-side, oklch(90% 0.09 65 / 0.65), oklch(74% 0.1 38 / 0.25) 50%, transparent);
+  }
+  .horizon::after {
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: 0.22;
+    mask-image: linear-gradient(transparent, #000 15% 85%, transparent);
   }
 
   @supports (animation-timeline: scroll()) {
     @media (prefers-reduced-motion: no-preference) {
       .sky { animation: star-drift linear both; animation-timeline: scroll(root); }
+      .horizon::before { animation: linear both; animation-timeline: --band; }
+      .horizon-dawn::before { animation-name: sunrise; }
+      .horizon-dusk::before { animation-name: sunset; }
     }
   }
   @keyframes star-drift { to { transform: translate3d(0, -12%, 0); } }
+  @keyframes sunrise { from { transform: scale(0.8, 0.45); opacity: 0.25; } }
+  @keyframes sunset { to { transform: scale(0.8, 0.45); opacity: 0.25; } }
 </style>

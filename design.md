@@ -84,7 +84,7 @@ Factory stations map to climates. The mapping is subliminal — a visitor should
 
 ## 7. Type
 
-**World display:** large, tight, humanist geometric. White on paintings.
+**World display:** Clash Display (headlines only: hero tagline, section h2, product h3). Large and tight. Emphasis comes from weight inside the same family, never a second face. Satoshi is the body face, and Futura Maxi is the wordmark only.
 
 **Product / UI:** Geist Sans. Geist Mono for station indexes, IDs, substitutions, `STEP 03 / 06`.
 

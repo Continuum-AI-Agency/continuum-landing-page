@@ -25,6 +25,12 @@ const SCENE_YAW_TAU_S = 0.325;
 
 const MAX_FRAME_DT_S = 0.1;
 
+// Ambient life: the disk slowly auto-rotates even when the pointer never moves,
+// and the bloom breathes a few percent. Both ride on shade/post uniforms only,
+// so they never trigger a geodesic re-bake.
+const AMBIENT_YAW_SPEED = 0.035; // rad/s, one lazy turn every ~3 minutes
+const SHIMMER_SLOW = 0.09; // bloom breath amplitude, ~11s period
+const SHIMMER_FAST = 0.03; // second shimmer voice so it never reads as a loop
 // Drag-to-tilt: pitch eases toward its target and re-bakes the geodesics, throttled to what
 // the GPU just proved it can afford. Slow GPUs (first bake over 30ms) do not tilt.
 const PITCH_TAU_S = 0.18;
@@ -75,6 +81,7 @@ export function createRenderer({ canvas, onError }: RendererOptions) {
   let currentSceneYaw = 0;
   let lastYawAt: number | undefined;
   const restPitch = settings.cameraY;
+  const baseBloom = settings.bloom.strength; // shimmer breathes around this
   let targetPitch = restPitch;
   let bakedPitch = restPitch;
   let lastPitchAt: number | undefined;
@@ -164,13 +171,13 @@ export function createRenderer({ canvas, onError }: RendererOptions) {
       bakedPitch = settings.cameraY;
       lastBakeAt = now;
     }
-    setShadeUniforms(
-      effects,
-      targets,
-      settings,
-      advanceAnimationTime(now),
-      advanceSceneYaw(now)
-    );
+    const t = advanceAnimationTime(now);
+    // Passive drift + shimmer: yaw walks with animation time (no bake needed),
+    // bloom breathes around its resting strength.
+    setShadeUniforms(effects, targets, settings, t, advanceSceneYaw(now) + t * AMBIENT_YAW_SPEED);
+    settings.bloom.strength =
+      baseBloom * (1 + SHIMMER_SLOW * Math.sin(t * 0.55) + SHIMMER_FAST * Math.sin(t * 1.7 + 1.3));
+    setPostUniforms(effects, targets, settings);
     renderChain(frame, effects, targets, surface, runBake);
   };
 

@@ -28,13 +28,43 @@ export function HeroStage() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const stars = starsRef.current;
     const slot = slotRef.current;
-    // Stars run everywhere (Canvas2D); under reduced motion they draw one still, lensed frame.
-    const stopStars = stars && slot ? startStarfield(stars, slot, reduced) : () => {};
+    let stopStars = () => {};
+    let cancelled = false;
+    if (stars && slot) {
+      if (!reduced && "gpu" in navigator) {
+        // WebGPU starfield first (instanced stars + right-side meteors);
+        // anything failing drops back to the Canvas2D field on the same canvas.
+        import("@/lib/starfield-vgpu").then(
+          ({ startVgpuStarfield }) => {
+            if (cancelled) return;
+            startVgpuStarfield(stars, slot).then(
+              (stop) => {
+                if (cancelled) stop();
+                else stopStars = stop;
+              },
+              () => {
+                if (!cancelled) stopStars = startStarfield(stars, slot, reduced);
+              },
+            );
+          },
+          () => {
+            if (!cancelled) stopStars = startStarfield(stars, slot, reduced);
+          },
+        );
+      } else {
+        // Reduced motion draws one still, lensed frame; no-WebGPU animates in Canvas2D.
+        stopStars = startStarfield(stars, slot, reduced);
+      }
+    }
 
     const canvas = canvasRef.current;
-    if (!canvas || !("gpu" in navigator) || reduced) return stopStars;
+    if (!canvas || !("gpu" in navigator) || reduced) {
+      return () => {
+        cancelled = true;
+        stopStars();
+      };
+    }
 
-    let cancelled = false;
     const fail = (error: unknown) => {
       console.warn("[hero] black hole unavailable, showing poster", error);
       if (!cancelled) setLive(false);
@@ -83,7 +113,7 @@ export function HeroStage() {
   };
 
   const layer = cn(
-    "absolute left-[-20%] top-[-20%] size-[140%] max-w-none [mask-image:radial-gradient(closest-side,#000_70%,transparent)] [rotate:var(--roll,0deg)]",
+    "hero-o-ambient absolute left-[-20%] top-[-20%] size-[140%] max-w-none [mask-image:radial-gradient(closest-side,#000_70%,transparent)] [rotate:var(--roll,0deg)]",
     !dragging && "transition-[rotate,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
   );
 
@@ -138,11 +168,11 @@ export function HeroStage() {
 
       <div
         aria-hidden="true"
-        className="mt-10 text-center font-display text-display font-medium md:mt-14"
+        className="mt-10 text-center font-display text-display font-light md:mt-14"
       >
         <p className="text-balance text-white">The intelligent creative factory for</p>
         <p className="mt-1 min-h-[1.2em] pb-1">
-          <FlipWords words={AUDIENCES} duration={2600} cycles={2} className="shimmer" />
+          <FlipWords words={AUDIENCES} duration={2600} cycles={2} className="shimmer font-semibold" />
         </p>
       </div>
 

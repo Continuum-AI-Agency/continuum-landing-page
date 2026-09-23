@@ -9,7 +9,7 @@ interface Props {
   class?: string;
 }
 
-const { label = 'Shipping creative for', duration = 35, class: className = '' } = Astro.props;
+const { label = 'Shipping creative for', duration = 60, class: className = '' } = Astro.props;
 
 const files = import.meta.glob<ImageMetadata>('../assets/cliente_logos/*.{png,jpg,jpeg,svg,webp}', {
   eager: true,
@@ -17,56 +17,72 @@ const files = import.meta.glob<ImageMetadata>('../assets/cliente_logos/*.{png,jp
 });
 const file = (name: string) => files[`../assets/cliente_logos/${name}`];
 
-// Uniform tiles make every mark readable whatever its own background. White-on-transparent
-// marks (AXO, Liga Nacional) get a dark tile instead of the cream one.
-const logos = [
-  { file: 'mercado-libre-logo.png', name: 'Mercado Libre' },
-  { file: 'privalia.png', name: 'Privalia' },
-  { file: 'image_2025-05-15_15-31-59.png', name: 'AFA' },
-  { file: 'logoLaLiga.png', name: 'Liga Nacional de Básquetbol', dark: true },
-  { file: 'image_2025-05-15_15-32-57.png', name: 'Canal Rural' },
-  { file: 'Coder_house.png', name: 'Coder House' },
-  { file: 'FeVA_logo.svg.png', name: 'FeVA' },
-  { file: 'image_2025-05-15_15-30-15.png', name: 'Wooloo' },
-  { file: 'ProptechLatam2.0.png', name: 'Proptech Latam Summit' },
-  { file: 'photo_2025-05-15_15-39-32.jpg', name: 'La Corte' },
-  { file: 'ala-applied-tech-2021-cube-logo.png', name: 'ALA Applied Tech' },
-  { file: 'axo-logo-a.png', name: 'AXO', dark: true },
-  { file: 'wsti.png', name: 'WSTI' },
-].filter((l) => file(l.file));
+// One-colour marks straight on the night sky, no tiles. `tone` is how each mark turns light:
+// white = flat silhouette, invert = negative (keeps the inner detail of badges drawn for white
+// paper), keep = lifted greyscale for marks already light or mid-tone. `scale` is the
+// optical-size knob for marks that read heavy or thin.
+const TONE = {
+  white: 'brightness(0) invert(1)',
+  invert: 'grayscale(1) invert(1)',
+  keep: 'grayscale(1) brightness(1.6)',
+};
+type Logo = { file: string; name: string; tone: keyof typeof TONE; scale?: number };
+
+const logos: Logo[] = [
+  { file: 'mercado-libre-logo.png', name: 'Mercado Libre', tone: 'invert' },
+  { file: 'privalia.png', name: 'Privalia', tone: 'white' },
+  { file: 'image_2025-05-15_15-31-59.png', name: 'AFA', tone: 'invert', scale: 1.25 },
+  { file: 'logoLaLiga.png', name: 'Liga Nacional de Básquetbol', tone: 'keep' },
+  { file: 'image_2025-05-15_15-32-57.png', name: 'Canal Rural', tone: 'invert' },
+  { file: 'Coder_house.png', name: 'Coder House', tone: 'invert' },
+  { file: 'FeVA_logo.svg.png', name: 'FeVA', tone: 'white' },
+  { file: 'image_2025-05-15_15-30-15.png', name: 'Wooloo', tone: 'white' },
+  { file: 'ProptechLatam2.0.png', name: 'Proptech Latam Summit', tone: 'keep' },
+  { file: 'la-corte.png', name: 'La Corte', tone: 'keep' },
+  { file: 'ala-applied-tech-2021-cube-logo.png', name: 'ALA Applied Tech', tone: 'invert' },
+  { file: 'axo-logo-a.png', name: 'AXO', tone: 'keep' },
+  { file: 'wsti.png', name: 'WSTI', tone: 'white' },
+];
+
+// Equal-area sizing: a long wordmark and a square crest carry about the same amount of ink.
+const AREA = 3600; // px² at desktop
+const marks = logos.flatMap((logo) => {
+  const src = file(logo.file);
+  if (!src) return [];
+  const aspect = src.width / src.height;
+  const h = Math.round(Math.min(44, Math.max(20, Math.sqrt(AREA / aspect))) * (logo.scale ?? 1));
+  return [{ ...logo, src, h, w: Math.round(h * aspect) }];
+});
 
 // Three copies so the track can scroll a third of its width and loop seamlessly.
 // Only the first copy is exposed to assistive tech.
 const copies = [0, 1, 2];
 ---
 
-<div class:list={['logo-cloud flex flex-col items-center gap-5', className]}>
+<div class:list={['logo-cloud flex flex-col items-center gap-6', className]}>
   {label && <p class="text-sm font-medium text-white/60">{label}</p>}
 
   <div
     class="logo-cloud-viewport w-full overflow-hidden"
-    style="mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);"
+    style="mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);"
   >
     <ul class="logo-cloud-track" style={`animation-duration: ${duration}s`}>
       {copies.map((copy) =>
-        logos.map((logo) => (
+        marks.map((logo) => (
           <li
             aria-hidden={copy > 0 ? 'true' : undefined}
-            class:list={[
-              'grid h-12 w-36 shrink-0 place-items-center rounded-xl px-4 md:h-14 md:w-44',
-              logo.dark ? 'bg-[oklch(22%_0.012_285)] ring-1 ring-white/10' : 'bg-[#f3efe6]',
-            ]}
+            class="flex h-12 shrink-0 items-center px-6 md:h-14 md:px-9"
           >
             <Image
-              src={file(logo.file)!}
+              src={logo.src}
               alt={copy > 0 ? '' : logo.name}
-              width={240}
+              width={logo.w}
+              height={logo.h}
+              densities={[1, 2]}
               format="webp"
-              quality={75}
-              class:list={[
-                'max-h-8 w-auto max-w-full object-contain md:max-h-10',
-                !logo.dark && 'mix-blend-multiply',
-              ]}
+              quality={80}
+              class="logo-mark w-auto"
+              style={`--h: ${logo.h}px; filter: ${TONE[logo.tone]}`}
               loading="lazy"
               decoding="async"
             />
@@ -82,7 +98,6 @@ const copies = [0, 1, 2];
     display: flex;
     align-items: center;
     width: max-content;
-    column-gap: 1rem;
     animation-name: logo-cloud-scroll;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -93,9 +108,21 @@ const copies = [0, 1, 2];
     animation-play-state: paused;
   }
 
+  .logo-mark {
+    height: calc(var(--h) * 0.8);
+    opacity: 0.65;
+    transition: opacity 0.3s ease-out;
+  }
+  @media (min-width: 768px) {
+    .logo-mark { height: var(--h); }
+  }
+  @media (hover: hover) {
+    .logo-mark:hover { opacity: 1; }
+  }
+
+  /* Spacing lives in each item's padding, so one copy is exactly a third of the track. */
   @keyframes logo-cloud-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(calc(-33.333% - 0.333rem)); }
+    to { transform: translateX(calc(-100% / 3)); }
   }
 
   @media (prefers-reduced-motion: reduce) {
