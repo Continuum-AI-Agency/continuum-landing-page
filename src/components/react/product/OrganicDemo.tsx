@@ -141,6 +141,7 @@ function Creative({
         width={640}
         height={640}
         draggable={false}
+        loading="lazy"
         className="absolute inset-0 size-full select-none object-cover"
       />
       <motion.p
@@ -158,7 +159,7 @@ function Creative({
         className={cn(
           "absolute max-w-[78%] rounded-[0.6cqw] px-[3cqw] py-[2cqw] text-[7.5cqw] font-semibold leading-[1.05] text-white",
           editable &&
-            "cursor-grab outline-2 outline-offset-2 outline-dashed outline-white/80 focus-visible:outline-solid active:cursor-grabbing",
+            "cursor-grab outline-2 outline-offset-2 outline-dashed outline-white/80 focus-visible:outline-solid focus-visible:outline-primary active:cursor-grabbing",
         )}
       >
         {headline || "Your headline"}
@@ -301,7 +302,6 @@ function MetricTile({
       aria-label={`${label}: ${format(series.at(-1)!)}, up ${delta}% on last week`}
       onMouseEnter={onExpand}
       onFocus={onExpand}
-      onClick={onExpand}
       className={cn(
         "flex min-w-0 cursor-pointer flex-col gap-1 rounded-lg border border-border bg-background p-3 outline-none transition-[flex-grow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-3 focus-visible:ring-ring/50 motion-reduce:transition-none",
         expanded ? "grow-[2.4] border-primary/40" : "grow",
@@ -314,7 +314,7 @@ function MetricTile({
       </div>
       <p className="text-xl font-semibold tabular-nums">{format(series.at(-1)!)}</p>
       <ChartContainer config={config} className="aspect-auto h-20 w-full">
-        <AreaChart data={data} margin={{ top: 4, right: 2, bottom: 0, left: 2 }}>
+        <AreaChart data={data} margin={{ top: 4, right: 2, bottom: 0, left: 2 }} accessibilityLayer={false}>
           {expanded && (
             <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={4} interval="preserveStartEnd" minTickGap={24} />
           )}
@@ -349,11 +349,15 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
   ]);
   const [used, setUsed] = useState<string[]>([]);
   const [thinking, setThinking] = useState(false);
+  // Suggestion and Reset buttons remove themselves on click; park focus on the log so it is never lost.
+  const logRef = useRef<HTMLDivElement>(null);
+  const keepFocus = () => logRef.current?.focus({ preventScroll: true });
 
   const say = (role: Msg["role"], text: string, typed = false) =>
     setMessages((m) => [...m, { id: m.length, role, text, typed }]);
 
   const runAction = async (action: string) => {
+    keepFocus();
     setUsed((u) => [...u, action]);
     say("user", action);
     setThinking(true);
@@ -375,6 +379,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
   };
 
   const reset = () => {
+    keepFocus();
     setHeadline(START.headline);
     setPhoto(START.photo);
     setBrand(START.brand);
@@ -403,7 +408,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
           <div className="grid gap-4 border-t border-border p-4 sm:grid-cols-2">
             <label className="flex flex-col gap-1.5 sm:col-span-2">
               <span className="text-xs font-medium">Headline</span>
-              <Input value={headline} maxLength={40} onChange={(e) => setHeadline(e.target.value)} />
+              <Input value={headline} maxLength={40} autoComplete="off" onChange={(e) => setHeadline(e.target.value)} />
             </label>
             <div className="flex flex-col gap-1.5">
               <span className="text-xs font-medium" id="organic-photo">Image</span>
@@ -420,7 +425,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
                       photo === i ? "border-primary" : "border-transparent",
                     )}
                   >
-                    <img src={p.src} alt="" width={36} height={36} className="size-full object-cover" />
+                    <img src={p.src} alt="" width={36} height={36} loading="lazy" className="size-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -437,7 +442,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
                     onClick={() => setBrand(s.hex)}
                     className={cn(
                       "size-9 cursor-pointer rounded-md border-2 outline-none ring-offset-2 focus-visible:ring-3 focus-visible:ring-ring/50",
-                      brand === s.hex ? "border-foreground" : "border-transparent",
+                      brand === s.hex ? "outline-2 outline-offset-2 outline-foreground" : "",
                     )}
                     style={{ background: s.hex }}
                   />
@@ -494,12 +499,12 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
             <span className="text-xs font-medium">Organic agent</span>
             {used.length > 0 && (
-              <Button variant="ghost" size="xs" onClick={reset}>
+              <Button variant="ghost" size="xs" onClick={reset} disabled={thinking}>
                 <RotateCcw aria-hidden="true" /> Reset
               </Button>
             )}
           </div>
-          <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-3" aria-live="polite">
+          <div ref={logRef} tabIndex={-1} className="flex flex-1 flex-col gap-3 overflow-y-auto p-3 outline-none" aria-live="polite">
             {messages.map((m) => (
               <Message key={m.id} role={m.role} avatar={m.role === "assistant" ? "O" : "Y"}>
                 {m.typed ? <Typed text={m.text} /> : m.text}
@@ -513,7 +518,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
                 <Suggestion key={a} suggestion={a} onClick={runAction} disabled={thinking} />
               ))
             ) : (
-              <p className="text-xs text-muted-foreground">That's the whole script. Reset to run it again.</p>
+              <p className="text-xs text-muted-foreground">That’s the whole script. Reset to run it again.</p>
             )}
           </div>
         </div>

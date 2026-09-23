@@ -33,12 +33,15 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
             <input
               id="footer-email"
               type="email"
-              placeholder="Work email"
+              name="email"
+              autocomplete="email"
+              spellcheck="false"
+              placeholder="name@company.com"
               class="w-full bg-background border border-muted-foreground/50 rounded-sm px-6 py-4 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background transition-all duration-150 h-[58px]"
               required
             />
           </div>
-          <Magnetic client:load>
+          <Magnetic client:visible>
             <button
               type="submit"
               class="whitespace-nowrap h-[58px] min-w-[200px] bg-primary text-primary-foreground font-medium rounded-md px-6 py-2 shadow-sm hover:bg-[oklch(75%_0.13_180)] transition-all duration-150 ease-standard focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer"
@@ -47,7 +50,7 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
             </button>
           </Magnetic>
         </form>
-        <p class="mt-6 text-primary font-medium min-h-[1.5rem]" id="demo-success"></p>
+        <p class="mt-6 text-primary font-medium min-h-[1.5rem]" id="demo-success" role="status"></p>
       </div>
     </div>
   </div>
@@ -63,7 +66,7 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
       e.preventDefault();
       const input = form.querySelector("input[type='email']") as HTMLInputElement;
       const email = input?.value || "";
-      note.textContent = `Thanks${email ? `, ${email}` : ""}! We'll reach out shortly.`;
+      note.textContent = `Thanks${email ? `, ${email}` : ""}! We’ll reach out shortly.`;
       form.reset();
       
       setTimeout(() => {

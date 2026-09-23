@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { RotateCcw } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from "recharts";
@@ -62,13 +62,17 @@ export function PerformanceDemo() {
   const reduce = useReducedMotion();
   const [step, setStep] = useState<Step>("idle");
   const [messages, setMessages] = useState<Msg[]>([
-    { id: 0, role: "assistant", text: "I'm watching Summer Sale on Meta. Ask me what changed, or what to do next." },
+    { id: 0, role: "assistant", text: "I’m watching Summer Sale on Meta. Ask me what changed, or what to do next." },
   ]);
   const [thinking, setThinking] = useState(false);
+  // Suggestion, Reset, and Confirmation buttons remove themselves on click; park focus on the log.
+  const logRef = useRef<HTMLDivElement>(null);
+  const keepFocus = () => logRef.current?.focus({ preventScroll: true });
 
   const say = (m: Omit<Msg, "id">) => setMessages((all) => [...all, { ...m, id: all.length }]);
 
   const ask = async (q: string) => {
+    keepFocus();
     say({ role: "user", text: q });
     if (step === "idle") {
       setStep("analyzing");
@@ -89,7 +93,7 @@ export function PerformanceDemo() {
         role: "assistant",
         typed: true,
         confirm: true,
-        text: `Three changes: move 20% of Lookalike's budget to Retargeting, pause creative #3, and launch two variants of the winning hook. Projected CPA drops ${CPA_DROP}% within 7 days.`,
+        text: `Three changes: move 20% of Lookalike’s budget to Retargeting, pause creative #3, and launch two variants of the winning hook. Projected CPA drops ${CPA_DROP}% within 7 days.`,
       });
       await wait(reduce ? 0 : 1200);
       setStep("awaiting");
@@ -97,17 +101,19 @@ export function PerformanceDemo() {
   };
 
   const respond = (approved: boolean) => {
+    keepFocus();
     setStep(approved ? "applied" : "rejected");
     say({
       role: "assistant",
       typed: true,
       text: approved
-        ? "Done. Budget moved, creative #3 paused, two variants launched in learning. I'll write results back to the account on Sep 28."
-        : "Understood. Nothing changed in the account. I'll keep watching and flag it again if CPA keeps climbing.",
+        ? "Done. Budget moved, creative #3 paused, two variants launched in learning. I’ll write results back to the account on Sep 28."
+        : "Understood. Nothing changed in the account. I’ll keep watching and flag it again if CPA keeps climbing.",
     });
   };
 
   const reset = () => {
+    keepFocus();
     setStep("idle");
     setThinking(false);
     setMessages((m) => m.slice(0, 1));
@@ -132,14 +138,14 @@ export function PerformanceDemo() {
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
             <span className="text-xs font-medium">Jaina</span>
             {step !== "idle" && (
-              <Button variant="ghost" size="xs" onClick={reset}>
+              <Button variant="ghost" size="xs" onClick={reset} disabled={step === "analyzing" || step === "recommending"}>
                 <RotateCcw aria-hidden="true" /> Reset
               </Button>
             )}
           </div>
           <Conversation className="flex-1">
-            <ConversationContent className="gap-3 p-3 md:px-3 lg:px-3" aria-live="polite">
-              {messages.map((m, i) => (
+            <ConversationContent ref={logRef} tabIndex={-1} className="gap-3 p-3 outline-none md:px-3 lg:px-3" aria-live="polite">
+              {messages.map((m) => (
                 <div key={m.id} className="flex flex-col gap-3">
                   {m.role === "assistant" && m.chart && (
                     <Tool type="analyze_campaigns" state={toolState} defaultOpen>
@@ -151,10 +157,10 @@ export function PerformanceDemo() {
                     </Tool>
                   )}
                   <Message role={m.role} avatar={m.role === "assistant" ? "J" : "Y"}>
-                    {m.typed && i === messages.length - 1 ? <Typed text={m.text} /> : m.text}
+                    {m.typed ? <Typed text={m.text} /> : m.text}
                     {m.chart && (
                       <ChartContainer config={barConfig} className="mt-2 aspect-auto h-24 w-full">
-                        <BarChart data={BY_AD_SET} layout="vertical" margin={{ left: 0, right: 8 }}>
+                        <BarChart data={BY_AD_SET} layout="vertical" margin={{ left: 0, right: 8 }} accessibilityLayer={false}>
                           <XAxis type="number" hide />
                           <YAxis type="category" dataKey="name" width={82} tickLine={false} axisLine={false} />
                           <Bar dataKey="cpa" fill="var(--color-cpa)" radius={3} isAnimationActive={!reduce} />
@@ -236,7 +242,7 @@ export function PerformanceDemo() {
           <div className="px-2 pt-3">
             <p className="px-2 text-xs font-medium">CPA, with 7-day projection</p>
             <ChartContainer config={lineConfig} className="aspect-auto h-44 w-full">
-              <LineChart data={chartData} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
+              <LineChart data={chartData} margin={{ top: 8, right: 12, bottom: 0, left: 0 }} accessibilityLayer={false}>
                 <CartesianGrid vertical={false} />
                 <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={6} minTickGap={32} />
                 <YAxis width={36} tickLine={false} axisLine={false} domain={[10, 22]} tickFormatter={(v) => `$${v}`} />

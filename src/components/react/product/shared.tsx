@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { useReducedMotion } from "motion/react";
+import { MotionConfig, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 /** App-styled window that frames each product demo. Tool register: no world styling inside. */
@@ -20,7 +20,7 @@ export function ProductWindow({
       )}
     >
       <div className="flex h-10 items-center justify-between gap-3 border-b border-border bg-card px-4 text-xs">
-        <nav aria-label="Demo location" className="flex min-w-0 items-center gap-1.5 text-muted-foreground">
+        <div className="flex min-w-0 items-center gap-1.5 text-muted-foreground">
           {path.map((part, i) => (
             <span key={part} className="flex min-w-0 items-center gap-1.5">
               {i > 0 && <span aria-hidden="true">/</span>}
@@ -29,12 +29,12 @@ export function ProductWindow({
               </span>
             </span>
           ))}
-        </nav>
+        </div>
         <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 text-2xs text-muted-foreground">
           Sample data
         </span>
       </div>
-      {children}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GitFork, Image as ImageIcon, Palette, Play, RotateCcw, Type, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -93,7 +93,7 @@ function PromoCreative({ v, photo, ratio }: { v: Values; photo?: Photo; ratio: R
       <div className={cn("relative flex min-h-0 flex-1 items-center gap-[4cqw] p-[5cqw]", !wide && "flex-col justify-center")}>
         <div className={cn("relative min-h-0", wide ? "h-full basis-1/2" : "w-full flex-1")}>
           {photo ? (
-            <img src={photo.src} alt={photo.alt} className="size-full rounded-[1cqw] object-cover" />
+            <img src={photo.src} alt={photo.alt} width={640} height={640} loading="lazy" className="size-full rounded-[1cqw] object-cover" />
           ) : (
             <div className="flex size-full items-center justify-center rounded-[1cqw] bg-[#eeecfc] text-[3cqw] text-[#5c5b7a]">
               No image
@@ -128,6 +128,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
   const [ratio, setRatio] = useState<Ratio>("16:9");
   const [phase, setPhase] = useState<Phase>("editing");
   const [rendered, setRendered] = useState(0);
+  const statusRef = useRef<HTMLParagraphElement>(null);
 
   const photoByKey = new Map(photos.map((p) => [p.key, p]));
   const files = rows.length * RATIOS.length;
@@ -211,19 +212,30 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
             </Button>
           )}
         </div>
-        <Button variant="cta" size="sm" onClick={render} disabled={busy || phase === "delivered"}>
+        <Button variant="cta" size="sm" onClick={render} disabled={busy || phase === "delivered"} focusableWhenDisabled>
           <Play aria-hidden="true" />
-          {busy ? `Rendering ${rendered}/${rows.length}` : `Render ${rows.length} rows · ${files} files`}
+          {busy ? `Rendering ${rendered}/${rows.length}…` : `Render ${rows.length} rows · ${files} files`}
         </Button>
       </div>
 
       <div className="grid lg:grid-cols-[minmax(0,1fr)_340px] lg:divide-x lg:divide-border">
         {/* Data table */}
         <div className="min-w-0">
+          <p ref={statusRef} tabIndex={-1} role="status" className="sr-only">
+            {phase === "rendering"
+              ? `Rendering ${rendered} of ${rows.length} rows`
+              : phase === "rendered"
+                ? `${files} files rendered. Approve delivery to the ad account below.`
+                : phase === "delivered"
+                  ? `Delivered ${files} files to the ad account.`
+                  : phase === "held"
+                    ? "Delivery held. Nothing reached the ad account."
+                    : ""}
+          </p>
           <p className="border-b border-border px-3 py-1.5 text-2xs text-muted-foreground">
             {rows.length} requests · {rows.filter((r) => r.parentId).length} variations · edits on a variation override the base
           </p>
-          <div className="overflow-x-auto">
+          <div className="scroll-pl-[150px] overflow-x-auto">
             <Table className="text-xs">
               <TableHeader>
                 <TableRow>
@@ -275,7 +287,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                           <TableCell key={f.key} className="align-top">
                             <div className="flex items-center gap-1">
                               {f.kind === "color" ? (
-                                <span className="flex h-8 flex-1 items-center gap-1.5 rounded-lg border border-input bg-background px-1.5">
+                                <span className="flex h-8 flex-1 items-center gap-1.5 rounded-lg border border-input bg-background px-1.5 focus-within:ring-3 focus-within:ring-ring/50">
                                   <input
                                     type="color"
                                     aria-label={label}
@@ -287,9 +299,9 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                                   <span className="font-mono text-2xs">{value || "Cleared"}</span>
                                 </span>
                               ) : f.kind === "image" ? (
-                                <span className="flex h-8 flex-1 items-center gap-1.5 rounded-lg border border-input bg-background pl-1">
+                                <span className="flex h-8 flex-1 items-center gap-1.5 rounded-lg border border-input bg-background pl-1 focus-within:ring-3 focus-within:ring-ring/50">
                                   {photoByKey.get(value) && (
-                                    <img src={photoByKey.get(value)!.src} alt="" className="size-6 rounded object-cover" />
+                                    <img src={photoByKey.get(value)!.src} alt="" width={24} height={24} loading="lazy" className="size-6 rounded object-cover" />
                                   )}
                                   <select
                                     aria-label={label}
@@ -310,6 +322,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                                   value={value}
                                   placeholder={cleared ? "Cleared" : ""}
                                   disabled={busy}
+                                  autoComplete="off"
                                   onChange={(e) => setValue(row, f.key, e.target.value)}
                                   className="flex-1"
                                 />
@@ -350,8 +363,8 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                   <ConfirmationRejected>Held. The renders stay in the ledger and nothing reached the ad account.</ConfirmationRejected>
                 </ConfirmationTitle>
                 <ConfirmationActions>
-                  <ConfirmationAction variant="outline" onClick={() => setPhase("held")}>Hold</ConfirmationAction>
-                  <ConfirmationAction variant="cta" onClick={() => setPhase("delivered")}>Approve and deliver</ConfirmationAction>
+                  <ConfirmationAction variant="outline" onClick={() => { statusRef.current?.focus({ preventScroll: true }); setPhase("held"); }}>Hold</ConfirmationAction>
+                  <ConfirmationAction variant="cta" onClick={() => { statusRef.current?.focus({ preventScroll: true }); setPhase("delivered"); }}>Approve and deliver</ConfirmationAction>
                 </ConfirmationActions>
               </Confirmation>
             </div>

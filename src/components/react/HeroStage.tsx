@@ -86,7 +86,7 @@ export function HeroStage() {
       >
         <p className="text-balance text-white">The intelligent creative factory for</p>
         <p className="mt-1 min-h-[1.2em] text-[oklch(78%_0.12_285)]">
-          <FlipWords words={AUDIENCES} duration={2600} />
+          <FlipWords words={AUDIENCES} duration={2600} cycles={2} />
         </p>
       </div>
 

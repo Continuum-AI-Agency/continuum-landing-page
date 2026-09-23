@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring } from 'motion/react';
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
 
 export function Magnetic({
   children,
@@ -19,8 +19,10 @@ export function Magnetic({
   const springX = useSpring(mouseX, springOptions);
   const springY = useSpring(mouseY, springOptions);
 
+  const reduce = useReducedMotion();
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!ref.current || reduce) return;
     const { clientX, clientY } = e;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
     const centerX = left + width / 2;

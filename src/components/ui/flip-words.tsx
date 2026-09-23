@@ -11,14 +11,18 @@ import { cn } from "@/lib/utils";
 export const FlipWords = ({
   words,
   duration = 2800,
+  cycles = Infinity,
   className,
 }: {
   words: string[];
   duration?: number;
+  /** Full passes through `words` before settling back on the first one. */
+  cycles?: number;
   className?: string;
 }) => {
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [flips, setFlips] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -31,16 +35,18 @@ export const FlipWords = ({
 
   const startAnimation = useCallback(() => {
     setIndex((prev) => (prev + 1) % words.length);
+    setFlips((n) => n + 1);
     setIsAnimating(true);
   }, [words.length]);
 
   useEffect(() => {
     if (reduceMotion) return; // hold on the first phrase when reduced motion is requested
+    if (flips >= words.length * cycles) return; // settled after the last pass
     if (!isAnimating) {
       const t = setTimeout(startAnimation, duration);
       return () => clearTimeout(t);
     }
-  }, [isAnimating, duration, startAnimation, reduceMotion]);
+  }, [isAnimating, duration, startAnimation, reduceMotion, flips, words.length, cycles]);
 
   return (
     <AnimatePresence mode="wait" initial={false} onExitComplete={() => setIsAnimating(false)}>

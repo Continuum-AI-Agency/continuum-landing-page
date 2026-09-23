@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ const PLANS: Plan[] = [
     name: "Organic+",
     description: "Always-on organic social, on brand every time.",
     monthly: 30,
-    cta: "Start with Organic+",
+    cta: "Book a demo",
     features: [
       "Live canvas editor with your brand kit",
       "Publish to Instagram, TikTok, and LinkedIn",
@@ -35,7 +35,7 @@ const PLANS: Plan[] = [
     name: "Performance+",
     description: "Jaina and the Optimizer for performance marketing.",
     monthly: 300,
-    cta: "Start with Performance+",
+    cta: "Book a demo",
     featured: "Includes Organic+",
     features: [
       "Jaina campaign analysis on your ad accounts",
@@ -102,7 +102,7 @@ export function PricingSection() {
               >
                 <CardHeader>
                   <div className="flex items-center justify-between gap-3">
-                    <CardTitle className="text-xl">{plan.name}</CardTitle>
+                    <h3 className="text-xl font-semibold leading-none">{plan.name}</h3>
                     {plan.featured && <Badge variant="violet" className="text-[var(--cs-violet)]">{plan.featured}</Badge>}
                   </div>
                   <CardDescription className="text-base lg:min-h-[3rem]">{plan.description}</CardDescription>

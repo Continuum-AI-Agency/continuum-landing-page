@@ -1,7 +1,7 @@
 ---
 ---
 
-<button class="ch-scroll-top fixed bottom-6 right-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-border/40 bg-card shadow-sm text-foreground hover:bg-muted hover:border-primary/20 transition-all duration-300 translate-y-10 opacity-0 pointer-events-none [&.is-visible]:translate-y-0 [&.is-visible]:opacity-100 [&.is-visible]:pointer-events-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+<button class="ch-scroll-top fixed bottom-6 right-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-border/40 bg-card shadow-sm text-foreground hover:bg-muted hover:border-primary/20 transition-[opacity,transform,visibility] duration-300 translate-y-10 opacity-0 invisible pointer-events-none [&.is-visible]:visible [&.is-visible]:translate-y-0 [&.is-visible]:opacity-100 [&.is-visible]:pointer-events-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
   <span aria-hidden="true">↑</span>
   <span class="sr-only">Scroll to top</span>
 </button>
@@ -10,7 +10,7 @@
   <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
     <span>© <span id="ch-year"></span> Continuum Agency Inc. All rights reserved. Made with love in Palo Alto, CA.</span>
     <div class="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
-      <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+      <nav aria-label="Footer" class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
         <a href="/technology/" class="hover:text-primary transition-colors">Technology</a>
         <a href="/social-plus" class="hover:text-primary transition-colors">Social+</a>
         <a href="/blog/" class="hover:text-primary transition-colors">Blog</a>
@@ -43,25 +43,12 @@
   window.addEventListener("scroll", () => {
     const y = window.scrollY || window.pageYOffset;
     if (scrollTopBtn) scrollTopBtn.classList.toggle("is-visible", y > 320);
-  });
+  }, { passive: true });
   
   if (scrollTopBtn) {
     scrollTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
     });
   }
-
-  // Smooth scroll for footer links
-  document.querySelectorAll(".ch-footer-links a.js-scroll").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (!href || !href.startsWith("#")) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      const rect = target.getBoundingClientRect();
-      const offset = rect.top + window.scrollY - 64;
-      window.scrollTo({ top: offset, behavior: "smooth" });
-    });
-  });
 </script>
