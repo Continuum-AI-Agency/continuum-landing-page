@@ -8,9 +8,11 @@ import { cn } from '@/lib/utils';
 type MessageProps = {
   role: 'user' | 'assistant' | 'system';
   children: React.ReactNode;
+  /** Avatar letter; defaults to U / A. */
+  avatar?: string;
 };
 
-export function Message({ role, children }: MessageProps) {
+export function Message({ role, children, avatar }: MessageProps) {
   const isUser = role === 'user';
 
   return (
@@ -30,11 +32,11 @@ export function Message({ role, children }: MessageProps) {
         )}
         aria-hidden="true"
       >
-        {isUser ? 'U' : 'A'}
+        {avatar ?? (isUser ? 'U' : 'A')}
       </div>
       <div
         className={cn(
-          'px-4 py-2.5 text-base leading-relaxed shadow-sm',
+          'px-3.5 py-2 text-sm leading-relaxed shadow-sm',
           isUser
             ? 'max-w-[85%] rounded-2xl rounded-tr-sm bg-muted text-foreground font-medium'
             : 'min-w-0 flex-1 rounded-2xl rounded-tl-sm border border-border/50 bg-card/80 text-foreground',

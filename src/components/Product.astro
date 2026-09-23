@@ -1,0 +1,69 @@
+---
+import { getImage } from 'astro:assets';
+import { OrganicDemo } from './react/product/OrganicDemo';
+import { PerformanceDemo } from './react/product/PerformanceDemo';
+import { AutomationDemo } from './react/product/AutomationDemo';
+
+import headphones from '@/assets/demo/headphones.jpg';
+import watch from '@/assets/demo/watch.jpg';
+import sneakers from '@/assets/demo/sneakers.jpg';
+
+const [h, w, s] = await Promise.all(
+  [headphones, watch, sneakers].map((src) =>
+    getImage({ src, width: 640, height: 640, format: 'webp', quality: 72 }),
+  ),
+);
+
+const photos = [
+  { key: 'headphones', src: h.src, alt: 'Black over-ear headphones on a yellow backdrop', label: 'Headphones' },
+  { key: 'watch', src: w.src, alt: 'White smartwatch on a pale grey surface', label: 'Smartwatch' },
+  { key: 'sneakers', src: s.src, alt: 'Pastel sneakers on a white plinth', label: 'Sneakers' },
+];
+---
+
+<section id="product" class="bg-background py-24 md:py-32">
+  <div class="mx-auto max-w-7xl px-4 md:px-6">
+    <h2 class="max-w-3xl text-balance font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
+      Three lines. One factory.
+    </h2>
+    <p class="mt-5 max-w-[60ch] text-lg leading-relaxed text-muted-foreground">
+      Every line runs on your design system and writes results back, so the next post, bid, or render starts from what just happened.
+    </p>
+
+    <article id="organic" class="mt-20 scroll-mt-24 md:mt-28">
+      <h3 class="max-w-3xl text-balance font-display text-2xl font-bold tracking-tight text-foreground md:text-4xl">
+        <span class="text-primary">Organic+.</span> Design once, post everywhere.
+      </h3>
+      <p class="mt-3 max-w-[62ch] leading-relaxed text-muted-foreground">
+        Edit a post on a live canvas, preview it on Instagram, TikTok, and LinkedIn, and see what it earns. The Organic agent adapts and schedules it.
+      </p>
+      <div class="mt-8">
+        <OrganicDemo client:visible={{ rootMargin: '300px' }} photos={photos} />
+      </div>
+    </article>
+
+    <article id="performance" class="mt-24 scroll-mt-24 md:mt-32">
+      <h3 class="max-w-3xl text-balance font-display text-2xl font-bold tracking-tight text-foreground md:text-4xl">
+        <span class="text-primary">Performance+.</span> Jaina reads the account. You approve.
+      </h3>
+      <p class="mt-3 max-w-[62ch] leading-relaxed text-muted-foreground">
+        Jaina analyzes live campaigns, explains what moved, and executes budget and creative changes only after you sign off.
+      </p>
+      <div class="mt-8">
+        <PerformanceDemo client:visible={{ rootMargin: '300px' }} />
+      </div>
+    </article>
+
+    <article id="automation" class="mt-24 scroll-mt-24 md:mt-32">
+      <h3 class="max-w-3xl text-balance font-display text-2xl font-bold tracking-tight text-foreground md:text-4xl">
+        <span class="text-primary">Creative Automation.</span> One template, every variation.
+      </h3>
+      <p class="mt-3 max-w-[62ch] leading-relaxed text-muted-foreground">
+        Fill a table, let variations inherit from a base, render every format, and deliver approved ads straight into the ad account.
+      </p>
+      <div class="mt-8">
+        <AutomationDemo client:visible={{ rootMargin: '300px' }} photos={photos} />
+      </div>
+    </article>
+  </div>
+</section>
