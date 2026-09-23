@@ -115,13 +115,45 @@ function TeamMemberCard({ name, role, image, bio, zoomOut, logos }: TeamMember) 
   );
 }
 
-export function TeamSection({ members }: { members: TeamMember[] }) {
+export interface TeamMate {
+  name: string;
+  role: string;
+  image: string | null;
+}
+
+function TeamMateCard({ name, role, image }: TeamMate) {
+  return (
+    <figure className="group">
+      <div className="aspect-[4/5] overflow-hidden rounded-xl border border-border/40 bg-[#0b0b0e]">
+        {image ? (
+          <img
+            src={image}
+            alt={`${name}, Continuum team`}
+            loading="lazy"
+            decoding="async"
+            className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"
+          />
+        ) : (
+          <div className="flex size-full items-center justify-center font-display text-4xl font-bold text-white/80" aria-hidden="true">
+            {name.charAt(0)}
+          </div>
+        )}
+      </div>
+      <figcaption className="mt-3 font-sans">
+        <p className="font-semibold text-foreground">{name}</p>
+        {role && <p className="text-sm text-muted-foreground">{role}</p>}
+      </figcaption>
+    </figure>
+  );
+}
+
+export function TeamSection({ members, team = [] }: { members: TeamMember[]; team?: TeamMate[] }) {
   return (
     <section id="team" className="bg-background border-t border-border/30 px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display">
-            Meet our Co-founders
+            Meet the Team
           </h2>
           <p className="mx-auto max-w-6xl text-lg text-muted-foreground font-sans">
             A small team obsessed with creative systems, media performance, and
@@ -134,6 +166,14 @@ export function TeamSection({ members }: { members: TeamMember[] }) {
             <TeamMemberCard key={member.name} {...member} />
           ))}
         </div>
+
+        {team.length > 0 && (
+          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-3">
+            {team.map((mate) => (
+              <TeamMateCard key={mate.name} {...mate} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -11,9 +11,17 @@ import logoMercadoLibre from '@/assets/Logos_Team/mercado-libre-logo.svg';
 import logoTechstars from '@/assets/Logos_Team/techstars-duane.png';
 import logoUnnamed from '@/assets/Logos_Team/unnamed.png';
 
+// Headshots are picked up by filename: drop `duane-headshot`, `marcos`, `michael`, or `alexia`
+// (.jpg/.jpeg/.png/.webp) into src/assets/team/ and they appear without a code change.
+const headshots = import.meta.glob<ImageMetadata>('../assets/team/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+const headshot = (name: string) =>
+  Object.entries(headshots).find(([path]) => path.split('/').pop()!.replace(/\.\w+$/, '').toLowerCase() === name)?.[1];
+const photo = async (src: ImageMetadata | undefined, width: number) =>
+  src ? (await getImage({ src, width, format: 'webp', quality: 72 })).src : null;
+
 const [mich, duane, pedidosya, techstars, unnamed] = await Promise.all([
   getImage({ src: avatarMich, width: 900, format: 'webp', quality: 72 }),
-  getImage({ src: avatarDuane, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: headshot('duane-headshot') ?? avatarDuane, width: 900, format: 'webp', quality: 72 }),
   getImage({ src: logoPedidosYa, width: 96, format: 'webp', quality: 80 }),
   getImage({ src: logoTechstars, width: 96, format: 'webp', quality: 80 }),
   getImage({ src: logoUnnamed, width: 96, format: 'webp', quality: 80 }),
@@ -42,6 +50,15 @@ const members = [
     ],
   },
 ];
+
+// Roles stay empty until confirmed; the card only shows what we know.
+const team = await Promise.all(
+  [
+    { key: 'marcos', name: 'Marcos', role: '' },
+    { key: 'michael', name: 'Michael', role: '' },
+    { key: 'alexia', name: 'Alexia', role: '' },
+  ].map(async ({ key, ...m }) => ({ ...m, image: await photo(headshot(key), 600) })),
+);
 ---
 
-<TeamSection client:visible members={members} />
+<TeamSection client:visible members={members} team={team} />

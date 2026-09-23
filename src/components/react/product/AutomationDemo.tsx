@@ -258,7 +258,13 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                   const values = effectiveValues(rows, row.id);
                   const isSelected = row.id === selected;
                   return (
-                    <TableRow key={row.id} data-state={isSelected ? "selected" : undefined} className={cn(isSelected && "bg-primary/6")}>
+                    <TableRow
+                      key={row.id}
+                      data-state={isSelected ? "selected" : undefined}
+                      onClick={() => setSelected(row.id)}
+                      onFocusCapture={() => setSelected(row.id)}
+                      className={cn("cursor-pointer", isSelected ? "bg-primary/6" : "hover:bg-muted/50")}
+                    >
                       <TableCell className={cn("sticky left-0 z-10 bg-background align-top", isSelected && "bg-[color-mix(in_oklch,var(--primary)_6%,var(--background))]")}>
                         <button
                           type="button"
@@ -269,12 +275,23 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                             depth(row) && "border-l border-border pl-3",
                           )}
                         >
+                          <span className="flex items-center gap-2">
+                            <span
+                              aria-hidden="true"
+                              className={cn(
+                                "flex size-3.5 shrink-0 items-center justify-center rounded-full border",
+                                isSelected ? "border-primary" : "border-input",
+                              )}
+                            >
+                              {isSelected && <span className="size-1.5 rounded-full bg-primary" />}
+                            </span>
+                            <span className="font-medium">{row.label}</span>
+                          </span>
                           {row.parentId && (
                             <span className="rounded-sm bg-muted px-1.5 font-mono text-2xs text-muted-foreground">
                               inherits · {ownChangeCount(row)} changed
                             </span>
                           )}
-                          <span className="font-medium">{row.label}</span>
                         </button>
                         <div className="mt-1.5">{status(i)}</div>
                       </TableCell>
@@ -374,7 +391,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
         {/* Preview */}
         <div className="flex min-w-0 flex-col border-t border-border lg:border-t-0">
           <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-1.5">
-            <span className="truncate text-xs font-medium">{current.label}</span>
+            <span className="truncate text-xs font-medium">Previewing {current.label}</span>
             <ToggleGroup variant="outline" size="sm" value={ratio} onValueChange={(v) => v && setRatio(v as Ratio)} aria-label="Preview format">
               {RATIOS.map((r) => (
                 <ToggleGroupItem key={r} value={r} className="gap-1.5 px-2 tabular-nums">

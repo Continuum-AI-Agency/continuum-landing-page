@@ -19,7 +19,7 @@ export function ProductWindow({
         className,
       )}
     >
-      <div className="flex h-10 items-center justify-between gap-3 border-b border-border bg-card px-4 text-xs">
+      <div className="flex h-10 items-center gap-3 border-b border-border bg-card px-4 text-xs">
         <div className="flex min-w-0 items-center gap-1.5 text-muted-foreground">
           {path.map((part, i) => (
             <span key={part} className="flex min-w-0 items-center gap-1.5">
@@ -30,9 +30,6 @@ export function ProductWindow({
             </span>
           ))}
         </div>
-        <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 text-2xs text-muted-foreground">
-          Sample data
-        </span>
       </div>
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </div>

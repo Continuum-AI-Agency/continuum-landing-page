@@ -279,6 +279,22 @@
   display: inline-block;
 }
 
+/* Hero audience word: the cyan-violet sweep the owners chose. One place only. */
+.hero-icp-shimmer {
+  background: linear-gradient(
+    90deg,
+    oklch(62% 0.22 292) 0%,
+    oklch(80% 0.13 195) 45%,
+    oklch(62% 0.22 292) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4s linear infinite;
+  display: inline-block;
+}
+
 .hero-wordmark {
   font-family: var(--font-futura);
   font-weight: 700;
@@ -295,7 +311,8 @@
     background-image: none;
     background-color: oklch(20% 0.015 265 / 0.7);
   }
-  .shimmer-text {
+  .shimmer-text,
+  .hero-icp-shimmer {
     animation: none;
     background-position: 0% 50%;
   }

@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { motion, useMotionValue } from "motion/react";
 import {
   Bookmark,
@@ -14,7 +14,7 @@ import {
   Share2,
   ThumbsUp,
 } from "lucide-react";
-import { Area, AreaChart, XAxis } from "recharts";
+import { Area, AreaChart, Line, XAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -45,6 +45,11 @@ const CAPTION: Record<Platform, string> = {
   tiktok: "wait for the bass #newdrop #studiosound",
   linkedin: "Our studio line is live: built for long sessions and short commutes.",
 };
+const PLATFORMS: { key: Platform; label: string; color: string }[] = [
+  { key: "instagram", label: "Instagram", color: "var(--chart-5)" },
+  { key: "tiktok", label: "TikTok", color: "var(--secondary)" },
+  { key: "linkedin", label: "LinkedIn", color: "var(--chart-1)" },
+];
 const DAYS = Array.from({ length: 14 }, (_, i) => `Sep ${8 + i}`);
 const BASE = {
   reach: [4.1, 4.6, 4.3, 5.2, 5.9, 5.4, 6.8, 7.2, 6.9, 8.1, 8.8, 8.4, 9.6, 10.3],
@@ -56,10 +61,11 @@ const SCALE: Record<Platform, { reach: number; engagement: number; saves: number
   tiktok: { reach: 2.4, engagement: 1.35, saves: 0.7 },
   linkedin: { reach: 0.38, engagement: 0.8, saves: 0.3 },
 };
+// `mean` metrics are rates, so the all-platform line averages instead of summing.
 const METRICS = [
-  { key: "reach", label: "Reach", format: (v: number) => `${v.toFixed(1)}k` },
-  { key: "engagement", label: "Engagement rate", format: (v: number) => `${v.toFixed(1)}%` },
-  { key: "saves", label: "Saves", format: (v: number) => `${Math.round(v)}` },
+  { key: "reach", label: "Reach", mean: false, format: (v: number) => `${v.toFixed(1)}k` },
+  { key: "engagement", label: "Engagement rate", mean: true, format: (v: number) => `${v.toFixed(1)}%` },
+  { key: "saves", label: "Saves", mean: false, format: (v: number) => `${Math.round(v)}` },
 ] as const;
 type MetricKey = (typeof METRICS)[number]["key"];
 
@@ -68,7 +74,6 @@ const START = {
   photo: 0,
   brand: SWATCHES[0].hex,
   format: "4:5" as Format,
-  platform: "instagram" as Platform,
   pos: { x: 7, y: 62 },
 };
 
@@ -275,31 +280,41 @@ function PostFrame({
   );
 }
 
-// ── Analytics tile: hover or focus expands it into a full chart ────────────
+// ── Analytics tile: hover or focus expands it into a per-platform chart ────
 function MetricTile({
-  label,
-  series,
-  format,
+  metric,
   expanded,
   onExpand,
 }: {
-  label: string;
-  series: number[];
-  format: (v: number) => string;
+  metric: (typeof METRICS)[number];
   expanded: boolean;
   onExpand: () => void;
 }) {
-  const data = series.map((value, i) => ({ day: DAYS[i], value }));
-  const last7 = series.slice(7).reduce((a, b) => a + b, 0);
-  const prev7 = series.slice(0, 7).reduce((a, b) => a + b, 0);
+  const byPlatform = Object.fromEntries(
+    PLATFORMS.map((p) => [p.key, BASE[metric.key].map((v) => v * SCALE[p.key][metric.key])]),
+  ) as Record<Platform, number[]>;
+  const total = DAYS.map((_, i) => {
+    const sum = PLATFORMS.reduce((acc, p) => acc + byPlatform[p.key][i], 0);
+    return metric.mean ? sum / PLATFORMS.length : sum;
+  });
+  const data = DAYS.map((day, i) => ({
+    day,
+    total: total[i],
+    ...Object.fromEntries(PLATFORMS.map((p) => [p.key, +byPlatform[p.key][i].toFixed(2)])),
+  }));
+  const last7 = total.slice(7).reduce((a, b) => a + b, 0);
+  const prev7 = total.slice(0, 7).reduce((a, b) => a + b, 0);
   const delta = Math.round(((last7 - prev7) / prev7) * 100);
-  const config = { value: { label, color: "var(--chart-1)" } } satisfies ChartConfig;
+  const config = {
+    total: { label: metric.label, color: "var(--chart-1)" },
+    ...Object.fromEntries(PLATFORMS.map((p) => [p.key, { label: p.label, color: p.color }])),
+  } satisfies ChartConfig;
 
   return (
     <div
       tabIndex={0}
       role="group"
-      aria-label={`${label}: ${format(series.at(-1)!)}, up ${delta}% on last week`}
+      aria-label={`${metric.label} across Instagram, TikTok, and LinkedIn: ${metric.format(total.at(-1)!)}, up ${delta}% on last week`}
       onMouseEnter={onExpand}
       onFocus={onExpand}
       className={cn(
@@ -309,25 +324,43 @@ function MetricTile({
       style={{ flexBasis: 0 }}
     >
       <div className="flex items-baseline justify-between gap-2">
-        <p className="truncate text-xs text-muted-foreground">{label}</p>
+        <p className="truncate text-xs text-muted-foreground">{metric.label}</p>
         <p className="text-2xs font-medium text-emerald-700">+{delta}%</p>
       </div>
-      <p className="text-xl font-semibold tabular-nums">{format(series.at(-1)!)}</p>
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="text-xl font-semibold tabular-nums">{metric.format(total.at(-1)!)}</p>
+        {expanded && (
+          <ul className="flex flex-wrap justify-end gap-x-3 gap-y-0.5 text-2xs text-muted-foreground" aria-hidden="true">
+            {PLATFORMS.map((p) => (
+              <li key={p.key} className="flex items-center gap-1">
+                <span className="size-2 rounded-full" style={{ background: p.color }} />
+                {p.label}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <ChartContainer config={config} className="aspect-auto h-20 w-full">
         <AreaChart data={data} margin={{ top: 4, right: 2, bottom: 0, left: 2 }} accessibilityLayer={false}>
           {expanded && (
             <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={4} interval="preserveStartEnd" minTickGap={24} />
           )}
           {expanded && <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />}
-          <Area
-            dataKey="value"
-            type="monotone"
-            stroke="var(--color-value)"
-            strokeWidth={1.75}
-            fill="var(--color-value)"
-            fillOpacity={0.12}
-            isAnimationActive={false}
-          />
+          {expanded ? (
+            PLATFORMS.map((p) => (
+              <Line key={p.key} dataKey={p.key} type="monotone" stroke={`var(--color-${p.key})`} strokeWidth={1.75} dot={false} isAnimationActive={false} />
+            ))
+          ) : (
+            <Area
+              dataKey="total"
+              type="monotone"
+              stroke="var(--color-total)"
+              strokeWidth={1.75}
+              fill="var(--color-total)"
+              fillOpacity={0.12}
+              isAnimationActive={false}
+            />
+          )}
         </AreaChart>
       </ChartContainer>
     </div>
@@ -340,7 +373,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
   const [photo, setPhoto] = useState(START.photo);
   const [brand, setBrand] = useState(START.brand);
   const [format, setFormat] = useState<Format>(START.format);
-  const [platform, setPlatform] = useState<Platform>(START.platform);
+  const [highlight, setHighlight] = useState<Platform | null>(null);
   const [pos, setPos] = useState<Pos>(START.pos);
   const [scheduled, setScheduled] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<MetricKey>("reach");
@@ -352,6 +385,12 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
   // Suggestion and Reset buttons remove themselves on click; park focus on the log so it is never lost.
   const logRef = useRef<HTMLDivElement>(null);
   const keepFocus = () => logRef.current?.focus({ preventScroll: true });
+
+  useEffect(() => {
+    if (!highlight) return;
+    const t = setTimeout(() => setHighlight(null), 2400);
+    return () => clearTimeout(t);
+  }, [highlight]);
 
   const say = (role: Msg["role"], text: string, typed = false) =>
     setMessages((m) => [...m, { id: m.length, role, text, typed }]);
@@ -366,7 +405,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
     if (action === AGENT_ACTIONS[0]) {
       setHeadline("Hear the drop.");
       setFormat("9:16");
-      setPlatform("tiktok");
+      setHighlight("tiktok");
       say("assistant", "Short hooks hold the first second on TikTok. I switched to 9:16 and cut the line to three words.", true);
     } else if (action === AGENT_ACTIONS[1]) {
       setScheduled("Thu 7:40 PM");
@@ -384,7 +423,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
     setPhoto(START.photo);
     setBrand(START.brand);
     setFormat(START.format);
-    setPlatform(START.platform);
+    setHighlight(null);
     setPos(START.pos);
     setScheduled(null);
     setUsed([]);
@@ -396,7 +435,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
 
   return (
     <ProductWindow path={["Continuum", "Organic+", "Studio line launch"]}>
-      <div className="grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.95fr)_minmax(0,0.85fr)] lg:divide-x lg:divide-border">
+      <div className="grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:divide-x lg:divide-border">
         {/* Editor */}
         <div className="flex flex-col">
           <div className="flex h-[340px] items-center justify-center bg-muted/60 p-6 md:h-[420px]">
@@ -468,31 +507,6 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
           </div>
         </div>
 
-        {/* Post preview */}
-        <div className="flex flex-col border-t border-border lg:border-t-0">
-          <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-2.5">
-            <span className="text-xs font-medium" id="organic-platform">Preview</span>
-            <ToggleGroup
-              aria-labelledby="organic-platform"
-              variant="outline"
-              size="sm"
-              value={platform}
-              onValueChange={(v) => v && setPlatform(v as Platform)}
-            >
-              <ToggleGroupItem value="instagram">Instagram</ToggleGroupItem>
-              <ToggleGroupItem value="tiktok">TikTok</ToggleGroupItem>
-              <ToggleGroupItem value="linkedin">LinkedIn</ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-          <div className="flex min-h-[520px] flex-1 items-center justify-center bg-card/50 p-5">
-            <PostFrame
-              platform={platform}
-              format={format}
-              scheduled={scheduled}
-              creative={<Creative {...creativeProps} className="w-full" />}
-            />
-          </div>
-        </div>
 
         {/* Organic agent */}
         <div className="flex min-h-[420px] flex-col border-t border-border lg:border-t-0">
@@ -524,21 +538,37 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
         </div>
       </div>
 
+      {/* Post previews: the same post on every network at once */}
+      <div className="border-t border-border bg-card/50">
+        <p className="border-b border-border px-4 py-2.5 text-xs font-medium">Preview on every network</p>
+        <div className="flex snap-x snap-mandatory items-start gap-6 overflow-x-auto p-5 lg:justify-center">
+          {PLATFORMS.map((p) => (
+            <div key={p.key} className="flex shrink-0 snap-center flex-col items-center gap-2">
+              <span className="text-xs font-medium text-muted-foreground">{p.label}</span>
+              <div
+                className={cn(
+                  "rounded-xl transition-shadow duration-300 motion-reduce:transition-none",
+                  highlight === p.key && "ring-2 ring-primary ring-offset-4 ring-offset-card",
+                )}
+              >
+                <PostFrame
+                  platform={p.key}
+                  format={format}
+                  scheduled={scheduled}
+                  creative={<Creative {...creativeProps} className="w-full" />}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Analytics */}
       <div className="border-t border-border p-4">
-        <p className="mb-3 text-xs font-medium">
-          Last 14 days on {platform === "tiktok" ? "TikTok" : platform === "linkedin" ? "LinkedIn" : "Instagram"}
-        </p>
+        <p className="mb-3 text-xs font-medium">Last 14 days across Instagram, TikTok, and LinkedIn</p>
         <div className="flex flex-col gap-3 sm:flex-row">
           {METRICS.map((m) => (
-            <MetricTile
-              key={m.key}
-              label={m.label}
-              format={m.format}
-              series={BASE[m.key].map((v) => v * SCALE[platform][m.key])}
-              expanded={expanded === m.key}
-              onExpand={() => setExpanded(m.key)}
-            />
+            <MetricTile key={m.key} metric={m} expanded={expanded === m.key} onExpand={() => setExpanded(m.key)} />
           ))}
         </div>
       </div>

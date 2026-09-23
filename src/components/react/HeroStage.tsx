@@ -85,8 +85,8 @@ export function HeroStage() {
         className="mt-10 text-center font-display text-2xl font-medium leading-[1.2] sm:text-3xl md:mt-14 lg:text-5xl"
       >
         <p className="text-balance text-white">The intelligent creative factory for</p>
-        <p className="mt-1 min-h-[1.2em] text-[oklch(78%_0.12_285)]">
-          <FlipWords words={AUDIENCES} duration={2600} cycles={2} />
+        <p className="mt-1 min-h-[1.2em] pb-1">
+          <FlipWords words={AUDIENCES} duration={2600} cycles={2} className="hero-icp-shimmer" />
         </p>
       </div>
 
