@@ -58,6 +58,7 @@ Match the first reference still (*Introducing Agentic Search* — red canyon).
 - Photoreal NASA stills
 - Cute mascots
 - Black holes or event horizons anywhere except the wordmark O (one per page, never jewelry-style, never a logo mark)
+- Stars outside night zones. Night zones (hero, showcase, close) may carry a sparse static starfield; only the hero's stars move, falling toward the O
 - Purple–cyan “AI” identity washes on the sky
 
 ---
@@ -134,6 +135,13 @@ It is a creative factory: the software-factory idea applied to paid creative.
 If nothing writes back into the account, the loop is open.
 
 ---
+
+## 9b. Sky and accents (shipped)
+
+- **Day cycle:** night with stars (hero, showcase) → dawn band → pale day sky (product, team, pricing) → dusk band → night again (CTA, footer). Bands never hold text.
+- **Brand pair:** `--hero-cyan` and `--hero-violet`. Cyan only on night; violet ink (#5a48f9 or `brand-violet`) for accents on day.
+- **Shimmer:** exactly two words, both on night: the hero audience word and the closing "Continuum?". Never on headings, prices, nav, or inside product windows.
+- **Buttons:** primary CTAs are the cyan-to-violet shimmer button; every button uses the app's pointer-origin `btn-fill` bloom.
 
 ## 10. Landing page map
 

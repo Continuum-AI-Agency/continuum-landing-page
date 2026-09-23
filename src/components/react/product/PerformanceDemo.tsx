@@ -20,7 +20,7 @@ import {
   ConfirmationRequest,
   ConfirmationTitle,
 } from "@/components/ai-elements/confirmation";
-import { ProductWindow, Typed, wait } from "./shared";
+import { Creative, ProductWindow, Typed, wait } from "./shared";
 import { cn } from "@/lib/utils";
 
 // ── Sample data ─────────────────────────────────────────────────────────────
@@ -33,6 +33,8 @@ const CPA_RISE = Math.round((avg(ACTUAL.slice(7)) / avg(ACTUAL.slice(0, 7)) - 1)
 const CPA_DROP = Math.round((1 - OPTIMIZED.at(-1)! / ACTUAL.at(-1)!) * 100);
 const SWAP_DAY = 12; // Sep 20: the spike the Optimizer answered on its own
 const SWAP_DROP = Math.round((1 - ACTUAL[SWAP_DAY + 1] / ACTUAL[SWAP_DAY]) * 100);
+const LOOKALIKE_CPA = 31.9;
+const LOOKALIKE_RATIO = (LOOKALIKE_CPA / ACTUAL.at(-1)!).toFixed(1);
 
 // Actions on the account, drawn as flags on the CPA line. Auto = inside guardrails; approved = through Jaina.
 type Photo = { key: string; src: string; alt: string; label: string };
@@ -42,7 +44,7 @@ type Flag = {
   title: string;
   detail: string;
   impact: string;
-  swap?: { from: string; to: string; fromLabel: string; toLabel: string };
+  swap?: { from: string; to: string };
 };
 const AUTO_FLAGS: Flag[] = [
   {
@@ -58,7 +60,7 @@ const AUTO_FLAGS: Flag[] = [
     title: "Creative swapped automatically",
     detail: "Creative #3 hit a frequency of 4.8 in Prospecting. The Optimizer rotated in the approved “Hear the drop” variant.",
     impact: `CPA down ${SWAP_DROP}% the next day`,
-    swap: { from: "watch", to: "headphones", fromLabel: "#3 Static carousel", toLabel: "Hear the drop." },
+    swap: { from: "Sound that moves with you", to: "Hear the drop." },
   },
 ];
 const APPROVED_FLAG: Flag = {
@@ -75,12 +77,14 @@ function FlagMarker({
   flag,
   onOpen,
   onClose,
+  onToggle,
 }: {
   cx?: number;
   cy?: number;
   flag: Flag;
   onOpen: (flag: Flag, x: number, y: number) => void;
   onClose: () => void;
+  onToggle: (flag: Flag, x: number, y: number) => void;
 }) {
   if (cx == null || cy == null) return <g />;
   const color = flag.kind === "auto" ? "var(--secondary)" : "var(--success)";
@@ -96,6 +100,7 @@ function FlagMarker({
       onFocus={open}
       onMouseLeave={onClose}
       onBlur={onClose}
+      onClick={() => onToggle(flag, cx, cy)}
     >
       <line y1={-4} y2={-16} stroke={color} strokeWidth={1.5} />
       <circle className="flag-head" cy={-22} r={8.5} fill={color} stroke="white" strokeWidth={2} />
@@ -139,7 +144,7 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
   const reduce = useReducedMotion();
   const [step, setStep] = useState<Step>("idle");
   const [messages, setMessages] = useState<Msg[]>([
-    { id: 0, role: "assistant", text: "I’m watching Summer Sale on Meta. Ask me what changed, or what to do next." },
+    { id: 0, role: "assistant", text: "I’m watching the Aurel Audio studio launch on Meta. Ask me what changed, or what to do next." },
   ]);
   const [thinking, setThinking] = useState(false);
   const [activeFlag, setActiveFlag] = useState<{ flag: Flag; x: number; y: number } | null>(null);
@@ -161,7 +166,7 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
         role: "assistant",
         typed: true,
         chart: true,
-        text: `CPA is up ${CPA_RISE}% week over week. The Optimizer already swapped fatigued creative #3 in Prospecting on Sep 20 (the A flag), which cut CPA ${SWAP_DROP}% the next day. What’s left is Lookalike · Buyers 2%: it still runs creative #3 and converts at 2.3× the account CPA.`,
+        text: `CPA is up ${CPA_RISE}% week over week. The Optimizer already swapped fatigued creative #3 in Prospecting on Sep 20 (the A flag), which cut CPA ${SWAP_DROP}% the next day. What’s left is Lookalike · Buyers 2%: it still runs creative #3 and costs ${LOOKALIKE_RATIO}× the account CPA.`,
       });
     } else {
       setStep("recommending");
@@ -205,6 +210,8 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
   const photo = (key: string) => photos.find((p) => p.key === key);
   const openFlag = (flag: Flag, x: number, y: number) => setActiveFlag({ flag, x, y });
   const closeFlag = () => setActiveFlag(null);
+  const toggleFlag = (flag: Flag, x: number, y: number) =>
+    setActiveFlag((a) => (a?.flag === flag ? null : { flag, x, y }));
   const chartData = [
     ...ACTUAL.map((cpa, i) => ({ day: day(i), cpa, projected: i === ACTUAL.length - 1 ? cpa : undefined })),
     ...projection.map((projected, i) => ({ day: day(ACTUAL.length + i), cpa: undefined, projected })),
@@ -214,10 +221,10 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
   const toolState = step === "analyzing" ? "running" : "output-available";
 
   return (
-    <ProductWindow path={["Continuum", "Performance+", "Summer Sale · Meta"]}>
-      <div className="grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)] lg:divide-x lg:divide-border">
+    <ProductWindow path={["Continuum", "Performance+", "Studio launch · Meta"]}>
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)] lg:divide-x lg:divide-border">
         {/* Jaina */}
-        <div className="flex h-[560px] flex-col">
+        <div className="flex h-[420px] flex-col lg:h-[560px]">
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
             <span className="text-xs font-medium">Jaina</span>
             {step !== "idle" && (
@@ -231,10 +238,10 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
               {messages.map((m) => (
                 <div key={m.id} className="flex flex-col gap-3">
                   {m.role === "assistant" && m.chart && (
-                    <Tool type="analyze_campaigns" state={toolState} defaultOpen>
+                    <Tool type="analyze_campaigns" state={toolState}>
                       <ToolHeader title="analyze_campaigns" />
                       <ToolContent>
-                        <ToolInput value={{ campaign: "Summer Sale", window: "Sep 15 to Sep 21", compare: "previous 7 days" }} />
+                        <ToolInput value={{ campaign: "Studio launch", window: "Sep 15 to Sep 21", compare: "previous 7 days" }} />
                         <ToolOutput value={{ cpa_change: `+${CPA_RISE}%`, driver: "Lookalike · Buyers 2%", frequency: "4.8 on creative #3" }} />
                       </ToolContent>
                     </Tool>
@@ -258,8 +265,15 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                       className="bg-background"
                     >
                       <ConfirmationTitle>
-                        <ConfirmationRequest>Apply 3 changes to Summer Sale on Meta?</ConfirmationRequest>
-                        <ConfirmationAccepted>Approved. 3 changes applied to Summer Sale.</ConfirmationAccepted>
+                        <ConfirmationRequest>
+                          <span className="font-medium text-foreground">Apply 3 changes to the studio launch on Meta?</span>
+                          <ul className="mt-2 space-y-1 text-xs">
+                            <li>Lookalike · Buyers 2%: budget $380 → $304</li>
+                            <li>Retargeting · 30 days: budget $260 → $336</li>
+                            <li>Creative #3 in Lookalike: paused; hook variants A and B launched</li>
+                          </ul>
+                        </ConfirmationRequest>
+                        <ConfirmationAccepted>Approved. 3 changes applied to the studio launch.</ConfirmationAccepted>
                         <ConfirmationRejected>Rejected. The account was not changed.</ConfirmationRejected>
                       </ConfirmationTitle>
                       <ConfirmationActions>
@@ -275,10 +289,10 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                 </div>
               ))}
               {step === "analyzing" && (
-                <Tool type="analyze_campaigns" state="running" defaultOpen>
+                <Tool type="analyze_campaigns" state="running">
                   <ToolHeader title="analyze_campaigns" />
                   <ToolContent>
-                    <ToolInput value={{ campaign: "Summer Sale", window: "Sep 15 to Sep 21", compare: "previous 7 days" }} />
+                    <ToolInput value={{ campaign: "Studio launch", window: "Sep 15 to Sep 21", compare: "previous 7 days" }} />
                   </ToolContent>
                 </Tool>
               )}
@@ -355,7 +369,7 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                     x={day(f.index)}
                     y={ACTUAL[f.index]}
                     ifOverflow="visible"
-                    shape={(props) => <FlagMarker cx={props.cx} cy={props.cy} flag={f} onOpen={openFlag} onClose={closeFlag} />}
+                    shape={(props) => <FlagMarker cx={props.cx} cy={props.cy} flag={f} onOpen={openFlag} onClose={closeFlag} onToggle={toggleFlag} />}
                   />
                 ))}
               </LineChart>
@@ -381,19 +395,23 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                 </div>
                 <p className="mt-2 text-sm font-semibold">{activeFlag.flag.title}</p>
                 <p className="mt-1 text-xs leading-snug text-muted-foreground">{activeFlag.flag.detail}</p>
-                {activeFlag.flag.swap && (
+                {activeFlag.flag.swap && photo("headphones") && (
                   <div className="mt-2 flex items-center gap-2 text-2xs">
                     {[
-                      { key: activeFlag.flag.swap.from, label: activeFlag.flag.swap.fromLabel, out: true },
-                      { key: activeFlag.flag.swap.to, label: activeFlag.flag.swap.toLabel, out: false },
+                      { headline: activeFlag.flag.swap.from, out: true },
+                      { headline: activeFlag.flag.swap.to, out: false },
                     ].map((c, i) => (
-                      <div key={c.key} className="flex items-center gap-2">
+                      <div key={c.headline} className="flex items-center gap-2">
                         {i === 1 && <ArrowRight className="size-3 text-muted-foreground" aria-hidden="true" />}
                         <figure className="w-20">
-                          <div className="relative aspect-square overflow-hidden rounded-md bg-muted">
-                            {photo(c.key) && <img src={photo(c.key)!.src} alt="" className={cn("size-full object-cover", c.out && "opacity-60 grayscale")} />}
-                            <span className="absolute bottom-1 left-1 right-1 truncate rounded-sm bg-[#16162a] px-1 py-0.5 text-[9px] font-semibold text-white">{c.label}</span>
-                          </div>
+                          <Creative
+                            photo={photo("headphones")!}
+                            headline={c.headline}
+                            brand={c.out ? "#16162a" : "#5a48f9"}
+                            format="1:1"
+                            pos={{ x: 7, y: 56 }}
+                            className={cn("w-20 rounded-md", c.out && "opacity-60 grayscale")}
+                          />
                           <figcaption className="mt-1 text-muted-foreground">{c.out ? "Paused" : "Now running"}</figcaption>
                         </figure>
                       </div>

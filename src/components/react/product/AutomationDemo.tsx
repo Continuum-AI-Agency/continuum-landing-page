@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { GitFork, Image as ImageIcon, Palette, Play, RotateCcw, Type, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,13 @@ const START_ROWS: Row[] = [
   { id: "c", parentId: "base", label: "Base · C", values: { headline: "Time, well kept", keyColor: "#0b7a5c", product: "watch" }, cleared: [] },
 ];
 
+// "Add variation" seeds a real difference so a new row never looks like a copy of its base.
+const SEEDS: Values[] = [
+  { headline: "Step lighter", product: "sneakers", keyColor: "#c2410c", discount: "-35%" },
+  { headline: "Time, well kept", product: "watch", keyColor: "#16162a" },
+  { headline: "Hear the drop", keyColor: "#5a48f9", price: "$129", discount: "-35%" },
+];
+
 // Same semantics as Forge's renderRequestRows: walk root → row, drop cleared keys, apply own values.
 function effectiveValues(rows: Row[], id: string): Values {
   const byId = new Map(rows.map((r) => [r.id, r]));
@@ -93,7 +101,7 @@ function PromoCreative({ v, photo, ratio }: { v: Values; photo?: Photo; ratio: R
       <div className={cn("relative flex min-h-0 flex-1 items-center gap-[4cqw] p-[5cqw]", !wide && "flex-col justify-center")}>
         <div className={cn("relative min-h-0", wide ? "h-full basis-1/2" : "w-full flex-1")}>
           {photo ? (
-            <img src={photo.src} alt={photo.alt} width={640} height={640} loading="lazy" className="size-full rounded-[1cqw] object-cover" />
+            <img src={photo.src} alt="" width={640} height={640} loading="lazy" className="size-full rounded-[1cqw] object-cover" />
           ) : (
             <div className="flex size-full items-center justify-center rounded-[1cqw] bg-[#eeecfc] text-[3cqw] text-[#5c5b7a]">
               No image
@@ -166,7 +174,8 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
   const addVariation = () => {
     const parentId = rows.find((r) => r.id === selected)?.parentId ?? selected;
     const id = `row-${rows.length}-${Date.now()}`;
-    edit((all) => [...all, { id, parentId, label: forkLabel(all, parentId), values: {}, cleared: [] }]);
+    const seed = SEEDS[(rows.length - START_ROWS.length) % SEEDS.length];
+    edit((all) => [...all, { id, parentId, label: forkLabel(all, parentId), values: { ...seed }, cleared: [] }]);
     setSelected(id);
   };
 
@@ -202,7 +211,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-3 py-2">
         <div className="flex items-center gap-2">
-          <span className="rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium">Summer Promo</span>
+          <span className="rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium">Studio launch promo</span>
           <Button variant="outline" size="sm" onClick={addVariation} disabled={busy}>
             <GitFork aria-hidden="true" /> Add variation
           </Button>
@@ -263,9 +272,10 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                       data-state={isSelected ? "selected" : undefined}
                       onClick={() => setSelected(row.id)}
                       onFocusCapture={() => setSelected(row.id)}
-                      className={cn("cursor-pointer", isSelected ? "bg-primary/6" : "hover:bg-muted/50")}
+                      aria-current={isSelected ? "true" : undefined}
+                      className={cn("cursor-pointer", isSelected ? "bg-primary/10" : "hover:bg-muted/50")}
                     >
-                      <TableCell className={cn("sticky left-0 z-10 bg-background align-top", isSelected && "bg-[color-mix(in_oklch,var(--primary)_6%,var(--background))]")}>
+                      <TableCell className={cn("sticky left-0 z-10 bg-background align-top", isSelected && "bg-[color-mix(in_oklch,var(--primary)_10%,var(--background))] shadow-[inset_3px_0_0_var(--primary)]")}>
                         <button
                           type="button"
                           onClick={() => setSelected(row.id)}
@@ -301,7 +311,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                         const value = values[f.key] ?? "";
                         const label = `${row.label} ${f.label}`;
                         return (
-                          <TableCell key={f.key} className="align-top">
+                          <TableCell key={f.key} className={cn("align-top", row.parentId && (own || cleared) && (isSelected ? "bg-primary/15" : "bg-primary/5"))}>
                             <div className="flex items-center gap-1">
                               {f.kind === "color" ? (
                                 <span className="flex h-8 flex-1 items-center gap-1.5 rounded-lg border border-input bg-background px-1.5 focus-within:ring-3 focus-within:ring-ring/50">
@@ -374,7 +384,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
               >
                 <ConfirmationTitle>
                   <ConfirmationRequest>
-                    Deliver {rows.length} variants ({files} files) to the Meta Ads account “Aurel Audio · Summer”?
+                    Deliver {rows.length} variants ({files} files) to the Meta Ads account “Aurel Audio · Studio launch”?
                   </ConfirmationRequest>
                   <ConfirmationAccepted>Delivered. {files} files are live in the ad account as new ads, paused for review.</ConfirmationAccepted>
                   <ConfirmationRejected>Held. The renders stay in the ledger and nothing reached the ad account.</ConfirmationRejected>
@@ -401,12 +411,51 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
             </ToggleGroup>
           </div>
           <div className="flex min-h-[260px] flex-1 items-center justify-center bg-card/60 p-5">
-            <div className={cn(ratio === "16:9" ? "w-full" : ratio === "1:1" ? "w-[260px]" : "w-[176px]")}>
-              <PromoCreative v={currentValues} photo={photoByKey.get(currentValues.product ?? "")} ratio={ratio} />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={current.id + ratio}
+                role="img"
+                aria-label={`${current.label} rendered at ${ratio}: ${currentValues.headline ?? ""} ${currentValues.price ?? ""}`}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                className={cn(ratio === "16:9" ? "w-full" : ratio === "1:1" ? "w-[240px]" : "w-[160px]")}
+              >
+                <PromoCreative v={currentValues} photo={photoByKey.get(currentValues.product ?? "")} ratio={ratio} />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <div className="border-t border-border p-3">
+            <p className="mb-2 text-2xs text-muted-foreground">
+              {phase === "editing" || phase === "rendering" ? "All variations" : `Rendered: ${rows.length} rows × ${RATIOS.length} formats`}
+            </p>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {rows.map((row) => {
+                const v = effectiveValues(rows, row.id);
+                return (
+                  <button
+                    key={row.id}
+                    type="button"
+                    onClick={() => setSelected(row.id)}
+                    aria-label={`Preview ${row.label}`}
+                    aria-pressed={row.id === selected}
+                    className={cn(
+                      "w-[88px] shrink-0 cursor-pointer rounded-md p-0.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                      row.id === selected ? "ring-2 ring-primary" : "ring-1 ring-border hover:ring-primary/50",
+                    )}
+                  >
+                    <div className="pointer-events-none">
+                      <PromoCreative v={v} photo={photoByKey.get(v.product ?? "")} ratio="16:9" />
+                    </div>
+                    <span className="mt-1 block truncate px-0.5 text-2xs text-muted-foreground">{row.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
           <p className="truncate border-t border-border px-3 py-2 font-mono text-2xs text-muted-foreground">
-            summer_promo_{current.label.toLowerCase().replace(/[^a-z0-9]+/g, "_")}_{ratio.replace(":", "x")}.jpg
+            studio_launch_{current.label.toLowerCase().replace(/[^a-z0-9]+/g, "_")}_{ratio.replace(":", "x")}.jpg
           </p>
         </div>
       </div>
