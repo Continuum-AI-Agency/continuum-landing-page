@@ -1,6 +1,6 @@
 # Handoff: landing overhaul (branch `overhaul`)
 
-State as of 2026-09-22. Branch `overhaul` is **local only, not pushed, no PR**. `main` equals `origin/main`.
+State as of 2026-09-23. `overhaul` was fast-forwarded into `main` and pushed; both branches point at the same commit.
 Merging `overhaul` into main also closes Michelle's PRs #5, #6, #7 (merged in locally).
 
 Masonry grid refresh and pricing solids landed on 2026-09-23 (see [Masonry grid](#masonry-grid) and [Pricing](#pricing)).
