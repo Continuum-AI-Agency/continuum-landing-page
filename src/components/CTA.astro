@@ -53,18 +53,6 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
   </div>
 </section>
 
-<style>
-  @keyframes highlight-pulse {
-    0% { box-shadow: 0 0 0 0 oklch(65% 0.13 275 / 0.4); border-color: var(--cs-teal); }
-    70% { box-shadow: 0 0 0 15px oklch(65% 0.13 275 / 0); border-color: var(--cs-teal); }
-    100% { box-shadow: 0 0 0 0 oklch(65% 0.13 275 / 0); }
-  }
-
-  .highlight-pulse {
-    animation: highlight-pulse 2s ease-out infinite;
-    border-color: var(--cs-teal) !important;
-  }
-</style>
 
 <script>
   const form = document.getElementById("footer-demo-form") as HTMLFormElement;

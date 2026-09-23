@@ -95,8 +95,9 @@ const aspectClass = (ratio: Ratio) => {
       {columns.map((col) => (
         <div class:list={['flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container', col.visibility || 'flex']}>
           <div class:list={['flex flex-col gap-4 md:gap-6 lg:gap-8', col.dir === 'up' ? 'animate-scroll-up' : 'animate-scroll-down']}>
-            {col.items.map((item) => (
+            {col.items.map((item, i) => (
               <div
+                aria-hidden={i >= col.items.length / 2 ? 'true' : undefined}
                 class:list={[
                   'w-full rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500',
                   aspectClass(item.ratio),

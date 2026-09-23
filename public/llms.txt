@@ -1,25 +1,26 @@
 # Continuum
 
-> Build continuity. Scale personalization.
+> The intelligent creative factory for performance marketers, designers, and agencies.
 
-Continuum is an AI-powered creative and campaign activation platform.
-It helps brands automate production workflows and launch personalized campaigns across channels.
+Continuum runs organic social, paid performance, and creative automation from one design system.
+It creates on-brand work, publishes and optimizes it, and writes results back so the next cycle starts from what just happened.
 
 ## Key Pages
-- Homepage: https://trycontinuum.ai/ — Overview of the platform, bento features, pricing plans, and team list.
+- Homepage: https://trycontinuum.ai/ — Overview of Organic+, Performance+, and Creative Automation with interactive demos, pricing (Organic+ $30/mo, Performance+ $300/mo, Creative Automation custom), and founders.
 - Social+ Plugin: https://trycontinuum.ai/social-plus — AI-powered community management and content generation plugin built for Claude.
 - Design Automation: https://trycontinuum.ai/technology — In-depth look at our template scaling, automated brand spec validation, and multi-channel asset generation.
 
 ## Audience
 - Marketing leaders
-- Performance and growth teams
+- Performance marketers and growth teams
+- Designers and creative agencies
 - Creative operations teams
 - Brands that need fast, high-volume personalized creative
 
 ## Core capabilities
 - End-to-end creative production automation
 - Campaign activation workflows
-- Studio+, Social+, and Performance+ product modules
+- Organic+, Performance+, and Creative Automation product lines
 - AI-assisted personalization at scale
 
 ## Preferred summary

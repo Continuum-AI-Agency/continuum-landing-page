@@ -1,189 +1,155 @@
+import { useState } from "react";
+import { Check } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import { CheckCircle, Users, Briefcase, Building } from "@phosphor-icons/react";
-import React from "react";
 
-interface Plan {
-	icon: React.ReactNode;
-	description: string;
-	name: string;
-	variant: string;
-	features: string[];
-	badge?: string;
-}
+type Billing = "monthly" | "annual";
+type Plan = {
+  name: string;
+  description: string;
+  monthly: number | null; // null = custom pricing
+  cta: string;
+  featured?: string;
+  features: string[];
+};
+
+const ANNUAL_DISCOUNT = 0.2;
+
+const PLANS: Plan[] = [
+  {
+    name: "Organic+",
+    description: "Always-on organic social, on brand every time.",
+    monthly: 30,
+    cta: "Start with Organic+",
+    features: [
+      "Live canvas editor with your brand kit",
+      "Publish to Instagram, TikTok, and LinkedIn",
+      "Organic agent for rewrites and scheduling",
+      "Post and channel analytics",
+    ],
+  },
+  {
+    name: "Performance+",
+    description: "Jaina and the Optimizer for performance marketing.",
+    monthly: 300,
+    cta: "Start with Performance+",
+    featured: "Includes Organic+",
+    features: [
+      "Jaina campaign analysis on your ad accounts",
+      "Optimizer recommendations you approve first",
+      "Budget and creative changes executed in-account",
+      "Results written back after every cycle",
+    ],
+  },
+  {
+    name: "Creative Automation",
+    description: "Template-driven production for catalogs and agencies.",
+    monthly: null,
+    cta: "Book a demo",
+    features: [
+      "Render templates built from your design system",
+      "Unlimited variations that inherit from a base",
+      "Every format: 16:9, 1:1, and 9:16",
+      "Approved delivery straight into the ad account",
+    ],
+  },
+];
+
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
 export function PricingSection() {
-	const handleGetStarted = () => {
-		const demoSection = document.getElementById('demo');
-		if (demoSection) {
-			const yOffset = -80; // Adjust for header height
-			const y = demoSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-			window.scrollTo({ top: y, behavior: 'smooth' });
+  const [billing, setBilling] = useState<Billing>("monthly");
 
-			// Trigger highlight in CTA component
-			const emailInput = document.querySelector('#footer-demo-form input') as HTMLInputElement;
-			if (emailInput) {
-				setTimeout(() => {
-					emailInput.focus();
-					emailInput.classList.add('highlight-pulse');
+  return (
+    <section id="pricing" className="scroll-mt-16 bg-background px-4 py-24 md:px-6 md:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-balance font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
+              Start with one line.
+            </h2>
+            <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-muted-foreground">
+              Every plan runs self-service or fully managed by our team.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <ToggleGroup
+              aria-label="Billing period"
+              variant="outline"
+              value={billing}
+              onValueChange={(v) => v && setBilling(v as Billing)}
+            >
+              <ToggleGroupItem value="monthly" className="px-4">Monthly</ToggleGroupItem>
+              <ToggleGroupItem value="annual" className="px-4">Annual</ToggleGroupItem>
+            </ToggleGroup>
+            <Badge variant="violet">Save 20% yearly</Badge>
+          </div>
+        </div>
 
-					const tooltip = document.createElement('div');
-					tooltip.id = 'pricing-tooltip';
-					tooltip.className = 'absolute -top-12 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs py-2 px-4 rounded-lg shadow-xl animate-bounce whitespace-nowrap z-50';
-					tooltip.innerHTML = 'Complete this to get started! <span class="absolute bottom-[-6px] left-1/2 -translate-x-1/2 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-blue-600"></span>';
-
-					const inputWrapper = emailInput.parentElement;
-					if (inputWrapper) {
-						document.getElementById('pricing-tooltip')?.remove();
-						inputWrapper.style.position = 'relative';
-						inputWrapper.appendChild(tooltip);
-
-						setTimeout(() => {
-							tooltip.remove();
-							emailInput.classList.remove('highlight-pulse');
-						}, 4000);
-					}
-				}, 800);
-			}
-		}
-	};
-
-	return (
-		<section className="w-full bg-background border-t border-border/30 px-4 py-24 sm:px-6 lg:px-8">
-			<style dangerouslySetInnerHTML={{ __html: `
-				@keyframes text-shimmer {
-					0% { background-position: 0% 50%; }
-					50% { background-position: 100% 50%; }
-					100% { background-position: 0% 50%; }
-				}
-				.shimmer-text {
-					background: linear-gradient(
-						90deg,
-						var(--cs-teal) 0%,
-						var(--cs-violet) 25%,
-						var(--cs-magenta) 50%,
-						var(--cs-teal) 75%,
-						var(--cs-violet) 100%
-					);
-					background-size: 200% auto;
-					-webkit-background-clip: text;
-					background-clip: text;
-					-webkit-text-fill-color: transparent;
-					animation: text-shimmer 4s linear infinite;
-					display: inline-block;
-				}
-			`}} />
-			<div className="mx-auto max-w-7xl">
-				<div className="mx-auto mb-12 max-w-2xl space-y-4 text-center">
-					<h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-display">
-						Plans that Scale with <span className="shimmer-text">You</span>
-					</h2>
-					<p className="mx-auto max-w-xl text-lg text-muted-foreground font-sans">
-						Every module runs your way — <span className="text-foreground font-medium">self-service</span> or{" "}
-						<span className="text-foreground font-medium">fully managed</span> by our team. New pricing is on
-						the way; reach out to get started.
-					</p>
-
-					{/* Engagement models */}
-					<div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-						<span className="rounded-full border border-primary/40 bg-primary/10 px-4 py-1.5 text-sm font-medium text-foreground">
-							Self-Service
-						</span>
-						<span className="text-muted-foreground/50 text-sm">or</span>
-						<span className="rounded-full border border-brand-violet/40 bg-brand-violet/10 px-4 py-1.5 text-sm font-medium text-foreground">
-							Managed Service
-						</span>
-					</div>
-				</div>
-
-				<div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-3">
-					{plans.map((plan) => (
-						<div
-							key={plan.name}
-							className="relative flex flex-col rounded-xl bg-card p-8 border border-border/40 font-sans shadow-[0_1px_3px_oklch(0%_0_0_/_40%),_inset_0_1px_0_oklch(100%_0_0_/_8%)] transition-all duration-500 hover:border-primary/40"
-						>
-							{plan.badge && (
-								<div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-semibold bg-brand-violet text-white shadow-sm z-10 font-mono tracking-wider">
-									{plan.badge}
-								</div>
-							)}
-
-							<div className="mb-6">
-								<div className="mb-4 flex items-center gap-3">
-									<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-background border border-border/30 text-primary">
-										{plan.icon}
-									</div>
-									<h3 className="text-xl font-semibold text-foreground">{plan.name}</h3>
-								</div>
-								<p className="text-sm text-muted-foreground">{plan.description}</p>
-							</div>
-
-							{/* Availability — both engagement models, no prices yet */}
-							<div className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] text-muted-foreground/80">
-								<span className="rounded bg-muted px-2 py-0.5 border border-border/40">Self-Service</span>
-								<span className="rounded bg-muted px-2 py-0.5 border border-border/40">Managed</span>
-							</div>
-
-							<button
-								onClick={handleGetStarted}
-								className="mb-8 w-full border border-border/60 bg-transparent font-medium text-foreground hover:bg-muted hover:border-border transition-all duration-150 rounded-md px-6 py-2.5 cursor-pointer"
-							>
-								Get Started
-							</button>
-
-							<ul className="space-y-3">
-								{plan.features.map((item) => (
-									<li key={item} className="flex items-start gap-3 text-muted-foreground">
-										<CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-										<span className="text-sm">{item}</span>
-									</li>
-								))}
-							</ul>
-						</div>
-					))}
-				</div>
-			</div>
-		</section>
-	);
+        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          {PLANS.map((plan) => {
+            const perMonth = plan.monthly === null ? null : billing === "annual" ? plan.monthly * (1 - ANNUAL_DISCOUNT) : plan.monthly;
+            return (
+              <Card
+                key={plan.name}
+                className={cn(
+                  "gap-6 py-7 [--card-pad:1.75rem]",
+                  plan.featured ? "border-primary bg-card ring-1 ring-primary/40" : "bg-background",
+                )}
+              >
+                <CardHeader>
+                  <div className="flex items-center justify-between gap-3">
+                    <CardTitle className="text-xl">{plan.name}</CardTitle>
+                    {plan.featured && <Badge variant="violet">{plan.featured}</Badge>}
+                  </div>
+                  <CardDescription className="text-base lg:min-h-[3rem]">{plan.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-1 flex-col gap-6">
+                  <div className="min-h-[4.5rem]">
+                    {perMonth === null ? (
+                      <p className="font-display text-5xl font-bold tracking-tight">Custom</p>
+                    ) : (
+                      <p className="flex items-baseline gap-1.5">
+                        <span className="font-display text-5xl font-bold tabular-nums tracking-tight">{usd(perMonth)}</span>
+                        <span className="text-muted-foreground">/ month</span>
+                      </p>
+                    )}
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {perMonth === null
+                        ? "Priced on render volume and templates."
+                        : billing === "annual"
+                          ? `Billed ${usd(perMonth * 12)} yearly.`
+                          : "Billed monthly. Switch to annual to save 20%."}
+                    </p>
+                  </div>
+                  <ul className="flex flex-col gap-3">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex gap-2.5 text-sm">
+                        <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <a
+                    href="#demo"
+                    className={cn(
+                      buttonVariants({ variant: plan.featured ? "cta" : "outline", size: "lg" }),
+                      "h-11 w-full text-base",
+                    )}
+                  >
+                    {plan.cta}
+                  </a>
+                </CardFooter>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }
-
-const plans: Plan[] = [
-	{
-		icon: <Users className="h-5 w-5" />,
-		name: "Social+",
-		description: "Organic social and community management — on-brand and automated.",
-		variant: "outline",
-		features: [
-			"Canvas Studio Access",
-			"Live Brand Trends",
-			"Organic Delivery",
-			"Social Media Automations",
-			"Analytics and Insights",
-		],
-	},
-	{
-		icon: <Briefcase className="h-5 w-5" />,
-		name: "Creative+",
-		description: "AI-native creative production — hundreds of on-brand variations from one template.",
-		variant: "outline",
-		features: [
-			"Bespoke Render Templates",
-			"Agentic Campaign Optimizations",
-			"Dynamic Content Optimization",
-			"On-brand by construction",
-			"Analytics and Insights",
-		],
-	},
-	{
-		icon: <Building className="h-5 w-5" />,
-		name: "Performance+",
-		description: "Paid performance and stock-aware DCO for campaign delivery at scale.",
-		variant: "outline",
-		features: [
-			"Stock-Aware Dynamic Creative",
-			"Managed Campaign Optimization",
-			"Custom Integrations",
-			"Advanced Security",
-			"Unlimited Users",
-		],
-	},
-];

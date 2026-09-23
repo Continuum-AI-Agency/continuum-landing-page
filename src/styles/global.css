@@ -23,6 +23,9 @@
 /* ── 2. Continuum Singularity brand vars (source of truth) ───────────────── */
 :root {
   --radius: 0.5rem;
+  /* Card padding for shadcn Card on the page; .app-theme tightens it to the app density. */
+  --card-pad: 1.5rem;
+  --card-gap: 1.5rem;
 
   /* Font variables */
   --font-satoshi: "Satoshi", system-ui, -apple-system, sans-serif;
