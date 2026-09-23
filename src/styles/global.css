@@ -276,20 +276,6 @@
   text-wrap: balance;
 }
 
-.hero-icp-shimmer {
-  background: linear-gradient(
-    90deg,
-    oklch(58% 0.22 292) 0%,
-    oklch(74% 0.13 195) 45%,
-    oklch(58% 0.22 292) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: text-shimmer 4s linear infinite;
-  display: inline-block;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer {
@@ -297,8 +283,7 @@
     background-image: none;
     background-color: oklch(20% 0.015 265 / 0.7);
   }
-  .shimmer-text,
-  .hero-icp-shimmer {
+  .shimmer-text {
     animation: none;
     background-position: 0% 50%;
   }

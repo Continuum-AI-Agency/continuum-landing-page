@@ -1,85 +1,101 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FlipWords } from "@/components/ui/flip-words";
-import { HeroOrbitSim } from "@/lib/hero-orbit";
+import { cn } from "@/lib/utils";
 
 const LETTERS = ["C", "", "N", "T", "I", "N", "U", "U", "M"] as const;
-
-const ICP = [
-  "Marketing Teams",
-  "Creative Teams",
-  "Agencies",
-  "Community Teams",
-  "Content Teams",
-];
+const AUDIENCES = ["performance marketers", "designers", "agencies"];
 
 export function HeroStage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const slotRef = useRef<HTMLSpanElement>(null);
-  const simRef = useRef<HeroOrbitSim | null>(null);
+  const [live, setLive] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const slot = slotRef.current;
-    if (!canvas || !slot) return;
+    if (
+      !canvas ||
+      !("gpu" in navigator) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const sim = new HeroOrbitSim({ canvas, slot, reduced });
-    simRef.current = sim;
-    sim.start();
+    let cancelled = false;
+    let dispose = () => {};
+    const fail = (error: unknown) => {
+      console.warn("[hero] black hole unavailable, showing poster", error);
+      if (!cancelled) setLive(false);
+    };
+
+    import("@/lib/black-hole/renderer").then(({ createRenderer }) => {
+      if (cancelled) return;
+      const renderer = createRenderer({ canvas, onError: fail });
+      dispose = renderer.dispose;
+      renderer.ready.then(() => {
+        if (!cancelled) setLive(true);
+      }, fail);
+    }, fail);
+
     return () => {
-      sim.stop();
-      simRef.current = null;
+      cancelled = true;
+      dispose();
     };
   }, []);
 
   return (
-    <div className="absolute inset-0 z-10">
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 h-full w-full touch-none select-none"
+    <div className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center px-[2.4vw] pb-36 pt-20">
+      <h1 className="sr-only">
+        Continuum, the intelligent creative factory for performance marketers,
+        designers, and agencies.
+      </h1>
+
+      <p
         aria-hidden="true"
-      />
-
-      <div className="pointer-events-none relative z-10 flex h-full min-h-[100dvh] flex-col px-[2.4vw] pb-28 pt-20 md:pb-32">
-        <div className="flex flex-1 flex-col items-stretch justify-center">
-          <h1 className="sr-only">
-            Continuum. Is your Creative Factory for marketing teams, creative
-            teams, agencies, community teams, or content teams?
-          </h1>
-
-          <p
-            aria-hidden="true"
-            className="hero-wordmark grid w-full grid-cols-9 items-center text-[#f3efe6]"
-          >
-            {LETTERS.map((letter, i) =>
-              letter === "" ? (
-                <span
-                  key="o-slot"
-                  ref={slotRef}
-                  className="hero-o-slot mx-auto block size-[1.55em] shrink-0 md:size-[1.22em]"
-                />
-              ) : (
-                <span key={`${letter}-${i}`} className="flex items-center justify-center">
-                  {letter}
-                </span>
-              ),
-            )}
-          </p>
-
-          <div className="mt-8 flex flex-col items-center text-center md:mt-12">
-            <p className="font-display text-2xl font-medium leading-[1.15] text-white sm:text-3xl md:text-4xl lg:text-5xl">
-              Is your Creative Factory for
-            </p>
-            <p className="mt-2 flex min-h-[2.6rem] items-center justify-center sm:min-h-[3.4rem] md:min-h-[4.4rem] lg:min-h-[5.4rem]">
-              <FlipWords
-                words={ICP}
-                duration={2800}
-                className="hero-icp-shimmer font-display text-3xl font-medium leading-[1.15] sm:text-4xl md:text-5xl lg:text-6xl"
+        className="hero-wordmark grid w-full grid-cols-9 items-center text-[#f3efe6]"
+      >
+        {LETTERS.map((letter, i) =>
+          letter === "" ? (
+            <span key="o-slot" className="relative mx-auto block size-[0.8em]">
+              <img
+                src="/assets/hero/black-hole.webp"
+                alt=""
+                width={412}
+                height={412}
+                className={cn(
+                  "absolute left-[-20%] top-[-20%] size-[140%] max-w-none transition-opacity duration-700",
+                  live && "opacity-0",
+                )}
               />
-            </p>
-          </div>
-        </div>
-      </div>
+              <canvas
+                ref={canvasRef}
+                className={cn(
+                  "absolute left-[-20%] top-[-20%] size-[140%] opacity-0 transition-opacity duration-700 [mask-image:radial-gradient(closest-side,#000_70%,transparent)]",
+                  live && "opacity-100",
+                )}
+              />
+            </span>
+          ) : (
+            <span key={`${letter}-${i}`} className="flex items-center justify-center">
+              {letter}
+            </span>
+          ),
+        )}
+      </p>
+
+      <p
+        aria-hidden="true"
+        className="mt-10 text-balance text-center font-display text-2xl font-medium leading-[1.2] text-white sm:text-3xl md:mt-14 lg:text-5xl"
+      >
+        The intelligent creative factory for
+        <span className="mt-1 block min-h-[1.2em] text-[oklch(78%_0.12_285)]">
+          <FlipWords words={AUDIENCES} duration={2600} />
+        </span>
+      </p>
+
+      <a
+        href="#demo"
+        className="mt-10 inline-flex h-12 items-center rounded-md bg-[#f3efe6] px-6 text-base font-medium text-[#0b0b0e] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:translate-y-px"
+      >
+        Book a demo
+      </a>
     </div>
   );
 }
