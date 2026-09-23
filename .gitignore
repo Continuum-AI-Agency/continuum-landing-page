@@ -22,3 +22,6 @@ Thumbs.db
 # Astro
 .astro/
 dist/
+
+# Video masters for scripts/optimize-media.sh (never commit)
+/media/

@@ -3,7 +3,7 @@
 State as of 2026-09-22. Branch `overhaul` is **local only, not pushed, no PR**. `main` equals `origin/main`.
 Merging `overhaul` into main also closes Michelle's PRs #5, #6, #7 (merged in locally).
 
-**Next task:** improve the masonry grid ("Made on Continuum") with new media. See [Masonry grid](#masonry-grid-next-task).
+Masonry grid refresh and pricing solids landed on 2026-09-23 (see [Masonry grid](#masonry-grid) and [Pricing](#pricing)).
 
 ## Run
 
@@ -17,7 +17,7 @@ Merging `overhaul` into main also closes Michelle's PRs #5, #6, #7 (merged in lo
 |---|---|---|
 | night | Sticky pill nav (all pages) | `src/components/SiteNav.astro` |
 | night | Hero: CONTINUUM wordmark, black-hole O, starfield, shimmer CTA, logo strip `#logos` | `Hero.astro`, `react/HeroStage.tsx`, `LogoCloud.astro` |
-| night | **Made on Continuum** video masonry `#showcase` | `MasonryGrid.astro` |
+| night | Video masonry `#showcase` (no visible heading) | `MasonryGrid.astro` |
 | dawn band | (decorative, no text) | `Sky.astro` |
 | day | Three lines. One factory.: `#organic` `#performance` `#automation` | `Product.astro`, `react/product/*` |
 | day | Measured, not demoed. `#results` | `Proof.astro` |
@@ -39,15 +39,18 @@ Merging `overhaul` into main also closes Michelle's PRs #5, #6, #7 (merged in lo
 - **Type:** self-hosted Satoshi variable (`public/assets/fonts/Satoshi-Variable.woff2`), Futura Maxi wordmark only, Geist inside windows. Scale tokens `text-display`, `text-h2`, `text-h3`, `text-lead` in `@theme`. Shimmer (`.shimmer`) is used on exactly two words: the hero audience word and the CTA's "Continuum?".
 - **Docs of record:** `PRODUCT.md`, `design.md` (sections 9b and 10 are current).
 
-## Masonry grid (next task)
+## Masonry grid
 
-Current implementation in `src/components/MasonryGrid.astro`:
-- 15 clips, each an `.mp4` + `.jpg` poster in `src/assets/showcase/`, imported one by one; `raw[]` holds `{ src, poster, title, ratio }` with `ratio` 0.56 (9:16), 1, or 1.77 (16:9).
-- Posters go through `getImage` (480px webp q65). Videos are raw `<video data-src poster preload="none">`; an IntersectionObserver attaches `src` on view and caps playback at 6 (`MAX_PLAYING`).
-- Layout: 5 columns (2 on mobile, 3 at sm, 4 at md, 5 at lg), each column duplicated for a seamless CSS keyframe loop (`scroll-up` / `scroll-down`, 45s). The duplicates are `aria-hidden`. Reduced motion stops the scroll and skips video loading.
-- The section sits in the night zone (`bg-transparent`, stars behind), heading "Made on Continuum." + one-line sub.
-- Encoding: `scripts/optimize-media.sh` transcodes masters from `public/assets/` (8s, 480px, 24fps, H.264 CRF 30, faststart, no audio) into `src/assets/showcase/` with posters. Masters are not in the repo. Put new sources in `public/assets/`, add them to the `clips=(...)` list, run `bun run optimize:media`, and don't commit the masters (git history is already 600 MB from old videos).
-- **Rights caveat (from the proof audit):** of the current clips, only Kamay traces to a known client. Heineken, Claro, and Mercado Libre may be spec or agency-era work. The sub-line says "Clips from live campaigns", so confirm every new clip is real, cleared client work (or change the copy).
+`src/components/MasonryGrid.astro`, 19 clips (12 added 2026-09-23, owner-confirmed live client work; 7 kept from the old set).
+- **Adding a clip:** put the master in `media/` (gitignored) or point `MASTERS` at its folder, add a `name|file|seconds|start|poster-time` line to `clips=(...)` in `scripts/optimize-media.sh`, run `MASTERS=~/Downloads bun run optimize:media`, then add `[name, aria-label]` to `CLIPS` in the grid. Order in `CLIPS` = display order.
+- **Encoding:** 480px wide, 24fps, H.264 CRF 30, no audio, **boomerang** (forward then reversed) so the loop never jumps. Posters are taken `poster-time` seconds in (default 1.5) to skip intros. A clip with no master but existing output is kept. Old masters can be restored from git history: `git show 7fa0bd4:public/assets/<file>`.
+- **Layout:** ratio comes from the poster's real dimensions; clips are packed greedily into the shortest of 5 columns (cols 1-2 are the only ones on mobile); each column's scroll duration scales with its height (13s per column-width) so all move at one speed; the track is padded by one gap so the -50% loop is seamless; top/bottom fade into the stars. It never pauses (owner call).
+- **Playback:** `preload="none"`, src attached by IntersectionObserver, up to 16 playing at once, reduced motion shows posters only.
+- Not built: padding short columns by repeating clips. Needed if the set drops below ~15.
+
+## Pricing
+
+`src/components/react/Pricing.tsx` (day zone). Each card has a Platonic solid in the top-right (`src/lib/polyhedra.ts`, Canvas2D): tetrahedron, octahedron, icosahedron. At rest it is a flat line glyph (the solid seen down a vertex); on hover or keyboard focus it grows into the shaded, turning, pointer-tilted solid and eases back on leave. Reduced motion: static three-quarter view on hover. Geometry check: `bun src/lib/polyhedra.check.ts`. Billing uses the shadcn Switch (`ui/switch.tsx`). No spec strip or trial line: no real limits exist yet.
 
 ## Waiting on the owners
 

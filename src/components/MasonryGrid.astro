@@ -1,111 +1,73 @@
 ---
 import { getImage } from 'astro:assets';
 
-import turismo from '../assets/showcase/turismo.mp4';
-import social from '../assets/showcase/social.mp4';
-import catalogClaro from '../assets/showcase/catalog-claro.mp4';
-import consorcio from '../assets/showcase/consorcio.mp4';
-import influencer from '../assets/showcase/influencer.mp4';
-import product from '../assets/showcase/product.mp4';
-import realEstate from '../assets/showcase/real-estate.mp4';
-import speaker from '../assets/showcase/speaker.mp4';
-import kamay from '../assets/showcase/kamay.mp4';
-import heineken from '../assets/showcase/heineken.mp4';
-import mercadoLibre from '../assets/showcase/mercado-libre.mp4';
-import fashion from '../assets/showcase/fashion.mp4';
-import sports from '../assets/showcase/sports.mp4';
-import lifestyle from '../assets/showcase/lifestyle.mp4';
-import sportsResults from '../assets/showcase/sports-results.mp4';
+// Every clip in src/assets/showcase, produced by `bun run optimize:media`.
+const videos = import.meta.glob<{ default: string }>('../assets/showcase/*.mp4', { eager: true });
+const posters = import.meta.glob<{ default: ImageMetadata }>('../assets/showcase/*.jpg', { eager: true });
 
-import turismoPoster from '../assets/showcase/turismo.jpg';
-import socialPoster from '../assets/showcase/social.jpg';
-import catalogClaroPoster from '../assets/showcase/catalog-claro.jpg';
-import consorcioPoster from '../assets/showcase/consorcio.jpg';
-import influencerPoster from '../assets/showcase/influencer.jpg';
-import productPoster from '../assets/showcase/product.jpg';
-import realEstatePoster from '../assets/showcase/real-estate.jpg';
-import speakerPoster from '../assets/showcase/speaker.jpg';
-import kamayPoster from '../assets/showcase/kamay.jpg';
-import heinekenPoster from '../assets/showcase/heineken.jpg';
-import mercadoLibrePoster from '../assets/showcase/mercado-libre.jpg';
-import fashionPoster from '../assets/showcase/fashion.jpg';
-import sportsPoster from '../assets/showcase/sports.jpg';
-import lifestylePoster from '../assets/showcase/lifestyle.jpg';
-import sportsResultsPoster from '../assets/showcase/sports-results.jpg';
-
-type Ratio = 0.56 | 1 | 1.77;
-
-const raw = [
-  { src: turismo, poster: turismoPoster, title: 'Travel & Tourism', ratio: 1.77 as Ratio },
-  { src: social, poster: socialPoster, title: 'Social Content', ratio: 1.77 as Ratio },
-  { src: catalogClaro, poster: catalogClaroPoster, title: 'E-commerce Catalog', ratio: 1.77 as Ratio },
-  { src: consorcio, poster: consorcioPoster, title: 'Real Estate', ratio: 0.56 as Ratio },
-  { src: influencer, poster: influencerPoster, title: 'Influencer Content', ratio: 0.56 as Ratio },
-  { src: product, poster: productPoster, title: 'Product Showcase', ratio: 1 as Ratio },
-  { src: realEstate, poster: realEstatePoster, title: 'Property Tour', ratio: 0.56 as Ratio },
-  { src: speaker, poster: speakerPoster, title: 'Event Speaker', ratio: 0.56 as Ratio },
-  { src: kamay, poster: kamayPoster, title: '3D Rendering', ratio: 0.56 as Ratio },
-  { src: heineken, poster: heinekenPoster, title: 'Brand Catalog', ratio: 1.77 as Ratio },
-  { src: mercadoLibre, poster: mercadoLibrePoster, title: 'Retail Ads', ratio: 1 as Ratio },
-  { src: fashion, poster: fashionPoster, title: 'Fashion Creative', ratio: 1.77 as Ratio },
-  { src: sports, poster: sportsPoster, title: 'Sports Promotion', ratio: 0.56 as Ratio },
-  { src: lifestyle, poster: lifestylePoster, title: 'Lifestyle', ratio: 1 as Ratio },
-  { src: sportsResults, poster: sportsResultsPoster, title: 'Sports Results', ratio: 1 as Ratio },
+// Display order and aria-labels. A clip shows only if it's listed here.
+const CLIPS: [name: string, label: string][] = [
+  ['privalia-hoco', 'Wireless earbuds sale for Privalia'],
+  ['bembos-andes', 'Burger ad for Bembos, Andes'],
+  ['kamay-coca-cola', 'Founding partner card, Kamay Code and Coca-Cola'],
+  ['mcdonalds-arg-fra', "Argentina vs France stats for McDonald's"],
+  ['caliente', 'Sign-up offer for Caliente'],
+  ['privalia-calvin-klein', 'Calvin Klein Hot Sale for Privalia'],
+  ['papa-johns', "Cyber sale for Papa John's"],
+  ['tecate-cruz-azul', 'Cruz Azul stats card for Tecate'],
+  ['dominos', "Pizza promo for Domino's"],
+  ['heineken', 'Brand catalog'],
+  ['vivo-day-pass', 'Gym day-pass offer'],
+  ['mcdonalds-mccombo', "McCombo promo for McDonald's"],
+  ['bembos-seaside', 'Burger ad for Bembos, seaside'],
+  ['kamay', '3D rendering'],
+  ['mercado-libre', 'Retail ads'],
+  ['catalog-claro', 'E-commerce catalog'],
+  ['consorcio', 'Real estate'],
+  ['social', 'Social content'],
+  ['influencer', 'Influencer content'],
 ];
 
 const items = await Promise.all(
-  raw.map(async (item) => {
-    const poster = await getImage({
-      src: item.poster,
-      width: 480,
-      format: 'webp',
-      quality: 65,
-    });
-    return { ...item, poster: poster.src };
+  CLIPS.map(async ([name, label]) => {
+    const src = videos[`../assets/showcase/${name}.mp4`]?.default;
+    const poster = posters[`../assets/showcase/${name}.jpg`]?.default;
+    if (!src || !poster) throw new Error(`showcase: ${name}.mp4/.jpg missing, run bun run optimize:media`);
+    const small = await getImage({ src: poster, width: 480, format: 'webp', quality: 65 });
+    return { src, label, poster: small.src, w: poster.width, h: poster.height };
   }),
 );
 
-const col1 = [items[0], items[3], items[5]];
-const col2 = [items[1], items[4], items[10]];
-const col3 = [items[2], items[6], items[13]];
-const col4 = [items[9], items[7], items[14]];
-const col5 = [items[11], items[8], items[12]];
-
-const columns = [
-  { items: [...col1, ...col1], dir: 'up' as const, visibility: '' },
-  { items: [...col2, ...col2], dir: 'down' as const, visibility: '' },
-  { items: [...col3, ...col3], dir: 'up' as const, visibility: 'hidden sm:flex' },
-  { items: [...col4, ...col4], dir: 'down' as const, visibility: 'hidden md:flex' },
-  { items: [...col5, ...col5], dir: 'up' as const, visibility: 'hidden lg:flex' },
-];
-
-const aspectClass = (ratio: Ratio) => {
-  if (ratio === 0.56) return 'aspect-[9/16]';
-  if (ratio === 1) return 'aspect-square';
-  return 'aspect-video';
-};
+// Greedy masonry: each clip joins the shortest column (height in column widths). Columns 1-2 are
+// the only ones on mobile and fill first. Speed is per column so tall and short ones move alike.
+const SECONDS_PER_WIDTH = 13;
+const visibility = ['flex', 'flex', 'hidden sm:flex', 'hidden md:flex', 'hidden lg:flex'];
+const cols = visibility.map((v, i) => ({ items: [] as typeof items, units: 0, visibility: v, dir: i % 2 ? 'down' : 'up' }));
+for (const item of items) {
+  const col = cols.reduce((a, b) => (b.units < a.units ? b : a));
+  col.items.push(item);
+  col.units += item.h / item.w;
+}
 ---
 
 <section id="showcase" class="py-16 md:py-24 bg-transparent relative overflow-hidden z-10">
-  <div class="mx-auto mb-10 max-w-7xl px-4 md:px-6">
-    <h2 class="text-balance font-display text-h2 font-bold text-white">Made on Continuum.</h2>
-    <p class="mt-4 max-w-[46ch] text-lead text-white/70">Clips from live campaigns in retail, sports, real estate, and events.</p>
-  </div>
+  <h2 class="sr-only">Made on Continuum: clips from live campaigns</h2>
   <div class="w-full max-w-none px-4 md:px-8 relative">
     <div
       id="showcase-grid"
-      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8 h-[80vh] min-h-[500px] max-h-[1000px] overflow-hidden group/grid relative py-4"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8 h-[80vh] min-h-[500px] max-h-[1000px] overflow-hidden relative"
     >
-      {columns.map((col) => (
-        <div class:list={['flex flex-col gap-4 md:gap-6 lg:gap-8 scroll-container', col.visibility || 'flex']}>
-          <div class:list={['flex flex-col gap-4 md:gap-6 lg:gap-8', col.dir === 'up' ? 'animate-scroll-up' : 'animate-scroll-down']}>
-            {col.items.map((item, i) => (
+      {cols.map((col) => (
+        <div class:list={['flex-col scroll-container', col.visibility]}>
+          <div
+            class:list={['flex flex-col gap-4 md:gap-6 lg:gap-8 pb-4 md:pb-6 lg:pb-8', `animate-scroll-${col.dir}`]}
+            style={`--dur: ${Math.round(col.units * SECONDS_PER_WIDTH)}s`}
+          >
+            {[...col.items, ...col.items].map((item, i) => (
               <div
-                aria-hidden={i >= col.items.length / 2 ? 'true' : undefined}
-                class:list={[
-                  'w-full rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative group/item hover:scale-[1.01] hover:border-primary/30 transition-all duration-500',
-                  aspectClass(item.ratio),
-                ]}
+                aria-hidden={i >= col.items.length ? 'true' : undefined}
+                class="w-full rounded-lg overflow-hidden bg-card border border-border/20 shadow-sm relative hover:border-primary/30 transition-colors duration-500"
+                style={`aspect-ratio: ${item.w} / ${item.h}`}
               >
                 <video
                   data-src={item.src}
@@ -116,7 +78,7 @@ const aspectClass = (ratio: Ratio) => {
                   preload="none"
                   disablepictureinpicture
                   disableremoteplayback
-                  aria-label={item.title}
+                  aria-label={item.label}
                   class="w-full h-full object-cover block lazy-video"
                 ></video>
               </div>
@@ -134,6 +96,11 @@ const aspectClass = (ratio: Ratio) => {
     contain-intrinsic-size: auto 80vh;
   }
 
+  /* Fade the columns into the starfield instead of cutting them off. */
+  #showcase-grid {
+    mask-image: linear-gradient(transparent, #000 10%, #000 90%, transparent);
+  }
+
   .scroll-container {
     height: 100%;
     overflow: hidden;
@@ -149,13 +116,15 @@ const aspectClass = (ratio: Ratio) => {
     100% { transform: translateY(0); }
   }
 
+  /* Each track is two copies of its column, padded by one gap, so -50% is exactly one copy. */
   .animate-scroll-up {
-    animation: scroll-up 45s linear infinite;
+    animation: scroll-up var(--dur) linear infinite;
   }
 
   .animate-scroll-down {
-    animation: scroll-down 45s linear infinite;
+    animation: scroll-down var(--dur) linear infinite;
   }
+
 
   @media (prefers-reduced-motion: reduce) {
     .animate-scroll-up,
@@ -167,7 +136,7 @@ const aspectClass = (ratio: Ratio) => {
 </style>
 
 <script>
-  const MAX_PLAYING = 6;
+  const MAX_PLAYING = 16; // every clip in view on a 5-column desktop plays
   const root = document.getElementById('showcase-grid');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
