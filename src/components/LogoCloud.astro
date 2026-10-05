@@ -45,7 +45,8 @@ const logos: Logo[] = [
 ];
 
 // Equal-area sizing: a long wordmark and a square crest carry about the same amount of ink.
-const AREA = 3600; // px² at desktop
+// 4761 = 3600 * 1.15², so marks read 15% larger linearly. Spacing untouched.
+const AREA = 4761; // px² at desktop
 const marks = logos.flatMap((logo) => {
   const src = file(logo.file);
   if (!src) return [];
@@ -71,7 +72,7 @@ const copies = [0, 1, 2];
         marks.map((logo) => (
           <li
             aria-hidden={copy > 0 ? 'true' : undefined}
-            class="flex h-12 shrink-0 items-center px-6 md:h-14 md:px-9"
+            class="flex h-[55.2px] shrink-0 items-center px-6 md:h-[64.4px] md:px-9"
           >
             <Image
               src={logo.src}

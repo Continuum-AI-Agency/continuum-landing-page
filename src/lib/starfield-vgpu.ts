@@ -8,10 +8,13 @@
 // the caller can fall back to the Canvas2D starfield.
 
 import type { Draw, Frame, Gpu, Surface } from "vgpu";
+import { HERO_IGNITION_MS, HERO_FINALE_S, easeOutCubic } from "./starfield";
 
 type VgpuApi = typeof import("vgpu");
 
 export const MAX_STARS = 2700; // trimmed ~20% from 3380: reads as space dust, not snowfall
+// Passive meteors plus one extra instance: the ignition finale (index METEORS),
+// a big one-shot streak cued at HERO_FINALE_S. Keep instances in sync.
 const METEORS = 6;
 
 const STAR_WGSL = `
@@ -22,6 +25,8 @@ struct Params {
   einstein: f32,
   dpr: f32,
   count: f32,
+  warmup: f32,
+  finaleAt: f32,
 }
 
 @group(0) @binding(0) var<uniform> params: Params;
@@ -66,7 +71,11 @@ fn rot(v: vec2f, a: f32) -> vec2f {
   // Infall life: slow far away, accelerating inward, then respawned home.
   let period = mix(7.0, 20.0, hash1(fi * 1.37 + 4.2));
   let phase = hash1(fi * 2.71 + 9.4);
-  let life = fract(params.time / period + phase);
+  // Ignition: every life starts at home (far out) and eases into its slot as
+  // the swirl spins up, so the field visibly falls inward instead of booting
+  // mid-spiral.
+  let wu = smoothstep(0.0, 1.0, params.warmup);
+  let life = fract(params.time / period + phase) * wu;
   let r = mix(baseR, E * 0.55, pow(life, 1.7));
   let dirR = rot(dir, life * (0.5 + hash1(fi * 4.47 + 2.2) * 1.2));
   // Outer image of a point lens: always outside E, brighter near the ring.
@@ -91,7 +100,7 @@ fn rot(v: vec2f, a: f32) -> vec2f {
     tint = vec3f(0.839, 0.796, 1.0);
   }
   out.color = tint;
-  out.alpha = min(1.0, 0.42 * m * mu) * tw * absorb;
+  out.alpha = min(1.0, 0.42 * m * mu) * tw * absorb * wu;
   out.local = corners[v];
   return out;
 }
@@ -112,6 +121,8 @@ struct Params {
   einstein: f32,
   dpr: f32,
   count: f32,
+  warmup: f32,
+  finaleAt: f32,
 }
 
 @group(0) @binding(0) var<uniform> params: Params;
@@ -129,26 +140,51 @@ fn hash1(n: f32) -> f32 { return fract(sin(n * 12.9898) * 43758.5453); }
 @vertex fn vs_main(@builtin(vertex_index) v: u32, @builtin(instance_index) i: u32) -> MetOut {
   var out: MetOut;
   let fi = f32(i);
-  let period = mix(4.0, 9.0, hash1(fi * 1.93 + 0.4));
-  let off = hash1(fi * 7.17 + 3.1);
-  let tick = params.time / period + off;
-  let cycle = floor(tick);
-  // Most cycles stay dark: sporadic by design.
-  let gate = step(hash1(cycle * 7.13 + fi * 3.7), 0.62);
-  let local = fract(tick);
-  let win = 0.22;
-  let vis = gate * step(local, win);
-  let prog = clamp(local / win, 0.0, 1.0);
-  // Spawn band: right side only, upper-middle heights.
-  let spawn = vec2f(
-    mix(0.55, 1.0, hash1(fi * 3.31 + cycle * 0.37 + 5.5)) * params.res.x,
-    mix(0.05, 0.5, hash1(fi * 5.93 + cycle * 0.53 + 1.9)) * params.res.y,
-  );
-  let dir = normalize(vec2f(-0.75 - 0.2 * hash1(fi * 2.17 + 4.4), 0.55 + 0.25 * hash1(fi * 8.53 + 2.8)));
-  let travel = params.res.x * (0.28 + 0.15 * hash1(fi * 4.19 + 7.2));
-  let head = spawn + dir * travel * prog;
-  let streak = (90.0 + 90.0 * hash1(fi * 6.77 + 9.9)) * params.dpr;
-  let width = (1.4 + 1.2 * hash1(fi * 9.31 + 3.3)) * params.dpr;
+  var head = vec2f(0.0);
+  var dir = vec2f(-0.9, 0.45);
+  var streak = 150.0 * params.dpr;
+  var width = 2.0 * params.dpr;
+  var alphaBase = 0.0;
+  var vis = 0.0;
+  if (fi >= f32(${METEORS})) {
+    // The ignition finale: one big streak, once per load. Top-right down to
+    // the middle, easing out so it settles onto the demo button, then dark.
+    let dur = 1.6;
+    let lt = clamp((params.time - params.finaleAt) / dur, 0.0, 1.0);
+    let on = step(params.finaleAt, params.time) * (1.0 - step(params.finaleAt + dur, params.time));
+    let prog = 1.0 - (1.0 - lt) * (1.0 - lt);
+    let a = vec2f(0.98 * params.res.x, 0.02 * params.res.y);
+    let b = vec2f(0.50 * params.res.x, 0.66 * params.res.y);
+    head = mix(a, b, prog);
+    dir = normalize(b - a);
+    streak = params.res.x * 0.30;
+    width = 3.4 * params.dpr;
+    alphaBase = on * sin(3.14159 * lt);
+    vis = 1.0;
+  } else {
+    let period = mix(4.0, 9.0, hash1(fi * 1.93 + 0.4));
+    let off = hash1(fi * 7.17 + 3.1);
+    let tick = params.time / period + off;
+    let cycle = floor(tick);
+    // Most cycles stay dark: sporadic by design. Meteors join once the field is
+    // alive; the opening belongs to the spin-up.
+    let gate = step(hash1(cycle * 7.13 + fi * 3.7), 0.62);
+    let local = fract(tick);
+    let win = 0.26;
+    vis = gate * step(local, win) * step(0.6, params.warmup);
+    let prog = clamp(local / win, 0.0, 1.0);
+    // Spawn band: right side only, upper-middle heights.
+    let spawn = vec2f(
+      mix(0.55, 1.0, hash1(fi * 3.31 + cycle * 0.37 + 5.5)) * params.res.x,
+      mix(0.05, 0.5, hash1(fi * 5.93 + cycle * 0.53 + 1.9)) * params.res.y,
+    );
+    dir = normalize(vec2f(-0.75 - 0.2 * hash1(fi * 2.17 + 4.4), 0.55 + 0.25 * hash1(fi * 8.53 + 2.8)));
+    let travel = params.res.x * (0.32 + 0.16 * hash1(fi * 4.19 + 7.2));
+    head = spawn + dir * travel * prog;
+    streak = (120.0 + 100.0 * hash1(fi * 6.77 + 9.9)) * params.dpr;
+    width = (1.6 + 1.3 * hash1(fi * 9.31 + 3.3)) * params.dpr;
+    alphaBase = sin(3.14159 * prog);
+  }
   let perp = vec2f(-dir.y, dir.x);
   var p = head;
   var axis = 0.0;
@@ -167,7 +203,7 @@ fn hash1(n: f32) -> f32 { return fract(sin(n * 12.9898) * 43758.5453); }
   ndc = ndc + vec2f((1.0 - vis) * 4.0, 0.0);
   out.position = vec4f(ndc, 0.0, 1.0);
   out.color = vec3f(0.85, 0.94, 1.0);
-  out.alpha = 0.9 * sin(3.14159 * prog) * vis;
+  out.alpha = alphaBase * vis;
   out.axis = axis;
   out.lat = lat;
   return out;
@@ -206,7 +242,7 @@ export async function startVgpuStarfield(
 
   const surface: Surface = vgpu.surface(gpu, canvas, { dpr: [1, 2] });
   const stars: Draw = vgpu.draw(gpu, { shader: STAR_WGSL, instances: MAX_STARS, blend: "additive", depth: false });
-  const meteors: Draw = vgpu.draw(gpu, { shader: METEOR_WGSL, instances: METEORS, blend: "additive", depth: false });
+  const meteors: Draw = vgpu.draw(gpu, { shader: METEOR_WGSL, instances: METEORS + 1, blend: "additive", depth: false });
 
   let size: StarfieldSize = { res: [1, 1], center: [0, 0], einstein: 1, dpr: 1, count: MAX_STARS };
 
@@ -224,10 +260,11 @@ export async function startVgpuStarfield(
       // Trimmed ~20%: space dust, not snowfall. Floored/capped for phones and huge monitors.
       count: Math.round(Math.min(MAX_STARS, Math.max(730, (w * h) / 529))),
     };
-    pushParams(performance.now() / 1000);
+    pushParams();
   };
 
-  const pushParams = (time: number) => {
+  const pushParams = () => {
+    const time = elapsed;
     const params = {
       time,
       res: size.res,
@@ -235,17 +272,21 @@ export async function startVgpuStarfield(
       einstein: size.einstein,
       dpr: size.dpr,
       count: size.count,
+      warmup: easeOutCubic(Math.min(Math.max(time / (HERO_IGNITION_MS / 1000), 0), 1)),
+      finaleAt: HERO_FINALE_S,
     };
     stars.set({ params });
     meteors.set({ params });
   };
 
-  const t0 = performance.now() / 1000;
-  const clockTime = () => performance.now() / 1000 - t0;
+  // Active-time clock: rAF steps only, so a hidden tab fast-forwards nothing
+  // and the ignition + finale still play in full on first view.
+  let elapsed = 0;
+  let lastFrame = 0;
 
   const renderFrame = (frame: Frame): void => {
     if (disposed) return;
-    pushParams(clockTime());
+    pushParams();
     frame.pass({ target: surface, clear: [0, 0, 0, 0] }, (pass) => {
       pass.draw(stars);
       pass.draw(meteors);
@@ -254,6 +295,9 @@ export async function startVgpuStarfield(
 
   const tick = () => {
     if (disposed) return;
+    const nowS = performance.now() / 1000;
+    elapsed += lastFrame ? Math.min(nowS - lastFrame, 0.1) : 0;
+    lastFrame = nowS;
     try {
       vgpu.frame(gpu, renderFrame);
     } catch {
@@ -273,6 +317,7 @@ export async function startVgpuStarfield(
   };
   const stop = () => {
     running = false;
+    lastFrame = 0; // resume without counting the gap
     cancelAnimationFrame(raf);
   };
   const reconcile = () => {
@@ -302,6 +347,10 @@ export async function startVgpuStarfield(
     cleanup();
     return () => {};
   }
+  // The ignition clock starts with the first visible frame, not with module
+  // init — shader compile is async and must not eat the spin-up.
+  elapsed = 0;
+  lastFrame = 0;
   // One synchronous frame so the first paint already carries stars.
   vgpu.frame(gpu, renderFrame);
   reconcile();

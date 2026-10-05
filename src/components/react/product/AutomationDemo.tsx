@@ -15,7 +15,7 @@ import {
   ConfirmationRequest,
   ConfirmationTitle,
 } from "@/components/ai-elements/confirmation";
-import { ProductWindow, wait } from "./shared";
+import { EASE, ProductWindow, useAutoplay, wait } from "./shared";
 import { cn } from "@/lib/utils";
 
 type Photo = { key: string; src: string; alt: string; label: string };
@@ -182,11 +182,20 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
   const render = async () => {
     setPhase("rendering");
     for (let i = 1; i <= rows.length; i++) {
-      await wait(450);
+      await wait(650);
       setRendered(i);
     }
     setPhase("rendered");
   };
+
+  // In view, the table renders once on its own and stops at the delivery approval.
+  const windowRef = useRef<HTMLDivElement>(null);
+  const act = useRef(render);
+  act.current = render;
+  useAutoplay(windowRef, async (alive) => {
+    await wait(1100);
+    if (alive()) await act.current();
+  });
 
   const reset = () => {
     setRows(START_ROWS);
@@ -195,11 +204,36 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
     setRendered(0);
   };
 
+  // Badges crossfade as a row moves Ready → Queued → Rendering → Rendered → Delivered; the row
+  // on the farm carries Forge's indeterminate bar. Delivery ripples down the table.
   const status = (i: number) => {
-    if (phase === "delivered") return <Badge variant="success">Delivered</Badge>;
-    if (phase === "rendering" && i >= rendered) return <Badge variant="warning">Queued</Badge>;
-    if (phase !== "editing") return <Badge variant="violet">Rendered</Badge>;
-    return <Badge variant="muted">Ready</Badge>;
+    const active = phase === "rendering" && i === rendered;
+    const [label, variant] =
+      phase === "delivered"
+        ? (["Delivered", "success"] as const)
+        : active
+          ? (["Rendering", "teal"] as const)
+          : phase === "rendering" && i > rendered
+            ? (["Queued", "warning"] as const)
+            : phase !== "editing"
+              ? (["Rendered", "violet"] as const)
+              : (["Ready", "muted"] as const);
+    return (
+      <motion.span
+        key={label}
+        className="inline-flex flex-col gap-1"
+        initial={{ opacity: 0, y: 3 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, ease: EASE, delay: phase === "delivered" ? i * 0.07 : 0 }}
+      >
+        <Badge variant={variant}>{label}</Badge>
+        {active && (
+          <span className="block h-1 w-16 overflow-hidden rounded-full bg-secondary/20" role="progressbar" aria-label={`Rendering ${rows[i]?.label}`}>
+            <span className="block h-full w-1/3 animate-[forge-indeterminate_1.4s_ease-in-out_infinite] rounded-full bg-primary motion-reduce:w-full motion-reduce:animate-none motion-reduce:opacity-60" />
+          </span>
+        )}
+      </motion.span>
+    );
   };
 
   const depth = (r: Row) => (r.parentId ? 1 : 0);
@@ -207,7 +241,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
   const currentValues = effectiveValues(rows, current.id);
 
   return (
-    <ProductWindow path={["Continuum", "Template Forge", "Render"]}>
+    <ProductWindow ref={windowRef} path={["Continuum", "Template Forge", "Render"]}>
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-3 py-2">
         <div className="flex items-center gap-2">
@@ -225,6 +259,17 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
           <Play aria-hidden="true" />
           {busy ? `Rendering ${rendered}/${rows.length}…` : `Render ${rows.length} rows · ${files} files`}
         </Button>
+      </div>
+
+      {/* Farm progress: fills as rows land, then fades once the batch is done. */}
+      <div className="h-0.5 overflow-hidden" aria-hidden="true">
+        <div
+          className={cn(
+            "h-full origin-left bg-primary transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+            phase === "rendering" ? "opacity-100" : "opacity-0 delay-500",
+          )}
+          style={{ transform: `scaleX(${phase === "editing" ? 0 : phase === "rendering" ? rendered / rows.length : 1})` }}
+        />
       </div>
 
       <div className="grid lg:grid-cols-[minmax(0,1fr)_340px] lg:divide-x lg:divide-border">
@@ -376,7 +421,12 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
           </div>
 
           {(phase === "rendered" || phase === "delivered" || phase === "held") && (
-            <div className="border-t border-border p-3">
+            <motion.div
+              className="border-t border-border p-3"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
               <Confirmation
                 approval={phase === "rendered" ? { id: "deliver" } : { id: "deliver", approved: phase === "delivered" }}
                 state={phase === "rendered" ? "approval-requested" : "approval-responded"}
@@ -394,7 +444,7 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                   <ConfirmationAction variant="cta" onClick={() => { statusRef.current?.focus({ preventScroll: true }); setPhase("delivered"); }}>Approve and deliver</ConfirmationAction>
                 </ConfirmationActions>
               </Confirmation>
-            </div>
+            </motion.div>
           )}
         </div>
 
@@ -431,7 +481,9 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
               {phase === "editing" || phase === "rendering" ? "All variations" : `Rendered: ${rows.length} rows × ${RATIOS.length} formats`}
             </p>
             <div className="flex gap-2 overflow-x-auto pb-1">
-              {rows.map((row) => {
+              {rows.map((row, i) => {
+                // Still on the farm: dimmed and soft, then it develops as its render lands.
+                const pendingRender = phase === "rendering" && i >= rendered;
                 const v = effectiveValues(rows, row.id);
                 return (
                   <button
@@ -445,7 +497,12 @@ export function AutomationDemo({ photos }: { photos: Photo[] }) {
                       row.id === selected ? "ring-2 ring-primary" : "ring-1 ring-border hover:ring-primary/50",
                     )}
                   >
-                    <div className="pointer-events-none">
+                    <div
+                      className={cn(
+                        "pointer-events-none transition-[opacity,filter] duration-500 ease-out motion-reduce:transition-none",
+                        pendingRender && "opacity-40 blur-[1.5px] grayscale",
+                      )}
+                    >
                       <PromoCreative v={v} photo={photoByKey.get(v.product ?? "")} ratio="16:9" />
                     </div>
                     <span className="mt-1 block truncate px-0.5 text-2xs text-muted-foreground">{row.label}</span>

@@ -368,12 +368,19 @@
   text-wrap: balance;
 }
 
-/* The black-hole O idles even when nobody touches it: a slow float and a faint
-   breathe. Individual `translate`/`scale` properties compose with the drag
-   `--roll` (the `rotate` property) instead of fighting it. */
+/* The black-hole O idles even when nobody touches it: a slow float, a faint
+   breathe, and a slight rotational rock. Individual `translate`/`scale`
+   properties compose with the drag `--roll` plus the idle `--wobble`
+   (combined in the `rotate` property) instead of fighting it. */
+@property --wobble {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
 @media (prefers-reduced-motion: no-preference) {
   .hero-o-ambient {
-    animation: hero-o-float 7s ease-in-out infinite, hero-o-breathe 6s ease-in-out infinite;
+    rotate: calc(var(--roll, 0deg) + var(--wobble, 0deg));
+    animation: hero-o-float 7s ease-in-out infinite, hero-o-breathe 6s ease-in-out infinite, hero-o-spin 11s ease-in-out infinite;
   }
   @keyframes hero-o-float {
     0%, 100% { translate: 0 -5px; }
@@ -382,6 +389,10 @@
   @keyframes hero-o-breathe {
     0%, 100% { scale: 1; }
     50%      { scale: 1.018; }
+  }
+  @keyframes hero-o-spin {
+    0%, 100% { --wobble: -7deg; }
+    50%      { --wobble:  7deg; }
   }
 }
 
@@ -394,6 +405,35 @@
   .shimmer {
     animation: none;
     background-position: 0% 50%;
+  }
+}
+
+/* Hero ignition: the entrance choreography. Letters land outside-in (the --i
+   stagger ends on the O), the O fades up as the swirl reaches it, and the
+   tagline + CTA arrive once the field is alive. Once per load, never on
+   scroll; reduced motion gets the settled scene with no animation. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-letter {
+    animation: hero-letter-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i) * 70ms + 50ms);
+  }
+  @keyframes hero-letter-in {
+    from { opacity: 0; translate: 0 0.35em; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  .hero-o-slot {
+    animation: hero-o-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  }
+  @keyframes hero-o-in {
+    from { opacity: 0; scale: 0.9; }
+    to { opacity: 1; scale: 1; }
+  }
+  .hero-copy-in {
+    animation: hero-copy-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes hero-copy-in {
+    from { opacity: 0; translate: 0 18px; }
+    to { opacity: 1; translate: 0 0; }
   }
 }
 
@@ -485,4 +525,173 @@
   .btn-fill[data-pressed]::before {
     opacity: 1;
   }
+}
+
+/* Primary CTA ("Book a demo"): the brightest object on a night page. Wordmark-ink fill, night
+   label; hover sweeps a cyan-violet light ring around the outside edge and lifts a soft glow,
+   and the arrow steps forward. `data-live` keeps the ring turning at rest (the hero's CTA only).
+   `btn-aura-day` inverts it for day zones: night fill, ink label, deeper ring. No pointer bloom:
+   the ring sits outside the edge, which btn-fill's clipping would cut off. */
+@property --aura-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@utility btn-aura {
+  --aura-bg: #f3efe6;
+  --aura-bg-hover: #fffdf8;
+  --aura-fg: var(--night);
+  --aura-a: var(--hero-cyan);
+  --aura-b: var(--hero-violet);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  font-weight: 600;
+  background: var(--aura-bg);
+  color: var(--aura-fg);
+  cursor: pointer;
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 120ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    padding: 1.5px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--aura-angle),
+      transparent 0deg 140deg,
+      var(--aura-a) 220deg,
+      var(--aura-b) 300deg,
+      transparent 360deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0;
+    transition: opacity 300ms ease-out;
+    animation: aura-spin 2.6s linear infinite paused;
+    pointer-events: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: var(--aura-bg-hover);
+    box-shadow:
+      0 0 22px -6px color-mix(in oklch, var(--aura-a) 60%, transparent),
+      0 0 36px -10px color-mix(in oklch, var(--aura-b) 55%, transparent);
+  }
+  &:hover::after,
+  &:focus-visible::after,
+  &[data-live]::after {
+    opacity: 1;
+    animation-play-state: running;
+  }
+  &[data-live] {
+    box-shadow: 0 0 32px -12px color-mix(in oklch, var(--aura-a) 45%, transparent);
+  }
+  &:active {
+    transform: scale(0.97);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--aura-a);
+    outline-offset: 4px;
+  }
+  & svg {
+    transition: translate 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  &:hover svg {
+    translate: 4px 0;
+  }
+}
+
+@utility btn-aura-day {
+  --aura-bg: var(--night);
+  --aura-bg-hover: oklch(22% 0.02 285);
+  --aura-fg: #f3efe6;
+  --aura-a: oklch(58% 0.13 205);
+  --aura-b: var(--cs-violet);
+}
+
+@keyframes aura-spin {
+  to { --aura-angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-aura::after { animation: none; }
+  .btn-aura svg { transition: none; }
+}
+
+/* ── Product-window motion, borrowed from the app ───────────────────────────
+   Forge's indeterminate render bar, a flash on rows an approval just changed, new rows sliding
+   in, and flags dropping onto the CPA line as it draws (with a slow "hover me" ping). */
+@keyframes forge-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+@keyframes pf-row-flash {
+  from { background-color: color-mix(in oklch, var(--primary) 22%, transparent); }
+}
+@keyframes pf-row-in {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes pf-flag-in {
+  from { opacity: 0; transform: translateY(-10px); }
+}
+@keyframes pf-ping {
+  from { opacity: 0.55; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.9); }
+}
+.pf-ping { opacity: 0; transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .pf-row-flash { animation: pf-row-flash 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
+  .pf-row-in { animation: pf-row-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .pf-flag { animation: pf-flag-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .pf-ping { animation: pf-ping 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+}
+
+/* ── Scroll-linked arrivals (day zone) ──────────────────────────────────────
+   Tied to scroll position, not a class flip, so content is never stranded hidden: without
+   scroll-timeline support (or with reduced motion) everything simply sits in place. Each one fits
+   what it reveals: product windows settle, results figures print up from their baseline, plan
+   cards arrive in order (--i), founder avatars slide together. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sv-settle,
+    .sv-print,
+    .sv-arrive,
+    .sv-converge {
+      animation-fill-mode: both;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-timeline: view();
+    }
+    .sv-settle { animation-name: sv-settle; animation-range: entry 0% cover 30%; }
+    .sv-print { animation-name: sv-print; animation-range: entry 20% cover 40%; }
+    .sv-arrive {
+      animation-name: sv-arrive;
+      animation-range: entry calc(5% + var(--i, 0) * 7%) cover calc(28% + var(--i, 0) * 7%);
+    }
+    .sv-converge { animation-name: sv-converge; animation-range: entry 40% cover 55%; }
+  }
+}
+@keyframes sv-settle {
+  from { opacity: 0.35; translate: 0 48px; scale: 0.97; }
+}
+@keyframes sv-print {
+  from { opacity: 0; translate: 0 0.3em; clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(-10% -10% -10% -10%); }
+}
+@keyframes sv-arrive {
+  from { opacity: 0; translate: 0 28px; }
+}
+@keyframes sv-converge {
+  from { translate: 14px 0; }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FocusEvent, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FocusEvent, type PointerEvent } from "react";
 import { Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -184,15 +184,16 @@ function useSolid(name: SolidName) {
   return { canvas, handlers };
 }
 
-function PlanCard({ plan, billing }: { plan: Plan; billing: Billing }) {
+function PlanCard({ plan, billing, index }: { plan: Plan; billing: Billing; index: number }) {
   const { canvas, handlers } = useSolid(plan.solid);
   const perMonth = plan.monthly === null ? null : billing === "annual" ? plan.monthly * (1 - ANNUAL_DISCOUNT) : plan.monthly;
 
   return (
     <Card
       {...handlers}
+      style={{ "--i": index } as CSSProperties}
       className={cn(
-        "relative gap-6 py-7 transition-colors duration-300 [--card-pad:1.75rem] hover:border-primary/40",
+        "sv-arrive relative gap-6 py-7 transition-colors duration-300 [--card-pad:1.75rem] hover:border-primary/40",
         plan.featured
           ? "border-primary/50 bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--primary)_10%,var(--card)),var(--card)_45%)]"
           : "bg-background",
@@ -228,7 +229,10 @@ function PlanCard({ plan, billing }: { plan: Plan; billing: Billing }) {
         </div>
         <a
           href="#demo"
-          className={cn(buttonVariants({ variant: plan.featured ? "cta" : "outline", size: "lg" }), "h-11 w-full text-base")}
+          className={cn(
+            plan.featured ? "btn-aura btn-aura-day rounded-lg" : buttonVariants({ variant: "outline", size: "lg" }),
+            "h-11 w-full text-base",
+          )}
         >
           {plan.cta}
         </a>
@@ -288,8 +292,8 @@ export function PricingSection() {
         </div>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {PLANS.map((plan) => (
-            <PlanCard key={plan.name} plan={plan} billing={billing} />
+          {PLANS.map((plan, i) => (
+            <PlanCard key={plan.name} plan={plan} billing={billing} index={i} />
           ))}
         </div>
       </div>

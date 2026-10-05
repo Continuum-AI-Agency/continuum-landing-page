@@ -106,7 +106,7 @@ export function ToolHeader({
             <Code2 className="size-3.5 shrink-0 text-muted-foreground" />
             <span className="truncate text-sm font-medium text-foreground">{displayTitle}</span>
             {state === 'running' && (
-              <Loader2 className="size-3.5 shrink-0 animate-spin text-muted-foreground" />
+              <Loader2 className="size-3.5 shrink-0 animate-spin text-muted-foreground motion-reduce:animate-none" />
             )}
           </span>
           {showDisclosure ? (
