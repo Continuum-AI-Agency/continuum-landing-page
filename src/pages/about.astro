@@ -3,13 +3,39 @@ import Layout from '../layouts/Layout.astro';
 import Team from '../components/Team.astro';
 import Footer from '../components/Footer.astro';
 import SiteNav from '../components/SiteNav.astro';
-import { ShimmerButton } from '../components/ui/shimmer-button';
+
+const SITE = 'https://trycontinuum.ai';
 
 const links = [
   { href: '/press/', title: 'In the news', body: 'Coverage and interviews on AI in marketing and building Continuum.' },
   { href: '/podcasts/', title: 'Listen', body: 'Conversations with the founders on AI, creative, and performance.' },
   { href: '/blog/', title: 'Read', body: 'How the factory works: DCO, render automation, and the creative loop.' },
 ];
+
+// Structured data: only facts we can stand behind.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Continuum',
+  legalName: 'Continuum Agency Inc.',
+  url: SITE,
+  logo: `${SITE}/og.jpg`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Palo Alto', addressRegion: 'CA', addressCountry: 'US' },
+  founders: [
+    { '@type': 'Person', name: 'Michelle Shocron', jobTitle: 'Co-founder, CEO' },
+    { '@type': 'Person', name: 'Duane Scott', jobTitle: 'Co-founder, Product & Engineering' },
+  ],
+  sameAs: ['https://www.linkedin.com/company/continuum-agency', 'https://instagram.com/trycontinuum'],
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'About', item: `${SITE}/about` },
+  ],
+};
 ---
 
 <Layout
@@ -17,6 +43,9 @@ const links = [
   description="Meet the team building Continuum, the intelligent creative factory for performance marketers, designers, and agencies."
   appearance="light"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(orgSchema)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbSchema)} />
+
   <SiteNav />
   <div class="min-h-screen bg-[linear-gradient(var(--day-top),var(--day-low))] text-foreground">
 
@@ -29,8 +58,8 @@ const links = [
 
     <Team />
 
-    <section class="px-4 pb-24 md:px-6" aria-labelledby="more-title">
-      <div class="mx-auto max-w-6xl">
+    <section class="pb-24" aria-labelledby="more-title">
+      <div class="mx-auto max-w-6xl px-4 md:px-6">
         <h2 id="more-title" class="font-display text-h3 font-bold">More from us.</h2>
         <ul class="mt-8 grid gap-4 md:grid-cols-3">
           {links.map((l) => (
@@ -50,15 +79,7 @@ const links = [
     <section class="px-4 py-24 text-center md:px-6">
       <h2 class="text-balance font-display text-h2 font-bold">Stand up your creative factory.</h2>
       <div class="mt-10 flex justify-center">
-        <ShimmerButton
-          href="/#demo"
-          shimmerColor="oklch(94% 0.08 195)"
-          borderRadius="12px"
-          background="linear-gradient(135deg, oklch(52% 0.13 205), oklch(42% 0.2 285))"
-          className="btn-fill h-14 px-9 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_48px_-8px_oklch(80%_0.14_195/0.55)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-        >
-          Book a demo
-        </ShimmerButton>
+        <a href="/#demo" class="btn-aura h-14 rounded-xl px-9 text-lg">Book a demo</a>
       </div>
     </section>
     <Footer />
