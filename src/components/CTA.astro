@@ -1,6 +1,5 @@
 ---
 import { Magnetic } from './core/magnetic';
-import { ShimmerButton } from './ui/shimmer-button';
 import { InteractiveGridPattern } from './react/InteractiveGridPattern';
 ---
 
@@ -15,6 +14,7 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
       className="[mask-image:radial-gradient(500px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-10%] h-[120%]"
     />
   </div>
+  <canvas class="cta-meteors pointer-events-none absolute inset-0 z-0 size-full" aria-hidden="true"></canvas>
 
   <div class="container mx-auto px-6 relative z-10">
     <div class="max-w-4xl mx-auto text-center reveal">
@@ -41,15 +41,9 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
             />
           </div>
           <Magnetic client:visible>
-            <ShimmerButton
-              type="submit"
-              shimmerColor="oklch(94% 0.08 195)"
-              borderRadius="12px"
-              background="linear-gradient(135deg, oklch(52% 0.13 205), oklch(42% 0.2 285))"
-              className="btn-fill h-[58px] min-w-[200px] px-8 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_40px_-8px_oklch(80%_0.14_195/0.5)] hover:shadow-[0_0_64px_-4px_oklch(80%_0.14_195/0.75)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-            >
+            <button type="submit" class="btn-aura h-[58px] min-w-[200px] rounded-xl px-8 text-lg">
               Book a demo
-            </ShimmerButton>
+            </button>
           </Magnetic>
         </form>
         <p class="mt-6 text-primary font-medium min-h-[1.5rem]" id="demo-success" role="status"></p>
@@ -75,5 +69,67 @@ import { InteractiveGridPattern } from './react/InteractiveGridPattern';
         note.textContent = "";
       }, 5000);
     });
+  }
+
+  // A rare, faint shooting star over the close: one at a time, 7–16 s apart, kept to the sides so
+  // it never crosses the headline. The canvas only draws while one is in flight; nothing under
+  // reduced motion, and the timer stops while the section is off screen or the tab is hidden.
+  const sky = document.querySelector<HTMLCanvasElement>(".cta-meteors");
+  const sctx = sky?.getContext("2d");
+  if (sky && sctx && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let w = 0, h = 0, timer = 0, raf = 0, visible = false;
+    const size = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = sky.clientWidth;
+      h = sky.clientHeight;
+      sky.width = Math.round(w * dpr);
+      sky.height = Math.round(h * dpr);
+      sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const schedule = (ms = 7000 + Math.random() * 9000) => {
+      clearTimeout(timer);
+      if (visible && !document.hidden) timer = window.setTimeout(fly, ms);
+    };
+    const fly = () => {
+      const left = Math.random() < 0.5;
+      const x = w * (left ? 0.08 + Math.random() * 0.3 : 0.62 + Math.random() * 0.3);
+      const y = h * (0.06 + Math.random() * 0.4);
+      const dip = ((20 + Math.random() * 16) * Math.PI) / 180; // 20–36° below horizontal, heading left
+      const travel = Math.min(w * 0.22, 260);
+      const dx = -Math.cos(dip), dy = Math.sin(dip);
+      const len = 70 + Math.random() * 70;
+      const dur = 900 + Math.random() * 400;
+      const start = performance.now();
+      const frame = (now: number) => {
+        const t = Math.min(1, (now - start) / dur);
+        const hx = x + dx * travel * t, hy = y + dy * travel * t;
+        const a = 0.55 * Math.sin(Math.PI * t);
+        sctx.clearRect(0, 0, w, h);
+        const tail = sctx.createLinearGradient(hx, hy, hx - dx * len, hy - dy * len);
+        tail.addColorStop(0, `rgba(217,240,255,${a})`);
+        tail.addColorStop(1, "rgba(217,240,255,0)");
+        sctx.strokeStyle = tail;
+        sctx.lineWidth = 1.2;
+        sctx.lineCap = "round";
+        sctx.beginPath();
+        sctx.moveTo(hx, hy);
+        sctx.lineTo(hx - dx * len, hy - dy * len);
+        sctx.stroke();
+        if (t < 1) raf = requestAnimationFrame(frame);
+        else {
+          sctx.clearRect(0, 0, w, h);
+          schedule();
+        }
+      };
+      raf = requestAnimationFrame(frame);
+    };
+    new ResizeObserver(size).observe(sky);
+    new IntersectionObserver(([entry]) => {
+      visible = entry?.isIntersecting ?? false;
+      if (visible) schedule(2500 + Math.random() * 3500);
+      else clearTimeout(timer);
+    }).observe(sky);
+    document.addEventListener("visibilitychange", () => (document.hidden ? clearTimeout(timer) : schedule()));
+    size();
   }
 </script>

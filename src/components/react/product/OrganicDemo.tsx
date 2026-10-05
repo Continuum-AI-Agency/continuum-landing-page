@@ -13,6 +13,7 @@ import {
   Share2,
   ThumbsUp,
 } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { Area, AreaChart, Line, XAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { Input } from "@/components/ui/input";
@@ -20,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Message } from "@/components/ai-elements/message";
 import { Suggestion } from "@/components/ai-elements/suggestion";
 import { Shimmer } from "@/components/ai-elements/shimmer";
-import { Creative, ProductWindow, Typed, wait, type Format, type Photo, type Pos } from "./shared";
+import { Creative, EASE, ProductWindow, Tween, Typed, useAutoplay, wait, type Format, type Photo, type Pos } from "./shared";
 import { cn } from "@/lib/utils";
 
 type Platform = "instagram" | "tiktok" | "linkedin";
@@ -107,9 +108,14 @@ function PostFrame({
 }) {
   const caption = CAPTION[platform];
   const badge = scheduled && (
-    <p className="flex items-center gap-1 text-2xs font-medium text-primary">
+    <motion.p
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: EASE }}
+      className="flex items-center gap-1 text-2xs font-medium text-primary"
+    >
       <CalendarClock className="size-3" aria-hidden="true" /> Scheduled {scheduled}
-    </p>
+    </motion.p>
   );
 
   if (platform === "tiktok") {
@@ -129,7 +135,16 @@ function PostFrame({
           <p className="flex items-center gap-1 text-2xs text-white/80">
             <Music2 className="size-3" aria-hidden="true" /> original sound
           </p>
-          {scheduled && <p className="text-2xs font-medium text-white">Scheduled {scheduled}</p>}
+          {scheduled && (
+            <motion.p
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              className="text-2xs font-medium text-white"
+            >
+              Scheduled {scheduled}
+            </motion.p>
+          )}
         </div>
       </div>
     );
@@ -191,11 +206,15 @@ function MetricTile({
   metric,
   expanded,
   onExpand,
+  play,
 }: {
   metric: (typeof METRICS)[number];
   expanded: boolean;
   onExpand: () => void;
+  /** First time the analytics row is in view: the value counts up and the trend draws in. */
+  play: boolean;
 }) {
+  const reduce = useReducedMotion();
   const byPlatform = Object.fromEntries(
     PLATFORMS.map((p) => [p.key, BASE[metric.key].map((v) => v * SCALE[p.key][metric.key])]),
   ) as Record<Platform, number[]>;
@@ -234,7 +253,9 @@ function MetricTile({
         <p className="text-2xs font-medium text-emerald-700">+{delta}%</p>
       </div>
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-xl font-semibold tabular-nums">{metric.format(total.at(-1)!)}</p>
+        <p className="text-xl font-semibold tabular-nums">
+          <Tween value={total.at(-1)!} from={0} play={play} format={metric.format} />
+        </p>
         {expanded && (
           <ul className="flex flex-wrap justify-end gap-x-3 gap-y-0.5 text-2xs text-muted-foreground" aria-hidden="true">
             {PLATFORMS.map((p) => (
@@ -258,13 +279,15 @@ function MetricTile({
             ))
           ) : (
             <Area
+              key={play ? "drawn" : "rest"}
               dataKey="total"
               type="monotone"
               stroke="var(--color-total)"
               strokeWidth={1.75}
               fill="var(--color-total)"
               fillOpacity={0.12}
-              isAnimationActive={false}
+              isAnimationActive={play && !reduce}
+              animationDuration={900}
             />
           )}
         </AreaChart>
@@ -292,6 +315,20 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
   // Suggestion and Reset buttons remove themselves on click; park focus on the log so it is never lost.
   const logRef = useRef<HTMLDivElement>(null);
   const keepFocus = () => logRef.current?.focus({ preventScroll: true });
+  const windowRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsInView = useInView(statsRef, { once: true, amount: 0.6 });
+
+  // Follow the conversation as replies land and while they stream in.
+  useEffect(() => {
+    const log = logRef.current;
+    if (!log) return;
+    const follow = () => log.scrollTo({ top: log.scrollHeight });
+    follow();
+    const grow = new ResizeObserver(follow);
+    for (const child of log.children) grow.observe(child);
+    return () => grow.disconnect();
+  }, [messages, thinking]);
 
   useEffect(() => {
     if (!highlight) return;
@@ -302,8 +339,9 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
   const say = (role: Msg["role"], text: string, typed = false) =>
     setMessages((m) => [...m, { id: m.length, role, text, typed }]);
 
-  const runAction = async (action: string) => {
-    keepFocus();
+  // `auto` is the autoplay acting for the visitor: it never moves their focus.
+  const runAction = async (action: string, auto = false) => {
+    if (!auto) keepFocus();
     setUsed((u) => [...u, action]);
     say("user", action);
     setThinking(true);
@@ -338,8 +376,21 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
 
   const pending = AGENT_ACTIONS.filter((a) => !used.includes(a));
 
+  // In view, the agent works through its first two asks on its own: the TikTok hook, then the
+  // schedule. The brand-kit ask stays for the visitor.
+  const act = useRef(runAction);
+  act.current = runAction;
+  useAutoplay(windowRef, async (alive) => {
+    await wait(900);
+    if (!alive()) return;
+    await act.current(AGENT_ACTIONS[0], true);
+    await wait(3400);
+    if (!alive()) return;
+    await act.current(AGENT_ACTIONS[1], true);
+  });
+
   return (
-    <ProductWindow path={["Continuum", "Organic+", "Studio line launch"]}>
+    <ProductWindow ref={windowRef} path={["Continuum", "Organic+", "Studio line launch"]}>
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,2fr)] lg:divide-x lg:divide-border">
         {/* Editor: the master post */}
         <div className="flex flex-col">
@@ -429,6 +480,7 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
                       <Creative
                         photo={photos[photo]}
                         headline={overrides[p.key] ?? headline}
+                        swapKey={overrides[p.key]}
                         brand={brand}
                         format={p.format}
                         pos={p.key === "tiktok" ? { ...pos, y: Math.min(pos.y, TIKTOK_SAFE_Y) } : pos}
@@ -476,9 +528,9 @@ export function OrganicDemo({ photos }: { photos: Photo[] }) {
       {/* Analytics */}
       <div className="border-t border-border p-4">
         <p className="mb-3 text-xs font-medium">Last 14 days across Instagram, TikTok, and LinkedIn</p>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div ref={statsRef} className="flex flex-col gap-3 sm:flex-row">
           {METRICS.map((m) => (
-            <MetricTile key={m.key} metric={m} expanded={expanded === m.key} onExpand={() => setExpanded(m.key)} />
+            <MetricTile key={m.key} metric={m} expanded={expanded === m.key} onExpand={() => setExpanded(m.key)} play={statsInView} />
           ))}
         </div>
       </div>

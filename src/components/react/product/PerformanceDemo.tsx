@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { useInView, useReducedMotion } from "motion/react";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Line, LineChart, ReferenceDot, ReferenceLine, XAxis, YAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
@@ -20,7 +20,7 @@ import {
   ConfirmationRequest,
   ConfirmationTitle,
 } from "@/components/ai-elements/confirmation";
-import { Creative, ProductWindow, Typed, wait } from "./shared";
+import { Creative, ProductWindow, Tween, Typed, useAutoplay, wait } from "./shared";
 import { cn } from "@/lib/utils";
 
 // ── Sample data ─────────────────────────────────────────────────────────────
@@ -78,10 +78,13 @@ function FlagMarker({
   onOpen,
   onClose,
   onToggle,
+  delay,
 }: {
   cx?: number;
   cy?: number;
   flag: Flag;
+  /** Seconds after the line starts drawing that this flag drops in; undefined = no entrance. */
+  delay?: number;
   onOpen: (flag: Flag, x: number, y: number) => void;
   onClose: () => void;
   onToggle: (flag: Flag, x: number, y: number) => void;
@@ -102,12 +105,16 @@ function FlagMarker({
       onBlur={onClose}
       onClick={() => onToggle(flag, cx, cy)}
     >
-      <line y1={-4} y2={-16} stroke={color} strokeWidth={1.5} />
-      <circle className="flag-head" cy={-22} r={8.5} fill={color} stroke="white" strokeWidth={2} />
-      <text y={-18.5} textAnchor="middle" fontSize={9.5} fontWeight={700} fill="white">
-        {flag.kind === "auto" ? "A" : "✓"}
-      </text>
-      <circle r={4} fill="white" stroke={color} strokeWidth={2} />
+      <g className={delay === undefined ? undefined : "pf-flag"} style={{ animationDelay: `${delay ?? 0}s` }}>
+        <line y1={-4} y2={-16} stroke={color} strokeWidth={1.5} />
+        {/* A slow ping says "hover me" without a word. */}
+        <circle className="pf-ping" cy={-22} r={8.5} fill="none" stroke={color} strokeWidth={1.5} style={{ animationDelay: `${(delay ?? 0) + 0.6}s` }} />
+        <circle className="flag-head" cy={-22} r={8.5} fill={color} stroke="white" strokeWidth={2} />
+        <text y={-18.5} textAnchor="middle" fontSize={9.5} fontWeight={700} fill="white">
+          {flag.kind === "auto" ? "A" : "✓"}
+        </text>
+        <circle r={4} fill="white" stroke={color} strokeWidth={2} />
+      </g>
       {/* generous invisible hit area */}
       <rect x={-12} y={-32} width={24} height={40} fill="transparent" />
     </g>
@@ -138,7 +145,7 @@ const lineConfig = {
 const barConfig = { cpa: { label: "CPA", color: "var(--chart-1)" } } satisfies ChartConfig;
 
 type Step = "idle" | "analyzing" | "analyzed" | "recommending" | "awaiting" | "applied" | "rejected";
-type Msg = { id: number; role: "user" | "assistant"; text: string; typed?: boolean; chart?: boolean; confirm?: boolean };
+type Msg = { id: number; role: "user" | "assistant"; text: string; typed?: boolean; chart?: boolean; confirm?: boolean; done?: boolean };
 
 export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
   const reduce = useReducedMotion();
@@ -155,8 +162,9 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
 
   const say = (m: Omit<Msg, "id">) => setMessages((all) => [...all, { ...m, id: all.length }]);
 
-  const ask = async (q: string) => {
-    keepFocus();
+  // `auto` is the autoplay asking for the visitor: it never moves their focus.
+  const ask = async (q: string, auto = false) => {
+    if (!auto) keepFocus();
     say({ role: "user", text: q });
     if (step === "idle") {
       setStep("analyzing");
@@ -203,6 +211,22 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
     setMessages((m) => m.slice(0, 1));
   };
 
+  // In view, Jaina answers both questions on her own and stops at the approval card:
+  // the sign-off stays with the visitor.
+  const windowRef = useRef<HTMLDivElement>(null);
+  const act = useRef(ask);
+  act.current = ask;
+  useAutoplay(windowRef, async (alive) => {
+    await wait(800);
+    if (!alive()) return;
+    await act.current("Why did CPA rise this week?", true);
+    await wait(3800);
+    if (!alive()) return;
+    await act.current("What should we change?", true);
+  });
+  const chartInView = useInView(chartRef, { once: true, amount: 0.5 });
+  const DRAW_S = 1.2;
+
   const applied = step === "applied";
   const rows = applied ? AD_SETS_AFTER : AD_SETS;
   const projection = applied ? OPTIMIZED : BASELINE;
@@ -210,8 +234,7 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
   const photo = (key: string) => photos.find((p) => p.key === key);
   const openFlag = (flag: Flag, x: number, y: number) => setActiveFlag({ flag, x, y });
   const closeFlag = () => setActiveFlag(null);
-  const toggleFlag = (flag: Flag, x: number, y: number) =>
-    setActiveFlag((a) => (a?.flag === flag ? null : { flag, x, y }));
+  const toggleFlag = (flag: Flag, x: number, y: number) => setActiveFlag({ flag, x, y });
   const chartData = [
     ...ACTUAL.map((cpa, i) => ({ day: day(i), cpa, projected: i === ACTUAL.length - 1 ? cpa : undefined })),
     ...projection.map((projected, i) => ({ day: day(ACTUAL.length + i), cpa: undefined, projected })),
@@ -221,7 +244,7 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
   const toolState = step === "analyzing" ? "running" : "output-available";
 
   return (
-    <ProductWindow path={["Continuum", "Performance+", "Studio launch · Meta"]}>
+    <ProductWindow ref={windowRef} path={["Continuum", "Performance+", "Studio launch · Meta"]}>
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)] lg:divide-x lg:divide-border">
         {/* Jaina */}
         <div className="flex h-[420px] flex-col lg:h-[560px]">
@@ -247,8 +270,15 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                     </Tool>
                   )}
                   <Message role={m.role} avatar={m.role === "assistant" ? "J" : "Y"}>
-                    {m.typed ? <Typed text={m.text} /> : m.text}
-                    {m.chart && (
+                    {m.typed ? (
+                      <Typed
+                        text={m.text}
+                        onDone={() => setMessages((all) => all.map((x) => (x.id === m.id && !x.done ? { ...x, done: true } : x)))}
+                      />
+                    ) : (
+                      m.text
+                    )}
+                    {m.chart && m.done && (
                       <ChartContainer config={barConfig} className="mt-2 aspect-auto h-24 w-full">
                         <BarChart data={BY_AD_SET} layout="vertical" margin={{ left: 0, right: 8 }} accessibilityLayer={false}>
                           <XAxis type="number" hide />
@@ -318,8 +348,13 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
           </div>
           <dl className="grid grid-cols-3 divide-x divide-border border-b border-border">
             {[
-              { label: "CPA today", value: `$${ACTUAL.at(-1)!.toFixed(2)}`, note: applied ? `$${OPTIMIZED.at(-1)!.toFixed(2)} in 7d` : `$${BASELINE.at(-1)!.toFixed(2)} in 7d`, good: applied },
-              { label: "ROAS", value: "2.4", note: applied ? "3.1 projected" : "2.1 projected", good: applied },
+              {
+                label: "CPA today",
+                value: `$${ACTUAL.at(-1)!.toFixed(2)}`,
+                note: <><Tween value={applied ? OPTIMIZED.at(-1)! : BASELINE.at(-1)!} format={(v) => `$${v.toFixed(2)}`} /> in 7d</>,
+                good: applied,
+              },
+              { label: "ROAS", value: "2.4", note: <><Tween value={applied ? 3.1 : 2.1} format={(v) => v.toFixed(1)} /> projected</>, good: applied },
               { label: "Daily spend", value: "$1,060", note: "unchanged", good: null },
             ].map((k) => (
               <div key={k.label} className="px-4 py-3">
@@ -352,7 +387,18 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                 <YAxis width={36} tickLine={false} axisLine={false} domain={[10, 22]} tickFormatter={(v) => `$${v}`} />
                 <ReferenceLine x={day(ACTUAL.length - 1)} stroke="var(--border)" strokeDasharray="3 3" />
                 {!activeFlag && <ChartTooltip content={<ChartTooltipContent indicator="line" />} />}
-                <Line dataKey="cpa" type="monotone" stroke="var(--color-cpa)" strokeWidth={2} dot={false} isAnimationActive={false} />
+                {/* Drawn left to right the first time the chart is in view. */}
+                <Line
+                  key={chartInView ? "drawn" : "rest"}
+                  dataKey="cpa"
+                  type="monotone"
+                  stroke="var(--color-cpa)"
+                  strokeWidth={2}
+                  dot={false}
+                  isAnimationActive={chartInView && !reduce}
+                  animationDuration={DRAW_S * 1000}
+                  animationEasing="ease-out"
+                />
                 <Line
                   dataKey="projected"
                   type="monotone"
@@ -365,11 +411,22 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                 />
                 {flags.map((f) => (
                   <ReferenceDot
-                    key={f.title}
+                    key={`${f.title}-${chartInView}`}
                     x={day(f.index)}
                     y={ACTUAL[f.index]}
                     ifOverflow="visible"
-                    shape={(props) => <FlagMarker cx={props.cx} cy={props.cy} flag={f} onOpen={openFlag} onClose={closeFlag} onToggle={toggleFlag} />}
+                    shape={(props) => (
+                      <FlagMarker
+                        cx={props.cx}
+                        cy={props.cy}
+                        flag={f}
+                        onOpen={openFlag}
+                        onClose={closeFlag}
+                        onToggle={toggleFlag}
+                        // Each flag lands as the drawing line reaches its day; the approved flag lands on approval.
+                        delay={f.kind === "approved" ? 0.2 : chartInView ? (f.index / (ACTUAL.length - 1)) * DRAW_S : undefined}
+                      />
+                    )}
                   />
                 ))}
               </LineChart>
@@ -439,7 +496,11 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                   const before = AD_SETS[i];
                   const changed = applied && (!before || before.budget !== r.budget || before.status !== r.status);
                   return (
-                    <TableRow key={r.name} className={cn(changed && "bg-primary/6")}>
+                    <TableRow
+                      key={r.name}
+                      className={cn(changed && "pf-row-flash bg-primary/6", !before && "pf-row-in")}
+                      style={before ? undefined : { animationDelay: `${0.15 + (i - AD_SETS.length) * 0.08}s` }}
+                    >
                       <TableCell className="max-w-[200px] truncate font-medium">{r.name}</TableCell>
                       <TableCell>
                         <Badge variant={r.status === "Active" ? "success" : r.status === "Paused" ? "muted" : "violet"}>
@@ -447,7 +508,7 @@ export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right tabular-nums">
-                        {r.budget ? `$${r.budget}` : "Shared"}
+                        {r.budget ? <Tween value={r.budget} format={(v) => `$${Math.round(v)}`} /> : "Shared"}
                         {changed && before && before.budget !== r.budget && (
                           <span className="ml-1 text-2xs text-muted-foreground line-through">${before.budget}</span>
                         )}

@@ -1,497 +1,202 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Sky from '../components/Sky.astro';
+import SiteNav from '../components/SiteNav.astro';
+import Footer from '../components/Footer.astro';
+import { ShimmerButton } from '../components/ui/shimmer-button';
+
+const stats = [
+  { value: '10K+', label: 'Variants per brief' },
+  { value: '< 2s', label: 'Per variant' },
+  { value: '100%', label: 'Brand-consistent' },
+];
+
+const chapters = [
+  {
+    id: 'ingest',
+    index: '01',
+    eyebrow: 'Ingest',
+    title: 'Your design system becomes a production system.',
+    lead: 'Brand books, templates, components, and After Effects projects are ingested once and ground every generation and render downstream — so scale never drifts off-brand.',
+    specs: [
+      ['Inputs', 'Brand books · templates · libraries'],
+      ['Grounding', 'Every generation scoped to brand'],
+      ['Multi-brand', 'Per-brand tenancy'],
+      ['Versioning', 'Updates propagate downstream'],
+      ['Readiness', 'AI-drafted brand book + score'],
+    ],
+  },
+  {
+    id: 'generate',
+    index: '02',
+    eyebrow: 'Generate',
+    title: 'AI and rendering automation run as one pipeline.',
+    lead: 'Node-based workflows draft image and video concepts while our auto-scaling render fleet finishes templates at production grade — and every variant passes brand validation before a human ever reviews it, including web accessibility standards like WCAG 2.1.',
+    specs: [
+      ['Generation', 'Image + video models on canvas'],
+      ['Rendering', 'Auto-scaling AE render fleet'],
+      ['Validation', '20+ brand checks per variant'],
+      ['Throughput', '10K+ variants / day'],
+      ['Formats', '30+ formats'],
+    ],
+  },
+  {
+    id: 'deliver',
+    index: '03',
+    eyebrow: 'Deliver',
+    title: 'Finished creative goes straight into the ad set.',
+    lead: 'Campaigns assembled through our DCO process, creatives switched on performance signals, results looped back into the next brief. Every channel, market, and audience. Zero manual reformatting.',
+    specs: [
+      ['Destinations', 'Meta · Google · TikTok · YouTube'],
+      ['Delivery', 'Render-to-ad-set pipelines'],
+      ['Optimization', 'DCO creative switching'],
+      ['Approvals', 'Human gates where required'],
+      ['Loop', 'Performance back into generation'],
+    ],
+  },
+];
 ---
 
 <Layout
   title="The Intelligent Creative Factory — Continuum AI Creative Platform"
   description="Continuum ingests your design system, generates on-brand creative between AI and rendering automations, and delivers it into every platform at scale through DCO."
+  appearance="light"
 >
-  <div class="relative min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
-    <!-- Nav -->
-    <nav class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 border-b border-border/10 bg-background/80 backdrop-blur-md transition-colors duration-normal ease-standard">
-      <a href="/" class="group flex items-center gap-2 font-display text-[10px] tracking-wide text-foreground hover:text-primary transition-colors duration-fast ease-standard">
-        <span class="text-muted-foreground/40 group-hover:text-primary group-hover:-translate-x-0.5 transition-all duration-fast">←</span>
-        Continuum
-      </a>
-      <span class="font-sans text-[9px] font-bold tracking-wide text-muted-foreground border border-border/20 px-3 py-1 rounded-full bg-card/40">
-        Creative Factory
-      </span>
-    </nav>
+  <Sky />
+  <SiteNav />
 
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden py-24 md:py-32 border-b border-border/10">
-      <!-- Grid Background Overlay -->
-      <div class="absolute inset-0 bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-[0.07] pointer-events-none"></div>
-
-      <!-- Concentric Orbital (Accretion Disk Metaphor) in background -->
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none opacity-[0.06] mix-blend-screen">
-        <svg viewBox="0 0 200 200" class="w-full h-full animate-[spin_180s_linear_infinite]" aria-hidden="true">
-          <circle cx="100" cy="100" r="90" stroke="currentColor" class="text-primary" stroke-width="0.1" fill="none" stroke-dasharray="1 10" />
-          <circle cx="100" cy="100" r="75" stroke="currentColor" class="text-brand-violet" stroke-width="0.15" fill="none" stroke-dasharray="5 5" />
-          <circle cx="100" cy="100" r="60" stroke="currentColor" class="text-primary" stroke-width="0.1" fill="none" />
-          <circle cx="100" cy="100" r="45" stroke="currentColor" class="text-brand-violet" stroke-width="0.2" fill="none" stroke-dasharray="2 15" />
-          <circle cx="100" cy="100" r="30" stroke="currentColor" class="text-primary" stroke-width="0.1" fill="none" />
-        </svg>
-      </div>
-
-      <div class="max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center text-center">
-        <p class="font-sans text-[10px] font-bold tracking-wide text-primary mb-6">
-          Continuum / Intelligent Creative Factory
-        </p>
-        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] text-foreground mb-8 max-w-4xl">
-          The Intelligent<br />
-          <span class="text-transparent [-webkit-text-stroke:1px_var(--color-foreground)]">Creative Factory.</span>
-        </h1>
-        <p class="text-base md:text-lg text-muted-foreground max-w-[65ch] leading-relaxed mb-16 font-sans">
-          We ingest your design system, generate on-brand content between AI and rendering
-          automations, and deliver it into every platform at scale through DCO.
-          Integrate with <a href="/social-plus" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">Social+ for Claude</a>
-          or learn more about our <a href="/#pricing" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">pricing options</a>.
-        </p>
-
-        <!-- Stats Grid (Tonal Accretion Disk Cards with Liquid Glass Refraction) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
-          <!-- Stat 1 -->
-          <div class="relative overflow-hidden bg-card/40 border border-border/10 p-8 rounded-xl flex flex-col items-center justify-center transition-all duration-normal ease-standard hover:bg-card/60 hover:border-border/20 shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-            <span class="font-mono text-4xl font-bold tracking-tight text-foreground tabular-nums">10K+</span>
-            <span class="font-sans text-[9px] font-bold tracking-wide text-muted-foreground mt-3">Variants per Brief</span>
-            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
+  <!-- Night hero -->
+  <section class="relative overflow-hidden bg-[var(--night)] pb-20 pt-32 text-white md:pb-28 md:pt-40">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <p class="font-display text-base font-semibold text-brand-violet">Continuum / Technology</p>
+      <h1 class="mt-2 max-w-4xl text-balance font-display text-h2 font-bold">
+        The Intelligent Creative Factory.
+      </h1>
+      <p class="mt-5 max-w-[46ch] text-lead text-white/70">
+        We ingest your design system, generate on-brand content between AI and
+        rendering automations, and deliver it into every platform at scale
+        through DCO. Integrate with
+        <a href="/social-plus" class="font-semibold text-white underline underline-offset-4 hover:text-white/80">Social+ for Claude</a>
+        or see <a href="/#pricing" class="font-semibold text-white underline underline-offset-4 hover:text-white/80">pricing</a>.
+      </p>
+      <dl class="mt-12 grid max-w-3xl gap-4 sm:grid-cols-3">
+        {stats.map((s) => (
+          <div class="rounded-xl border border-white/10 bg-white/[0.04] p-6">
+            <dd class="font-display text-4xl font-bold tabular-nums">{s.value}</dd>
+            <dt class="mt-2 text-sm text-white/60">{s.label}</dt>
           </div>
-          <!-- Stat 2 -->
-          <div class="relative overflow-hidden bg-card/40 border border-border/10 p-8 rounded-xl flex flex-col items-center justify-center transition-all duration-normal ease-standard hover:bg-card/60 hover:border-border/20 shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-            <span class="font-mono text-4xl font-bold tracking-tight text-foreground tabular-nums">&lt;&nbsp;2s</span>
-            <span class="font-sans text-[9px] font-bold tracking-wide text-muted-foreground mt-3">Per Variant</span>
-            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-brand-violet/20 to-transparent"></div>
-          </div>
-          <!-- Stat 3 -->
-          <div class="relative overflow-hidden bg-card/40 border border-border/10 p-8 rounded-xl flex flex-col items-center justify-center transition-all duration-normal ease-standard hover:bg-card/60 hover:border-border/20 shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-            <span class="font-mono text-4xl font-bold tracking-tight text-foreground tabular-nums">100%</span>
-            <span class="font-sans text-[9px] font-bold tracking-wide text-muted-foreground mt-3">Brand-Consistent</span>
-            <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+        ))}
+      </dl>
+    </div>
+  </section>
 
-    <!-- Hatch Transition Band -->
-    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
+  <div class="horizon horizon-dawn" aria-hidden="true"></div>
 
-    <!-- 01 — SCALABLE Section -->
-    <section class="py-24 px-6 md:px-12 border-b border-border/10">
-      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        <!-- Text Column -->
-        <div class="flex flex-col">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="font-mono text-xs font-bold text-primary">01</span>
-            <span class="text-[9px] font-bold tracking-wide text-muted-foreground border border-border/20 px-2 py-0.5 rounded-sm bg-card/40">
-              Ingest
-            </span>
-          </div>
-          <h2 class="font-sans text-4xl md:text-5xl font-bold tracking-tight leading-none text-foreground mb-6">
-            Ingest.
-          </h2>
-          <p class="text-base text-muted-foreground max-w-[65ch] leading-relaxed mb-10 font-sans">
-            Your design system becomes a production system. Brand books, templates, components,
-            and After Effects projects are ingested once and ground every generation and render
-            downstream — so scale never drifts off-brand.
+  <!-- Daylight chapters -->
+  <div class="bg-[linear-gradient(var(--day-top),var(--day-low))] text-foreground">
+    <div class="mx-auto max-w-7xl px-4 py-24 md:px-6 md:py-32">
+      <h2 class="max-w-3xl text-balance font-display text-h2 font-bold">Ingest. Generate. Deliver.</h2>
+      <p class="mt-5 max-w-[46ch] text-lead text-muted-foreground">
+        Three stages, one factory. Each stage runs on your design system and writes results back.
+      </p>
+
+      {chapters.map((c) => (
+        <article id={c.id} class="mt-20 scroll-mt-24 md:mt-28" aria-labelledby={`${c.id}-title`}>
+          <p class="font-display text-base font-semibold text-brand-violet">{c.index} · {c.eyebrow}</p>
+          <h3 id={`${c.id}-title`} class="mt-1 max-w-3xl text-balance font-display text-h3 font-bold">{c.title}</h3>
+          <p class="mt-3 max-w-[46ch] text-lead text-muted-foreground">
+            {c.id === 'generate' ? (
+              <>
+                Node-based workflows draft image and video concepts while our auto-scaling render fleet
+                finishes templates at production grade — and every variant passes brand validation before
+                a human ever reviews it, including web accessibility standards like
+                <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" class="font-semibold text-brand-violet underline-offset-4 hover:underline"> WCAG 2.1</a>.
+              </>
+            ) : c.lead}
           </p>
-
-          <!-- Premium Data Spec List -->
-          <div class="border border-border/10 rounded-xl overflow-hidden bg-card/20 backdrop-blur-sm shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 bg-card/30">
-              <span class="font-sans text-[10px] font-bold tracking-wide text-muted-foreground/60">Parameter</span>
-              <span class="font-sans text-[10px] font-bold tracking-wide text-muted-foreground/60">Value</span>
+          <div class="mt-8 overflow-hidden rounded-xl border border-border bg-background">
+            <div class="grid grid-cols-2 gap-4 border-b border-border bg-muted/40 px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+              <span>Parameter</span>
+              <span class="text-right">Value</span>
             </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Inputs</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Brand books · templates · libraries</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Grounding</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Every generation scoped to brand</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Multi-brand</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Per-brand tenancy</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Versioning</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Updates propagate downstream</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Readiness</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">AI-drafted brand book + score</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visual Column (Accretion Disk Metaphor Simulation) -->
-        <div class="relative w-full aspect-square max-w-[450px] mx-auto bg-card/5 rounded-2xl border border-border/5 overflow-hidden flex items-center justify-center p-8 shadow-inner">
-          <!-- Background Orbit Path Grid -->
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-border)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-20 pointer-events-none"></div>
-
-          <!-- Rotating Rings Container -->
-          <div class="relative w-full h-full flex items-center justify-center">
-            <!-- Gravity Well Core (Black Hole metaphor) -->
-            <div class="relative w-28 h-28 rounded-full bg-background flex items-center justify-center shadow-2xl z-20 group cursor-pointer border border-primary/20">
-              <!-- Event Horizon subtle line -->
-              <div class="absolute inset-0 rounded-full border border-brand-violet/20 group-hover:border-primary/50 transition-colors duration-normal ease-standard"></div>
-              <div class="w-20 h-20 rounded-full bg-radial from-background to-card border border-border/10 flex flex-col items-center justify-center text-center p-2">
-                <span class="font-display text-[8px] font-bold tracking-wide text-primary">Core</span>
-                <span class="font-mono text-[9px] text-muted-foreground/80 mt-1">Event</span>
-                <span class="font-mono text-[9px] text-muted-foreground/80">Horizon</span>
-              </div>
-            </div>
-
-            <!-- Accretion Disk Orbiting Ring 1 (Inner) -->
-            <div class="absolute w-52 h-52 rounded-full border border-dashed border-border/10 flex items-center justify-center animate-[spin_30s_linear_infinite]">
-              <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-[oklch(14%_0.01_265)] font-mono text-[9px] font-bold px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_30s_linear_infinite_reverse]">
-                Brand Book
-              </div>
-              <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_30s_linear_infinite_reverse]">
-                AE Template
-              </div>
-            </div>
-
-            <!-- Accretion Disk Orbiting Ring 2 (Middle) -->
-            <div class="absolute w-72 h-72 rounded-full border border-dashed border-border/10 flex items-center justify-center animate-[spin_50s_linear_infinite_reverse]">
-              <div class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_50s_linear_infinite]">
-                Palette
-              </div>
-              <div class="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 bg-brand-violet text-foreground font-mono text-[9px] font-bold px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_50s_linear_infinite]">
-                Voice
-              </div>
-            </div>
-
-            <!-- Accretion Disk Orbiting Ring 3 (Outer) -->
-            <div class="absolute w-96 h-96 rounded-full border border-dashed border-border/5 flex items-center justify-center animate-[spin_85s_linear_infinite]">
-              <div class="absolute top-1/4 left-6 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_85s_linear_infinite_reverse]">
-                Logo Kit
-              </div>
-              <div class="absolute bottom-1/4 right-6 bg-card border border-border/20 text-foreground font-mono text-[9px] px-2 py-0.5 rounded shadow-sm hover:scale-105 transition-transform cursor-pointer animate-[spin_85s_linear_infinite_reverse]">
-                Components
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Hatch Transition Band -->
-    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
-
-    <!-- 02 — TESTABLE Section -->
-    <section class="py-24 px-6 md:px-12 bg-card/10 border-b border-border/10">
-      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        <!-- Visual Column (Terminal Validation Console) - Placed first on large screen via order utility -->
-        <div class="order-last lg:order-first w-full max-w-[500px] mx-auto bg-background border border-border/10 rounded-xl overflow-hidden shadow-2xl relative font-mono text-[11px] md:text-xs" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-          <!-- Terminal Header -->
-          <div class="flex items-center justify-between px-4 py-3 bg-card/60 border-b border-border/10">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-destructive/20 border border-destructive/40"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-warning/20 border border-warning/40"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-success/20 border border-success/40"></span>
-              <span class="text-muted-foreground/60 text-[9px] font-bold tracking-wide ml-2">brand-check · batch_01J2K</span>
-            </div>
-            <span class="px-2 py-0.5 rounded text-[8px] font-bold bg-primary/10 border border-primary/20 text-primary font-sans">
-              Strict Mode
-            </span>
-          </div>
-
-          <!-- Terminal Content -->
-          <div class="p-6 space-y-2.5 leading-relaxed text-muted-foreground/90 select-none">
-            <!-- Command line -->
-            <div class="flex items-center gap-2 text-foreground/80 mb-2">
-              <span class="text-primary font-bold">continuum_agency ~</span>
-              <span class="text-foreground">validate --batch 01J2K --strict</span>
-            </div>
-            
-            <p class="text-muted-foreground/40 font-sans text-xs">Running 16 variants against brand spec v4.2...</p>
-            <div class="h-1"></div>
-
-            <!-- Parameter checks -->
-            <div class="flex items-center justify-between border-b border-border/5 py-1">
-              <div class="flex items-center gap-2">
-                <span class="text-success font-semibold">✓</span>
-                <span>BRAND_SCORE</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-muted-foreground/30">........................</span>
-                <span class="font-semibold text-foreground">94 / 100</span>
-                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">Pass</span>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between border-b border-border/5 py-1">
-              <div class="flex items-center gap-2">
-                <span class="text-success font-semibold">✓</span>
-                <span>TONE_CHECK</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-muted-foreground/30">........................</span>
-                <span class="font-semibold text-foreground">Formal</span>
-                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">Pass</span>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between border-b border-border/5 py-1">
-              <div class="flex items-center gap-2">
-                <span class="text-success font-semibold">✓</span>
-                <span>COLOR_PALETTE</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-muted-foreground/30">........................</span>
-                <span class="font-semibold text-foreground">Aligned</span>
-                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">Pass</span>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between border-b border-border/5 py-1">
-              <div class="flex items-center gap-2">
-                <span class="text-success font-semibold">✓</span>
-                <span>CONTRAST_RATIO</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-muted-foreground/30">........................</span>
-                <span class="font-semibold text-foreground">8.2 : 1</span>
-                <span class="text-[9px] font-bold bg-success/15 border border-success/20 text-success px-1.5 py-0.2 rounded-sm">Pass</span>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between border-b border-border/5 py-1">
-              <div class="flex items-center gap-2">
-                <span class="text-warning font-semibold">!</span>
-                <span>LOGO_CLEARANCE</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-muted-foreground/30">........................</span>
-                <span class="font-semibold text-foreground">14px</span>
-                <span class="text-[9px] font-bold bg-warning/15 border border-warning/20 text-warning px-1.5 py-0.2 rounded-sm">Warn</span>
-              </div>
-            </div>
-
-            <div class="h-3"></div>
-            <!-- Validation summary block -->
-            <div class="border-l-2 border-primary bg-primary/5 px-4 py-2 rounded-r flex flex-col gap-1">
-              <span class="text-primary font-bold tracking-wide text-[10px] font-sans">Batch Validation Complete</span>
-              <span class="text-foreground/90 font-medium font-sans">15/16 passed · 1 warning · 0 blocked</span>
-              <span class="text-muted-foreground/50 text-[10px] font-sans">Status: Ready for review queue.</span>
-            </div>
-
-            <div class="flex items-center gap-1 mt-3">
-              <span class="text-primary font-bold">continuum_agency ~</span>
-              <span class="w-1.5 h-3 bg-primary animate-pulse"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Text Column -->
-        <div class="flex flex-col">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="font-mono text-xs font-bold text-primary">02</span>
-            <span class="text-[9px] font-bold tracking-wide text-muted-foreground border border-border/20 px-2 py-0.5 rounded-sm bg-card/40">
-              Generate
-            </span>
-          </div>
-          <h2 class="font-sans text-4xl md:text-5xl font-bold tracking-tight leading-none text-foreground mb-6">
-            Generate.
-          </h2>
-          <p class="text-base text-muted-foreground max-w-[65ch] leading-relaxed mb-10 font-sans">
-            AI and rendering automation run as one pipeline. Node-based workflows draft image and
-            video concepts while our auto-scaling render fleet finishes templates at production
-            grade — and every variant passes brand validation before a human ever reviews it,
-            including web accessibility standards like <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">WCAG 2.1</a>.
-          </p>
-
-          <!-- Premium Data Spec List -->
-          <div class="border border-border/10 rounded-xl overflow-hidden bg-card/20 backdrop-blur-sm shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 bg-card/30">
-              <span class="font-sans text-[10px] font-bold tracking-wide text-muted-foreground/60">Parameter</span>
-              <span class="font-sans text-[10px] font-bold tracking-wide text-muted-foreground/60">Configuration</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Generation</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Image + video models on canvas</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Rendering</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Auto-scaling AE render fleet</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Validation</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">20+ brand checks per variant</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Throughput</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">10K+ variants / day</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Formats</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">30+ formats</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Hatch Transition Band -->
-    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
-
-    <!-- 03 — ADAPTABLE Section -->
-    <section class="py-24 px-6 md:px-12 border-b border-border/10">
-      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        <!-- Text Column -->
-        <div class="flex flex-col">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="font-mono text-xs font-bold text-primary">03</span>
-            <span class="text-[9px] font-bold tracking-wide text-muted-foreground border border-border/20 px-2 py-0.5 rounded-sm bg-card/40">
-              Deliver
-            </span>
-          </div>
-          <h2 class="font-sans text-4xl md:text-5xl font-bold tracking-tight leading-none text-foreground mb-6">
-            Deliver.
-          </h2>
-          <p class="text-base text-muted-foreground max-w-[65ch] leading-relaxed mb-10 font-sans">
-            Finished creative goes straight into platform ad sets through our DCO process —
-            campaigns assembled, creatives switched on performance signals, and results looped
-            back into the next brief. Every channel, market, and audience. Zero manual reformatting.
-          </p>
-
-          <!-- Premium Data Spec List -->
-          <div class="border border-border/10 rounded-xl overflow-hidden bg-card/20 backdrop-blur-sm shadow-sm" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 bg-card/30">
-              <span class="font-sans text-[10px] font-bold tracking-wide text-muted-foreground/60">Parameter</span>
-              <span class="font-sans text-[10px] font-bold tracking-wide text-muted-foreground/60">Capabilities</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Destinations</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Meta · Google · TikTok · YouTube</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Delivery</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Render-to-ad-set pipelines</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Optimization</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">DCO creative switching</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 border-b border-border/5 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Approvals</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Human gates where required</span>
-            </div>
-            <div class="flex justify-between items-center px-5 py-3 hover:bg-card/50 transition-colors duration-fast ease-standard">
-              <span class="font-sans text-xs text-muted-foreground/80 tracking-wide">Loop</span>
-              <span class="font-mono text-xs font-semibold text-foreground tracking-normal">Performance back into generation</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visual Column (Responsive Format Bento Grid) -->
-        <div class="relative w-full max-w-[480px] mx-auto bg-card/5 rounded-2xl border border-border/5 p-6 shadow-inner flex flex-col gap-4">
-          <!-- Bento Format grid layout representing Event Horizon crops -->
-          <div class="grid grid-cols-3 gap-3 w-full">
-            <!-- Story format (tall, spans 2 rows) -->
-            <div class="col-span-1 row-span-2 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-3 flex flex-col justify-between aspect-[9/16] shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-              <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">9:16</span>
-              <!-- Content Skeleton placeholder -->
-              <div class="w-full flex-1 flex flex-col justify-end gap-2 mt-4">
-                <div class="h-1.5 w-3/4 bg-border/20 rounded"></div>
-                <div class="h-1.5 w-1/2 bg-border/20 rounded"></div>
-                <div class="h-6 w-full bg-primary/10 border border-primary/20 rounded-sm mt-1"></div>
-              </div>
-              <span class="font-sans text-[8px] font-bold tracking-wide text-muted-foreground/75 mt-3">Story</span>
-            </div>
-
-            <!-- Feed format (square) -->
-            <div class="col-span-2 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-3 flex flex-col justify-between aspect-square shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-              <div class="flex justify-between items-center">
-                <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">1:1</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-success/50"></span>
-              </div>
-              <!-- Skeleton placeholder -->
-              <div class="w-full flex-1 flex flex-col justify-center gap-2 mt-2">
-                <div class="w-full h-12 bg-border/10 rounded border border-border/5 flex items-center justify-center">
-                  <div class="w-6 h-6 rounded-full border border-dashed border-border/30"></div>
+            <dl>
+              {c.specs.map(([k, v]) => (
+                <div class="grid grid-cols-2 items-center gap-4 border-b border-border/60 px-5 py-3.5 last:border-0">
+                  <dt class="text-sm text-muted-foreground">{k}</dt>
+                  <dd class="text-right font-mono text-[13px] font-medium">{v}</dd>
                 </div>
-                <div class="h-1.5 w-2/3 bg-border/20 rounded"></div>
-              </div>
-              <span class="font-sans text-[8px] font-bold tracking-wide text-muted-foreground/75 mt-2">Feed</span>
-            </div>
-
-            <!-- Display format (landscape) -->
-            <div class="col-span-2 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-3 flex flex-col justify-between aspect-[16/9] shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-              <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">16:9</span>
-              <div class="flex gap-2 items-center flex-1 my-2">
-                <div class="w-10 h-full bg-border/10 rounded border border-border/5"></div>
-                <div class="flex-1 flex flex-col gap-1.5">
-                  <div class="h-1.5 w-full bg-border/20 rounded"></div>
-                  <div class="h-1.5 w-2/3 bg-border/20 rounded"></div>
-                </div>
-              </div>
-              <span class="font-sans text-[8px] font-bold tracking-wide text-muted-foreground/75">Display</span>
-            </div>
-
-            <!-- Banner format (spanning bottom width) -->
-            <div class="col-span-3 relative overflow-hidden bg-card/45 border border-border/10 rounded-lg p-2.5 flex items-center justify-between shadow-sm hover:border-primary/30 hover:bg-card/65 transition-all duration-normal ease-standard group cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[9px] font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">728:90</span>
-                <span class="font-sans text-[8px] font-bold tracking-wide text-muted-foreground/75">Leaderboard</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <div class="h-1.5 w-16 bg-border/20 rounded"></div>
-                <div class="h-5 w-16 bg-primary/10 border border-primary/20 rounded-sm"></div>
-              </div>
-            </div>
+              ))}
+            </dl>
           </div>
-          <p class="font-sans text-[10px] font-bold tracking-wide text-muted-foreground/50 text-center">
-            Same brief. Every format.
-          </p>
+        </article>
+      ))}
+
+      <!-- Validation console, kept from the previous page, restyled -->
+      <article class="mt-20 md:mt-28" aria-label="Brand validation example">
+        <p class="font-display text-base font-semibold text-brand-violet">Gate · Validation</p>
+        <h3 class="mt-1 max-w-3xl text-balance font-display text-h3 font-bold">Every variant passes the gate before review.</h3>
+        <p class="mt-3 max-w-[46ch] text-lead text-muted-foreground">16 variants checked against brand spec v4.2 in strict mode. 15 passed, 1 warning, 0 blocked.</p>
+        <div class="mt-8 overflow-hidden rounded-xl border border-border bg-background font-mono text-[13px]">
+          <div class="flex items-center justify-between border-b border-border bg-muted/40 px-5 py-3">
+            <span class="text-xs text-muted-foreground">brand-check · batch_01J2K</span>
+            <span class="rounded-full border border-brand-violet/30 bg-brand-violet/10 px-2.5 py-0.5 text-[11px] font-semibold text-brand-violet">Strict Mode</span>
+          </div>
+          <ul class="divide-y divide-border/60 px-5">
+            <li class="flex items-center justify-between py-2.5"><span><span class="text-green-600">✓</span> BRAND_SCORE</span><span class="font-semibold">94 / 100 · Pass</span></li>
+            <li class="flex items-center justify-between py-2.5"><span><span class="text-green-600">✓</span> TONE_CHECK</span><span class="font-semibold">Formal · Pass</span></li>
+            <li class="flex items-center justify-between py-2.5"><span><span class="text-green-600">✓</span> COLOR_PALETTE</span><span class="font-semibold">Aligned · Pass</span></li>
+            <li class="flex items-center justify-between py-2.5"><span><span class="text-green-600">✓</span> CONTRAST_RATIO</span><span class="font-semibold">8.2 : 1 · Pass</span></li>
+            <li class="flex items-center justify-between py-2.5"><span><span class="text-amber-600">!</span> LOGO_CLEARANCE</span><span class="font-semibold">14px · Warn</span></li>
+          </ul>
+          <p class="border-t border-border bg-muted/40 px-5 py-3 text-xs text-muted-foreground">Batch validation complete — ready for the review queue.</p>
         </div>
+      </article>
+
+      <!-- Formats -->
+      <article class="mt-20 md:mt-28" aria-label="Output formats">
+        <p class="font-display text-base font-semibold text-brand-violet">Output · Every format</p>
+        <h3 class="mt-1 max-w-3xl text-balance font-display text-h3 font-bold">Same brief. Every format.</h3>
+        <div class="mt-8 grid gap-4 sm:grid-cols-3">
+          {[
+            ['9:16', 'Story', 'Tall crops for Reels, TikTok, Shorts.'],
+            ['1:1', 'Feed', 'Square crops for Instagram and LinkedIn.'],
+            ['16:9', 'Display', 'Landscape for YouTube and display.'],
+          ].map(([ratio, name, body]) => (
+            <div class="rounded-xl border border-border bg-background p-6">
+              <p class="font-mono text-xs font-semibold text-brand-violet">{ratio}</p>
+              <p class="mt-2 font-display text-xl font-bold">{name}</p>
+              <p class="mt-2 text-sm text-muted-foreground">{body}</p>
+            </div>
+          ))}
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="horizon horizon-dusk" aria-hidden="true"></div>
+
+  <!-- Night close -->
+  <div class="dark bg-[var(--night)] text-white">
+    <section class="px-4 py-24 text-center md:px-6 md:py-32">
+      <h2 class="mx-auto max-w-3xl text-balance font-display text-h2 font-bold">Stand up your creative factory.</h2>
+      <p class="mx-auto mt-5 max-w-[46ch] text-lead text-white/70">
+        Tell us what you ship each week. We'll show you the line that ships it.
+      </p>
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <ShimmerButton
+          href="/#demo"
+          shimmerColor="oklch(94% 0.08 195)"
+          borderRadius="12px"
+          background="linear-gradient(135deg, oklch(52% 0.13 205), oklch(42% 0.2 285))"
+          className="btn-fill h-14 px-9 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_48px_-8px_oklch(80%_0.14_195/0.55)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        >
+          Book a demo
+        </ShimmerButton>
+        <a href="/" class="text-base font-medium text-white/75 underline-offset-4 transition-colors hover:text-white hover:underline">
+          Back to site
+        </a>
       </div>
     </section>
-
-    <!-- Hatch Transition Band -->
-    <div class="h-8 border-y border-border/10 bg-[repeating-linear-gradient(-45deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] bg-background/30 opacity-70"></div>
-
-    <!-- CTA Section -->
-    <section class="relative py-24 px-6 md:px-12 bg-card/10 border-b border-border/10 text-center overflow-hidden">
-      <!-- Grid backdrop subtle effect -->
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-border)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(circle_40%_at_50%_50%,#000_60%,transparent_100%)] opacity-[0.05] pointer-events-none"></div>
-
-      <div class="max-w-3xl mx-auto relative z-10 flex flex-col items-center">
-        <p class="font-sans text-[10px] font-bold tracking-wide text-primary mb-6">
-          Get Started
-        </p>
-        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 leading-none">
-          Stand Up Your<br />
-          <span class="text-transparent [-webkit-text-stroke:1px_var(--color-foreground)]">Creative Factory.</span>
-        </h2>
-        <p class="text-base text-muted-foreground max-w-[60ch] leading-relaxed mb-10 font-sans">
-          Talk to the Continuum team about turning your design system into a production line, or
-          discover our <a href="/#pricing" class="text-primary hover:text-[oklch(75%_0.13_180)] font-semibold underline underline-offset-4 decoration-primary/30 transition-colors">pricing models</a> to get started.
-        </p>
-        
-        <div class="flex flex-wrap items-center justify-center gap-4">
-          <!-- Request a Demo (Primary) -->
-          <a href="/#demo" class="inline-flex items-center justify-center font-sans text-xs font-bold tracking-wide bg-primary text-primary-foreground px-8 py-3.5 rounded-md hover:bg-[oklch(75%_0.13_180)] hover:scale-[1.02] shadow-sm transition-all duration-normal ease-standard cursor-pointer" style="box-shadow: 0 1px 3px oklch(0% 0 0 / 40%), inset 0 1px 0 oklch(100% 0 0 / 8%)">
-            Request a Demo
-          </a>
-          <!-- Back to Site (Outline) -->
-          <a href="/" class="inline-flex items-center justify-center font-sans text-xs font-bold tracking-wide border border-border/20 text-foreground bg-transparent px-8 py-3.5 rounded-md hover:bg-card hover:border-border/40 transition-all duration-normal ease-standard cursor-pointer">
-            Back to Site
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="max-w-7xl mx-auto py-8 px-6 md:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-[10px] font-bold tracking-wide text-muted-foreground/50">
-      <span>
-        © {new Date().getFullYear()} Continuum. Made with love in Palo Alto, CA.
-      </span>
-      <a href="/" class="hover:text-primary transition-colors duration-fast ease-standard flex items-center gap-1.5">
-        <span class="text-muted-foreground/30">←</span> Back to site
-      </a>
-    </footer>
+    <Footer />
   </div>
 </Layout>

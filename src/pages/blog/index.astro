@@ -1,20 +1,38 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
+import BlogLazyList from '../../components/blog/BlogLazyList';
 import { getCollection } from 'astro:content';
+import {
+  BLOG_PAGE_SIZE,
+  formatPostDate,
+  getZenblogBlogId,
+  listUnifiedPosts,
+  readingTimeMinutes,
+  type UnifiedPost,
+} from '../../lib/zenblog';
 
 const SITE = 'https://trycontinuum.ai';
 
-const posts = (await getCollection('blog'))
-  .filter((p) => !p.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const firstPage = await listUnifiedPosts({ limit: BLOG_PAGE_SIZE, offset: 0 });
+let posts: UnifiedPost[] = firstPage.posts;
+const total: number = firstPage.total;
+const source = firstPage.source;
 
-const wordsPerMinute = 220;
-const readingTime = (body: string | undefined) =>
-  Math.max(1, Math.round((body ?? '').trim().split(/\s+/).length / wordsPerMinute));
+// Local fallback: render everything statically (no lazy island needed).
+// ZenBlog: first page is SSR'd for SEO, the rest lazy-loads client-side.
+let localReadingTime = new Map<string, number>();
+if (source === 'local') {
+  const all = await listUnifiedPosts({ limit: 1000, offset: 0 });
+  posts = all.posts;
+  const bodies = new Map((await getCollection('blog')).map((p) => [p.id, p.body]));
+  localReadingTime = new Map(
+    posts.map((p) => [p.slug, readingTimeMinutes(bodies.get(p.localId ?? p.slug))]),
+  );
+}
 
-const fmtDate = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const zenblogBlogId = getZenblogBlogId();
+const showLazyList = source === 'zenblog' && zenblogBlogId && posts.length < total;
 
 const title = 'Blog — Creative Automation & Performance Marketing Insights | Continuum';
 const description =
@@ -37,11 +55,11 @@ const blogSchema = {
   },
   blogPost: posts.map((p) => ({
     '@type': 'BlogPosting',
-    headline: p.data.title,
-    description: p.data.metaDescription,
-    datePublished: p.data.pubDate.toISOString(),
-    dateModified: (p.data.updatedDate ?? p.data.pubDate).toISOString(),
-    url: `${SITE}/blog/${p.id}/`,
+    headline: p.title,
+    description: p.excerpt,
+    datePublished: p.publishedAt.toISOString(),
+    dateModified: (p.updatedAt ?? p.publishedAt).toISOString(),
+    url: `${SITE}/blog/${p.slug}/`,
   })),
 };
 
@@ -58,6 +76,14 @@ const breadcrumbSchema = {
 <Layout title={title} description={description}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(blogSchema)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbSchema)} />
+  {
+    source === 'zenblog' && (
+      <Fragment slot="head">
+        <link rel="preconnect" href="https://zenblog.com" crossorigin />
+        <link rel="dns-prefetch" href="https://zenblog.com" />
+      </Fragment>
+    )
+  }
 
   <div class="relative min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
     <!-- Nav -->
@@ -84,27 +110,31 @@ const breadcrumbSchema = {
         </p>
       </header>
 
-      <!-- Post list -->
+      <!-- Post list: first page is server-rendered (SEO), the rest lazy-loads -->
       <div class="grid grid-cols-1 gap-px bg-border/30 rounded-xl overflow-hidden border border-border/30">
         {
           posts.map((post) => (
             <a
-              href={`/blog/${post.id}/`}
+              href={`/blog/${post.slug}/`}
               class="group block bg-background hover:bg-card/40 transition-colors duration-300 p-8 md:p-10"
             >
               <article class="flex flex-col gap-4">
                 <div class="flex items-center gap-3 text-[10px] tracking-wide font-mono">
-                  <span class="text-primary font-bold">{post.data.category}</span>
+                  <span class="text-primary font-bold">{post.category}</span>
                   <span class="text-muted-foreground/40">•</span>
-                  <span class="text-muted-foreground/70">{fmtDate(post.data.pubDate)}</span>
-                  <span class="text-muted-foreground/40">•</span>
-                  <span class="text-muted-foreground/70">{readingTime(post.body)} min read</span>
+                  <span class="text-muted-foreground/70">{formatPostDate(post.publishedAt)}</span>
+                  {source === 'local' && (
+                    <>
+                      <span class="text-muted-foreground/40">•</span>
+                      <span class="text-muted-foreground/70">{localReadingTime.get(post.slug) ?? 1} min read</span>
+                    </>
+                  )}
                 </div>
                 <h2 class="text-2xl md:text-3xl font-semibold font-display text-foreground leading-tight group-hover:text-primary transition-colors">
-                  {post.data.title}
+                  {post.title}
                 </h2>
                 <p class="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl">
-                  {post.data.excerpt ?? post.data.metaDescription}
+                  {post.excerpt}
                 </p>
                 <span class="mt-2 inline-flex items-center gap-2 text-sm font-medium text-primary">
                   Read article
@@ -113,6 +143,17 @@ const breadcrumbSchema = {
               </article>
             </a>
           ))
+        }
+        {
+          showLazyList && (
+            <BlogLazyList
+              client:visible
+              blogId={zenblogBlogId!}
+              initialOffset={posts.length}
+              total={total}
+              pageSize={BLOG_PAGE_SIZE}
+            />
+          )
         }
       </div>
     </main>

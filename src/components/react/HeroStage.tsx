@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { FlipWords } from "@/components/ui/flip-words";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
-import { startStarfield } from "@/lib/starfield";
+import { startStarfield, HERO_O_CATCH_MS } from "@/lib/starfield";
 import { cn } from "@/lib/utils";
 
 const LETTERS = ["C", "", "N", "T", "I", "N", "U", "U", "M"] as const;
@@ -25,11 +24,13 @@ export function HeroStage() {
   const [dragging, setDragging] = useState(false);
 
   useEffect(() => {
+    const mountT = performance.now(); // ignition curtain: everything below keys off mount
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const stars = starsRef.current;
     const slot = slotRef.current;
     let stopStars = () => {};
     let cancelled = false;
+    let ignitionTimer = 0;
     if (stars && slot) {
       if (!reduced && "gpu" in navigator) {
         // WebGPU starfield first (instanced stars + right-side meteors);
@@ -75,12 +76,19 @@ export function HeroStage() {
       const renderer = createRenderer({ canvas, onError: fail });
       rendererRef.current = renderer;
       renderer.ready.then(() => {
-        if (!cancelled) setLive(true);
+        if (cancelled) return;
+        // The O catches once the first stars arrive — not whenever WebGPU
+        // happens to be ready — so the hole feels caused by the swirl.
+        const wait = Math.max(0, HERO_O_CATCH_MS - (performance.now() - mountT));
+        ignitionTimer = window.setTimeout(() => {
+          if (!cancelled) setLive(true);
+        }, wait);
       }, fail);
     }, fail);
 
     return () => {
       cancelled = true;
+      window.clearTimeout(ignitionTimer);
       rendererRef.current?.dispose();
       rendererRef.current = null;
       stopStars();
@@ -113,7 +121,7 @@ export function HeroStage() {
   };
 
   const layer = cn(
-    "hero-o-ambient absolute left-[-20%] top-[-20%] size-[140%] max-w-none [mask-image:radial-gradient(closest-side,#000_70%,transparent)] [rotate:var(--roll,0deg)]",
+    "hero-o-ambient absolute left-[-20%] top-[-20%] size-[140%] max-w-none [mask-image:radial-gradient(closest-side,#000_70%,transparent)]",
     !dragging && "transition-[rotate,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
   );
 
@@ -140,7 +148,7 @@ export function HeroStage() {
               onPointerUp={onPointerUp}
               onPointerCancel={onPointerUp}
               className={cn(
-                "relative mx-auto block size-[0.8em]",
+                "hero-o-slot relative mx-auto block size-[0.8em]",
                 live && "cursor-grab touch-none active:cursor-grabbing",
               )}
             >
@@ -168,7 +176,8 @@ export function HeroStage() {
 
       <div
         aria-hidden="true"
-        className="mt-10 text-center font-display text-display font-light md:mt-14"
+        className="hero-copy-in mt-10 text-center font-display text-display font-light md:mt-14"
+        style={{ animationDelay: "1.5s" }}
       >
         <p className="text-balance text-white">The intelligent creative factory for</p>
         <p className="mt-1 min-h-[1.2em] pb-1">
@@ -176,17 +185,11 @@ export function HeroStage() {
         </p>
       </div>
 
-      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
-      <ShimmerButton
-        href="#demo"
-        shimmerColor="oklch(94% 0.08 195)"
-        borderRadius="12px"
-        background="linear-gradient(135deg, oklch(52% 0.13 205), oklch(42% 0.2 285))"
-        className="btn-fill h-14 px-9 text-lg font-semibold [--btn-fill:oklch(40%_0.19_272)] shadow-[0_0_48px_-8px_oklch(80%_0.14_195/0.55)] hover:shadow-[0_0_72px_-4px_oklch(80%_0.14_195/0.8)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-      >
+      <div className="hero-copy-in mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-6" style={{ animationDelay: "1.7s" }}>
+      <a href="#demo" data-live className="btn-aura h-14 rounded-xl px-9 text-lg">
         Book a demo
-        <ArrowRight className="ml-2 size-5 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true" />
-      </ShimmerButton>
+        <ArrowRight className="size-5" aria-hidden="true" />
+      </a>
       <a href="#product" className="text-base font-medium text-white/75 underline-offset-4 transition-colors hover:text-white hover:underline">
         See it work <span aria-hidden="true">↓</span>
       </a>
