@@ -1,30 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
-import {
-  formatPostDate,
-  jsonLd,
-  listPostsPage,
-  readingTimeMinutes,
-} from '../../lib/posts';
+import { formatPostDate, jsonLd, listAllPosts, readingTimeMinutes } from '../../lib/posts';
 
 const SITE = 'https://trycontinuum.ai';
-Astro.response.headers.set('Cache-Control', 'private, no-store');
-const requestedPage = Number(Astro.url.searchParams.get('page') ?? '1');
-const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
-
-let pageResult;
-try {
-  pageResult = await listPostsPage(page);
-} catch (error) {
-  console.error('[blog] Failed to load published posts:', error);
-  return new Response('Unable to load blog posts', { status: 500 });
-}
-
-if (page > 1 && pageResult.posts.length === 0) return Astro.rewrite('/404');
-
-const { posts, hasPrevious, hasNext } = pageResult;
-const canonicalURL = new URL(page === 1 ? '/blog/' : `/blog/?page=${page}`, SITE);
+// ponytail: one page lists every post; add Astro's paginate() past ~50 posts.
+const posts = await listAllPosts();
+const canonicalURL = new URL('/blog/', SITE);
 const title = 'Creative Automation & Performance Marketing Blog | Continuum';
 const description =
   'Guides on AI-native DCO, on-brand creative at scale, stock-aware dynamic ads, and ad personalization, from the team building Continuum.';
@@ -58,8 +40,6 @@ const breadcrumbSchema = {
     { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE}/blog/` },
   ],
 };
-
-const pageHref = (target: number) => (target === 1 ? '/blog/' : `/blog/?page=${target}`);
 ---
 
 <Layout title={title} description={description} canonicalURL={canonicalURL}>
@@ -117,17 +97,6 @@ const pageHref = (target: number) => (target === 1 ? '/blog/' : `/blog/?page=${t
         ))}
       </div>
 
-      {(hasPrevious || hasNext) && (
-        <nav aria-label="Blog pages" class="mt-8 flex items-center justify-between text-sm">
-          {hasPrevious ? (
-            <a href={pageHref(page - 1)} class="text-primary hover:underline">← Newer posts</a>
-          ) : <span />}
-          <span class="text-muted-foreground">Page {page}</span>
-          {hasNext ? (
-            <a href={pageHref(page + 1)} class="text-primary hover:underline">Older posts →</a>
-          ) : <span />}
-        </nav>
-      )}
     </main>
   </div>
 

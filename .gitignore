@@ -19,12 +19,12 @@ Thumbs.db
 .env.*
 !.env.example
 
-# Local EmDash database and uploaded media
-/data/
-
 # Astro
 .astro/
 dist/
+
+# Cloudflare local dev (wrangler pages dev)
+.wrangler/
 
 # Video masters for scripts/optimize-media.sh (never commit)
 /media/

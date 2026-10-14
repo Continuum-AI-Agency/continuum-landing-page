@@ -10,7 +10,7 @@ Masonry grid refresh and pricing solids landed on 2026-09-23 (see [Masonry grid]
 - `bun run dev` on http://localhost:4321, `bun run build`, typecheck with `./node_modules/.bin/tsc --noEmit -p .`
 - Checks: `bun src/lib/polyhedra.check.ts`, `bun src/lib/engraving.check.ts`
 - WebGPU in automation: `agent-browser --headed --args "--enable-unsafe-webgpu" open http://localhost:4321/`
-- Netlify builds with Bun and `--frozen-lockfile`; commit `bun.lock` with any dependency change.
+- Netlify (live until the Cloudflare cutover) and Cloudflare Pages build with Bun and `--frozen-lockfile`; commit `bun.lock` with any dependency change.
 
 ## Page map (`src/pages/index.astro`)
 
@@ -76,13 +76,13 @@ Masonry grid refresh and pricing solids landed on 2026-09-23 (see [Masonry grid]
 - IDs in use: `#logos`, `#showcase`, `#product`, `#organic`, `#performance`, `#automation`, `#results`, `#pricing`, `#demo`. Keep them unique.
 - `/social-plus` is the Social+ plugin for Claude (a separate product), not Organic+.
 
-## EmDash local CMS
+## Blog CMS: Sanity
 
-Blog and press now read the `posts` collection in EmDash 1.2.0. Astro 6 uses the standalone Node adapter; Bun remains the package manager, with Node 22.16+ executing scripts. The five marketing pages remain prerendered.
+Blog posts (and the press entries on `/press`) live in Sanity: project `ermndauy`, dataset `production` (public read). The whole site is a static build; posts are fetched once at build time in `src/lib/posts.ts`.
 
-- First checkout: `bun install --frozen-lockfile`, `bunx emdash secrets generate --write .env`, `bun run cms:seed`, then `bun run dev`.
-- Site: http://localhost:4321/blog/ and http://localhost:4321/press/. Admin: http://localhost:4321/_emdash/admin/. Complete setup with your own passkey. The seed's sample content is the 14 imported articles.
-- SQLite and uploads live in ignored `data/`; the encryption key lives in ignored `.env`. Back these up before changing machines. Do not commit credentials or databases.
-- `bun run cms:test` tests the Markdown conversion; `bun run cms:check` validates the seed. `bun run cms:import` regenerates the seed from retained Markdown originals. `cms:seed` skips existing records and does not overwrite edits made in EmDash.
-- Published content appears on reload, including the live sitemap. Saving a draft revision does not change the published version until it is published.
-- This integration is local only. The existing static Netlify configuration is not configured to deploy the Node CMS or persist its database/uploads. Choose the hosting adapter and persistent storage after the owner reviews the local site; do not deploy this setup as the old static build.
+- Writers use the hosted Studio at https://continuum.sanity.studio. Its code is in `studio/` (schema in `studio/schemaTypes/`); ship schema changes with `cd studio && bun run deploy`.
+- The Studio enforces the SEO limits: search title max 60 characters, search description max 160, no H1 in the body (the post title is the only h1).
+- Publishing calls the Cloudflare Pages deploy hook via a Sanity webhook (`sanity-publish`), so a published post is live in about two minutes. Drafts don't trigger builds.
+- Local: `bun run build` pulls published posts from Sanity, no token needed. `astro dev` caches posts per process; restart it to see new edits.
+- The 14 Markdown posts were migrated on 2026-10-14 (markdown → Portable Text, quotes curled to match the old smartypants output). The Markdown and the one-time importer are deleted; git history has them. Don't re-import: it would overwrite edits made in Sanity.
+- Post bodies render with `astro-portabletext`; tables, dividers and images go through `src/components/blog/BodyType.astro`.

@@ -4,17 +4,9 @@ import Footer from '../components/Footer.astro';
 import { formatPostDate, jsonLd, listAllPosts } from '../lib/posts';
 
 const SITE = 'https://trycontinuum.ai';
-Astro.response.headers.set('Cache-Control', 'private, no-store');
-
-let pressPosts;
-try {
-  pressPosts = (await listAllPosts())
-    .filter((post) => post.press)
-    .sort((a, b) => (b.sourceDate ?? b.pubDate).valueOf() - (a.sourceDate ?? a.pubDate).valueOf());
-} catch (error) {
-  console.error('[press] Failed to load published press posts:', error);
-  return new Response('Unable to load press coverage', { status: 500 });
-}
+const pressPosts = (await listAllPosts())
+  .filter((post) => post.press)
+  .sort((a, b) => (b.sourceDate ?? b.pubDate).valueOf() - (a.sourceDate ?? a.pubDate).valueOf());
 
 const title = 'Press: Michelle Shocron & Continuum in the News';
 const description =

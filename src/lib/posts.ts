@@ -1,29 +1,14 @@
-import { getEmDashCollection, getEmDashEntry } from 'emdash';
-import type { ImageValue, PortableTextBlock } from 'emdash';
+import { createClient } from '@sanity/client';
+import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url';
+import type { TypedObject } from 'astro-portabletext/types';
 
-export const BLOG_PAGE_SIZE = 10;
+// Public project and dataset: the site reads published posts without a token.
+const sanity = { projectId: 'ermndauy', dataset: 'production' };
+const client = createClient({ ...sanity, apiVersion: '2025-02-19', useCdn: false, perspective: 'published' });
+const images = createImageUrlBuilder(sanity);
 
-type EmDashPostData = {
-  title?: string;
-  content?: PortableTextBlock[];
-  meta_title?: string;
-  meta_description?: string;
-  description?: string;
-  excerpt?: string;
-  category?: string;
-  author?: string;
-  author_title?: string;
-  pub_date?: string | Date;
-  updated_date?: string | Date;
-  press?: boolean;
-  source_publication?: string;
-  source_url?: string;
-  source_author?: string;
-  source_date?: string | Date;
-  faq?: { question: string; answer: string }[];
-  cover_image?: ImageValue | null;
-  [key: string]: unknown;
-};
+/** Image URL builder for Sanity image fields (cover images, body images). */
+export const imageUrl = (source: SanityImageSource) => images.image(source).auto('format');
 
 export type Post = {
   slug: string;
@@ -35,24 +20,15 @@ export type Post = {
   author: string;
   authorTitle?: string;
   metaTitle?: string;
-  metaDescription?: string;
-  description?: string;
-  content?: PortableTextBlock[];
+  metaDescription: string;
+  content?: TypedObject[];
   faq?: { question: string; answer: string }[];
   press: boolean;
   sourcePublication?: string;
   sourceUrl?: string;
   sourceAuthor?: string;
   sourceDate?: Date;
-  coverImage?: ImageValue | null;
-};
-
-type Entry = { id: string; data: EmDashPostData };
-type CollectionResult = {
-  entries?: Entry[];
-  error?: unknown;
-  nextCursor?: string;
-  hasMore?: boolean;
+  coverImage?: SanityImageSource & { alt?: string };
 };
 
 const PORTABLE_TEXT_METADATA_FIELDS = new Set([
@@ -71,96 +47,41 @@ const PORTABLE_TEXT_METADATA_FIELDS = new Set([
   'url',
 ]);
 
-function asDate(value: string | Date | undefined): Date | undefined {
-  if (!value) return undefined;
-  const date = value instanceof Date ? value : new Date(value);
-  return Number.isNaN(date.valueOf()) ? undefined : date;
-}
+const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(pubDate desc) {
+  "slug": slug.current, title, excerpt, category, pubDate, updatedDate, author, authorTitle,
+  metaTitle, metaDescription, content, faq[]{question, answer}, press,
+  sourcePublication, sourceUrl, sourceAuthor, sourceDate, coverImage
+}`;
 
-function toPost(entry: Entry): Post {
-  const { data } = entry;
-  const pubDate = asDate(data.pub_date);
-  if (!data.title || !pubDate) {
-    throw new Error(`EmDash post "${entry.id}" is missing a title or valid pub_date.`);
-  }
+type PostRow = Omit<Post, 'pubDate' | 'updatedDate' | 'sourceDate' | 'press'> & {
+  pubDate: string;
+  updatedDate?: string;
+  sourceDate?: string;
+  press?: boolean;
+};
 
-  return {
-    slug: entry.id,
-    title: data.title,
-    excerpt: data.excerpt ?? data.description ?? data.meta_description ?? '',
-    category: data.category ?? 'Insights',
-    pubDate,
-    updatedDate: asDate(data.updated_date),
-    author: data.author ?? 'Michelle Shocron',
-    authorTitle: data.author_title,
-    metaTitle: data.meta_title,
-    metaDescription: data.meta_description,
-    description: data.description,
-    content: data.content,
-    faq: data.faq,
-    press: data.press === true,
-    sourcePublication: data.source_publication,
-    sourceUrl: data.source_url,
-    sourceAuthor: data.source_author,
-    sourceDate: asDate(data.source_date),
-    coverImage: data.cover_image,
-  };
-}
+const asDate = (value?: string) => (value ? new Date(value) : undefined);
 
-async function queryPage(
-  page: { cursor?: string } | { offset: number } = {},
-): Promise<CollectionResult> {
-  const pagination = 'offset' in page ? { offset: page.offset } : { cursor: page.cursor };
-  const result = (await getEmDashCollection('posts', {
-    limit: BLOG_PAGE_SIZE,
-    ...pagination,
-    orderBy: { pub_date: 'desc' },
-  })) as CollectionResult;
-  if (result.error) throw result.error;
-  return result;
-}
+let allPosts: Promise<Post[]> | undefined;
 
-/** Return a 1-based page of published posts using EmDash's documented offset API. */
-export async function listPostsPage(page = 1): Promise<{
-  posts: Post[];
-  hasPrevious: boolean;
-  hasNext: boolean;
-}> {
-  const requestedPage = Number.isSafeInteger(page) && page > 0 ? page : 1;
-  const offset = (requestedPage - 1) * BLOG_PAGE_SIZE;
-  if (!Number.isSafeInteger(offset)) {
-    return { posts: [], hasPrevious: false, hasNext: false };
-  }
-  const result = await queryPage({ offset });
-
-  return {
-    posts: (result.entries ?? []).map(toPost),
-    hasPrevious: requestedPage > 1,
-    hasNext: Boolean(result.hasMore),
-  };
-}
-
-/** Read all published posts. Used for sitemap generation and small press/related collections. */
-export async function listAllPosts(): Promise<Post[]> {
-  const posts: Post[] = [];
-  let cursor: string | undefined;
-
-  do {
-    const result = await queryPage({ cursor });
-    posts.push(...(result.entries ?? []).map(toPost));
-    cursor = result.nextCursor;
-  } while (cursor);
-
-  return posts;
+/** Every published post, newest first. Fetched once per build; every page shares the result. */
+// ponytail: cached for the process lifetime, so `astro dev` needs a restart to show new Sanity edits.
+export function listAllPosts(): Promise<Post[]> {
+  allPosts ??= client.fetch<PostRow[]>(POSTS_QUERY).then((rows) =>
+    rows.map((row) => ({
+      ...row,
+      excerpt: row.excerpt ?? row.metaDescription,
+      press: row.press === true,
+      pubDate: new Date(row.pubDate),
+      updatedDate: asDate(row.updatedDate),
+      sourceDate: asDate(row.sourceDate),
+    })),
+  );
+  return allPosts;
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
-  const result = (await getEmDashEntry('posts', slug)) as {
-    entry?: Entry | null;
-    error?: unknown;
-  };
-  if (result.error) throw result.error;
-  return result.entry ? toPost(result.entry) : null;
+  return (await listAllPosts()).find((post) => post.slug === slug) ?? null;
 }
 
 export function formatPostDate(date: Date): string {
