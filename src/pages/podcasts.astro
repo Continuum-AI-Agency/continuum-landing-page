@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
 
@@ -33,7 +35,7 @@ const thumbUrl = (t: Talk) => `https://img.youtube.com/vi/${t.youtubeId}/maxresd
 
 const title = 'Podcasts & Market Talks — Michelle Shocron | Continuum';
 const description =
-  'Watch Continuum founder Michelle Shocron on podcasts and market talks — the myths and realities of AI, building in artificial intelligence, and where marketing is going.';
+  'Watch Continuum founder Michelle Shocron on podcasts and market talks: the myths and realities of AI, and where marketing is going.';
 
 // VideoObject structured data (SEO / AEO)
 const videoSchemas = talks.map((t) => ({
@@ -48,7 +50,7 @@ const videoSchemas = talks.map((t) => ({
   publisher: {
     '@type': 'Organization',
     name: 'Continuum',
-    logo: { '@type': 'ImageObject', url: `${SITE}/og.jpg` },
+    logo: { '@type': 'ImageObject', url: `${SITE}/logo-mark.png` },
   },
 }));
 
@@ -85,7 +87,7 @@ const breadcrumbSchema = {
       <header class="mb-16 max-w-3xl">
         <p class="text-[10px] tracking-wide text-primary font-bold font-mono mb-5">Podcasts &amp; Talks</p>
         <h1 class="text-4xl md:text-6xl font-bold font-display tracking-tight leading-none text-foreground">
-          Podcasts &amp; Market Talks
+          Podcasts &amp; Market Talks with Michelle Shocron
         </h1>
         <p class="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed">
           Continuum founder <span class="text-foreground font-medium">Michelle Shocron</span> on podcasts

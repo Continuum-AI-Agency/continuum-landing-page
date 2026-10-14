@@ -1,4 +1,4 @@
-# Force the Bun runtime for every `bun run` script, including CLIs
-# whose shebang is `#!/usr/bin/env node` (Astro, Vite, etc.).
+# EmDash and its seed/admin tooling require the Node runtime declared by their
+# Node shebangs; keep Bun as the package manager, not a blanket Node alias.
 [run]
-bun = true
+bun = false

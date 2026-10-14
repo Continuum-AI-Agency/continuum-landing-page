@@ -1,7 +1,7 @@
 ---
 title: "How to Produce 100+ On-Brand Promo Variations for Every Store — Without the Agency Bottleneck"
-metaTitle: "Scale Store-Level Promo Creative: 100+ On-Brand Variations | Continuum"
-metaDescription: "Every store, promo, and price point needs its own creative. Here's how retail and CPG teams produce hundreds of on-brand variations fast — without agencies or off-brand GenAI."
+metaTitle: "On-Brand Promo Creative at Scale: 100+ Store Variations"
+metaDescription: "On-brand promo creative at scale: how retail and CPG teams turn one approved template into hundreds of store-specific variations, no agency needed."
 excerpt: "Retail creative doesn't scale linearly — it multiplies. Here's the modular, data-driven approach that turns one approved template into hundreds of on-brand, store-specific promo creatives."
 targetKeyword: "on-brand promo creative at scale"
 audience: "Retail/CPG and multi-location store marketing & ops leaders"

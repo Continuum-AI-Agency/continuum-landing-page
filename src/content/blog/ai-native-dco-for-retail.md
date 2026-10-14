@@ -1,7 +1,7 @@
 ---
 title: "AI-Native DCO for Retail: Personalized Promo Creative for Every Store, in Real Time"
-metaTitle: "AI-Native DCO for Retail: Personalized Promo Creative at Scale | Continuum"
-metaDescription: "Retail and CPG brands run thousands of store- and price-specific promos. AI-native DCO produces on-brand, stock-aware creative for every shopper and store in real time — without the agency bottleneck."
+metaTitle: "Retail Creative Automation: Personalized Store Promos"
+metaDescription: "Retail creative automation for every store and price point: on-brand, stock-aware promos made in real time, with no agency bottleneck. See how it works."
 excerpt: "Stores × promotions × price points × products × formats = thousands of variations no team can make by hand. AI-native DCO produces them automatically — on-brand, stock-aware, and personalized to every shopper and store."
 targetKeyword: "retail creative automation"
 audience: "Retail/CPG and multi-location store marketing teams (supermarkets, convenience, department stores)"

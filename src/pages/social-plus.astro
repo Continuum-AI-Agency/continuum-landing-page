@@ -1,6 +1,9 @@
 ---
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
 import Sky from '../components/Sky.astro';
+import Engraving from '../components/Engraving.astro';
 import SiteNav from '../components/SiteNav.astro';
 import Footer from '../components/Footer.astro';
 import { ShimmerButton } from '../components/ui/shimmer-button';
@@ -43,7 +46,7 @@ const hosts = [
 
 <Layout
   title="Social+ for Claude — MCP Connector Guide · Continuum"
-  description="Connect Social+ to Claude via MCP: install the connector in Claude Code or Claude Desktop, browse the tools, and run trend-to-post workflows with copy-paste prompts."
+  description="Connect Social+ to Claude via MCP: install the connector in Claude Code or Claude Desktop, browse its tools, and run trend-to-post workflows."
   appearance="light"
 >
   <Sky />
@@ -59,7 +62,7 @@ const hosts = [
       <p class="mt-5 max-w-[46ch] text-lead text-white/70">
         Install once. Then detect trends, generate brand-aligned creative, and
         plan your week — all inside Claude. Powered by our
-        <a href="/technology" class="font-semibold text-white underline underline-offset-4 hover:text-white/80"> design automation engine</a>.
+        <a href="/technology/" class="font-semibold text-white underline underline-offset-4 hover:text-white/80"> design automation engine</a>.
       </p>
 
       <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -86,7 +89,9 @@ const hosts = [
     </div>
   </section>
 
-  <div class="horizon horizon-dawn" aria-hidden="true"></div>
+  <div class="horizon horizon-dawn" aria-hidden="true">
+    <Engraving scene="dawn" class="absolute inset-0 size-full" />
+  </div>
 
   <!-- Daylight guide -->
   <div class="bg-[linear-gradient(var(--day-top),var(--day-low))] text-foreground">

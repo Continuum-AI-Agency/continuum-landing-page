@@ -1,7 +1,7 @@
 ---
 title: "Michelle Shocron: Building in the World of Artificial Intelligence"
-metaTitle: "Michelle Shocron: Building in the World of AI | Continuum Founder"
-metaDescription: "The story of Continuum founder Michelle Shocron — from a curious kid in Buenos Aires to Coca-Cola, Mercado Libre, Pedidos Ya, and founding AI companies. As featured in Her Global Impact."
+metaTitle: "Michelle Shocron: Founder of Continuum, Building in AI"
+metaDescription: "Michelle Shocron's story: from a curious kid in Buenos Aires to Coca-Cola, Mercado Libre, Pedidos Ya and founding AI companies. Read the profile."
 excerpt: "From Buenos Aires to Coca-Cola, Mercado Libre, and founding in AI — the journey of Continuum founder Michelle Shocron, the entrepreneur known in the startup world as 'the AI girl.'"
 targetKeyword: "Michelle Shocron"
 category: "Founder Story"

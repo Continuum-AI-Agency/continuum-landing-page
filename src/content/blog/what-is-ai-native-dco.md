@@ -1,7 +1,7 @@
 ---
 title: "What Is AI-Native DCO? Dynamic Creative Optimization, Rebuilt for the AI Era"
-metaTitle: "What Is AI-Native DCO? Dynamic Creative Optimization for the AI Era | Continuum"
-metaDescription: "AI-native DCO is dynamic creative optimization built AI-first — it learns, stays stock-aware and on-brand, personalizes at scale, and proves its impact. Here's how it differs from legacy DCO and generic GenAI."
+metaTitle: "AI-Native DCO: What It Is and How It Differs | Continuum"
+metaDescription: "AI-native DCO is dynamic creative optimization built AI-first: it learns, stays stock-aware and on-brand, and proves impact. See how it differs from legacy DCO."
 excerpt: "Dynamic creative optimization, rebuilt AI-first. AI-native DCO sits between rules-based legacy DCO (manual, static) and generic GenAI (fast but off-brand) — learning, stock-aware, personalized, on-brand, and proven."
 targetKeyword: "AI-native DCO"
 audience: "Performance marketers, retail/CPG brands, and agencies evaluating creative-optimization tools"

@@ -149,7 +149,7 @@ Sticky pill nav on every page: CONTINUUM · Product · Results · Pricing · Abo
 
 1. **Hero**: black-hole O wordmark; "The intelligent creative factory for" + rotating audience; Book a demo + "See it work". Logo strip "Shipping creative for".
 2. **Made on Continuum**: video showcase (night).
-3. **Three lines. One factory.**: Organic+, Performance+, Creative Automation demos (day).
+3. **Data in. Better creative out.**: Organic+, Performance+, Creative Automation (Forge) demos (day).
 4. **Measured, not demoed.**: only published, footnoted results (the 8-week retail pilot). No unsourced counters.
 5. **Founder strip**: one line, links to /about.
 6. **Pricing**: Organic+ $30, Performance+ $300, Creative Automation custom.

@@ -11,10 +11,11 @@ interface Props {
 }
 
 const {
-  title = "Continuum: the intelligent creative factory for performance marketers, designers, and agencies",
-  description = "Continuum runs your organic social, paid performance, and creative automation from one design system: create, publish, optimize, and write results back.",
+  title = "Continuum: AI creative factory for performance marketing",
+  description = "Continuum turns your performance data into better creative for organic social, Meta ads, and creative automation, and delivers new ads paused for review.",
   image = "/og.jpg",
-  canonicalURL = new URL(Astro.url.pathname, "https://trycontinuum.ai"),
+  // Always end with "/": SSR pages answer both /press and /press/, and both must name one canonical.
+  canonicalURL = new URL(Astro.url.pathname.replace(/\/?$/, "/"), "https://trycontinuum.ai"),
   ogType = "website",
   appearance = "dark",
 } = Astro.props;
@@ -55,7 +56,6 @@ const buildDate = new Date().toISOString();
 
         <!-- SEO básico -->
         <meta name="description" content={description} />
-        <meta name="keywords" content="intelligent creative factory, creative automation, design system ingestion, render automation, DCO, dynamic creative optimization, AI creative production, performance marketing" />
         <meta name="robots" content="index,follow" />
         <link rel="canonical" href={canonicalURL} />
 
@@ -77,17 +77,22 @@ const buildDate = new Date().toISOString();
 
         <!-- Structured Data: JSON-LD -->
         <script type="application/ld+json" is:inline>
-          {
+          [{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Continuum",
+            "url": "https://trycontinuum.ai/"
+          }, {
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Continuum",
             "url": "https://trycontinuum.ai",
-            "logo": "https://trycontinuum.ai/og.jpg",
-            "description": "Continuum builds intelligent creative factories for modern marketing teams — ingesting design systems, generating on-brand content between AI and rendering automations, and delivering at scale through DCO.",
+            "logo": "https://trycontinuum.ai/logo-mark.png",
+            "description": "Continuum uses performance data to make better creative for organic social, paid media on Meta, and creative automation, and stages new Meta ads paused for review.",
             "sameAs": [
               "https://www.linkedin.com/company/continuum-agency"
             ]
-          }
+          }]
         </script>
         <script type="application/ld+json" set:html={JSON.stringify({
           "@context": "https://schema.org",

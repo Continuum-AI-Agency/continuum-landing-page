@@ -10,7 +10,7 @@ Performance marketers, creative agencies, and in-house brand teams who already h
 
 ## Product Purpose
 
-Continuum is the intelligent creative factory for performance marketers, designers, and agencies, sold as three lines: Organic+, Performance+, and Creative Automation. It ingests a design system, generates on-brand work between reasoning and render automation, ships it into ad platforms through DCO, and writes performance back so the next cycle starts from what just happened. Success on the public site is a visitor who can say what the factory does in one sentence and ask for a demo. This repo is the marketing surface only. The product app stays a quiet instrument.
+Continuum is the intelligent creative factory for performance marketers, designers, and agencies, sold as three lines: Organic+, Performance+, and Creative Automation. It reads how organic posts and Meta ads perform and makes the next creative from it: weekly plans drawn from trends with every hook scored against the brand's best posts, budget moves inside guardrails a person approves, and renders from the brand's own After Effects projects, staged on Meta as paused ads. Success on the public site is a visitor who can say what the factory does in one sentence and ask for a demo. This repo is the marketing surface only. The product app stays a quiet instrument.
 
 ## Brand Personality
 

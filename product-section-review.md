@@ -8,6 +8,10 @@ Three independent graders reviewed the landing's Product section (`src/component
 
 This is a proposal only. Section 8 lists what was already changed in the 2026-09-28 motion pass.
 
+> **Status 2026-10-06:** acted on. The section was rebuilt around "Data in. Better creative out.": every "do not claim" item in section 3 and every open bug in section 4 is gone, conversion points and handoff lines were added, and the windows now mirror the app's real components. See `HANDOFF.md` (Product windows) for what shipped.
+>
+> Re-grade on the production build, same rubric and lenses: **Fidelity 8.2 · Story 7.6 · Craft 7.2 · mean 7.7** (was 5.7). Factual accuracy averages 7.7 and conversion 8.0. Still open: the section is about 4,150 px tall at 390 px (target 3,800); Organic+ has no demo link while it waits at Approve; the organic-winners → paid path, the AEO snapshot and hook scoring have no row in the sales register yet; `/technology` still carries unsourced stats.
+
 Paths: `FE` = `Continuum-Monorepo/Continuum-Frontend/src`, `LP` = `continuum-landing-page/src`.
 
 ---

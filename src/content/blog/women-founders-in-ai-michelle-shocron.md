@@ -1,7 +1,7 @@
 ---
 title: "Breaking the Glass Ceiling in AI: Lessons from Continuum Founder Michelle Shocron"
-metaTitle: "Women Founders in AI: Lessons from Michelle Shocron | Continuum"
-metaDescription: "Only 2% of venture capital goes to women-founded companies. Continuum founder Michelle Shocron on building in AI with resilience, mentors, and a growth mindset. As featured in Aire de Santa Fe."
+metaTitle: "Women Founders in AI: Michelle Shocron's Lessons"
+metaDescription: "Only 2% of venture capital goes to women-founded companies. Michelle Shocron on building in AI with resilience, mentors and a growth mindset."
 excerpt: "Just 2% of global VC goes to women-led startups. Continuum founder Michelle Shocron on making the leap into AI — and the three things she tells women who want to build in tech."
 targetKeyword: "women founders in AI"
 category: "Founder Story"

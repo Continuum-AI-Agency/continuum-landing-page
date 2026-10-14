@@ -1,7 +1,7 @@
 ---
 title: "From Mercado Libre to AI Founder: Michelle Shocron on Reinventing Marketing with AI"
-metaTitle: "Michelle Shocron: From Mercado Libre to Reinventing Marketing with AI | Continuum"
-metaDescription: "How Continuum founder Michelle Shocron went from scaling Mercado Crédito to building AI that compresses six hours of market analysis into ten minutes. As featured in Ámbito."
+metaTitle: "AI in Marketing: Michelle Shocron's Path from Mercado Libre"
+metaDescription: "AI in marketing, from the founder's seat: Michelle Shocron went from Mercado Crédito to AI that cuts six hours of market analysis to ten minutes."
 excerpt: "She scaled a credit business to 250 million lines, then left to build AI for marketing. Continuum founder Michelle Shocron on data, microsegmentation, and redefining the future of business with AI."
 targetKeyword: "AI in marketing"
 category: "Founder Story"

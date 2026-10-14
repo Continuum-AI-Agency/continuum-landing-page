@@ -1,7 +1,7 @@
 ---
 title: "Make Them Feel Seen Again: The Personalization Layer for Advertising"
-metaTitle: "The Personalization Layer for Advertising — Make Customers Feel Seen | Continuum"
-metaDescription: "The internet learned who you are; the physical world forgot. Continuum is the personalization layer for advertising — on-brand creative that adapts to product, price, place, and person, at scale."
+metaTitle: "Personalization Layer for Advertising | Continuum"
+metaDescription: "The personalization layer for advertising: on-brand creative that adapts to product, price, place and person, at scale. Read the full manifesto."
 excerpt: "The internet learned who you are. The physical world forgot. A manifesto on personalizing the last layer of marketing that never got personalized — the creative itself."
 category: "Vision"
 type: "vision"

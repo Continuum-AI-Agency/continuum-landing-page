@@ -30,7 +30,7 @@ The small icons are brightened (gamma 0.6) so the thin strokes survive downscali
 **Wordmark:** `CONTINUUM`, Futura Maxi Bold, ink `#f3efe6` (warm paper white).
 - Hero: 9-column grid, one letter per cell; the O cell holds the live black hole (0.8em square). Size `clamp(2.15rem, 8.6vw, 11.5rem)`, line-height 0.82, tracking −0.03em, `text-wrap: balance`.
 - Nav: 14 px, tracking 0.18em. Footer: 18 px, tracking 0.18em.
-- Footer bookend: the full wordmark at `13.5vw` (max 11.5rem), `white/7%`, bleeding off the bottom (−0.18em), with the poster O at 50% opacity. The O turns on its own axis and can be grabbed and spun (§11).
+- Footer bookend: the full wordmark at `13.5vw` (max 11.5rem), `white/7%`, in the sky of the engraved night (§8.1), with the poster O at 50% opacity. The O turns on its own axis and can be grabbed and spun (§11).
 
 **Icons:** lucide-react (`ArrowRight` on the hero CTA, `Check` on pricing features), 16–20 px, stroke icons. Text arrows (`→`, `↓`, `↑`) are used for inline links. No emoji.
 
@@ -44,13 +44,13 @@ The small icons are brightened (gamma 0.6) so the thin strokes survive downscali
 | 1 | Hero (`#top`) | night, stars moving | Wordmark + "The intelligent creative factory for *performance marketers / designers / agencies*" + Book a demo + "See it work ↓" + logo strip "Shipping creative for" |
 | 2 | Showcase (`#showcase`) | night | Hidden h2 "Made on Continuum"; 19-clip masonry grid |
 | – | Dawn band | twilight gradient | no text, ever |
-| 3 | Product (`#product`) | day | "Three lines. One factory." → Organic+, Performance+, Creative Automation |
+| 3 | Product (`#product`) | day | "Data in. Better creative out." → Organic+, Performance+, Creative Automation (Forge), each with a handoff line, then a Control / Brand / Setup strip and Book a demo |
 | 4 | Results (`#results`) | day | "Measured, not demoed." |
 | 5 | Founder strip | day | one line + "Meet the team →" |
 | 6 | Pricing (`#pricing`) | day | "Start with one line." |
 | – | Dusk band | twilight gradient | no text, ever |
 | 7 | Close (`#demo`) | night | "What will you make on *Continuum?*" + email + Book a demo |
-| 8 | Footer | night | link columns + wordmark bookend |
+| 8 | Footer | night | link columns, legal row, then the engraved night with the wordmark bookend in its sky |
 
 Night zones use the `.dark` class; the day zone is `.daylight`. The same components render in both: the semantic tokens switch underneath.
 
@@ -172,7 +172,7 @@ Satoshi and Clash Display are under the ITF Free Font License (self-hosting allo
 ## 6. Layout, radius, borders, shadow
 
 - Container: `max-w-7xl` (80rem), side padding 16 px (mobile) / 24 px (md+).
-- Section padding: 96 px (mobile) / 128 px (md+) top and bottom. Product chapters sit 80–112 px apart.
+- Section padding: 96 px (mobile) / 128 px (md+) top and bottom; the product section uses 64 px on mobile. Product chapters sit 64–112 px apart.
 - Breakpoints (Tailwind defaults): sm 640, md 768, lg 1024, xl 1280.
 - Base radius `--radius: 0.5rem`. Scale: sm 4.8 px, md 6.4 px, lg 8 px (buttons, cards), xl 11.2 px (case card), 2xl 14.4 px (nav pill), 3xl 17.6 px. The primary CTA uses 12 px; badges, switch and avatars use full.
 - Borders: 1 px hairline in `border`. Cards separate by border, not shadow.
@@ -193,7 +193,9 @@ Satoshi and Clash Display are under the ITF Free Font License (self-hosting allo
 
 **Section heading**: h2 (`text-h2`, bold, foreground), then 20 px, then the lead (max 46ch, muted-foreground).
 
-**Product chapter**: eyebrow (line name, `brand-violet`), 4 px, h3, 12 px, lead, 32 px, product window (Tool register).
+**Product chapter**: eyebrow (line name, `brand-violet`), 4 px, h3, 8–12 px, lead (16 px on mobile, `text-lead` from md), 24–32 px, product window (Tool register), then a handoff line (15 px muted, a violet `↳`) that says where the work goes next. Capabilities the sales register lists as pilot carry a "Pilot" mark: the app's muted Preview badge inside a window (`Pilot` in `react/product/shared.tsx`), a hairline pill in page copy. A window's scripted run ends on `RunItCta` ("That's the run. Run it on your account → Book a demo"), never a reset.
+
+**Objections strip** (end of `#product`): a hairline rule, then three columns (stacked on mobile) of 14 px semibold titles over 14 px muted copy (Control / Brand / Setup, each a thing the app does today), then a day-zone Book a demo (`btn-aura btn-aura-day`, 48 px).
 
 **Stats** (`Proof.astro`): three columns separated by `divide-x border` (stacked on mobile). Each has a big Clash figure with a label under it (16 px muted, max 24ch) and a violet superscript footnote mark `1`. Only published, footnoted numbers are allowed.
 
@@ -211,7 +213,7 @@ Satoshi and Clash Display are under the ITF Free Font License (self-hosting allo
 
 **Close** (`CTA.astro`): centered h2 with "Continuum?" in shimmer, a lead, then a row with an email input (58 px tall, radius-sm, `muted-foreground/50` border, `primary` focus ring with 2 px offset) and a magnetic ink + aura Book a demo button (58 px, min-w 200 px, radius 12). The background is an interactive grid (below), with a rare shooting star (§11). The status line is announced with `role="status"`.
 
-**Footer** (`Footer.astro`): night, top border `white/10`. Grid `1.4fr + 3 × 1fr`. The brand column has the wordmark (18 px), the tagline (16 px `white/70`, 30ch), the mono line "Signal in. Asset live. Loop closed." (12 px `white/50`) and social icons (20 px, `white/60` → white). The column titles use the mono label style in `white/45`, and the links are 15 px `white/80` → white. Then the bookend wordmark and a legal row (12 px `white/55`).
+**Footer** (`Footer.astro`): night, top border `white/10`. Grid `1.4fr + 3 × 1fr`. The brand column has the wordmark (18 px), the tagline (16 px `white/70`, 30ch), the mono line "Signal in. Asset live. Loop closed." (12 px `white/50`) and social icons (20 px, `white/60` → white). The column titles use the mono label style in `white/45`, and the links are 15 px `white/80` → white. Then the legal row (12 px `white/55`), then the engraved night (§8.1), `clamp(20rem, 38vw, 34rem)` tall, with the bookend wordmark in its sky (top padding `clamp(1.25rem, 3vw, 2.75rem)`).
 
 **Scroll-to-top**: fixed 24 px from the bottom-right corner, 40 px square, radius-md, `oklch(20% 0.01 285)` fill (`#15151a`), `white/15` border, bloom. It appears after 320 px of scroll and hides while the footer is on screen.
 
@@ -262,7 +264,21 @@ Dusk (height `clamp(10rem, 30svh, 20rem)`):
 - Dusk: `radial-gradient(closest-side, oklch(90% 0.09 65 / 0.65), oklch(74% 0.1 38 / 0.25) 50%, transparent)`.
 - Scroll-driven (`view-timeline` on the band): at dawn the sun rises from `scale(0.8, 0.45)` at 25% opacity to full size; at dusk it sets to the same values.
 
+**Dawn ridge:** the dawn band carries an engraved range (§8.1) on its lower half, in dusk indigo `rgb(30,31,52)` ink, backlit: dense hatching and a 35° crosshatch on the darkest faces. The near range leaves a clear col at |u| < 0.5, where the sun glow rises behind the far peaks. The ink fades out over v 0.70–0.98 so nothing meets the daylight edge. The canvas is positioned, so it paints above the sun glow and under the grain.
+
 **Grain** (a `::after` on each band): `feTurbulence` fractal noise (baseFrequency 0.8, 2 octaves, desaturated), 160 px tile, `mix-blend-mode: overlay`, 22% opacity, masked to the middle 70% of the band. It dithers the long ramps so they don't band.
+
+### 8.1 Engraved scenes (`src/lib/engraving.ts`, `Engraving.astro`)
+
+Procedural pen-and-ink in Canvas2D, no image assets: `night` under the footer (cream `#f3efe6` scratchboard: lit faces and snow in ink, shadows left black) and `dawn` on the dawn band. A fixed seed draws the same panorama on every page. Scene units are `u = (x − W/2)/H`, `v = y/H`: a wider screen shows more of the panorama, and line spacing stays in CSS px. All numbers live in the "Tune here" block at the top of the lib.
+
+- **Ranges** (night, back to front; base v / tallest summit v / hatch gap / widest line / alpha): far 0.80 / 0.45 / 3.6 px / 0.6 px / 0.40; mid 0.92 / 0.54 / 2.9 / 0.9 / 0.62; near 1.08 / 0.63 / 2.3 / 1.25 / 0.92. The tallest near summit sits at u = −0.3 so phones see it. Ridges are asymmetric tents carved by 5-octave ridged noise.
+- **Hatching:** a line every `gap` px from the ridge down the fall line, in 4 px segments. Tone is line width (5 buckets), never alpha. Light from the upper left; spurs and gullies come from a vertically stretched noise surface, and lines drift downhill into the gullies. Tails thin (burin exit); the lightest tones dissolve into stipple; a crisp contour runs along each ridge, with tapered arêtes down from each summit. Far ranges fade into mist.
+- **Aurora** (night only): three ribbons of vertical stipple rays rising from a sharp hem of short dashes, behind every range. Cream only, never tinted (§14). Static once drawn.
+- **Occlusion** is geometric, done when the scene is built: aurora dots only above the skyline, each range stops at the ridge of the one in front. Night fills under the skyline with `--night`, so the footer stars never show through rock.
+- **Draw-in:** every primitive has a reveal time T. Ranges: distance to the nearest summit of the two front ranges, so ink spreads out from the peaks; jittered by noise for the ragged, speckled edge. The aurora follows from T 0.35, from its hem upward. The scene is built on first sight and inks once when 30% is visible. Night takes 2.4 s and dawn 1.8 s, on `1 − (1 − t)²` and an active-time clock. A resize rebuilds and redraws what was already revealed, no replay.
+- **Budget:** about 40k primitives at 1440 × 544 (7k on a phone, 11k for a dawn band), built in about 14 ms; each reveal frame is about 20 draw calls. Above 0.8 M CSS px² the line gaps widen by √(area / 0.8M).
+- Check: `bun src/lib/engraving.check.ts` (determinism, T order, bounds, occlusion, density).
 
 ---
 
@@ -338,14 +354,16 @@ A ray-traced black hole with an accretion disk, rendered in grayscale inside the
 | Section reveal (`.reveal`) | Close | scrolls in (15% visible) | fade + y 40 → 0 over 0.8 s; children stagger 0.1 s from 0.2 s (fade, scale 0.95 → 1, y 20 → 0, 0.5 s) | `cubic-bezier(0.16, 1, 0.3, 1)` | – |
 | Scroll-to-top | Fixed | after 320 px of scroll | slide 40 px + fade, 300 ms | – | instant scroll |
 | Footer O spin | Footer bookend O | always, while on screen | 3°/s idle (a lap every 2 min); drag spins it around its centre (up to 720°/s), then it settles back to idle (friction 1.4/s); float ±4 px 7 s, breathe 1.02 6 s | exponential settle | no idle turn or momentum; it moves only while dragged |
+| Engraved draw-in | Footer night, dawn band | 30% in view, once | night 2.4 s, dawn 1.8 s; ink spreads from the summits with a ragged edge, then the aurora rises from its hem (§8.1) | `1 − (1 − t)²` | drawn finished |
+| Footer stars twinkle in | Footer | the night starts to ink | each star fades in over 0.6 s, 0.7–3.0 s after the ink starts, then twinkles (`0.35 + 0.65 × sine`, 2–5 s periods) | smoothstep | all lit, static |
 | Close shooting stars | Close section | while on screen | one at a time, 7–16 s apart (first after 2.5–6 s); 70–140 px streak, 1.2 px, `rgb(217,240,255)` peaking at 55%; 0.9–1.3 s; kept to the left and right thirds, 20–36° down-left | `sin(π·t)` envelope | none |
-| Product autoplay | Product windows | window top passes 60% of the viewport, once | Organic: 2 agent asks; Performance: both questions, stops at approval; Forge: renders, stops at delivery. Stops on the visitor's first pointer or key press | – | off |
+| Product autoplay | Product windows | window top passes 60% of the viewport, once | Organic: bulk plan → streaming drafts → hook score → "See it on" flips, stops at Approve. Performance: both questions, stops at the approval card. Forge: ingest → mapping → render tray → running, stops at "Waiting on you". Stops on the visitor's first pointer or key press | – | off |
 | Streaming caret | Jaina and Organic agent replies | while typing | 2 px violet bar, pulse | – | none (text is instant) |
-| Number tweens | KPIs, budgets, Organic metrics | on change, or first time in view | 0.9 s | `[0.16, 1, 0.3, 1]` | instant |
-| CPA line draw + flags | Performance chart | first time 50% in view | line draws over 1.2 s; each flag drops in (−10 px + fade, 0.5 s) as the line reaches it, then pings every 2.8 s (scale 1.9, fades out) | ease-out / `[0.16, 1, 0.3, 1]` | static |
-| Row flash / row in | Performance table on approve | state change | flash 22% primary → rest, 1.4 s; new rows −4 px + fade, 0.45 s, 80 ms stagger | `[0.22, 1, 0.36, 1]` | none |
-| Forge render | Automation window | render running | active row: indeterminate bar (1/3 width, 1.4 s); progress rule `scaleX` per row (500 ms); thumbnails go from 40% opacity, grayscale and 1.5 px blur to sharp (500 ms); badges crossfade (250 ms); "Delivered" ripples 70 ms per row | ease-in-out / ease-out | bar static |
-| Hook swap | Organic previews | agent rewrites a post | text blurs in (6 px → 0, 0.45 s); layers glide to their new position and colour (500 ms) | `[0.16, 1, 0.3, 1]` | none |
+| Number tweens | Budgets, hook score, render % | on change | 0.9 s | `[0.16, 1, 0.3, 1]` | instant |
+| Thinking row | Jaina | while a tool runs | braille spinner frames every 150 ms, "Thinking…" shimmer, stage chips 600 ms apart, ends "Thought for Ns · N tools" | – | static spinner |
+| Draft shimmer | Organic planner cards | while generating | inset gradient sweep (`animate-shimmer`, 1.6 s), pulsing accent rail | linear | none |
+| Row flash | Performance table once the approved budgets apply | state change | flash 22% primary → rest, 1.4 s; rows are fixed, so the window never grows | `[0.22, 1, 0.36, 1]` | none |
+| Forge render | Forge window | render running | tray steps Review › Deliver › Confirm › Running; per-row tick bar, queued → rendering % → finished; thumbnails develop from dim and blurred to sharp; the preview loops the template (headline rises, offer pops, 6 s, `forge-loop-*`) | ease-in-out / ease-out | bar and loop static |
 | Scroll arrivals | Product windows, Results figures, Pricing cards, founder avatars | scroll-linked (`animation-timeline: view()`) | windows settle from +48 px, 97% scale, 35% opacity; figures print up from their baseline (clip); plan cards arrive in order (+28 px, 7% range stagger); avatars slide together (14 px) | `[0.22, 1, 0.36, 1]` | static; also static where scroll timelines aren't supported |
 | Pricing solids colors | – | – | faces `#5a48f9`, edges zinc `rgb(113,113,122)` → white as the solid lifts, shadow `rgba(30,22,80,0.28)` | – | – |
 
@@ -366,7 +384,7 @@ A ray-traced black hole with an accretion disk, rendered in grayscale inside the
 
 - Use: connect, analyze, recommend, generate, render, publish, sync, write back, review. Name the parts: the Optimizer acts, Jaina explains, you approve.
 - Never: "AI Marketing Agency", magic, unleash, revolutionize, "our AI".
-- Sentence case, short declaratives: "Three lines. One factory.", "Measured, not demoed.", "Start with one line."
+- Sentence case, short declaratives: "Data in. Better creative out.", "Measured, not demoed.", "Start with one line."
 - Only sourced, footnoted numbers. No counters and no unsourced logos.
 
 ## 14. Don'ts

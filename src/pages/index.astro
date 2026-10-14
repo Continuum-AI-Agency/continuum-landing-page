@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import MasonryGrid from '../components/MasonryGrid.astro';
@@ -9,6 +11,7 @@ import Pricing from '../components/Pricing.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
 import Sky from '../components/Sky.astro';
+import Engraving from '../components/Engraving.astro';
 import SiteNav from '../components/SiteNav.astro';
 ---
 
@@ -19,7 +22,9 @@ import SiteNav from '../components/SiteNav.astro';
   <div class="dark">
     <MasonryGrid />
   </div>
-  <div class="horizon horizon-dawn" aria-hidden="true"></div>
+  <div class="horizon horizon-dawn" aria-hidden="true">
+    <Engraving scene="dawn" class="absolute inset-0 size-full" />
+  </div>
   <div class="daylight">
     <Product />
     <Proof />

@@ -30,7 +30,7 @@ const PLANS: Plan[] = [
     solid: "tetrahedron",
     includes: "What's included",
     features: [
-      "Live canvas editor with your brand kit",
+      "Posts drafted from your brand book and past results",
       "Posts fitted to Instagram, TikTok, and LinkedIn",
       "Organic agent rewrites and schedules",
       "Post and channel analytics",
@@ -45,10 +45,10 @@ const PLANS: Plan[] = [
     solid: "octahedron",
     includes: "Everything in Organic+, plus",
     features: [
-      "Jaina analyzes every connected ad account",
-      "Optimizer acts inside guardrails, flags each move",
-      "Bigger changes applied only after you approve",
-      "Results written back after every cycle",
+      "Jaina reads your Meta account and explains what changed",
+      "Optimizer proposes moves inside your guardrails",
+      "Every budget move waits for your approval",
+      "A scheduled report of every move it made",
     ],
   },
   {
@@ -59,10 +59,10 @@ const PLANS: Plan[] = [
     solid: "icosahedron",
     includes: "What's included",
     features: [
-      "Render templates built from your design system",
+      "Templates from your After Effects projects",
       "Variations that inherit from a base template",
       "Every format: 16:9, 1:1, and 9:16",
-      "Approved delivery straight into the ad account",
+      "Approved renders staged on Meta as paused ads",
     ],
   },
 ];

@@ -1,7 +1,7 @@
 ---
 title: "Legacy DCO vs. AI-Native DCO: Why Rules-Based Creative Optimization Is Falling Behind"
-metaTitle: "Legacy DCO vs AI-Native DCO: The Difference That Matters | Continuum"
-metaDescription: "Rules-based DCO can't keep up with modern catalogs and audiences. Here's how AI-native DCO differs from legacy dynamic creative optimization — and when to switch."
+metaTitle: "DCO Software: Legacy vs AI-Native Compared | Continuum"
+metaDescription: "Rules-based DCO software can't keep up with modern catalogs. See how AI-native DCO differs from legacy dynamic creative optimization, and when to switch."
 excerpt: "Both are called 'DCO,' but they're not the same thing. Legacy DCO assembles creative from rules a human writes; AI-native DCO runs a model that learns and decides on its own — and it shows up in your CPA."
 targetKeyword: "DCO software"
 audience: "Performance marketers evaluating DCO / dynamic creative optimization platforms"

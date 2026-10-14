@@ -1,7 +1,7 @@
 ---
 title: "Why CMOs Should Stop Looking for 'Better DCO' and Start Looking for an AI-Native Creative Operating System"
-metaTitle: "Beyond DCO: The AI-Native Creative Operating System | Continuum"
-metaDescription: "Traditional DCO optimizes ads. An AI-native creative operating system runs the whole loop — listen, analyze, create, launch, learn. Here's why CMOs should care, with proof from a controlled retail pilot."
+metaTitle: "AI-Native Creative Operating System: Beyond DCO | Continuum"
+metaDescription: "An AI-native creative operating system runs the whole loop — listen, analyze, create, launch, learn. See how it goes past DCO, with a retail pilot."
 excerpt: "Traditional DCO optimizes the ads you already made. An AI-native creative operating system runs the whole loop — listen, analyze, create, launch, learn — and every campaign makes the next one smarter. Why CMOs should stop shopping for 'better DCO.'"
 targetKeyword: "AI-native creative operating system"
 audience: "CMOs and senior marketing leaders"

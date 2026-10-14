@@ -1,7 +1,7 @@
 ---
 title: "How to Start Implementing AI in Your Company: A Practical 6-Step Framework"
-metaTitle: "How to Implement AI in Your Company: A 6-Step Framework | Continuum"
-metaDescription: "Continuum founder Michelle Shocron's practical framework for adopting AI — from an AI-first mindset and a data audit to pilot quick wins and scaling. As featured in iProUP."
+metaTitle: "How to Implement AI in Your Company: 6-Step Framework"
+metaDescription: "How to implement AI in your company: Michelle Shocron's framework, from an AI-first mindset and data audit to pilot quick wins and scaling. Read it."
 excerpt: "AI only pays off when it solves a real bottleneck. Continuum founder Michelle Shocron lays out a practical six-step framework for adopting AI without falling for the 'magic wand' trap."
 targetKeyword: "how to implement AI in your company"
 category: "AI Strategy"

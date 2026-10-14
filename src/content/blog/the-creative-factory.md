@@ -1,7 +1,7 @@
 ---
 title: "The Creative Factory: Building Marketing Creative Like Software"
-metaTitle: "The Creative Factory: Marketing Creative, Built Like Software | Continuum"
-metaDescription: "Software engineering got software factories — staged agents, deterministic gates, a human at the merge. Continuum's CTO on building the same machine for marketing creative: eight stations, one loop."
+metaTitle: "AI Creative Factory: Marketing Creative Like Software"
+metaDescription: "An AI creative factory builds marketing creative like software: staged agents, deterministic gates, a human at the merge. Eight stations, one loop."
 excerpt: "Software engineering got software factories: staged agents, deterministic gates, a human at the merge. Our CTO on building the same machine for marketing creative — where the loop, not any single render, is the product."
 targetKeyword: "AI creative factory"
 audience: "Marketing and technology leaders evaluating AI creative systems"

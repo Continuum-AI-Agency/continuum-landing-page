@@ -1,7 +1,7 @@
 ---
 title: "Stock-Aware Creative: How to Stop Wasting Ad Spend on Out-of-Stock Products"
-metaTitle: "Stock-Aware Dynamic Creative: Stop Wasting Ad Spend on OOS Products | Continuum"
-metaDescription: "E-commerce ads keep running on sold-out products and ignore the shopper. Here's how stock-aware dynamic creative cuts wasted spend and lifts first-time buyers — measurably."
+metaTitle: "Stock-Aware Dynamic Creative: Stop Wasting Ad Spend"
+metaDescription: "Stock-aware dynamic creative stops ads running on sold-out products, cutting wasted spend and lifting first-time buyers. See how to measure the lift."
 excerpt: "A large share of e-commerce ad budget is spent promoting products that are sold out or irrelevant. Stock-aware dynamic creative connects ads to your live feed — and proves the lift with a holdout."
 targetKeyword: "stock-aware dynamic creative"
 audience: "E-commerce & performance marketers at retail/fashion brands and the agencies running their paid media"

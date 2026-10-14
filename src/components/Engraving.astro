@@ -1,0 +1,94 @@
+---
+// An engraved scene (src/lib/engraving.ts) that inks in once, outward from the summits, when a
+// third of it is on screen. Built on first sight, not at load, so it never competes with the hero.
+// Reduced motion draws it finished. Fires a bubbling "engrave" event when the ink starts.
+import type { Scene } from '../lib/engraving';
+
+interface Props {
+  scene: Scene;
+  class?: string;
+}
+const { scene, class: className } = Astro.props;
+---
+
+<canvas data-engrave={scene} aria-hidden="true" class={className}></canvas>
+
+<script>
+  import { build, draw, type Built, type Scene } from "../lib/engraving";
+
+  const DURATION: Record<Scene, number> = { night: 2.4, dawn: 1.8 }; // seconds: the ranges ink in the first half, then the aurora
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  for (const canvas of document.querySelectorAll<HTMLCanvasElement>("canvas[data-engrave]")) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) continue;
+    const scene = canvas.dataset.engrave as Scene;
+    let built: Built | null = null;
+    let size = "";
+    let p = -1; // reveal progress; −1 = nothing drawn yet
+    let timer = 0;
+
+    // (Re)build at the current size and redraw everything revealed so far, so a resize mid-reveal
+    // just continues and a resize before it never spoils it.
+    const render = () => {
+      const box = canvas.getBoundingClientRect();
+      const key = `${Math.round(box.width)}x${Math.round(box.height)}`;
+      if (key === size || !box.width || !box.height) return;
+      size = key;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(box.width * dpr);
+      canvas.height = Math.round(box.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      built = build(scene, box.width, box.height);
+      if (built.fill) {
+        // The ranges are opaque: hide the stars behind them with the ground colour.
+        ctx.fillStyle = getComputedStyle(canvas).getPropertyValue("--night").trim() || "#0a0a0c";
+        ctx.beginPath();
+        ctx.moveTo(0, built.h);
+        for (let x = 0; x <= built.w; x += 2) ctx.lineTo(x, built.sky[x]);
+        ctx.lineTo(built.w, built.sky[built.w]);
+        ctx.lineTo(built.w, built.h);
+        ctx.fill();
+      }
+      draw(ctx, built, -1, p);
+    };
+
+    const play = () => {
+      canvas.dispatchEvent(new Event("engrave", { bubbles: true }));
+      if (reduced) {
+        draw(ctx, built!, p, 1);
+        p = 1;
+        return;
+      }
+      // Active-time clock: steps are clamped, so a hidden tab resumes the ink instead of jumping.
+      let t = 0, last = performance.now();
+      const step = (now: number) => {
+        t = Math.min(1, t + Math.min(0.05, (now - last) / 1000) / DURATION[scene]);
+        last = now;
+        const next = 1 - (1 - t) ** 2;
+        draw(ctx, built!, p, next);
+        p = next;
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        if (!built) render();
+        if (built && entry.intersectionRatio >= 0.3) {
+          io.disconnect();
+          play();
+        }
+      },
+      { threshold: [0, 0.3] },
+    );
+    io.observe(canvas);
+    new ResizeObserver(() => {
+      if (!built) return;
+      clearTimeout(timer);
+      timer = window.setTimeout(render, 150);
+    }).observe(canvas);
+  }
+</script>

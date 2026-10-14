@@ -1,7 +1,7 @@
 ---
 title: "How to Prove Your DCO Actually Works (The Holdout Test Most Vendors Avoid)"
-metaTitle: "How to Prove DCO Works: The Holdout Test | Continuum"
-metaDescription: "Most creative-optimization claims are unprovable. Here's the controlled 50/50 holdout that shows whether your DCO is actually incremental — and why AI-native DCO is built to pass it."
+metaTitle: "DCO Incrementality Test: Prove It Works | Continuum"
+metaDescription: "Run a DCO incrementality test with a controlled 50/50 holdout to see if your creative optimization is truly incremental. Get the steps and metrics."
 excerpt: "If a creative vendor won't agree to a holdout, that tells you something. Here's how to run a controlled 50/50 test, what to measure, and why AI-native DCO is built to be proven — not just demoed."
 targetKeyword: "DCO incrementality test"
 audience: "Performance marketers and CMOs who want proof, not vendor claims"

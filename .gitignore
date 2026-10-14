@@ -19,6 +19,9 @@ Thumbs.db
 .env.*
 !.env.example
 
+# Local EmDash database and uploaded media
+/data/
+
 # Astro
 .astro/
 dist/

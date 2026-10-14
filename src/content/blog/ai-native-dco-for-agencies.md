@@ -1,7 +1,7 @@
 ---
 title: "AI-Native DCO for Agencies: Scale Client Creative Without Scaling Headcount"
-metaTitle: "AI-Native DCO for Agencies: Scale Creative, Own Your Data | Continuum"
-metaDescription: "Agencies are stuck trading margin for creative volume. AI-native DCO lets you scale on-brand client creative without more headcount — and own the structured design data that makes it a moat."
+metaTitle: "Creative Automation for Agencies Without More Headcount"
+metaDescription: "Creative automation for agencies: scale on-brand client creative without adding headcount, and own the structured design data. See how AI-native DCO works."
 excerpt: "Agencies grow creative volume by adding people — which crushes margin. AI-native DCO breaks that link, and turns every campaign into structured design data you own. It's not just a production tool; it's a business-model upgrade."
 targetKeyword: "creative automation for agencies"
 audience: "Marketing, media, and creative agencies"
