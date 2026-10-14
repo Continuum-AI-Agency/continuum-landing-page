@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteNav from '../components/SiteNav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Page not found | Continuum" description="This page doesn't exist. Head back to Continuum, the intelligent creative factory.">
+  <SiteNav />
+  <main class="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 py-28 text-center">
+    <p class="font-mono text-sm text-muted-foreground">404</p>
+    <h1 class="mt-4 font-display text-4xl font-bold tracking-tight md:text-6xl">This page drifted off.</h1>
+    <p class="mt-6 text-lg text-muted-foreground">The link may be old or mistyped.</p>
+    <div class="mt-10 flex flex-wrap justify-center gap-6">
+      <a href="/" class="btn-aura h-12 rounded-xl px-7 text-base">Back to home</a>
+      <a href="/blog/" class="self-center font-medium underline-offset-4 hover:underline">Read the blog</a>
+    </div>
+  </main>
+  <Footer />
+</Layout>
