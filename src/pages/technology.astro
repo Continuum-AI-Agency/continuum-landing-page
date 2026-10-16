@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Sky from '../components/Sky.astro';
+import Engraving from '../components/Engraving.astro';
 import SiteNav from '../components/SiteNav.astro';
 import Footer from '../components/Footer.astro';
 import { ShimmerButton } from '../components/ui/shimmer-button';
@@ -44,22 +45,21 @@ const chapters = [
     id: 'deliver',
     index: '03',
     eyebrow: 'Deliver',
-    title: 'Finished creative goes straight into the ad set.',
-    lead: 'Campaigns assembled through our DCO process, creatives switched on performance signals, results looped back into the next brief. Every channel, market, and audience. Zero manual reformatting.',
+    title: 'Finished creative lands in the ad set, paused.',
+    lead: 'Every render is saved to the Library. Approved files are staged on your Meta ad set as new paused ads, so a person decides what goes live. Zero manual reformatting.',
     specs: [
-      ['Destinations', 'Meta · Google · TikTok · YouTube'],
-      ['Delivery', 'Render-to-ad-set pipelines'],
-      ['Optimization', 'DCO creative switching'],
-      ['Approvals', 'Human gates where required'],
-      ['Loop', 'Performance back into generation'],
+      ['Destinations', 'Meta, as paused ads'],
+      ['Delivery', 'Render-to-ad-set, after approval'],
+      ['Library', 'Every render saved'],
+      ['Approvals', 'A person signs off first'],
     ],
   },
 ];
 ---
 
 <Layout
-  title="The Intelligent Creative Factory — Continuum AI Creative Platform"
-  description="Continuum ingests your design system, generates on-brand creative between AI and rendering automations, and delivers it into every platform at scale through DCO."
+  title="The Intelligent Creative Factory | Continuum AI Platform"
+  description="Continuum ingests your design system, generates on-brand creative between AI and rendering automations, and stages approved renders on Meta as paused ads."
   appearance="light"
 >
   <Sky />
@@ -74,9 +74,9 @@ const chapters = [
       </h1>
       <p class="mt-5 max-w-[46ch] text-lead text-white/70">
         We ingest your design system, generate on-brand content between AI and
-        rendering automations, and deliver it into every platform at scale
-        through DCO. Integrate with
-        <a href="/social-plus" class="font-semibold text-white underline underline-offset-4 hover:text-white/80">Social+ for Claude</a>
+        rendering automations, and stage approved renders on your Meta ad sets
+        as paused ads. Integrate with
+        <a href="/social-plus/" class="font-semibold text-white underline underline-offset-4 hover:text-white/80">Social+ for Claude</a>
         or see <a href="/#pricing" class="font-semibold text-white underline underline-offset-4 hover:text-white/80">pricing</a>.
       </p>
       <dl class="mt-12 grid max-w-3xl gap-4 sm:grid-cols-3">
@@ -90,14 +90,16 @@ const chapters = [
     </div>
   </section>
 
-  <div class="horizon horizon-dawn" aria-hidden="true"></div>
+  <div class="horizon horizon-dawn" aria-hidden="true">
+    <Engraving scene="dawn" class="absolute inset-0 size-full" />
+  </div>
 
   <!-- Daylight chapters -->
   <div class="bg-[linear-gradient(var(--day-top),var(--day-low))] text-foreground">
     <div class="mx-auto max-w-7xl px-4 py-24 md:px-6 md:py-32">
       <h2 class="max-w-3xl text-balance font-display text-h2 font-bold">Ingest. Generate. Deliver.</h2>
       <p class="mt-5 max-w-[46ch] text-lead text-muted-foreground">
-        Three stages, one factory. Each stage runs on your design system and writes results back.
+        Three stages, one factory. Each stage runs on your design system and your performance data.
       </p>
 
       {chapters.map((c) => (

@@ -1,65 +1,34 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
-import BlogLazyList from '../../components/blog/BlogLazyList';
-import { getCollection } from 'astro:content';
-import {
-  BLOG_PAGE_SIZE,
-  formatPostDate,
-  getZenblogBlogId,
-  listUnifiedPosts,
-  readingTimeMinutes,
-  type UnifiedPost,
-} from '../../lib/zenblog';
+import { formatPostDate, jsonLd, listAllPosts, readingTimeMinutes } from '../../lib/posts';
 
 const SITE = 'https://trycontinuum.ai';
-
-const firstPage = await listUnifiedPosts({ limit: BLOG_PAGE_SIZE, offset: 0 });
-let posts: UnifiedPost[] = firstPage.posts;
-const total: number = firstPage.total;
-const source = firstPage.source;
-
-// Local fallback: render everything statically (no lazy island needed).
-// ZenBlog: first page is SSR'd for SEO, the rest lazy-loads client-side.
-let localReadingTime = new Map<string, number>();
-if (source === 'local') {
-  const all = await listUnifiedPosts({ limit: 1000, offset: 0 });
-  posts = all.posts;
-  const bodies = new Map((await getCollection('blog')).map((p) => [p.id, p.body]));
-  localReadingTime = new Map(
-    posts.map((p) => [p.slug, readingTimeMinutes(bodies.get(p.localId ?? p.slug))]),
-  );
-}
-
-const zenblogBlogId = getZenblogBlogId();
-const showLazyList = source === 'zenblog' && zenblogBlogId && posts.length < total;
-
-const title = 'Blog — Creative Automation & Performance Marketing Insights | Continuum';
+// ponytail: one page lists every post; add Astro's paginate() past ~50 posts.
+const posts = await listAllPosts();
+const canonicalURL = new URL('/blog/', SITE);
+const title = 'Creative Automation & Performance Marketing Blog | Continuum';
 const description =
-  'Practical guides on producing on-brand creative at scale, stock-aware dynamic advertising, and the personalization layer for modern brands — from the Continuum team.';
+  'Guides on AI-native DCO, on-brand creative at scale, stock-aware dynamic ads, and ad personalization, from the team building Continuum.';
 
-// Structured data: Blog + Breadcrumb (SEO/AEO)
 const blogSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
   name: 'Continuum Blog',
   description,
-  url: `${SITE}/blog/`,
+  url: canonicalURL.toString(),
   publisher: {
     '@type': 'Organization',
     name: 'Continuum',
-    logo: {
-      '@type': 'ImageObject',
-      url: `${SITE}/og.jpg`,
-    },
+    logo: { '@type': 'ImageObject', url: `${SITE}/logo-mark.png` },
   },
-  blogPost: posts.map((p) => ({
+  blogPost: posts.map((post) => ({
     '@type': 'BlogPosting',
-    headline: p.title,
-    description: p.excerpt,
-    datePublished: p.publishedAt.toISOString(),
-    dateModified: (p.updatedAt ?? p.publishedAt).toISOString(),
-    url: `${SITE}/blog/${p.slug}/`,
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.pubDate.toISOString(),
+    dateModified: (post.updatedDate ?? post.pubDate).toISOString(),
+    url: `${SITE}/blog/${post.slug}/`,
   })),
 };
 
@@ -73,20 +42,11 @@ const breadcrumbSchema = {
 };
 ---
 
-<Layout title={title} description={description}>
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(blogSchema)} />
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(breadcrumbSchema)} />
-  {
-    source === 'zenblog' && (
-      <Fragment slot="head">
-        <link rel="preconnect" href="https://zenblog.com" crossorigin />
-        <link rel="dns-prefetch" href="https://zenblog.com" />
-      </Fragment>
-    )
-  }
+<Layout title={title} description={description} canonicalURL={canonicalURL}>
+  <script type="application/ld+json" slot="head" set:html={jsonLd(blogSchema)} />
+  <script type="application/ld+json" slot="head" set:html={jsonLd(breadcrumbSchema)} />
 
   <div class="relative min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
-    <!-- Nav -->
     <nav class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 border-b border-border/10 bg-background/80 backdrop-blur-md">
       <a href="/" class="group flex items-center gap-2 font-display text-[10px] tracking-wide text-foreground hover:text-primary transition-colors">
         <span class="text-muted-foreground/40 group-hover:text-primary group-hover:-translate-x-0.5 transition-all">←</span>
@@ -98,7 +58,6 @@ const breadcrumbSchema = {
     </nav>
 
     <main class="mx-auto max-w-5xl px-6 py-20 md:py-28">
-      <!-- Header -->
       <header class="mb-16 max-w-3xl">
         <p class="text-[10px] tracking-wide text-primary font-bold font-mono mb-5">Insights</p>
         <h1 class="text-4xl md:text-6xl font-bold font-display tracking-tight leading-none text-foreground">
@@ -110,52 +69,34 @@ const breadcrumbSchema = {
         </p>
       </header>
 
-      <!-- Post list: first page is server-rendered (SEO), the rest lazy-loads -->
       <div class="grid grid-cols-1 gap-px bg-border/30 rounded-xl overflow-hidden border border-border/30">
-        {
-          posts.map((post) => (
-            <a
-              href={`/blog/${post.slug}/`}
-              class="group block bg-background hover:bg-card/40 transition-colors duration-300 p-8 md:p-10"
-            >
-              <article class="flex flex-col gap-4">
-                <div class="flex items-center gap-3 text-[10px] tracking-wide font-mono">
-                  <span class="text-primary font-bold">{post.category}</span>
-                  <span class="text-muted-foreground/40">•</span>
-                  <span class="text-muted-foreground/70">{formatPostDate(post.publishedAt)}</span>
-                  {source === 'local' && (
-                    <>
-                      <span class="text-muted-foreground/40">•</span>
-                      <span class="text-muted-foreground/70">{localReadingTime.get(post.slug) ?? 1} min read</span>
-                    </>
-                  )}
-                </div>
-                <h2 class="text-2xl md:text-3xl font-semibold font-display text-foreground leading-tight group-hover:text-primary transition-colors">
-                  {post.title}
-                </h2>
-                <p class="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl">
-                  {post.excerpt}
-                </p>
-                <span class="mt-2 inline-flex items-center gap-2 text-sm font-medium text-primary">
-                  Read article
-                  <span class="group-hover:translate-x-1 transition-transform">→</span>
-                </span>
-              </article>
-            </a>
-          ))
-        }
-        {
-          showLazyList && (
-            <BlogLazyList
-              client:visible
-              blogId={zenblogBlogId!}
-              initialOffset={posts.length}
-              total={total}
-              pageSize={BLOG_PAGE_SIZE}
-            />
-          )
-        }
+        {posts.map((post) => (
+          <a
+            href={`/blog/${post.slug}/`}
+            class="group block bg-background hover:bg-card/40 transition-colors duration-300 p-8 md:p-10"
+          >
+            <article class="flex flex-col gap-4">
+              <div class="flex items-center gap-3 text-[10px] tracking-wide font-mono">
+                <span class="text-primary font-bold">{post.category}</span>
+                <span class="text-muted-foreground/40">•</span>
+                <span class="text-muted-foreground/70">{formatPostDate(post.pubDate)}</span>
+                <span class="text-muted-foreground/40">•</span>
+                <span class="text-muted-foreground/70">{readingTimeMinutes(post.content)} min read</span>
+              </div>
+              <h2 class="text-2xl md:text-3xl font-semibold font-display text-foreground leading-tight group-hover:text-primary transition-colors">
+                {post.title}
+              </h2>
+              <p class="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl">
+                {post.excerpt}
+              </p>
+              <span class="mt-2 inline-flex items-center gap-2 text-sm font-medium text-primary">
+                Read article <span class="group-hover:translate-x-1 transition-transform">→</span>
+              </span>
+            </article>
+          </a>
+        ))}
       </div>
+
     </main>
   </div>
 

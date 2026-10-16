@@ -38,17 +38,17 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'border-primary/20 bg-primary/14 text-[color-mix(in_oklch,var(--primary),var(--foreground)_22%)] [--btn-fill:color-mix(in_oklch,var(--primary),#808080_22%)] hover:text-primary-foreground',
+          'border-primary/20 bg-primary/14 text-[color-mix(in_oklch,var(--primary),var(--foreground)_22%)] [--btn-fill:color-mix(in_oklch,var(--primary),#808080_22%)] hover:text-primary-foreground focus-visible:text-primary-foreground',
         outline:
           'border-border bg-background [--btn-fill:var(--muted)] hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30',
         secondary:
-          'border-secondary/20 bg-secondary/14 text-[color-mix(in_oklch,var(--secondary),var(--foreground)_40%)] [--btn-fill:color-mix(in_oklch,var(--secondary),#808080_22%)] hover:text-secondary-foreground aria-expanded:bg-secondary/14',
+          'border-secondary/20 bg-secondary/14 text-[color-mix(in_oklch,var(--secondary),var(--foreground)_40%)] [--btn-fill:color-mix(in_oklch,var(--secondary),#808080_22%)] hover:text-secondary-foreground focus-visible:text-secondary-foreground aria-expanded:bg-secondary/14',
         ghost:
           '[--btn-fill:var(--muted)] hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground',
         destructive:
-          'border-destructive/20 bg-destructive/14 text-[color-mix(in_oklch,var(--destructive),black_26%)] [--btn-fill:color-mix(in_oklch,color-mix(in_oklch,var(--destructive),#808080_22%),black_14%)] hover:text-destructive-foreground focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:text-[color-mix(in_oklch,var(--destructive),var(--foreground)_18%)] dark:[--btn-fill:color-mix(in_oklch,var(--destructive),#808080_22%)] dark:focus-visible:ring-destructive/40',
+          'border-destructive/20 bg-destructive/14 text-[color-mix(in_oklch,var(--destructive),black_26%)] [--btn-fill:color-mix(in_oklch,color-mix(in_oklch,var(--destructive),#808080_22%),black_14%)] hover:text-destructive-foreground focus-visible:text-destructive-foreground focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:text-[color-mix(in_oklch,var(--destructive),var(--foreground)_18%)] dark:[--btn-fill:color-mix(in_oklch,var(--destructive),#808080_22%)] dark:focus-visible:ring-destructive/40',
         success:
-          'border-success/20 bg-success/14 text-[color-mix(in_oklch,var(--success),black_22%)] [--btn-fill:color-mix(in_oklch,color-mix(in_oklch,var(--success),#808080_22%),black_14%)] hover:text-success-foreground dark:text-[color-mix(in_oklch,var(--success),var(--foreground)_18%)] dark:[--btn-fill:color-mix(in_oklch,var(--success),#808080_22%)]',
+          'border-success/20 bg-success/14 text-[color-mix(in_oklch,var(--success),black_22%)] [--btn-fill:color-mix(in_oklch,color-mix(in_oklch,var(--success),#808080_22%),black_14%)] hover:text-success-foreground focus-visible:text-success-foreground dark:text-[color-mix(in_oklch,var(--success),var(--foreground)_18%)] dark:[--btn-fill:color-mix(in_oklch,var(--success),#808080_22%)]',
         link: 'text-[var(--primary)] underline-offset-4 hover:underline',
         cta: 'bg-primary text-primary-foreground [--btn-fill:color-mix(in_oklch,var(--primary),black_10%)] dark:[--btn-fill:color-mix(in_oklch,var(--primary),white_10%)]',
       },

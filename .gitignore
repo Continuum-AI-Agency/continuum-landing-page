@@ -23,5 +23,8 @@ Thumbs.db
 .astro/
 dist/
 
+# Cloudflare local dev (wrangler pages dev)
+.wrangler/
+
 # Video masters for scripts/optimize-media.sh (never commit)
 /media/

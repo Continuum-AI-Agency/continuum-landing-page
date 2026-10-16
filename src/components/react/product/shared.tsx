@@ -1,26 +1,42 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode, type Ref, type RefObject } from "react";
-import {
-  MotionConfig,
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-  useMotionValueEvent,
-  useReducedMotion,
-} from "motion/react";
+import { useEffect, useRef, useState, type ReactNode, type Ref, type RefObject } from "react";
+import { MotionConfig, animate, useInView, useMotionValue, useMotionValueEvent, useReducedMotion } from "motion/react";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 // The app's entrance curve (PortfolioHero's EASE), shared by every product-window motion.
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
-/** App-styled window that frames each product demo. Tool register: no world styling inside. */
+/** How the app marks a Preview feature. Shown wherever the sales register says "Pilot only". */
+export const Pilot = ({ className }: { className?: string }) => (
+  <Badge variant="muted" className={className}>
+    Pilot
+  </Badge>
+);
+
+/** The end of every scripted run: hand the visitor to a demo instead of a dead-end reset.
+ *  `pending` is the version shown while the run waits at its approval gate. */
+export const RunItCta = ({ pending, className }: { pending?: boolean; className?: string }) => (
+  <p className={cn("text-xs text-muted-foreground", className)}>
+    {pending ? "Your call. Approve it here, or" : "That's the run."}{" "}
+    <a href="/#demo" className="font-medium text-primary underline-offset-4 hover:underline">
+      {pending ? "run it on your account" : "Run it on your account"} → Book a demo
+    </a>
+  </p>
+);
+
+/** App-styled window that frames each product demo. Tool register: no world styling inside.
+ *  `badge` sits after the path (e.g. <Pilot />); `actions` sit at the right of the title bar (tabs). */
 export function ProductWindow({
   path,
+  badge,
+  actions,
   children,
   className,
   ref,
 }: {
   path: string[];
+  badge?: ReactNode;
+  actions?: ReactNode;
   children: ReactNode;
   className?: string;
   ref?: Ref<HTMLDivElement>;
@@ -43,7 +59,9 @@ export function ProductWindow({
               </span>
             </span>
           ))}
+          {badge}
         </div>
+        {actions && <div className="ml-auto flex shrink-0 items-center">{actions}</div>}
       </div>
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </div>
@@ -155,8 +173,7 @@ export function useAutoplay(ref: RefObject<HTMLElement | null>, script: (alive: 
 export const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // ── Creative: one post, rendered at any network's native shape ──────────────
-// Used by Organic+ (editor + previews) and Performance+ (swap thumbnails), so the same post
-// travels across demos. Type is sized in cqmin, so it fits portrait and landscape frames alike.
+// Read-only. Type is sized in cqmin, so it fits portrait and landscape frames alike.
 export type Format = "1:1" | "4:5" | "9:16" | "1.91:1";
 export type Photo = { key?: string; src: string; alt: string; label?: string };
 export type Pos = { x: number; y: number };
@@ -168,8 +185,6 @@ export function Creative({
   brand,
   format,
   pos,
-  onMove,
-  swapKey,
   className,
 }: {
   photo: Photo;
@@ -177,47 +192,10 @@ export function Creative({
   brand: string;
   format: Format;
   pos: Pos;
-  onMove?: (pos: Pos) => void;
-  /** Change it to play the headline swap (a soft blur-in), e.g. when the agent rewrites the hook. */
-  swapKey?: string;
   className?: string;
 }) {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const chipRef = useRef<HTMLParagraphElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const editable = Boolean(onMove);
-
-  const clamp = (p: Pos): Pos => ({
-    x: Math.min(Math.max(p.x, 0), 60),
-    y: Math.min(Math.max(p.y, 0), 84),
-  });
-
-  const commitDrag = () => {
-    const frame = frameRef.current?.getBoundingClientRect();
-    const chip = chipRef.current?.getBoundingClientRect();
-    if (!frame || !chip || !onMove) return;
-    onMove(
-      clamp({
-        x: ((chip.left - frame.left) / frame.width) * 100,
-        y: ((chip.top - frame.top) / frame.height) * 100,
-      }),
-    );
-    x.set(0);
-    y.set(0);
-  };
-
-  const nudge = (e: KeyboardEvent) => {
-    const step = e.shiftKey ? 8 : 2;
-    const d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
-    if (!d || !onMove) return;
-    e.preventDefault();
-    onMove(clamp({ x: pos.x + d[0], y: pos.y + d[1] }));
-  };
-
   return (
     <div
-      ref={frameRef}
       className={cn("relative overflow-hidden bg-muted [container-type:size]", className)}
       style={{ aspectRatio: RATIO[format] }}
     >
@@ -230,37 +208,12 @@ export function Creative({
         loading="lazy"
         className="absolute inset-0 size-full select-none object-cover"
       />
-      <motion.p
-        ref={chipRef}
-        drag={editable}
-        dragConstraints={frameRef}
-        dragMomentum={false}
-        dragElastic={0}
-        onDragEnd={commitDrag}
-        tabIndex={editable ? 0 : undefined}
-        role={editable ? "button" : undefined}
-        aria-label={editable ? `Headline layer: ${headline}. Use arrow keys to move.` : undefined}
-        onKeyDown={editable ? nudge : undefined}
-        style={{ x, y, left: `${pos.x}%`, top: `${pos.y}%`, background: brand }}
-        className={cn(
-          "absolute max-w-[78%] rounded-[0.6cqmin] px-[3cqmin] py-[2cqmin] text-[7.5cqmin] font-semibold leading-[1.05] text-white motion-reduce:transition-none",
-          editable
-            ? "cursor-grab outline-2 outline-offset-2 outline-dashed outline-white/80 transition-[background-color] duration-300 focus-visible:outline-solid focus-visible:outline-primary active:cursor-grabbing"
-            : // Previews glide to where the editor or the agent puts the layer. Not on the editor
-              // itself: a drag commits by resetting x/y and moving left/top in the same frame.
-              "transition-[left,top,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-        )}
+      <p
+        style={{ left: `${pos.x}%`, top: `${pos.y}%`, background: brand }}
+        className="absolute max-w-[78%] rounded-[0.6cqmin] px-[3cqmin] py-[2cqmin] text-[7.5cqmin] font-semibold leading-[1.05] text-white"
       >
-        <motion.span
-          key={swapKey}
-          className="block"
-          initial={swapKey ? { opacity: 0, filter: "blur(6px)" } : false}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 0.45, ease: EASE }}
-        >
-          {headline || "Your headline"}
-        </motion.span>
-      </motion.p>
+        {headline}
+      </p>
     </div>
   );
 }

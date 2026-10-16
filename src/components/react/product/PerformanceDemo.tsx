@@ -1,525 +1,515 @@
-import { useRef, useState } from "react";
-import { useInView, useReducedMotion } from "motion/react";
-import { ArrowRight, RotateCcw } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, Line, LineChart, ReferenceDot, ReferenceLine, XAxis, YAxis } from "recharts";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { Pause, Settings, Wallet, Zap, type LucideIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Conversation, ConversationContent } from "@/components/ai-elements/conversation";
 import { Message } from "@/components/ai-elements/message";
-import { Suggestion } from "@/components/ai-elements/suggestion";
 import { Shimmer } from "@/components/ai-elements/shimmer";
-import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from "@/components/ai-elements/tool";
-import {
-  Confirmation,
-  ConfirmationAccepted,
-  ConfirmationAction,
-  ConfirmationActions,
-  ConfirmationRejected,
-  ConfirmationRequest,
-  ConfirmationTitle,
-} from "@/components/ai-elements/confirmation";
-import { Creative, ProductWindow, Tween, Typed, useAutoplay, wait } from "./shared";
+import { Suggestion } from "@/components/ai-elements/suggestion";
+import { Creative, Pilot, ProductWindow, RunItCta, Tween, Typed, useAutoplay, wait, type Photo } from "./shared";
 import { cn } from "@/lib/utils";
 
-// ── Sample data ─────────────────────────────────────────────────────────────
-const ACTUAL = [14.2, 14.0, 14.5, 13.8, 14.1, 14.4, 14.0, 15.1, 16.2, 17.0, 17.8, 18.6, 19.8, 18.7];
-const BASELINE = [19.4, 19.8, 20.1, 20.5, 20.7, 21.0, 21.2];
-const OPTIMIZED = [18.2, 17.1, 16.3, 15.6, 15.2, 14.9, 14.7];
-const day = (i: number) => `Sep ${8 + i}`;
+// ── Sample data (Aurel Audio on Meta) ───────────────────────────────────────
+// Daily CPA, Sep 8 to Sep 21. The Optimizer projects one cycle ahead, never a week.
+const CPA = [16.9, 17.1, 16.8, 17.2, 16.6, 16.9, 17.0, 17.4, 17.9, 18.2, 18.5, 18.9, 19.6, 18.7];
+const NEXT = 17.9;
+const TARGET = 16;
 const avg = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
-const CPA_RISE = Math.round((avg(ACTUAL.slice(7)) / avg(ACTUAL.slice(0, 7)) - 1) * 100);
-const CPA_DROP = Math.round((1 - OPTIMIZED.at(-1)! / ACTUAL.at(-1)!) * 100);
-const SWAP_DAY = 12; // Sep 20: the spike the Optimizer answered on its own
-const SWAP_DROP = Math.round((1 - ACTUAL[SWAP_DAY + 1] / ACTUAL[SWAP_DAY]) * 100);
-const LOOKALIKE_CPA = 31.9;
-const LOOKALIKE_RATIO = (LOOKALIKE_CPA / ACTUAL.at(-1)!).toFixed(1);
+const RISE = Math.round((avg(CPA.slice(7)) / avg(CPA.slice(0, 7)) - 1) * 100);
+const day = (i: number) => `Sep ${8 + i}`;
+// Plot space: 0..100 both ways, the next cycle one slot past today.
+const x = (i: number) => 2 + (i / CPA.length) * 96;
+const y = (v: number) => ((20 - v) / (20 - 14)) * 100;
+const TODAY = CPA.length - 1;
 
-// Actions on the account, drawn as flags on the CPA line. Auto = inside guardrails; approved = through Jaina.
-type Photo = { key: string; src: string; alt: string; label: string };
-type Flag = {
-  index: number;
-  kind: "auto" | "approved";
-  title: string;
-  detail: string;
-  impact: string;
-  swap?: { from: string; to: string };
+// The app's pin kinds (CpaHeroTimeline EVENT_STYLE): the pin and its tooltip share glyph and colour.
+type Kind = "cycle" | "applied" | "status" | "config";
+const KIND: Record<Kind, { Icon: LucideIcon; color: string; label: string }> = {
+  cycle: { Icon: Zap, color: "var(--chart-4)", label: "Cycle" },
+  applied: { Icon: Wallet, color: "var(--success)", label: "Applied" },
+  status: { Icon: Pause, color: "var(--warning)", label: "Status" },
+  config: { Icon: Settings, color: "var(--chart-3)", label: "Setting" },
 };
-const AUTO_FLAGS: Flag[] = [
-  {
-    index: 4,
-    kind: "auto",
-    title: "Budget paced",
-    detail: "Prospecting was 11% over pace by midday. The Optimizer held its cap and moved $40 to Retargeting.",
-    impact: "Spend back on plan the same day",
-  },
-  {
-    index: SWAP_DAY,
-    kind: "auto",
-    title: "Creative swapped automatically",
-    detail: "Creative #3 hit a frequency of 4.8 in Prospecting. The Optimizer rotated in the approved “Hear the drop” variant.",
-    impact: `CPA down ${SWAP_DROP}% the next day`,
-    swap: { from: "Sound that moves with you", to: "Hear the drop." },
-  },
+
+// Both moves are over the 20% cap, so Autopilot holds them for a person.
+const ROWS = [
+  { name: "Lookalike · Buyers 2%", id: "120211…3907", from: 380, to: 290 },
+  { name: "Retargeting · 30 days", id: "120211…4412", from: 260, to: 350 },
+  { name: "Prospecting · Broad", id: "120211…2870", from: 420, to: 420 },
 ];
-const APPROVED_FLAG: Flag = {
-  index: ACTUAL.length - 1,
-  kind: "approved",
-  title: "3 changes approved",
-  detail: "Budget moved from Lookalike to Retargeting, creative #3 paused in Lookalike, two hook variants launched.",
-  impact: `Projected CPA down ${CPA_DROP}% in 7 days`,
+const MOVES = ROWS.slice(0, 2);
+const usd = (v: number) => `$${Math.round(v)}`;
+const change = (r: (typeof ROWS)[number]) => ((r.to - r.from) / r.from) * 100;
+const signed = (p: number) => `${p > 0 ? "+" : "−"}${Math.abs(p).toFixed(1)}%`;
+// What request_optimizer_budget_apply would actually be called with.
+const INPUT: Record<string, unknown> = {
+  portfolio_id: "4b1f…e07a",
+  run_id: "9c2d…51b3",
+  items: MOVES.map((r) => ({ adset_id: r.id, adset_name: r.name, current_budget: r.from, proposed_budget: r.to })),
+  summary: "Move $90/day from Lookalike into Retargeting",
 };
 
-function FlagMarker({
-  cx,
-  cy,
-  flag,
-  onOpen,
-  onClose,
-  onToggle,
-  delay,
-}: {
-  cx?: number;
-  cy?: number;
-  flag: Flag;
-  /** Seconds after the line starts drawing that this flag drops in; undefined = no entrance. */
-  delay?: number;
-  onOpen: (flag: Flag, x: number, y: number) => void;
-  onClose: () => void;
-  onToggle: (flag: Flag, x: number, y: number) => void;
-}) {
-  if (cx == null || cy == null) return <g />;
-  const color = flag.kind === "auto" ? "var(--secondary)" : "var(--success)";
-  const open = () => onOpen(flag, cx, cy);
+const Q1 = "Why did CPA rise this week?";
+const Q2 = "What should we change?";
+const A1 = `CPA is up ${RISE}%. Lookalike · Buyers 2% drives it: new ads aren't arriving as fast as old ones tire. The Optimizer's read flagged it this morning.`;
+const A2 =
+  "Move $90/day from Lookalike into Retargeting. Autopilot held it because both changes are over your 20% cap, so it needs a person. For the tired creative, three new Forge ads are waiting in Lookalike, paused. Lookalike runs lower until they're live.";
+
+type Step = "idle" | "why" | "read" | "what" | "awaiting" | "applying" | "approved" | "declined";
+type Item = { id: number; role: "user" | "jaina" | "think"; text: string; card?: "read" | "approval"; done?: boolean; tools?: number };
+
+/** The app's Pill: a rounded-full badge with a status dot. */
+const Pill = ({ variant, dot, children }: { variant: "success" | "secondary" | "muted"; dot: string; children: ReactNode }) => (
+  <Badge variant={variant} className="gap-1.5 text-2xs">
+    <span aria-hidden="true" className={cn("size-2 rounded-full", dot)} />
+    {children}
+  </Badge>
+);
+
+// SparkleSpinner's braille frames, one every 150 ms; static under reduced motion.
+const FRAMES = ["⡡⠊⢔⠡", "⠊⡰⡡⡘", "⢔⢅⠈⢢", "⡁⢂⠆⡍", "⢔⠨⢑⢐", "⠨⡑⡠⠊"];
+
+/** ThinkingWindow's header row: spinner, "Thinking…", the tool being pulled, then the tally. */
+function Thinking({ item }: { item: Item }) {
+  const reduce = useReducedMotion();
+  const [f, setF] = useState(0);
+  useEffect(() => {
+    if (item.done || reduce) return;
+    const id = setInterval(() => setF((i) => (i + 1) % FRAMES.length), 150);
+    return () => clearInterval(id);
+  }, [item.done, reduce]);
   return (
-    <g
-      transform={`translate(${cx},${cy})`}
-      tabIndex={0}
-      role="button"
-      aria-label={`${day(flag.index)}: ${flag.title}. ${flag.detail} ${flag.impact}.`}
-      className="cursor-pointer outline-none [&:focus-visible_circle.flag-head]:stroke-[var(--ring)]"
-      onMouseEnter={open}
-      onFocus={open}
-      onMouseLeave={onClose}
-      onBlur={onClose}
-      onClick={() => onToggle(flag, cx, cy)}
-    >
-      <g className={delay === undefined ? undefined : "pf-flag"} style={{ animationDelay: `${delay ?? 0}s` }}>
-        <line y1={-4} y2={-16} stroke={color} strokeWidth={1.5} />
-        {/* A slow ping says "hover me" without a word. */}
-        <circle className="pf-ping" cy={-22} r={8.5} fill="none" stroke={color} strokeWidth={1.5} style={{ animationDelay: `${(delay ?? 0) + 0.6}s` }} />
-        <circle className="flag-head" cy={-22} r={8.5} fill={color} stroke="white" strokeWidth={2} />
-        <text y={-18.5} textAnchor="middle" fontSize={9.5} fontWeight={700} fill="white">
-          {flag.kind === "auto" ? "A" : "✓"}
-        </text>
-        <circle r={4} fill="white" stroke={color} strokeWidth={2} />
-      </g>
-      {/* generous invisible hit area */}
-      <rect x={-12} y={-32} width={24} height={40} fill="transparent" />
-    </g>
+    <div className="flex items-center gap-2.5 px-1 text-sm text-muted-foreground">
+      <span aria-hidden="true" className={cn("font-mono text-base leading-none text-foreground/60", item.done && "opacity-40")}>
+        {FRAMES[f]}
+      </span>
+      {item.done ? (
+        <>
+          <span className="flex-1 font-medium">{item.text}</span>
+          <Badge variant="secondary" className="px-1.5 text-2xs">
+            {item.tools} tool{item.tools === 1 ? "" : "s"}
+          </Badge>
+        </>
+      ) : (
+        <>
+          <Shimmer as="span" className="shrink-0 text-sm font-medium" duration={1.6}>
+            Thinking…
+          </Shimmer>
+          <motion.span
+            key={item.text}
+            initial={{ opacity: 0, x: -4 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.2 }}
+            className="min-w-0 truncate rounded-full bg-muted px-2 py-0.5 text-2xs"
+          >
+            {item.text}
+          </motion.span>
+        </>
+      )}
+    </div>
   );
 }
 
-type AdSet = { name: string; status: "Active" | "Paused" | "Learning"; budget: number; cpa: number | null; roas: number | null };
-const AD_SETS: AdSet[] = [
-  { name: "Prospecting · Broad", status: "Active", budget: 420, cpa: 18.4, roas: 3.1 },
-  { name: "Retargeting · 30 days", status: "Active", budget: 260, cpa: 11.2, roas: 4.6 },
-  { name: "Lookalike · Buyers 2%", status: "Active", budget: 380, cpa: 31.9, roas: 1.4 },
-  { name: "Creative #3 in Lookalike", status: "Active", budget: 0, cpa: 36.5, roas: 1.1 },
-];
-const AD_SETS_AFTER: AdSet[] = [
-  AD_SETS[0],
-  { ...AD_SETS[1], budget: 336 },
-  { ...AD_SETS[2], budget: 304 },
-  { ...AD_SETS[3], status: "Paused" },
-  { name: "Variant A · Hook “Hear the drop”", status: "Learning", budget: 0, cpa: null, roas: null },
-  { name: "Variant B · Hook “Studio, anywhere”", status: "Learning", budget: 0, cpa: null, roas: null },
-];
-const BY_AD_SET = AD_SETS.slice(0, 3).map((a) => ({ name: a.name.split(" · ")[0], cpa: a.cpa }));
+/** A cited Optimizer card (OptimizerCardBlock, size "card") with its two-rate chart. */
+function ReadCard() {
+  const line = (pts: number[]) => pts.map((v, i) => `${(i / (pts.length - 1)) * 100},${100 - v * 18}`).join(" ");
+  return (
+    <figure className="mt-2.5 overflow-hidden rounded-lg border border-border/60 bg-background">
+      <div className="grid items-center gap-3 p-3 sm:grid-cols-[minmax(0,1fr)_112px]">
+        <div className="min-w-0 space-y-0.5">
+          <p className="font-mono text-2xs text-muted-foreground">creative_supply</p>
+          <p className="text-sm font-semibold leading-snug">Creatives die faster than they arrive</p>
+          <p className="text-xs text-muted-foreground">New creatives per week against the rate at which they fatigue</p>
+        </div>
+        <div className="space-y-1">
+          <svg aria-hidden="true" className="h-10 w-full" preserveAspectRatio="none" viewBox="0 -4 100 108">
+            <polyline points={line([3, 4, 4, 5])} fill="none" stroke="currentColor" strokeDasharray="3 3" strokeWidth="1.5" className="text-muted-foreground" vectorEffect="non-scaling-stroke" />
+            <polyline points={line([3, 3, 2, 2])} fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" vectorEffect="non-scaling-stroke" />
+          </svg>
+          <p className="flex justify-between text-2xs text-muted-foreground">
+            <span><span className="inline-block h-0.5 w-3 bg-primary align-middle" /> new</span>
+            <span><span className="inline-block h-0.5 w-3 bg-muted-foreground align-middle" /> fatiguing</span>
+          </p>
+        </div>
+      </div>
+      <figcaption className="border-t border-border/60 bg-muted/30 px-3 py-1.5 text-2xs text-muted-foreground">read of Sep 21</figcaption>
+    </figure>
+  );
+}
 
-const lineConfig = {
-  cpa: { label: "CPA", color: "var(--chart-1)" },
-  projected: { label: "Projected", color: "var(--chart-1)" },
-} satisfies ChartConfig;
-const barConfig = { cpa: { label: "CPA", color: "var(--chart-1)" } } satisfies ChartConfig;
+/** JainaToolApprovalCard + ApprovalChangeTable, on the agentCardKit decision surface. */
+function ApprovalCard({ step, onDecide }: { step: Step; onDecide: (ok: boolean) => void }) {
+  const [label, tone, dot] =
+    step === "applying"
+      ? ["Approved", "text-amber-600", "bg-amber-500 animate-pulse motion-reduce:animate-none"]
+      : step === "approved"
+      ? ["Approved", "text-emerald-600", "bg-emerald-500"]
+      : step === "declined"
+        ? ["Declined — nothing ran", "text-muted-foreground", "bg-muted-foreground/40"]
+        : ["Awaiting your approval", "text-amber-600", "bg-amber-500"];
+  return (
+    <div className="rounded-lg border border-border/50 bg-card/80 p-3 text-sm">
+      <div className="flex items-center justify-between gap-3 text-xs font-medium">
+        <span className="text-muted-foreground">Approval required</span>
+        <span className={cn("flex items-center gap-1.5", tone)}>
+          <span aria-hidden="true" className={cn("size-1.5 rounded-full", dot)} />
+          {label}
+        </span>
+      </div>
+      <p className="mt-1.5 text-base font-semibold leading-snug">Request budget apply</p>
+      <div className="mt-2.5 rounded-md border border-border/50 bg-muted/20 px-1 py-1.5">
+        <Table className="caption-top text-xs">
+          <TableCaption className="mt-0 mb-1.5 px-2 text-left text-xs text-foreground/80">Daily budget on 2 ad sets</TableCaption>
+          <TableHeader>
+            <TableRow className="hover:bg-transparent">
+              {["Field", "Before", "After"].map((h) => (
+                <TableHead key={h} className="h-7 px-2 text-xs">{h}</TableHead>
+              ))}
+              <TableHead className="h-7 px-2 text-right text-xs">Change</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {MOVES.map((r) => (
+              <TableRow key={r.name} className="hover:bg-transparent">
+                <TableCell className="whitespace-normal px-2 py-1.5 font-mono text-muted-foreground">{r.name}</TableCell>
+                <TableCell className="px-2 py-1.5 tabular-nums text-muted-foreground">{usd(r.from)}</TableCell>
+                <TableCell className="px-2 py-1.5 font-medium tabular-nums">{usd(r.to)}</TableCell>
+                <TableCell className={cn("px-2 py-1.5 text-right tabular-nums", change(r) > 0 ? "text-emerald-600" : "text-rose-600")}>
+                  {signed(change(r))}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      {/* The table summarises; this list IS the call, so it collapses but never leaves. */}
+      <details className="mt-2 rounded-md border border-border/50 bg-muted/20 px-3 py-2">
+        <summary className="cursor-pointer rounded-sm text-xs text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          Exact input
+        </summary>
+        <dl className="mt-2 grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] gap-x-3 gap-y-1.5 font-mono text-xs leading-5">
+          {Object.entries(INPUT).map(([k, v]) => (
+            <div key={k} className="contents">
+              <dt className="text-muted-foreground">{k}</dt>
+              <dd className="min-w-0 break-words">{typeof v === "string" ? v : JSON.stringify(v)}</dd>
+            </div>
+          ))}
+        </dl>
+      </details>
+      {step === "awaiting" && (
+        <div className="mt-3 flex justify-end gap-1">
+          <Button variant="ghost" size="sm" className="min-h-9 px-3.5 text-sm text-muted-foreground" onClick={() => onDecide(false)}>
+            Deny
+          </Button>
+          <Button size="sm" className="min-h-9 px-3.5 text-sm" onClick={() => onDecide(true)}>
+            Approve
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
 
-type Step = "idle" | "analyzing" | "analyzed" | "recommending" | "awaiting" | "applied" | "rejected";
-type Msg = { id: number; role: "user" | "assistant"; text: string; typed?: boolean; chart?: boolean; confirm?: boolean; done?: boolean };
+/** CPA by hand, the way AccountChartView draws: actual line, one-cycle projection, the target band,
+ *  and the cycles where the Optimizer acted pinned to the axis as real buttons. */
+function CpaChart({ approved }: { approved: boolean }) {
+  const [open, setOpen] = useState<number | null>(null);
+  const pins: { i: number; kind: Kind; text: string }[] = [
+    { i: 4, kind: "applied", text: "Autopilot moved $40/day from Prospecting into Retargeting (+18%), inside your 20% cap." },
+    approved
+      ? { i: TODAY, kind: "applied", text: "You approved the 2 held moves: $90/day from Lookalike into Retargeting." }
+      : { i: TODAY, kind: "cycle", text: "2 moves held for your approval." },
+  ];
+  const band = "color-mix(in oklch, var(--success) 55%, transparent)";
+  return (
+    <>
+      <div className="relative mx-4 mt-2 h-24 sm:h-32">
+        <svg aria-hidden="true" className="absolute inset-0 size-full overflow-visible">
+          <defs>
+            <pattern id="pf-target" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="6" strokeWidth="1.25" style={{ stroke: "color-mix(in oklch, var(--success) 22%, transparent)" }} />
+            </pattern>
+          </defs>
+          <rect x="0" y={`${y(TARGET)}%`} width="100%" height={`${100 - y(TARGET)}%`} fill="url(#pf-target)" strokeDasharray="4 3" style={{ stroke: band }} />
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" className="overflow-visible">
+            {pins.map((p) => (
+              <line key={p.i} x1={x(p.i)} x2={x(p.i)} y1={0} y2={100} stroke={KIND[p.kind].color} strokeDasharray="2 3" strokeOpacity={0.45} vectorEffect="non-scaling-stroke" />
+            ))}
+            <polyline points={CPA.map((v, i) => `${x(i)},${y(v)}`).join(" ")} fill="none" stroke="var(--chart-2)" strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+            <polyline points={`${x(TODAY)},${y(CPA[TODAY])} ${x(TODAY + 1)},${y(NEXT)}`} fill="none" stroke="var(--chart-4)" strokeWidth="2" strokeDasharray="6 4" vectorEffect="non-scaling-stroke" />
+          </svg>
+        </svg>
+        <span className="absolute top-0 left-0 text-2xs text-muted-foreground">$20</span>
+        <span className="absolute left-1 text-2xs font-medium" style={{ top: `calc(${y(TARGET)}% + 2px)`, color: "var(--success)" }}>
+          $16 target
+        </span>
+        {pins.map((p) => {
+          const k = KIND[p.kind];
+          return (
+            <div key={p.i} className="absolute bottom-0 -translate-x-1/2 translate-y-1/2" style={{ left: `${x(p.i)}%` }}>
+              <button
+                type="button"
+                aria-label={`${day(p.i)}, ${k.label}: ${p.text}`}
+                onMouseEnter={() => setOpen(p.i)}
+                onMouseLeave={() => setOpen(null)}
+                onFocus={() => setOpen(p.i)}
+                onBlur={() => setOpen(null)}
+                onClick={() => setOpen(p.i)}
+                onKeyDown={(e) => e.key === "Escape" && setOpen(null)}
+                className="grid size-5 cursor-pointer place-items-center rounded-full border-2 bg-card outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+                style={{ borderColor: k.color, color: k.color }}
+              >
+                <k.Icon aria-hidden="true" className="size-2.5" />
+              </button>
+              {open === p.i && (
+                <div
+                  role="tooltip"
+                  className={cn(
+                    "absolute bottom-full z-10 mb-2 w-56 rounded-lg border border-border bg-popover p-2.5 text-xs text-popover-foreground shadow-md",
+                    x(p.i) > 50 ? "-right-2" : "-left-2",
+                  )}
+                >
+                  <p className="flex items-center justify-between font-medium" style={{ color: k.color }}>
+                    <span className="flex items-center gap-1.5"><k.Icon aria-hidden="true" className="size-3" />{k.label}</span>
+                    <span className="font-normal text-muted-foreground">{day(p.i)}</span>
+                  </p>
+                  <p className="mt-1 leading-snug text-muted-foreground">{p.text}</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <p className="mx-4 mt-3 flex justify-between text-2xs text-muted-foreground">
+        <span>{day(0)}</span>
+        <span>Next cycle</span>
+      </p>
+      <div className="mx-4 mt-1.5 hidden flex-wrap items-center gap-x-3 gap-y-1 text-2xs text-muted-foreground sm:flex">
+        <span className="inline-flex items-center gap-1.5"><span className="h-0.5 w-4 rounded-full bg-chart-2" />CPA actual</span>
+        <span className="inline-flex items-center gap-1.5"><span className="w-4 border-t-2 border-dashed border-chart-4" />Projected</span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="size-2.5 rounded-[2px] border border-dashed" style={{ borderColor: band, background: "color-mix(in oklch, var(--success) 18%, transparent)" }} />
+          On target
+        </span>
+        {Object.values(KIND).map((k) => (
+          <span key={k.label} className="inline-flex items-center gap-1.5">
+            <span className="size-2 rounded-full border" style={{ borderColor: k.color }} />
+            {k.label}
+          </span>
+        ))}
+      </div>
+    </>
+  );
+}
 
 export function PerformanceDemo({ photos = [] }: { photos?: Photo[] }) {
-  const reduce = useReducedMotion();
   const [step, setStep] = useState<Step>("idle");
-  const [messages, setMessages] = useState<Msg[]>([
-    { id: 0, role: "assistant", text: "I’m watching the Aurel Audio studio launch on Meta. Ask me what changed, or what to do next." },
+  const [items, setItems] = useState<Item[]>([
+    { id: 0, role: "jaina", text: "I'm reading Aurel Audio's Meta account. Ask what changed, or what to change.", done: true },
   ]);
-  const [thinking, setThinking] = useState(false);
-  const [activeFlag, setActiveFlag] = useState<{ flag: Flag; x: number; y: number } | null>(null);
-  const chartRef = useRef<HTMLDivElement>(null);
-  // Suggestion, Reset, and Confirmation buttons remove themselves on click; park focus on the log.
+  const nextId = useRef(1);
+  const typing = useRef<Record<number, () => void>>({});
+  // Suggestions and the approval buttons remove themselves on click; park focus on the log.
   const logRef = useRef<HTMLDivElement>(null);
   const keepFocus = () => logRef.current?.focus({ preventScroll: true });
 
-  const say = (m: Omit<Msg, "id">) => setMessages((all) => [...all, { ...m, id: all.length }]);
+  const push = (m: Omit<Item, "id">) => {
+    const id = nextId.current++;
+    setItems((all) => [...all, { ...m, id }]);
+    return id;
+  };
+  const patch = (id: number, m: Partial<Item>) => setItems((all) => all.map((it) => (it.id === id ? { ...it, ...m } : it)));
+  // Resolves once Jaina's reply has finished typing.
+  const say = (text: string, card?: Item["card"]) =>
+    new Promise<void>((done) => {
+      typing.current[push({ role: "jaina", text, card })] = done;
+    });
+  const think = async (stages: string[], secs: number) => {
+    const id = push({ role: "think", text: stages[0] });
+    for (const s of stages.slice(1)) {
+      await wait(600);
+      patch(id, { text: s });
+    }
+    await wait(600);
+    patch(id, { text: `Thought for ${secs}s`, done: true, tools: stages.length });
+  };
 
   // `auto` is the autoplay asking for the visitor: it never moves their focus.
   const ask = async (q: string, auto = false) => {
     if (!auto) keepFocus();
-    say({ role: "user", text: q });
-    if (step === "idle") {
-      setStep("analyzing");
-      await wait(1400);
-      setStep("analyzed");
-      say({
-        role: "assistant",
-        typed: true,
-        chart: true,
-        text: `CPA is up ${CPA_RISE}% week over week. The Optimizer already swapped fatigued creative #3 in Prospecting on Sep 20 (the A flag), which cut CPA ${SWAP_DROP}% the next day. What’s left is Lookalike · Buyers 2%: it still runs creative #3 and costs ${LOOKALIKE_RATIO}× the account CPA.`,
-      });
+    push({ role: "user", text: q });
+    if (q === Q1) {
+      setStep("why");
+      await think(["Pulling get key metrics", "Pulling get campaign daily trends", "Pulling get optimizer account read"], 2);
+      await say(A1, "read");
+      setStep("read");
     } else {
-      setStep("recommending");
-      setThinking(true);
-      await wait(800);
-      setThinking(false);
-      say({
-        role: "assistant",
-        typed: true,
-        confirm: true,
-        text: `These need your sign-off: move 20% of Lookalike’s budget to Retargeting, pause creative #3 in Lookalike, and launch two variants of the winning hook. Projected CPA drops ${CPA_DROP}% within 7 days.`,
-      });
-      await wait(reduce ? 0 : 1200);
+      setStep("what");
+      await think(["Pulling preview optimizer cycle"], 1);
+      await say(A2, "approval");
       setStep("awaiting");
     }
   };
 
-  const respond = (approved: boolean) => {
+  const decide = async (ok: boolean) => {
     keepFocus();
-    setStep(approved ? "applied" : "rejected");
-    say({
-      role: "assistant",
-      typed: true,
-      text: approved
-        ? "Done. Budget moved, creative #3 paused, two variants launched in learning. I’ll write results back to the account on Sep 28."
-        : "Understood. Nothing changed in the account. I’ll keep watching and flag it again if CPA keeps climbing.",
-    });
+    if (!ok) {
+      setStep("declined");
+      await say("Nothing ran; the account is unchanged.");
+      return;
+    }
+    // As in the app: the approval only records the sign-off, then a second tool makes the Meta write.
+    setStep("applying");
+    await think(["Running apply approved optimizer budgets"], 1);
+    setStep("approved");
+    await say("Applied. Lookalike is $290/day, Retargeting $350/day. Total spend unchanged. It's logged and you can revert it.");
   };
 
-  const reset = () => {
-    keepFocus();
-    setStep("idle");
-    setThinking(false);
-    setMessages((m) => m.slice(0, 1));
-  };
-
-  // In view, Jaina answers both questions on her own and stops at the approval card:
-  // the sign-off stays with the visitor.
+  // In view, Jaina answers both questions and stops at the approval card: the sign-off stays with the visitor.
   const windowRef = useRef<HTMLDivElement>(null);
-  const act = useRef(ask);
-  act.current = ask;
   useAutoplay(windowRef, async (alive) => {
     await wait(800);
     if (!alive()) return;
-    await act.current("Why did CPA rise this week?", true);
-    await wait(3800);
+    await ask(Q1, true);
+    await wait(2400);
     if (!alive()) return;
-    await act.current("What should we change?", true);
+    await ask(Q2, true);
   });
-  const chartInView = useInView(chartRef, { once: true, amount: 0.5 });
-  const DRAW_S = 1.2;
 
-  const applied = step === "applied";
-  const rows = applied ? AD_SETS_AFTER : AD_SETS;
-  const projection = applied ? OPTIMIZED : BASELINE;
-  const flags = applied ? [...AUTO_FLAGS, APPROVED_FLAG] : AUTO_FLAGS;
-  const photo = (key: string) => photos.find((p) => p.key === key);
-  const openFlag = (flag: Flag, x: number, y: number) => setActiveFlag({ flag, x, y });
-  const closeFlag = () => setActiveFlag(null);
-  const toggleFlag = (flag: Flag, x: number, y: number) => setActiveFlag({ flag, x, y });
-  const chartData = [
-    ...ACTUAL.map((cpa, i) => ({ day: day(i), cpa, projected: i === ACTUAL.length - 1 ? cpa : undefined })),
-    ...projection.map((projected, i) => ({ day: day(ACTUAL.length + i), cpa: undefined, projected })),
-  ];
-  const suggestion =
-    step === "idle" ? "Why did CPA rise this week?" : step === "analyzed" ? "What should we change?" : null;
-  const toolState = step === "analyzing" ? "running" : "output-available";
+  const approved = step === "approved";
+  const settled = items.at(-1)?.done;
+  const suggestion = step === "idle" ? Q1 : step === "read" ? Q2 : null;
+  const photo = photos.find((p) => p.key === "headphones") ?? photos[0];
 
   return (
-    <ProductWindow ref={windowRef} path={["Continuum", "Performance+", "Studio launch · Meta"]}>
+    <ProductWindow ref={windowRef} path={["Continuum", "Performance+", "Jaina"]}>
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)] lg:divide-x lg:divide-border">
         {/* Jaina */}
-        <div className="flex h-[420px] flex-col lg:h-[560px]">
-          <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-            <span className="text-xs font-medium">Jaina</span>
-            {step !== "idle" && (
-              <Button variant="ghost" size="xs" onClick={reset} disabled={step === "analyzing" || step === "recommending"}>
-                <RotateCcw aria-hidden="true" /> Reset
-              </Button>
-            )}
+        <div className="flex h-[400px] flex-col lg:h-[560px]">
+          <div className="flex items-center justify-between border-b border-border px-4 py-2.5 text-xs">
+            <span className="font-medium">Jaina</span>
+            <span className="text-muted-foreground">Aurel Audio · Meta</span>
           </div>
           <Conversation className="flex-1">
             <ConversationContent ref={logRef} tabIndex={-1} className="gap-3 p-3 outline-none md:px-3 lg:px-3" aria-live="polite">
-              {messages.map((m) => (
-                <div key={m.id} className="flex flex-col gap-3">
-                  {m.role === "assistant" && m.chart && (
-                    <Tool type="analyze_campaigns" state={toolState}>
-                      <ToolHeader title="analyze_campaigns" />
-                      <ToolContent>
-                        <ToolInput value={{ campaign: "Studio launch", window: "Sep 15 to Sep 21", compare: "previous 7 days" }} />
-                        <ToolOutput value={{ cpa_change: `+${CPA_RISE}%`, driver: "Lookalike · Buyers 2%", frequency: "4.8 on creative #3" }} />
-                      </ToolContent>
-                    </Tool>
-                  )}
-                  <Message role={m.role} avatar={m.role === "assistant" ? "J" : "Y"}>
-                    {m.typed ? (
-                      <Typed
-                        text={m.text}
-                        onDone={() => setMessages((all) => all.map((x) => (x.id === m.id && !x.done ? { ...x, done: true } : x)))}
-                      />
-                    ) : (
-                      m.text
-                    )}
-                    {m.chart && m.done && (
-                      <ChartContainer config={barConfig} className="mt-2 aspect-auto h-24 w-full">
-                        <BarChart data={BY_AD_SET} layout="vertical" margin={{ left: 0, right: 8 }} accessibilityLayer={false}>
-                          <XAxis type="number" hide />
-                          <YAxis type="category" dataKey="name" width={82} tickLine={false} axisLine={false} />
-                          <Bar dataKey="cpa" fill="var(--color-cpa)" radius={3} isAnimationActive={!reduce} />
-                        </BarChart>
-                      </ChartContainer>
-                    )}
-                  </Message>
-                  {m.confirm && (step === "awaiting" || step === "applied" || step === "rejected") && (
-                    <Confirmation
-                      approval={step === "awaiting" ? { id: "apply" } : { id: "apply", approved: applied }}
-                      state={step === "awaiting" ? "approval-requested" : "approval-responded"}
-                      className="bg-background"
-                    >
-                      <ConfirmationTitle>
-                        <ConfirmationRequest>
-                          <span className="font-medium text-foreground">Apply 3 changes to the studio launch on Meta?</span>
-                          <ul className="mt-2 space-y-1 text-xs">
-                            <li>Lookalike · Buyers 2%: budget $380 → $304</li>
-                            <li>Retargeting · 30 days: budget $260 → $336</li>
-                            <li>Creative #3 in Lookalike: paused; hook variants A and B launched</li>
-                          </ul>
-                        </ConfirmationRequest>
-                        <ConfirmationAccepted>Approved. 3 changes applied to the studio launch.</ConfirmationAccepted>
-                        <ConfirmationRejected>Rejected. The account was not changed.</ConfirmationRejected>
-                      </ConfirmationTitle>
-                      <ConfirmationActions>
-                        <ConfirmationAction variant="outline" onClick={() => respond(false)}>
-                          Reject
-                        </ConfirmationAction>
-                        <ConfirmationAction variant="cta" onClick={() => respond(true)}>
-                          Apply changes
-                        </ConfirmationAction>
-                      </ConfirmationActions>
-                    </Confirmation>
-                  )}
-                </div>
-              ))}
-              {step === "analyzing" && (
-                <Tool type="analyze_campaigns" state="running">
-                  <ToolHeader title="analyze_campaigns" />
-                  <ToolContent>
-                    <ToolInput value={{ campaign: "Studio launch", window: "Sep 15 to Sep 21", compare: "previous 7 days" }} />
-                  </ToolContent>
-                </Tool>
+              {items.map((m) =>
+                m.role === "think" ? (
+                  <Thinking key={m.id} item={m} />
+                ) : (
+                  <div key={m.id} className="flex flex-col gap-3">
+                    <Message role={m.role === "user" ? "user" : "assistant"}>
+                      {m.role === "jaina" && !m.done ? (
+                        <Typed
+                          text={m.text}
+                          onDone={() => {
+                            patch(m.id, { done: true });
+                            typing.current[m.id]?.();
+                          }}
+                        />
+                      ) : (
+                        m.text
+                      )}
+                      {m.card === "read" && m.done && <ReadCard />}
+                    </Message>
+                    {m.card === "approval" && m.done && <ApprovalCard step={step} onDecide={decide} />}
+                  </div>
+                ),
               )}
-              {thinking && <Shimmer className="pl-10 text-sm">Checking budget pacing…</Shimmer>}
             </ConversationContent>
           </Conversation>
-          <div className="flex min-h-14 flex-wrap items-center gap-2 border-t border-border p-3">
+          <div className="flex min-h-13 flex-wrap items-center gap-2 border-t border-border px-3 py-2.5">
             {suggestion ? (
-              <Suggestion suggestion={suggestion} onClick={ask} disabled={thinking} />
+              <Suggestion suggestion={suggestion} onClick={(q) => void ask(q)} />
+            ) : (approved || step === "declined") && settled ? (
+              <RunItCta />
+            ) : step === "awaiting" ? (
+              <RunItCta pending />
             ) : (
-              <p className="text-xs text-muted-foreground">
-                {step === "awaiting" ? "Waiting for your approval." : step === "applied" || step === "rejected" ? "Reset to run it again." : "Jaina is working…"}
-              </p>
+              <p className="text-xs text-muted-foreground">Jaina is working…</p>
             )}
           </div>
         </div>
 
         {/* Optimizer */}
-        <div className="flex flex-col border-t border-border lg:border-t-0">
-          <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-            <span className="text-xs font-medium">Optimizer</span>
-            <Badge variant={applied ? "success" : "muted"}>{applied ? "3 changes applied" : "Watching"}</Badge>
+        <div className="flex flex-col border-t border-border lg:h-[560px] lg:border-t-0">
+          <div className="flex flex-wrap items-center gap-2 border-b border-border px-4 py-2.5">
+            <span className="mr-1 text-xs font-medium">Optimizer</span>
+            <Pill variant="success" dot="bg-success">Autopilot</Pill>
+            <span className="text-2xs text-muted-foreground">budget moves only</span>
+            <Pilot />
           </div>
-          <dl className="grid grid-cols-3 divide-x divide-border border-b border-border">
-            {[
-              {
-                label: "CPA today",
-                value: `$${ACTUAL.at(-1)!.toFixed(2)}`,
-                note: <><Tween value={applied ? OPTIMIZED.at(-1)! : BASELINE.at(-1)!} format={(v) => `$${v.toFixed(2)}`} /> in 7d</>,
-                good: applied,
-              },
-              { label: "ROAS", value: "2.4", note: <><Tween value={applied ? 3.1 : 2.1} format={(v) => v.toFixed(1)} /> projected</>, good: applied },
-              { label: "Daily spend", value: "$1,060", note: "unchanged", good: null },
-            ].map((k) => (
-              <div key={k.label} className="px-4 py-3">
-                <dt className="text-xs text-muted-foreground">{k.label}</dt>
-                <dd className="text-lg font-semibold tabular-nums">{k.value}</dd>
-                <dd
-                  className={cn(
-                    "text-2xs font-medium tabular-nums",
-                    k.good === true ? "text-emerald-700" : k.good === false ? "text-red-700" : "text-muted-foreground",
-                  )}
-                >
-                  {k.note}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <div className="px-2 pt-3">
-            <div className="flex flex-wrap items-center justify-between gap-2 px-2">
-              <p className="text-xs font-medium">CPA, with 7-day projection</p>
-              <p className="flex items-center gap-3 text-2xs text-muted-foreground">
-                <span className="flex items-center gap-1"><span className="size-2 rounded-full bg-secondary" aria-hidden="true" />Automatic action</span>
-                <span className="flex items-center gap-1"><span className="size-2 rounded-full bg-success" aria-hidden="true" />Approved by you</span>
-              </p>
-            </div>
-            <div ref={chartRef} className="relative">
-            <ChartContainer config={lineConfig} className="aspect-auto h-52 w-full">
-              <LineChart data={chartData} margin={{ top: 30, right: 14, bottom: 0, left: 0 }} accessibilityLayer={false}>
-                <CartesianGrid vertical={false} />
-                <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={6} minTickGap={32} />
-                <YAxis width={36} tickLine={false} axisLine={false} domain={[10, 22]} tickFormatter={(v) => `$${v}`} />
-                <ReferenceLine x={day(ACTUAL.length - 1)} stroke="var(--border)" strokeDasharray="3 3" />
-                {!activeFlag && <ChartTooltip content={<ChartTooltipContent indicator="line" />} />}
-                {/* Drawn left to right the first time the chart is in view. */}
-                <Line
-                  key={chartInView ? "drawn" : "rest"}
-                  dataKey="cpa"
-                  type="monotone"
-                  stroke="var(--color-cpa)"
-                  strokeWidth={2}
-                  dot={false}
-                  isAnimationActive={chartInView && !reduce}
-                  animationDuration={DRAW_S * 1000}
-                  animationEasing="ease-out"
-                />
-                <Line
-                  dataKey="projected"
-                  type="monotone"
-                  stroke={applied ? "var(--success)" : "var(--color-projected)"}
-                  strokeWidth={2}
-                  strokeDasharray="5 4"
-                  dot={false}
-                  isAnimationActive={!reduce}
-                  animationDuration={900}
-                />
-                {flags.map((f) => (
-                  <ReferenceDot
-                    key={`${f.title}-${chartInView}`}
-                    x={day(f.index)}
-                    y={ACTUAL[f.index]}
-                    ifOverflow="visible"
-                    shape={(props) => (
-                      <FlagMarker
-                        cx={props.cx}
-                        cy={props.cy}
-                        flag={f}
-                        onOpen={openFlag}
-                        onClose={closeFlag}
-                        onToggle={toggleFlag}
-                        // Each flag lands as the drawing line reaches its day; the approved flag lands on approval.
-                        delay={f.kind === "approved" ? 0.2 : chartInView ? (f.index / (ACTUAL.length - 1)) * DRAW_S : undefined}
-                      />
-                    )}
-                  />
-                ))}
-              </LineChart>
-            </ChartContainer>
-            {activeFlag && (
-              <div
-                role="tooltip"
-                className="pointer-events-none absolute z-10 w-64 rounded-lg border border-border bg-popover p-3 text-popover-foreground shadow-md"
-                style={{
-                  // Beside the flag, on whichever side has room; flags sit near the top, so never above.
-                  left:
-                    activeFlag.x > (chartRef.current?.clientWidth ?? 600) / 2
-                      ? Math.max(0, activeFlag.x - 20 - 256)
-                      : activeFlag.x + 20,
-                  top: Math.max(0, activeFlag.y - 40),
-                }}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <Badge variant={activeFlag.flag.kind === "auto" ? "teal" : "success"}>
-                    {activeFlag.flag.kind === "auto" ? "Automatic" : "Approved by you"}
-                  </Badge>
-                  <span className="text-2xs text-muted-foreground">{day(activeFlag.flag.index)}</span>
-                </div>
-                <p className="mt-2 text-sm font-semibold">{activeFlag.flag.title}</p>
-                <p className="mt-1 text-xs leading-snug text-muted-foreground">{activeFlag.flag.detail}</p>
-                {activeFlag.flag.swap && photo("headphones") && (
-                  <div className="mt-2 flex items-center gap-2 text-2xs">
-                    {[
-                      { headline: activeFlag.flag.swap.from, out: true },
-                      { headline: activeFlag.flag.swap.to, out: false },
-                    ].map((c, i) => (
-                      <div key={c.headline} className="flex items-center gap-2">
-                        {i === 1 && <ArrowRight className="size-3 text-muted-foreground" aria-hidden="true" />}
-                        <figure className="w-20">
-                          <Creative
-                            photo={photo("headphones")!}
-                            headline={c.headline}
-                            brand={c.out ? "#16162a" : "#5a48f9"}
-                            format="1:1"
-                            pos={{ x: 7, y: 56 }}
-                            className={cn("w-20 rounded-md", c.out && "opacity-60 grayscale")}
-                          />
-                          <figcaption className="mt-1 text-muted-foreground">{c.out ? "Paused" : "Now running"}</figcaption>
-                        </figure>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <p className="mt-2 text-xs font-medium text-emerald-700">{activeFlag.flag.impact}</p>
-              </div>
-            )}
-            </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 px-4 pt-2.5 text-xs text-muted-foreground">
+            <span className="hidden text-2xs sm:inline">Max change 20% per cycle · Total daily budget cap $1,200</span>
+            <span>
+              Projected CPA next cycle:{" "}
+              <span className="font-medium tabular-nums text-foreground">
+                ${CPA[TODAY].toFixed(2)} → ${NEXT.toFixed(2)}
+              </span>
+            </span>
           </div>
-          <div className="mt-auto overflow-x-auto border-t border-border">
-            <Table className="text-xs">
+          <CpaChart approved={approved} />
+          {/* On a phone the table carries the move; the caption returns from sm up. */}
+          <div className="mx-4 mt-3 hidden rounded-lg border border-primary/30 bg-primary/5 px-3 py-2 sm:block">
+            <p className="text-xs font-semibold tracking-tight">
+              {approved ? "Moved" : "Moving"} <span className="tabular-nums">$90/day</span> from Lookalike · Buyers 2% into Retargeting · 30 days
+            </p>
+            <p className="mt-0.5 text-2xs text-muted-foreground">Total daily spend unchanged.</p>
+          </div>
+          <div className="mt-auto border-t border-border pt-1 lg:mt-3">
+            <Table className="table-fixed text-xs">
+              <colgroup>
+                <col />
+                <col className="w-24" />
+                <col className="hidden w-16 sm:table-column" />
+                <col className="w-36" />
+              </colgroup>
               <TableHeader>
-                <TableRow>
-                  <TableHead>Ad set</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Daily budget</TableHead>
-                  <TableHead className="text-right">CPA</TableHead>
-                  <TableHead className="text-right">ROAS</TableHead>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="h-8 pl-4">Ad set</TableHead>
+                  <TableHead className="h-8">Daily budget</TableHead>
+                  <TableHead className="hidden h-8 text-right sm:table-cell">Change</TableHead>
+                  <TableHead className="h-8 pr-4">State</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rows.map((r, i) => {
-                  const before = AD_SETS[i];
-                  const changed = applied && (!before || before.budget !== r.budget || before.status !== r.status);
+                {ROWS.map((r) => {
+                  const moves = r.from !== r.to;
                   return (
-                    <TableRow
-                      key={r.name}
-                      className={cn(changed && "pf-row-flash bg-primary/6", !before && "pf-row-in")}
-                      style={before ? undefined : { animationDelay: `${0.15 + (i - AD_SETS.length) * 0.08}s` }}
-                    >
-                      <TableCell className="max-w-[200px] truncate font-medium">{r.name}</TableCell>
-                      <TableCell>
-                        <Badge variant={r.status === "Active" ? "success" : r.status === "Paused" ? "muted" : "violet"}>
-                          {r.status}
-                        </Badge>
+                    <TableRow key={r.name} className={cn("h-8 sm:h-9", approved && moves && "pf-row-flash")}>
+                      <TableCell className="truncate pl-4 font-medium">{r.name}</TableCell>
+                      <TableCell className="tabular-nums">
+                        <Tween value={approved ? r.to : r.from} format={usd} />
+                        {moves && !approved && <span className="text-muted-foreground"> → {usd(r.to)}</span>}
                       </TableCell>
-                      <TableCell className="text-right tabular-nums">
-                        {r.budget ? <Tween value={r.budget} format={(v) => `$${Math.round(v)}`} /> : "Shared"}
-                        {changed && before && before.budget !== r.budget && (
-                          <span className="ml-1 text-2xs text-muted-foreground line-through">${before.budget}</span>
+                      <TableCell className={cn("hidden text-right tabular-nums sm:table-cell", !moves ? "text-muted-foreground" : change(r) > 0 ? "text-emerald-600" : "text-rose-600")}>
+                        {moves ? signed(change(r)) : "–"}
+                      </TableCell>
+                      <TableCell className="pr-4">
+                        {!moves ? (
+                          <Pill variant="muted" dot="bg-muted-foreground/40">No change</Pill>
+                        ) : approved ? (
+                          <Pill variant="success" dot="bg-success">Applied</Pill>
+                        ) : (
+                          <Pill variant="secondary" dot="bg-warning">Held for approval</Pill>
                         )}
                       </TableCell>
-                      <TableCell className="text-right tabular-nums">{r.cpa ? `$${r.cpa.toFixed(2)}` : "-"}</TableCell>
-                      <TableCell className="text-right tabular-nums">{r.roas ?? "-"}</TableCell>
                     </TableRow>
                   );
                 })}
               </TableBody>
             </Table>
+          </div>
+          <div className="flex items-center gap-3 border-t border-border px-4 py-2">
+            {photo && (
+              <Creative photo={photo} headline="Hear the drop." brand="#5a48f9" format="1:1" pos={{ x: 7, y: 56 }} className="w-11 shrink-0 rounded" />
+            )}
+            <p className="min-w-0 flex-1 text-xs">
+              <span className="font-medium">Forge</span> · 3 new ads in Lookalike · Buyers 2%
+            </p>
+            <Pill variant="muted" dot="bg-warning">Paused</Pill>
+            <Pilot />
           </div>
         </div>
       </div>

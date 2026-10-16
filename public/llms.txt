@@ -2,11 +2,11 @@
 
 > The intelligent creative factory for performance marketers, designers, and agencies.
 
-Continuum runs organic social, paid performance, and creative automation from one design system.
-It creates on-brand work, publishes and optimizes it, and writes results back so the next cycle starts from what just happened.
+Continuum uses performance data to make better creative for organic social, paid media on Meta, and creative automation.
+It reads how your posts and ads perform, makes the next creative from it, and stages new Meta ads paused for your approval.
 
 ## Key Pages
-- Homepage: https://trycontinuum.ai/ — Overview of Organic+, Performance+, and Creative Automation with interactive demos, pricing (Organic+ $30/mo, Performance+ $300/mo, Creative Automation custom), and founders.
+- Homepage: https://trycontinuum.ai/ — Overview of Organic+, Performance+, and Creative Automation with interactive demos, pricing (Organic+ $30/mo, Performance+ $300/mo, Creative Automation custom, run as a managed pilot), and founders.
 - Social+ Plugin: https://trycontinuum.ai/social-plus — AI-powered community management and content generation plugin built for Claude.
 - Design Automation: https://trycontinuum.ai/technology — In-depth look at our template scaling, automated brand spec validation, and multi-channel asset generation.
 

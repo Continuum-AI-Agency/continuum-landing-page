@@ -1,0 +1,56 @@
+---
+// Custom Portable Text types in post bodies: tables, dividers, and images (studio/schemaTypes/content.ts).
+import { PortableText } from 'astro-portabletext';
+import type { TypedObject } from 'astro-portabletext/types';
+import { imageUrl } from '../../lib/posts';
+import CellText from './CellText.astro';
+
+type Cell = { _key: string; isHeader?: boolean; content?: TypedObject[] };
+type Row = { _key: string; cells?: Cell[] };
+type Node = TypedObject & {
+  rows?: Row[];
+  alt?: string;
+  asset?: { _ref?: string };
+};
+
+const node = Astro.props.node as Node;
+const [header, ...body] = node.rows ?? [];
+const headed = header?.cells?.every((cell) => cell.isHeader) ?? false;
+const rows = headed ? body : (node.rows ?? []);
+// Asset refs encode the original size ("image-<id>-1600x900-jpg"); use it to reserve layout space.
+const [, width, height] = node.asset?._ref?.match(/-(\d+)x(\d+)-/) ?? [];
+---
+
+{node._type === 'break' && <hr />}
+
+{node._type === 'image' && (
+  <img
+    src={imageUrl(node as any).width(1536).url()}
+    alt={node.alt ?? ''}
+    width={width}
+    height={height}
+    loading="lazy"
+    decoding="async"
+  />
+)}
+
+{node._type === 'table' && (
+  <table>
+    {headed && (
+      <thead>
+        <tr>{header.cells!.map((cell) => <th><PortableText value={cell.content ?? []} components={{ block: CellText }} /></th>)}</tr>
+      </thead>
+    )}
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          {(row.cells ?? []).map((cell) =>
+            cell.isHeader
+              ? <th><PortableText value={cell.content ?? []} components={{ block: CellText }} /></th>
+              : <td><PortableText value={cell.content ?? []} components={{ block: CellText }} /></td>,
+          )}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}

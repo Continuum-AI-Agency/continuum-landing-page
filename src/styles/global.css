@@ -233,6 +233,12 @@
   --font-display: var(--font-display);
   --font-wordmark: var(--font-futura);
   --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  /* The app's streaming draft-card sweep (`animate-shimmer` on an inset gradient overlay). */
+  --animate-shimmer: draft-shimmer 1.6s linear infinite;
+  @keyframes draft-shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+  }
   --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
   @keyframes shimmer-slide {
   to {
@@ -631,8 +637,8 @@
 }
 
 /* ── Product-window motion, borrowed from the app ───────────────────────────
-   Forge's indeterminate render bar, a flash on rows an approval just changed, new rows sliding
-   in, and flags dropping onto the CPA line as it draws (with a slow "hover me" ping). */
+   Forge's indeterminate render bar, a flash on rows an approval just changed, and Forge's
+   preview loop. */
 @keyframes forge-indeterminate {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(300%); }
@@ -640,22 +646,21 @@
 @keyframes pf-row-flash {
   from { background-color: color-mix(in oklch, var(--primary) 22%, transparent); }
 }
-@keyframes pf-row-in {
-  from { opacity: 0; transform: translateY(-4px); }
+/* Forge's preview plays the template: the headline rises, then the offer pops, on a 6 s loop. */
+@keyframes forge-loop-rise {
+  0%, 6% { opacity: 0; transform: translateY(14%); }
+  16%, 90% { opacity: 1; transform: none; }
+  100% { opacity: 0; }
 }
-@keyframes pf-flag-in {
-  from { opacity: 0; transform: translateY(-10px); }
+@keyframes forge-loop-pop {
+  0%, 20% { opacity: 0; transform: scale(0.85); }
+  30%, 90% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
 }
-@keyframes pf-ping {
-  from { opacity: 0.55; transform: scale(1); }
-  to { opacity: 0; transform: scale(1.9); }
-}
-.pf-ping { opacity: 0; transform-box: fill-box; transform-origin: center; }
 @media (prefers-reduced-motion: no-preference) {
   .pf-row-flash { animation: pf-row-flash 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
-  .pf-row-in { animation: pf-row-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .pf-flag { animation: pf-flag-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .pf-ping { animation: pf-ping 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .forge-loop-rise { animation: forge-loop-rise 6s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .forge-loop-pop { animation: forge-loop-pop 6s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 }
 
 /* ── Scroll-linked arrivals (day zone) ──────────────────────────────────────
